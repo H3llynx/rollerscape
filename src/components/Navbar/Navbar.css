@@ -1,0 +1,52 @@
+@reference "../../styles/index.css";
+
+.navbar {
+    @apply flex text-white font-title;
+
+    .active {
+        @apply text-yellow-2 opacity-70;
+    }
+
+    a:not(.active):hover {
+        @apply text-yellow;
+    }
+
+    .menu,
+    .close {
+        @apply text-yellow
+    }
+
+    .close {
+        @apply hidden;
+    }
+}
+
+.navbar ul {
+    @apply hidden md:flex gap-1 text-2xl;
+
+    li {
+        @apply p-0.5
+    }
+}
+
+.navbar:has(input:checked) {
+    ul {
+        @apply fixed w-screen h-dvh inset-0 flex flex-col bg-dark-3 px-2 py-6;
+    }
+
+    li {
+        @apply border-b border-grey;
+    }
+
+    .menu {
+        @apply hidden;
+    }
+
+    .close {
+        @apply block;
+    }
+}
+
+.menu-toggle {
+    @apply relative z-1 h-full md:hidden;
+}

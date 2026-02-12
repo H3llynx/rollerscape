@@ -1,0 +1,26 @@
+@reference "../../styles/index.css";
+
+label {
+    @apply font-special text-white flex flex-col gap-0.5;
+}
+
+.input-container {
+    @apply flex gap-0.5 items-center relative w-fit;
+
+    &:has(input:user-valid) .valid-svg {
+        @apply block -right-2 text-turquoise;
+    }
+
+    &:has(input:user-invalid) .error-svg {
+        @apply block -right-2 text-red;
+    }
+
+    input {
+        @apply py-0.5 px-1 rounded-lg border font-main font-medium border-grey text-sm;
+    }
+}
+
+.valid-svg,
+.error-svg {
+    @apply hidden absolute;
+}

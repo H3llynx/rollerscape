@@ -1,0 +1,10 @@
+@reference "../../styles/index.css";
+
+header {
+    @apply flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 md:my-2;
+}
+
+.logo-img {
+    @apply w-1/4 max-w-3xs;
+    filter: drop-shadow(1px 1px 10px black);
+}
