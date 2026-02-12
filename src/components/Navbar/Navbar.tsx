@@ -37,7 +37,7 @@ export function Navbar() {
                             </button>
                         </>
                     }
-                    {!user && <NavLink to="/map" tabIndex={0}>Login</NavLink>}
+                    {!user && <NavLink to="/auth" tabIndex={0}>Login</NavLink>}
                 </li>
                 <li><NavLink to="/" tabIndex={getTabIndex("/")}><Home aria-label="Home page" /></NavLink></li>
                 <li><NavLink to="*" tabIndex={getTabIndex("*")}>Events</NavLink></li>
