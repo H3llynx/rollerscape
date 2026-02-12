@@ -1,13 +1,18 @@
-import { Menu, X } from "lucide-react";
+import { Home, LogOut, Menu, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router";
-import Logo from "../../assets/logo.png";
+import { useAuth } from "../../features/auth/hooks/useAuth";
+import { logOut } from "../../features/auth/services/auth";
+
+
 import "./Navbar.css";
 
 export function Navbar() {
+    const { user, profile, loading } = useAuth();
     const location = useLocation();
     const getTabIndex = (path: string) => location.pathname === path ? -1 : 0;
-    const menuToggleRef = useRef<HTMLInputElement>(null)
+    const menuToggleRef = useRef<HTMLInputElement>(null);
+
 
     useEffect(() => {
         if (menuToggleRef.current) {
@@ -22,10 +27,20 @@ export function Navbar() {
                 <Menu aria-hidden="true" className="menu" />
                 <X aria-hidden="true" className="close" />
             </label>
-            <img className="logo-img hidden" src={Logo} alt="RollerScape logo" />
             <ul>
-                <li><NavLink to="/" tabIndex={getTabIndex("/")}>Home</NavLink></li>
-                <li><NavLink to="/map" tabIndex={getTabIndex("/map")}>Login</NavLink></li>
+                <li className="auth">
+                    {user && !loading &&
+                        <>
+                            <span> Hi {profile?.name || "Rollerblader"}</span>
+                            <button aria-label="Log out" onClick={logOut}>
+                                <LogOut aria-hidden="true" width={20} />
+                            </button>
+                        </>
+                    }
+                    {!user && <NavLink to="/map" tabIndex={0}>Login</NavLink>}
+                </li>
+                <li><NavLink to="/" tabIndex={getTabIndex("/")}><Home aria-label="Home page" /></NavLink></li>
+                <li><NavLink to="*" tabIndex={getTabIndex("*")}>Events</NavLink></li>
             </ul>
         </nav>
     )

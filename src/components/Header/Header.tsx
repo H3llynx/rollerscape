@@ -7,6 +7,7 @@ export function Header() {
         <header>
             <img className="logo-img" src={Logo} alt="RollerScape logo" />
             <Navbar />
+
         </header>
     )
 }

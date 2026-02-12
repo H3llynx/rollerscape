@@ -10,5 +10,7 @@ export const Router = createHashRouter([
             {
                 index: true,
                 element: <HomePage />
-            },]
-    }])
+            },
+        ]
+    },
+])

@@ -7,11 +7,11 @@ type Button = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const buttonVariants = tv({
-    base: "font-main text-sm rounded-lg py-0.5 px-1 border border-transparent button-shadow hover:-translate-y-[1px]",
+    base: "flex gap-0.5 items-center justify-center font-main text-sm rounded-lg py-0.5 px-1.5 border border-transparent button-shadow hover:-translate-y-[1px]",
     variants: {
         color: {
             primary: "bg-yellow text-dark font-bold active:bg-yellow-2",
-            secondary: "border border-yellow text-yellow active:bg-rgba-dark",
+            secondary: "border border-yellow text-yellow active:bg-rgba-dark font-medium",
         }
     }
 });

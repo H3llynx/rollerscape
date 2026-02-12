@@ -1,10 +1,16 @@
 @reference "../../styles/index.css";
 
 .navbar {
-    @apply flex text-white font-title;
+    @apply flex items-center font-title;
 
-    .active {
-        @apply text-yellow-2 opacity-70;
+    .active,
+    .active svg {
+        @apply text-yellow-2 opacity-60 cursor-default;
+    }
+
+    a,
+    button {
+        @apply text-2xl text-white;
     }
 
     a:not(.active):hover {
@@ -22,19 +28,32 @@
 }
 
 .navbar ul {
-    @apply hidden md:flex gap-1 text-2xl;
+    @apply hidden md:flex md:items-center;
 
     li {
-        @apply p-0.5
+        @apply px-1 py-0.5;
+
+        &:not(.auth) {
+            @apply md:border-r md:border-rgba-white;
+        }
+    }
+
+
+    .auth {
+        @apply absolute top-0.5 right-1 md:static flex gap-1 font-title text-grey items-center md:order-1;
+
+        button {
+            @apply text-white hover:text-yellow;
+        }
     }
 }
 
 .navbar:has(input:checked) {
     ul {
-        @apply fixed w-screen h-dvh inset-0 flex flex-col bg-dark-3 px-2 py-6;
+        @apply fixed z-1 w-screen h-dvh inset-0 flex flex-col bg-dark-3 px-2 py-6;
     }
 
-    li {
+    li:not(.auth) {
         @apply border-b border-grey;
     }
 
@@ -48,5 +67,5 @@
 }
 
 .menu-toggle {
-    @apply relative z-1 h-full md:hidden;
+    @apply relative z-2 h-full md:hidden;
 }

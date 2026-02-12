@@ -1,9 +1,9 @@
 import { Button } from "../components/Button/Button";
 import { Header } from "../components/Header/Header";
 import { Input } from "../components/Input/Input";
+import { Login } from "../features/auth/components/Login/login";
 
 export function HomePage() {
-
   return (
     <>
       <Header />
@@ -19,6 +19,7 @@ export function HomePage() {
             <Button>Submit me</Button>
             <Button type="button" color="secondary">Click me instead</Button>
           </form>
+          <Login />
         </section>
       </main>
     </>
