@@ -1,0 +1,96 @@
+import { MapPin, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "../../../../components/Button/Button";
+import { Dropdown } from "../../../../components/Dropdown/Dropdown";
+import { Input } from "../../../../components/Input/Input";
+import { countries } from "../../config";
+import { searchLocations } from "../../services";
+import type { Location } from "../../types";
+
+export function LocationRequest() {
+    const [query, setQuery] = useState<string>("");
+    const [suggestions, setSuggestions] = useState<Location[]>([]);
+    const [country, setCountry] = useState<string>(countries[0].value);
+    const [showingSuggestions, setShowingSuggestions] = useState<boolean>(true);
+
+    useEffect(() => {
+        const search = async () => {
+            const results = await searchLocations(query, country);
+            setSuggestions(results);
+        };
+        search();
+    }, [query, country])
+
+    const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCountry(e.target.value);
+        setQuery("");
+    };
+
+    const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value);
+        setShowingSuggestions(true);
+    };
+
+    const handleRemove = () => {
+        if (query.length === 0) return;
+        setQuery("");
+        setShowingSuggestions(true);
+    };
+
+    const handleSelect = (location: Location) => {
+        setQuery(location.name);
+        setShowingSuggestions(false);
+    };
+
+    return (
+        <section className="w-fit m-auto flex flex-col gap-2 items-center p-3 text-center">
+            <h2>
+                Where do you roll?
+            </h2>
+            <p className="font-special">Set your location to discover spots nearby</p>
+            <form className="w-full flex flex-col gap-1.5">
+                <Dropdown
+                    id="country"
+                    onChange={handleCountryChange}
+                >
+                    {countries.map(country => {
+                        return (
+                            <option key={country.value} value={country.value}>{country.label}</option>
+                        )
+                    })}
+                </Dropdown>
+                <div className="relative">
+                    <Input
+                        type="text"
+                        icons={false}
+                        value={query}
+                        onChange={handleLocationChange}
+                        placeholder="Search location..."
+                    />
+                    <button
+                        onClick={handleRemove}
+                        aria-label="Remove location"
+                        className="absolute top-1/2 -translate-y-1/2 -right-2 hover:text-yellow">
+                        <X aria-hidden />
+                    </button>
+                    {suggestions.length > 0 && showingSuggestions && (
+                        <ul className="suggestions-ul bg-blur">
+                            {suggestions.map((location, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => handleSelect(location)}
+                                    tabIndex={0}
+                                >
+                                    <MapPin width={15} className="shrink-0 text-yellow" />{location.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+                <Button>Set home location</Button>
+                <p className="separator">OR</p>
+                <Button style="secondary">Use your current location</Button>
+            </form>
+        </section>
+    )
+}

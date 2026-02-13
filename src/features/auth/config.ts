@@ -1,3 +1,5 @@
+export const redirectURL = "profile";
+
 export const authErrors = {
     invalid_credentials: "Wipeout! You missed your trick. Double-check your email and password.",
     weak_password: "⚡ That password needs more momentum! Roll with at least 6 characters.", // investigate AuthWeakPasswordError

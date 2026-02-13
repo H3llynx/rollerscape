@@ -6,9 +6,10 @@ import Google from "../../../../assets/svg/google.svg?react";
 import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from '../../../../components/Loading/Loading';
+import { redirectURL } from '../../config';
+import { useAuth } from '../../hooks/useAuth';
 import { loginWithGoogle, signIn } from "../../services/auth";
 import type { Credentials } from '../../types';
-import "./SignIn.css";
 
 type SignIn = {
     onError: (error: AuthError) => void;
@@ -17,6 +18,13 @@ type SignIn = {
 export function SigIn({ onError, onEmailChange }: SignIn) {
     const { register, handleSubmit, watch, formState: { isSubmitting } } = useForm<Credentials>();
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    useEffect(() => {
+        if (user) {
+            navigate(`/${redirectURL}`);
+        }
+    }, [user, navigate]);
 
     const emailValue = watch("email");
     useEffect(() => {
@@ -26,11 +34,10 @@ export function SigIn({ onError, onEmailChange }: SignIn) {
     const loginWithPassword = async ({ email, password }: Credentials) => {
         const { error } = await signIn({ email, password });
         if (error) onError(error);
-        else navigate("/");
     }
 
     return (
-        <div className="flex flex-col w-fit gap-1">
+        <section className="flex flex-col gap-1 w-fit p-1">
             <form
                 onSubmit={handleSubmit((loginWithPassword))}
                 className="flex flex-col gap-1">
@@ -56,6 +63,6 @@ export function SigIn({ onError, onEmailChange }: SignIn) {
             <Button style="secondary" onClick={loginWithGoogle}>
                 <Google aria-hidden />Sign In With Google
             </Button>
-        </div>
+        </section>
     )
 }

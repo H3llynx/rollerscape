@@ -3,18 +3,22 @@
 .navbar {
     @apply flex items-center font-title;
 
-    .active,
-    .active svg {
-        @apply text-yellow-2 opacity-60 cursor-default;
+    .active {
+        @apply cursor-default;
     }
 
-    a,
+    a:not(.profile-link-card).active,
+    .active svg {
+        @apply text-yellow-2 opacity-60;
+    }
+
+    a:not(.profile-link-card),
     button {
         @apply text-2xl text-white;
-    }
 
-    a:not(.active):hover {
-        @apply text-yellow;
+        &:hover {
+            @apply text-yellow;
+        }
     }
 
     .menu,
@@ -40,7 +44,7 @@
 
 
     .auth {
-        @apply absolute top-0.5 right-1 md:static flex gap-1 font-title text-grey items-center md:order-1;
+        @apply absolute top-0.5 right-1 md:static flex gap-1 items-center;
 
         button {
             @apply text-white hover:text-yellow;

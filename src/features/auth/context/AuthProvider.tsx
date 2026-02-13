@@ -13,8 +13,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const setUserAndProfile = async (loggedUser: User | null) => {
         setUser(loggedUser);
         if (loggedUser) {
-            const userProfile = await getUserProfile(loggedUser.id);
-            setProfile(userProfile);
+            const { data } = await getUserProfile(loggedUser.id);
+            setProfile(data);
         } else setProfile(null);
         setLoading(false);
     };

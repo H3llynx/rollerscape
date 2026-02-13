@@ -5,6 +5,7 @@ import { useAuth } from "../../features/auth/hooks/useAuth";
 import { signOut } from "../../features/auth/services/auth";
 import { Button } from "../Button/Button";
 
+import { ProfileLinkCard } from "../ProfileLinkCard/ProfileLinkCard";
 import "./Navbar.css";
 
 export function Navbar() {
@@ -50,20 +51,21 @@ export function Navbar() {
                 <X aria-hidden className="close" />
             </label>
             <ul id="main-menu">
+                <li><NavLink to="/" tabIndex={getTabIndex("/")}><Home aria-label="Home page" /></NavLink></li>
+                <li><NavLink to="events" tabIndex={getTabIndex("/events")}>Events</NavLink></li>
                 <li className="auth">
                     {user && !loading &&
                         <>
-                            <span> Hi {profile?.name || "Rollerblader"}</span>
+                            <ProfileLinkCard profile={profile!} />
                             <Button style="icon" aria-label="Log out" onClick={handleSignOut}>
                                 <LogOut aria-hidden width={20} />
                             </Button>
+
                         </>
                     }
                     {!user && <NavLink to="/auth" aria-label="Sign in" tabIndex={0}>
                         <LogIn aria-hidden /></NavLink>}
                 </li>
-                <li><NavLink to="/" tabIndex={getTabIndex("/")}><Home aria-label="Home page" /></NavLink></li>
-                <li><NavLink to="/events" tabIndex={getTabIndex("/events")}>Events</NavLink></li>
             </ul>
         </nav>
     )

@@ -39,7 +39,7 @@ export function AuthPage() {
     }
 
     return (
-        <main className="max-w-[1400px] flex flex-col my-auto pb-5">
+        <main className="flex flex-col my-auto pb-5">
             {login && <>
                 <SigIn onError={handleError} onEmailChange={setEmail} />
             </>}
@@ -47,7 +47,7 @@ export function AuthPage() {
                 <SignUp onError={handleError} />
             </>}
             <Button style="tertiary" onClick={() => setLogin(!login)}>
-                {login ? "Register" : "I already have an account"}
+                {login ? "Create account" : "I already have an account"}
             </Button>
             <Dialog ref={dialogRef} style="error" close={handleClose}>
                 <p>{error}</p>

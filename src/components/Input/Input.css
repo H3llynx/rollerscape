@@ -1,9 +1,5 @@
 @reference "../../styles/index.css";
 
-label {
-    @apply font-special text-white flex flex-col gap-0.5;
-}
-
 .input-container {
     @apply flex gap-0.5 items-center relative;
 
