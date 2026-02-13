@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
 
 type Button = {
@@ -18,9 +19,9 @@ const buttonVariants = tv({
     }
 });
 
-export function Button({ children, style = "primary", ...props }: Button) {
+export function Button({ children, style = "primary", className, ...props }: Button) {
     return (
-        <button className={buttonVariants({ style })}
+        <button className={twMerge(buttonVariants({ style }), className)}
             tabIndex={0}
             {...props}
         >

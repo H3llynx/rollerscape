@@ -39,6 +39,16 @@ export const signUp = async ({ name, email, password }: Credentials) => {
             }
         }
     });
-    if (error) console.error(`Login error: ${error}`);
+    if (error) {
+        console.error(`Login error: ${error}`)
+    };
     return { data, error };
+}
+
+export const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.href,
+    })
+    if (error) console.error(`Reset error: ${error}`)
+    return { error };
 }

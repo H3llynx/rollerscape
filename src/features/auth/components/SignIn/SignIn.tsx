@@ -1,3 +1,5 @@
+import type { AuthError } from '@supabase/supabase-js';
+import { useEffect } from 'react';
 import { useForm, } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import Google from "../../../../assets/svg/google.svg?react";
@@ -8,13 +10,22 @@ import { loginWithGoogle, signIn } from "../../services/auth";
 import type { Credentials } from '../../types';
 import "./SignIn.css";
 
-export function SigIn() {
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<Credentials>();
+type SignIn = {
+    onError: (error: AuthError) => void;
+    onEmailChange: (email: string) => void;
+}
+export function SigIn({ onError, onEmailChange }: SignIn) {
+    const { register, handleSubmit, watch, formState: { isSubmitting } } = useForm<Credentials>();
     const navigate = useNavigate();
+
+    const emailValue = watch("email");
+    useEffect(() => {
+        onEmailChange(emailValue);
+    }, [emailValue, onEmailChange]);
 
     const loginWithPassword = async ({ email, password }: Credentials) => {
         const { error } = await signIn({ email, password });
-        if (error) alert("Ta mère!");
+        if (error) onError(error);
         else navigate("/");
     }
 
@@ -43,7 +54,7 @@ export function SigIn() {
             </form>
             <p className="separator">OR</p>
             <Button style="secondary" onClick={loginWithGoogle}>
-                <Google aria-hidden="true" />Sign In With Google
+                <Google aria-hidden />Sign In With Google
             </Button>
         </div>
     )

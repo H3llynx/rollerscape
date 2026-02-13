@@ -1,3 +1,4 @@
+import type { AuthError } from '@supabase/supabase-js';
 import { useForm, } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { Button } from "../../../../components/Button/Button";
@@ -6,14 +7,15 @@ import { Loading } from "../../../../components/Loading/Loading";
 import { signUp } from "../../services/auth";
 import type { Credentials } from "../../types";
 
-export function SignUp() {
+export function SignUp({ onError }: { onError: (error: AuthError) => void }) {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<Credentials>();
     const navigate = useNavigate();
     const createAccount = async ({ name, email, password }: Credentials) => {
         const { error } = await signUp({ name, email, password });
-        if (error) alert("Ta mère!");
+        if (error) onError(error);
         else navigate("/");
-    }
+    };
+
     return (
         <form
             onSubmit={handleSubmit(createAccount)}

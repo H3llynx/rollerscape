@@ -31,8 +31,8 @@ export function Input({ variant = "text", label, type, id, placeholder, required
                 />
                 {required &&
                     <>
-                        <CheckCircle2 aria-hidden="true" className="valid-svg" />
-                        <AlertCircle aria-hidden="true" className="error-svg" />
+                        <CheckCircle2 aria-hidden className="valid-svg" />
+                        <AlertCircle aria-hidden className="error-svg" />
                     </>
                 }
             </div>
