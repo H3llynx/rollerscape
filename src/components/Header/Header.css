@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 header {
-    @apply flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 md:my-2 items-start;
+    @apply flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 md:py-2 items-start;
 }
 
 .logo-img {

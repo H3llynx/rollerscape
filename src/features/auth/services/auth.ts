@@ -1,12 +1,11 @@
 import supabase from "../../../utils/supabase";
+import type { Credentials } from "../types";
 
 export const loginWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google"
     })
-    if (error) {
-        console.error(`Google auth error: ${error}`);
-    }
+    if (error) console.error(`Google auth error: ${error}`);
     return { data, error };
 };
 
@@ -16,12 +15,30 @@ export const getUserProfile = async (userId: string) => {
         .select("*")
         .eq("id", userId)
         .single();
-    if (error) {
-        console.error(`unable to retrieve user name: ${error}`);
-    }
-    return data;
+    if (error) console.error(`Unable to retrieve user name: ${error}`);
+    return { data, error };
 };
 
-export const logOut = async () => {
+export const signOut = async () => {
     await supabase.auth.signOut();
 };
+
+export const signIn = async ({ email, password }: Credentials) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) console.error(`Login error: ${error}`);
+    return { data, error };
+}
+
+export const signUp = async ({ name, email, password }: Credentials) => {
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                full_name: name
+            }
+        }
+    });
+    if (error) console.error(`Login error: ${error}`);
+    return { data, error };
+}

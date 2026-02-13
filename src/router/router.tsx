@@ -2,6 +2,7 @@ import { createHashRouter } from "react-router";
 import { Layout } from "../components/Layout/Layout";
 import { AuthPage } from "../pages/AuthPage";
 import { HomePage } from "../pages/HomePage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router = createHashRouter([
     {
@@ -15,6 +16,13 @@ export const Router = createHashRouter([
             {
                 path: "auth",
                 element: <AuthPage />
+            },
+            {
+                path: "/events",
+                element: (
+                    <ProtectedRoute>
+                        <HomePage />
+                    </ProtectedRoute>)
             },
         ]
     },

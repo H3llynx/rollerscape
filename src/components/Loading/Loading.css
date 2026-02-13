@@ -1,0 +1,54 @@
+.roller-loader {
+    display: flex;
+    gap: 3px;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+}
+
+.wheel {
+    width: 30px;
+    height: 30px;
+    transform-origin: center;
+    animation: spin 0.5s linear infinite,
+        roll-brake 1.4s cubic-bezier(.2, .8, .2, 1) infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes roll-brake {
+    0% {
+        transform: translateX(-40px) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(40px) rotate(180deg);
+    }
+
+    65% {
+        transform: translateX(55px) rotate(200deg);
+    }
+
+    72% {
+        transform: translateX(50px) rotate(190deg);
+    }
+
+    80% {
+        transform: translateX(50px) rotate(190deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(120px) rotate(360deg);
+        opacity: 0;
+    }
+}

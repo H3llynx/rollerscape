@@ -23,7 +23,6 @@
 }
 
 @layer base {
-
   html {
     background: var(--color-dark);
   }

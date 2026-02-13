@@ -48,24 +48,26 @@
     }
 }
 
-.navbar:has(input:checked) {
-    ul {
-        @apply fixed z-1 w-screen h-dvh inset-0 flex flex-col bg-dark-3 px-2 py-6;
-    }
-
-    li:not(.auth) {
-        @apply border-b border-grey;
-    }
-
-    .menu {
-        @apply hidden;
-    }
-
-    .close {
-        @apply block;
-    }
-}
-
 .menu-toggle {
     @apply relative z-2 h-full md:hidden;
+}
+
+@media (width <=48rem) {
+    .navbar:has(input:checked) {
+        ul {
+            @apply fixed z-1 w-screen h-dvh inset-0 flex flex-col bg-dark-3 px-2 py-6;
+        }
+
+        li:not(.auth) {
+            @apply border-b border-grey;
+        }
+
+        .menu {
+            @apply hidden;
+        }
+
+        .close {
+            @apply block;
+        }
+    }
 }
