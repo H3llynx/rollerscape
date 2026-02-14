@@ -5,6 +5,7 @@ import type { UserProfile } from "../types";
 type AuthContext = {
     user: User | null;
     profile: UserProfile | null;
+    setProfile: (profile: UserProfile) => void;
     loading: boolean;
 }
 

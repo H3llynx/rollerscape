@@ -1,4 +1,4 @@
-import type { BrowserLocation, Location, NominatimResult } from "./types";
+import type { Coordinates, Location, NominatimResult } from "./types";
 
 export const searchLocations = async (query: string, country: string): Promise<Location[]> => {
     if (query.length < 3) return [];
@@ -23,27 +23,38 @@ export const searchLocations = async (query: string, country: string): Promise<L
     }
 };
 
-export const getCurrentPosition = (): Promise<BrowserLocation> => {
-    return new Promise((resolve, reject) => {
-        if (!navigator.geolocation) {
-            reject(new Error("Geolocation not supported"));
-            return;
-        }
+export const getBrowserPosition = async (): Promise<{
+    data: Coordinates | null;
+    error: GeolocationPositionError | Error | null
+}> => {
+    if (!navigator.geolocation) {
+        return {
+            data: null,
+            error: new Error("Geolocation not supported")
+        };
+    }
+    return new Promise((resolve) => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 resolve({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
+                    data: {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                    },
+                    error: null
                 });
             },
             (error) => {
-                reject(error);
+                resolve({
+                    data: null,
+                    error
+                });
             }
         );
     });
 };
 
-export const reverseGeocode = async (lat: number, lon: number): Promise<string> => {
+export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
     try {
         const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?` +
@@ -52,9 +63,55 @@ export const reverseGeocode = async (lat: number, lon: number): Promise<string> 
             `format=json`
         );
         const data = await response.json();
-        return data.display_name || `${lat}, ${lon}`;
+        return {
+            name: data.display_name,
+            country: data.address.country_code,
+            lat: lat,
+            lon: lon
+        }
     } catch (error) {
         console.error(`Error with reverse geocoding: ${error}`);
-        return "Reverse geocoding failed";
+        return {
+            name: "unknown",
+            country: "unknown",
+            lat: lat,
+            lon: lon
+        }
     }
 };
+
+export const getCoordinates = async (location: string): Promise<{
+    data: Coordinates | null;
+    error: Error | null;
+}> => {
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?` +
+            `q=${encodeURIComponent(location)}` +
+            `&format=json&limit=1`,
+        )
+        const results = await response.json();
+
+        if (results.length > 0) {
+            return {
+                data: {
+                    lat: Number(results[0].lat),
+                    lon: Number(results[0].lon)
+                },
+                error: null
+            };
+        } else {
+            return {
+                data: null,
+                error: new Error("No coordinates found.")
+            }
+        }
+
+    } catch (error) {
+        console.error("Geocoding error:", error);
+        return {
+            data: null,
+            error: new Error("Coordinates could not be found.")
+        }
+    }
+}

@@ -1,13 +1,10 @@
-export type BrowserLocation = {
-    display_name?: string;
+export type Coordinates = {
     lat: number;
     lon: number;
 };
 
-export type Location = {
+export type Location = Coordinates & {
     name: string;
-    lat: number;
-    lon: number;
 };
 
 export type NominatimResult = {
@@ -22,3 +19,10 @@ export type NominatimResult = {
         country_code?: string;
     };
 };
+
+export type HomeLocation = {
+    name: string;
+    lat: number;
+    lon: number;
+    country: string;
+}

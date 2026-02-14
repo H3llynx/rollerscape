@@ -9,7 +9,7 @@ export const loginWithGoogle = async () => {
             redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}#/${redirectURL}`
         }
     })
-    if (error) console.error(`Google auth error: ${error}`);
+    if (error) console.error("Google auth error:", error);
     return { data, error };
 };
 
@@ -19,7 +19,7 @@ export const getUserProfile = async (userId: string) => {
         .select("*")
         .eq("id", userId)
         .single();
-    if (error) console.error(`Unable to retrieve user name: ${error}`);
+    if (error) console.error("Unable to retrieve user name:", error);
     return { data, error };
 };
 
@@ -29,7 +29,7 @@ export const signOut = async () => {
 
 export const signIn = async ({ email, password }: Credentials) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) console.error(`Login error: ${error}`);
+    if (error) console.error("Login error", error);
     return { data, error };
 }
 
@@ -44,7 +44,7 @@ export const signUp = async ({ name, email, password }: Credentials) => {
         }
     });
     if (error) {
-        console.error(`Login error: ${error}`)
+        console.error("Registration error:", error)
     };
     return { data, error };
 }
@@ -53,6 +53,6 @@ export const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.href,
     })
-    if (error) console.error(`Reset error: ${error}`)
+    if (error) console.error("Reset error:", error)
     return { error };
 }
