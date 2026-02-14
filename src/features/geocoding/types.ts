@@ -7,6 +7,10 @@ export type Location = Coordinates & {
     name: string;
 };
 
+export type HomeLocation = Location & {
+    country: string;
+}
+
 export type NominatimResult = {
     display_name: string;
     lat: string;
@@ -19,10 +23,3 @@ export type NominatimResult = {
         country_code?: string;
     };
 };
-
-export type HomeLocation = {
-    name: string;
-    lat: number;
-    lon: number;
-    country: string;
-}

@@ -15,7 +15,7 @@ export const searchLocations = async (query: string, country: string): Promise<L
         return data.map((location) => ({
             name: location.display_name,
             lat: Number(location.lat),
-            lon: Number(location.lon),
+            lon: Number(location.lon)
         }))
     } catch (error) {
         console.error(`Error fetching location suggestions: ${error}`)
