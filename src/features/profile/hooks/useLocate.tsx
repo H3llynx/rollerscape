@@ -3,7 +3,7 @@ import { databases } from "../../../config";
 import { updateData } from "../../../services/data";
 import { useAuth } from "../../auth/hooks/useAuth";
 import type { UserProfile } from "../../auth/types";
-import { profileLocationUpdateError } from "../config";
+import { profileLocationUpdateError } from "../config/geolocation";
 import type { HomeLocation } from "../types";
 
 export function useLocate() {

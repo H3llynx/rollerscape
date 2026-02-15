@@ -5,7 +5,7 @@ import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
-import { countries, geolocationErrors } from "../../config";
+import { countries, geolocationErrors } from "../../config/geolocation";
 import { useLocate } from "../../hooks/useLocate";
 import { getBrowserPosition, reverseGeocode, searchLocations } from "../../services";
 import type { Location } from "../../types";
@@ -125,7 +125,7 @@ export function LocationRequest() {
                                     onClick={() => handleSelect(location)}
                                     tabIndex={0}
                                 >
-                                    <MapPin width={15} className="shrink-0 text-yellow" />{location.name}
+                                    <MapPin width={15} className="shrink-0 text-yellow" />{location.display_name}
                                 </li>
                             ))}
                         </ul>

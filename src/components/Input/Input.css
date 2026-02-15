@@ -11,7 +11,7 @@
         @apply block -right-2 text-red;
     }
 
-    input {
+    input:not([type="checkbox"]) {
         @apply w-full py-0.5 px-1 rounded-lg border font-main font-medium border-grey text-sm;
     }
 }

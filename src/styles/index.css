@@ -62,7 +62,8 @@
   }
 
   button,
-  a {
+  a,
+  svg {
     cursor: pointer;
     transition: 0.4s;
   }

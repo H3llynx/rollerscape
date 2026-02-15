@@ -13,7 +13,7 @@ const labelVariants = tv({
     variants: {
         variant: {
             text: "flex flex-col",
-            checkbox: "flex flex-row font-bold cursor-pointer",
+            checkbox: "flex text-sm font-medium text-grey flex-row-reverse justify-end font-main cursor-pointer has-checked:text-white",
         }
     }
 });

@@ -5,6 +5,7 @@ export type Coordinates = {
 
 export type Location = Coordinates & {
     name: string;
+    display_name?: string;
 };
 
 export type HomeLocation = Location & {
@@ -15,11 +16,14 @@ export type NominatimResult = {
     display_name: string;
     lat: string;
     lon: string;
-    address?: {
+    name: string;
+    address: {
         city?: string;
         town?: string;
         village?: string;
+        municipality?: string;
         country?: string;
         country_code?: string;
+        postcode: string;
     };
 };

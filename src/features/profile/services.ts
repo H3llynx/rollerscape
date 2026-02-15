@@ -1,4 +1,5 @@
 import type { Coordinates, Location, NominatimResult } from "./types";
+import { formatLocation } from "./utils";
 
 export const searchLocations = async (query: string, country: string): Promise<Location[]> => {
     if (query.length < 3) return [];
@@ -13,7 +14,8 @@ export const searchLocations = async (query: string, country: string): Promise<L
         );
         const data: NominatimResult[] = await response.json();
         return data.map((location) => ({
-            name: location.display_name,
+            display_name: location.display_name,
+            name: formatLocation(location),
             lat: Number(location.lat),
             lon: Number(location.lon)
         }))
@@ -64,7 +66,7 @@ export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
         );
         const data = await response.json();
         return {
-            name: data.display_name,
+            name: formatLocation(data),
             country: data.address.country_code,
             lat: lat,
             lon: lon
