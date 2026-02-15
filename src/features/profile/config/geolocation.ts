@@ -1,4 +1,4 @@
-export const countries = [
+export const COUNTRIES = [
     { value: "es", label: "🇪🇸 Spain" },
     { value: "fr", label: "🇫🇷 France" },
     { value: "de", label: "🇩🇪 Germany" },

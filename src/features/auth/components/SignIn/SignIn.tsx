@@ -6,10 +6,10 @@ import Google from "../../../../assets/svg/google.svg?react";
 import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from '../../../../components/Loading/Loading';
+import type { Credentials } from '../../../../types/user_types';
 import { redirectURL } from '../../config';
 import { useAuth } from '../../hooks/useAuth';
 import { loginWithGoogle, signIn } from "../../services/auth";
-import type { Credentials } from '../../types';
 
 type SignIn = {
     onError: (error: AuthError) => void;
@@ -37,7 +37,7 @@ export function SigIn({ onError, onEmailChange }: SignIn) {
     }
 
     return (
-        <section className="flex flex-col gap-1 w-fit p-1">
+        <section className="flex flex-col gap-1 standard-width">
             <form
                 onSubmit={handleSubmit((loginWithPassword))}
                 className="flex flex-col gap-1">

@@ -69,11 +69,11 @@
   }
 
   h1 {
-    @apply font-title text-yellow text-4xl text-shadow-black;
+    @apply font-title text-yellow text-4xl text-shadow-rgba-dark text-shadow-lg;
   }
 
   h2 {
-    @apply font-title text-white text-2xl text-shadow-black;
+    @apply font-title text-white text-2xl text-shadow-black text-shadow-md;
   }
 
   h3 {
@@ -86,8 +86,28 @@
 
   label {
     @apply font-special text-white flex flex-col gap-0.5;
+
+    &:has(input[type="checkbox"]) {
+      @apply py-[2px];
+    }
   }
 
+  .scroll {
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-rgba-yellow);
+      border-radius: 5px
+    }
+  }
 }
 
 @layer components {
@@ -153,5 +173,9 @@
         @apply outline-0;
       }
     }
+  }
+
+  .standard-width {
+    @apply w-[70%] md:w-fit;
   }
 }

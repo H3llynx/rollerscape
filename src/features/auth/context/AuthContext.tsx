@@ -1,6 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import { createContext } from "react";
-import type { UserProfile } from "../types";
+import type { UserProfile } from "../../../types/user_types";
 
 type AuthContext = {
     user: User | null;

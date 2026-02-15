@@ -11,7 +11,7 @@ export function Layout() {
     }, [pathname]);
 
     return (
-        <div className="layout">
+        <div className="layout scroll">
             <Header />
             <Outlet />
         </div>

@@ -3,7 +3,8 @@ import { Layout } from "../components/Layout/Layout";
 import { AuthPage } from "../pages/AuthPage";
 import { EventPage } from "../pages/EventPage";
 import { HomePage } from "../pages/HomePage";
-import { ProfilePage } from "../pages/ProfilePage";
+import { OnboardingPage } from "../pages/OnboardingPage";
+import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router = createHashRouter([
@@ -18,6 +19,13 @@ export const Router = createHashRouter([
             {
                 path: "auth",
                 element: <AuthPage />
+            },
+            {
+                path: "/onboarding",
+                element: (
+                    <ProtectedRoute>
+                        <OnboardingPage />
+                    </ProtectedRoute>)
             },
             {
                 path: "/profile",

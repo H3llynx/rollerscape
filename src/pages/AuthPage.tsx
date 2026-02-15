@@ -39,7 +39,7 @@ export function AuthPage() {
     }
 
     return (
-        <main className="flex flex-col my-auto pb-5">
+        <main className="flex flex-col w-full m-auto items-center pb-5">
             {login && <>
                 <SigIn onError={handleError} onEmailChange={setEmail} />
             </>}

@@ -1,4 +1,4 @@
-import type { Coordinates, Location, NominatimResult } from "./types";
+import type { Coordinates, Location, NominatimResult } from "../../types/geolocation_types";
 import { formatLocation } from "./utils";
 
 export const searchLocations = async (query: string, country: string): Promise<Location[]> => {

@@ -5,16 +5,20 @@ import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
-import { countries, geolocationErrors } from "../../config/geolocation";
+import type { Location } from "../../../../types/geolocation_types";
+import { COUNTRIES, geolocationErrors } from "../../config/geolocation";
 import { useLocate } from "../../hooks/useLocate";
 import { getBrowserPosition, reverseGeocode, searchLocations } from "../../services";
-import type { Location } from "../../types";
 
-export function LocationRequest() {
+type LocationRequest = {
+    onSuccess?: () => void;
+}
+
+export function LocationRequest({ onSuccess }: LocationRequest) {
     const [query, setQuery] = useState<string>("");
     const [suggestions, setSuggestions] = useState<Location[]>([]);
     const [location, setLocation] = useState<Location | null>(null);
-    const [country, setCountry] = useState<string>(countries[0].value);
+    const [country, setCountry] = useState<string>(COUNTRIES[0].value);
     const [showingSuggestions, setShowingSuggestions] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null)
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -68,6 +72,7 @@ export function LocationRequest() {
         const homeLocation = { ...location, country };
         await updateUserLocation(homeLocation);
         setQuery("");
+        if (onSuccess) onSuccess();
     };
 
     const useBrowserLocation = async () => {
@@ -81,11 +86,12 @@ export function LocationRequest() {
         if (data) {
             const location = await reverseGeocode(data);
             updateUserLocation(location);
+            if (onSuccess) onSuccess();
         }
     };
 
     return (
-        <section className="w-fit m-auto flex flex-col gap-2 items-center px-3 py-2 text-center">
+        <>
             <h2>
                 Where do you roll?
             </h2>
@@ -97,7 +103,7 @@ export function LocationRequest() {
                     id="country"
                     onChange={handleCountryChange}
                 >
-                    {countries.map(country => {
+                    {COUNTRIES.map(country => {
                         return (
                             <option key={country.value} value={country.value}>{country.label}</option>
                         )
@@ -142,6 +148,6 @@ export function LocationRequest() {
             <Dialog ref={dialogRef} style="error" close={handleClose}>
                 <p>{error}</p>
             </Dialog>
-        </section>
+        </>
     )
 }

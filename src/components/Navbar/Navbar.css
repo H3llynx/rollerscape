@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .navbar {
-    @apply flex items-center font-title;
+    @apply flex items-center font-title relative;
 
     .active {
         @apply cursor-default;
@@ -21,9 +21,13 @@
         }
     }
 
+    svg:not(.logout) {
+        @apply w-2 h-2;
+    }
+
     .menu,
     .close {
-        @apply text-yellow
+        @apply text-yellow;
     }
 
     .close {
@@ -53,17 +57,25 @@
 }
 
 .menu-toggle {
-    @apply relative z-2 h-full md:hidden;
+    @apply relative top-0 z-2 md:hidden;
 }
 
 @media (width <=48rem) {
     .navbar:has(input:checked) {
         ul {
-            @apply fixed z-1 w-screen h-dvh inset-0 flex flex-col bg-dark-3 px-2 py-6;
+            @apply fixed z-1 w-screen inset-0 flex flex-col bg-dark-3 px-2 py-6;
         }
 
-        li:not(.auth) {
-            @apply border-b border-grey;
+        li {
+            @apply py-1;
+
+            &:not(.auth) {
+                @apply border-b border-grey;
+            }
+
+            &:first-child {
+                @apply mt-2;
+            }
         }
 
         .menu {

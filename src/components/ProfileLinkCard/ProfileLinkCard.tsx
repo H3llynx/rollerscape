@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router";
 import Skater from "../../assets/skater.png";
-import type { UserProfile } from "../../features/auth/types";
+import type { UserProfile } from "../../types/user_types";
 import "./ProfileLinkCard.css";
 
 export function ProfileLinkCard({ profile }: { profile: UserProfile }) {

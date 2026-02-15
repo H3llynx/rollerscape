@@ -58,7 +58,7 @@ export function Navbar() {
                         <>
                             <ProfileLinkCard profile={profile!} />
                             <Button style="icon" aria-label="Log out" onClick={handleSignOut}>
-                                <LogOut aria-hidden width={20} />
+                                <LogOut aria-hidden className="logout" />
                             </Button>
 
                         </>

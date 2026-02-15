@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { databases } from "../../../config";
 import { updateData } from "../../../services/data";
+import type { HomeLocation } from "../../../types/geolocation_types";
+import type { UserProfile } from "../../../types/user_types";
 import { useAuth } from "../../auth/hooks/useAuth";
-import type { UserProfile } from "../../auth/types";
 import { profileLocationUpdateError } from "../config/geolocation";
-import type { HomeLocation } from "../types";
 
 export function useLocate() {
     const [loading, setLoading] = useState<boolean>(false);

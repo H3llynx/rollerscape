@@ -1,9 +1,13 @@
 @reference "../../styles/index.css";
 
 .profile-link-card {
-    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-transparent text-grey;
+    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-transparent text-white md:text-grey;
 
     &:not(.active):hover {
         @apply -translate-y-px border-rgba-yellow bg-rgba-grey text-white;
+    }
+
+    &.active {
+        @apply text-grey
     }
 }

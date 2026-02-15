@@ -11,7 +11,7 @@ export function Dropdown({ label, id, children, ...props }: Dropdown) {
         <label htmlFor={id}>
             {label && <span>{label}</span>}
             <select
-                className="h-[35px] input-shadow bg-blur w-full rounded-lg border border-grey font-main font-medium text-sm"
+                className="h-[35px] px-0.5 input-shadow bg-blur w-full max-w-2xs rounded-lg border border-grey font-main font-medium text-sm"
                 id={id}
                 {...props}
             >

@@ -1,0 +1,7 @@
+@reference "../../../styles/index.css";
+
+@media (width >=48rem) {
+    .map-area {
+        @apply w-1/2 h-full absolute right-0 top-0 z-0;
+    }
+}

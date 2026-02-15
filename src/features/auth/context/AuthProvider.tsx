@@ -1,8 +1,8 @@
 import type { User } from "@supabase/supabase-js";
 import { useEffect, useState, type ReactNode } from "react";
+import type { UserProfile } from "../../../types/user_types";
 import supabase from "../../../utils/supabase";
 import { getUserProfile } from "../services/auth";
-import type { UserProfile } from "../types";
 import { AuthContext } from "./AuthContext";
 
 export function AuthProvider({ children }: { children: ReactNode }) {

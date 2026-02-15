@@ -1,10 +1,39 @@
 @reference "../../styles/index.css";
 
 header {
-    @apply flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 md:py-2 items-start;
+    @apply sticky top-0 z-1 flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 items-start;
 }
 
 .logo-img {
-    @apply w-1/4 max-w-3xs;
+    @apply w-[40%] max-w-3xs landscape:w-10;
     filter: drop-shadow(1px 1px 10px black);
+}
+
+@media (width > 48rem) {
+    header {
+
+        &::after,
+        &::before {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+        }
+
+        &::after {
+            height: 200px;
+            background: linear-gradient(to bottom, var(--color-dark), transparent);
+            z-index: -1;
+        }
+
+        &::before {
+            height: 80px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            mask: linear-gradient(to bottom, black, transparent);
+            -webkit-mask: linear-gradient(to bottom, black, transparent);
+        }
+    }
 }

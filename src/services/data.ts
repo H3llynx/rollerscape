@@ -1,5 +1,5 @@
-import type { UserProfile } from "../features/auth/types";
-import type { Database } from "../utils/supabase";
+import type { Database } from "../types/database_types";
+import type { UserProfile } from "../types/user_types";
 import supabase from "../utils/supabase";
 
 
