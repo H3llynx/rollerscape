@@ -9,9 +9,9 @@ export function ProfileLinkCard({ profile }: { profile: UserProfile }) {
 
     return (
         <NavLink to="/profile" aria-label="Go to profile page" className="profile-link-card">
-            <img src={showAvatar(profile)} alt="" className="w-3.5 h-3.5 rounded-full p-[3px] border border-yellow" />
-            <div className="flex flex-col">
-                <span className="text-lg truncate max-w-[160px]"> Hi {profile.name || "Rollerblader"}</span>
+            <img src={showAvatar(profile)} alt="" className="profile-avatar" />
+            <div className="flex flex-col min-w-0 flex-1">
+                <span className="text-md truncate"> Hi {profile.name || "Rollerblader"}</span>
                 <span className="font-main text-sm font-light">
                     {location.pathname === "/" ? "View profile" : "Welcome back!"}
                 </span>

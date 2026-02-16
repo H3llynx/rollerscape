@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 import { signOut } from "../../features/auth/services/auth";
+import { ThemeToggle } from "../../features/theme/component/ThemeToggle";
 import { Button } from "../Button/Button";
 import { ProfileLinkCard } from "../ProfileLinkCard/ProfileLinkCard";
 import "./Navbar.css";
@@ -39,7 +40,7 @@ export function Navbar() {
                 htmlFor="menu-toggle" className="menu-toggle">
                 <input
                     type="checkbox"
-                    className="sr-only"
+                    className="input-menu"
                     id="menu-toggle"
                     ref={menuToggleRef}
                     aria-expanded="false"
@@ -50,6 +51,7 @@ export function Navbar() {
                 <X aria-hidden className="close" />
             </label>
             <ul id="main-menu">
+                <li><ThemeToggle /></li>
                 <li><NavLink to="/" tabIndex={getTabIndex("/")}><Home aria-label="Home page" /></NavLink></li>
                 <li><NavLink to="events" tabIndex={getTabIndex("/events")}>Events</NavLink></li>
                 <li className="auth">

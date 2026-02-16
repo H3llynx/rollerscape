@@ -2,36 +2,34 @@
 
 header {
     @apply sticky top-0 z-1 flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 items-start;
+
+    &::after,
+    &::before {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+    }
+
+    &::after {
+        height: 200px;
+        background: linear-gradient(to bottom, var(--color-bg-main), transparent);
+        z-index: -1;
+    }
+
+    &::before {
+        height: 80px;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        mask: linear-gradient(to bottom, black, transparent);
+        -webkit-mask: linear-gradient(to bottom, black, transparent);
+    }
+
 }
 
 .logo-img {
-    @apply w-[40%] max-w-3xs landscape:w-10;
+    @apply w-[45%] max-w-3xs landscape:w-10;
     filter: drop-shadow(1px 1px 10px black);
-}
-
-@media (width > 48rem) {
-    header {
-
-        &::after,
-        &::before {
-            content: " ";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            pointer-events: none;
-        }
-
-        &::after {
-            height: 200px;
-            background: linear-gradient(to bottom, var(--color-bg-main), transparent);
-            z-index: -1;
-        }
-
-        &::before {
-            height: 80px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-    }
 }

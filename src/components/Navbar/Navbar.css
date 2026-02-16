@@ -42,13 +42,13 @@
         @apply px-1 py-0.5;
 
         &:not(.auth) {
-            @apply md:border-r md:border-rgba-white;
+            @apply md:border-r md:border-border;
         }
     }
 
 
     .auth {
-        @apply absolute top-0.5 right-1 md:static flex gap-1 items-center;
+        @apply absolute top-0 right-1 md:static flex max-w-[70%] gap-1 items-center;
 
         button {
             @apply text-txt-main hover:text-yellow-2;
@@ -60,10 +60,14 @@
     @apply relative top-0 z-2 md:hidden;
 }
 
+.input-menu {
+    @apply sr-only;
+}
+
 @media (width <=48rem) {
-    .navbar:has(input:checked) {
+    .navbar:has(.input-menu:checked) {
         ul {
-            @apply fixed z-1 w-screen inset-0 flex flex-col bg-bg-secondary px-2 py-6;
+            @apply fixed z-1 w-screen inset-0 flex flex-col bg-bg-secondary px-2 py-6 overflow-x-auto;
         }
 
         li {
@@ -85,5 +89,15 @@
         .close {
             @apply block;
         }
+
+        .theme-switcher {
+            @apply w-fit ml-auto scale-120 mb-2;
+        }
+    }
+}
+
+@media (orientation: portrait) {
+    .navbar:has(.input-menu:checked) .theme-switcher {
+        @apply absolute bottom-4 left-1/2 -translate-x-1/2;
     }
 }

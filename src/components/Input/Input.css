@@ -10,41 +10,23 @@
     &:has(input:user-invalid) .error-svg {
         @apply block -right-2 text-red;
     }
-
-    input {
-        @apply border border-grey;
-
-        &:not([type="checkbox"]) {
-            @apply w-full py-0.5 px-1 rounded-lg font-main font-medium text-sm;
-        }
-
-        &[type="checkbox"] {
-            @apply rounded-md grid place-content-center;
-            appearance: none;
-            -webkit-appearance: none;
-            width: 1.25rem;
-            height: 1.25rem;
-
-
-            &::before {
-                content: "✓";
-                color: var(--color-yellow);
-                transform: scale(0);
-                transition: 0.2s;
-            }
-
-            &:checked {
-                @apply bg-rgba-grey shadow-lg shadow-rgba-dark;
-
-                &::before {
-                    transform: scale(1.2);
-                }
-            }
-        }
-    }
 }
 
 .valid-svg,
 .error-svg {
     @apply hidden absolute;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    label:has(.input-container input[type="checkbox"]) {
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-10px);
+            box-shadow: 0 5px 15px var(--color-rgba-dark);
+
+            &::before {
+                left: 100%;
+            }
+        }
+    }
 }

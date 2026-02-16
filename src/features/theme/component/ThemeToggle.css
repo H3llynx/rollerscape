@@ -1,7 +1,7 @@
  @reference "../../../styles/index.css";
 
  .theme-switcher {
-     @apply relative flex items-center gap-0.5 py-0.5;
+     @apply relative flex items-center gap-0.5;
 
      &:hover {
          transform: scale(1.05);
@@ -40,11 +40,11 @@
      transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
  }
 
- .theme-checkbox:checked+.switcher-track .roller-wheel {
+ .theme-switcher:has(.theme-checkbox:checked) .switcher-track .roller-wheel {
      transform: rotate(360deg);
  }
 
- .theme-checkbox:active+.switcher-track {
+ .theme-switcher:has(.theme-checkbox:active) .switcher-track {
      animation: trackShake 0.3s ease;
  }
 
