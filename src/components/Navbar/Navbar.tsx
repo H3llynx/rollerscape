@@ -4,7 +4,6 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 import { signOut } from "../../features/auth/services/auth";
 import { Button } from "../Button/Button";
-
 import { ProfileLinkCard } from "../ProfileLinkCard/ProfileLinkCard";
 import "./Navbar.css";
 

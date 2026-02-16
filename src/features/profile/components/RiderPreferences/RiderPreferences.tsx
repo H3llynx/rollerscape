@@ -63,7 +63,7 @@ export function RiderPreferences() {
     };
 
     return (
-        <div className="rider-preferences-inputs scroll">
+        <div className="rider-preferences-inputs">
             <Dropdown
                 label="How do you roll?"
                 defaultValue={profile?.skill_level}
@@ -80,7 +80,7 @@ export function RiderPreferences() {
                     <legend className="font-special">
                         Preferred spot types:
                     </legend>
-                    <span className="text-xs font-medium text-yellow-2">(Select all that apply)</span>
+                    <span>(Select all that apply)</span>
                 </div>
                 {SPOT_TYPES.map((spot) => (
                     <Input key={spot.value}
@@ -99,7 +99,7 @@ export function RiderPreferences() {
                     <legend className="font-special">
                         Skating style:
                     </legend>
-                    <span className="text-xs font-medium text-yellow-2">(Select all that apply)</span>
+                    <span>(Select all that apply)</span>
                 </div>
                 {SKATING_STYLES.map((style) => (
                     <Input key={style.value}

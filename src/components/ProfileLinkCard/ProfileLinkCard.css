@@ -1,10 +1,10 @@
 @reference "../../styles/index.css";
 
 .profile-link-card {
-    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-transparent text-white md:text-grey;
+    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-transparent text-txt-main md:text-grey;
 
     &:not(.active):hover {
-        @apply -translate-y-px border-rgba-yellow bg-rgba-grey text-white;
+        @apply -translate-y-px border-rgba-yellow bg-bg-rgba-2 text-txt-main;
     }
 
     &.active {

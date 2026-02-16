@@ -24,7 +24,7 @@ header {
 
         &::after {
             height: 200px;
-            background: linear-gradient(to bottom, var(--color-dark), transparent);
+            background: linear-gradient(to bottom, var(--color-bg-main), transparent);
             z-index: -1;
         }
 
@@ -32,8 +32,6 @@ header {
             height: 80px;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            mask: linear-gradient(to bottom, black, transparent);
-            -webkit-mask: linear-gradient(to bottom, black, transparent);
         }
     }
 }

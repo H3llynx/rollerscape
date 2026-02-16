@@ -9,10 +9,10 @@ type Dialog = {
 }
 
 const dialogVariants = tv({
-    base: "m-auto [[open]]:flex [[open]]:flex-col gap-1 text-center rounded-lg border backdrop:bg-black/50 font-main font-medium border-grey text-sm bg-rgba-dark pt-1 pb-2 px-2 bg-blur dialog-shadow",
+    base: "m-auto [[open]]:flex [[open]]:flex-col gap-1 text-center rounded-lg border backdrop:bg-black/20 font-main font-medium border-grey text-sm bg-bg-rgba py-2 px-3 bg-blur dialog-shadow",
     variants: {
         style: {
-            default: "text-white",
+            default: "text-txt-main",
             error: "text-red"
         }
     }
@@ -21,7 +21,7 @@ const dialogVariants = tv({
 export const Dialog = forwardRef<HTMLDialogElement, Dialog>(({ close, children, style = "default" }, ref) => {
     return (
         <dialog ref={ref} className={dialogVariants({ style })}>
-            <button onClick={close} aria-label="Close dialog" className="self-end">
+            <button onClick={close} aria-label="Close dialog" className="absolute top-1 right-1">
                 <X aria-hidden />
             </button>
             {children}

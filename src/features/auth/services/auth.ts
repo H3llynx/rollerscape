@@ -19,7 +19,7 @@ export const getUserProfile = async (userId: string) => {
         .select("*")
         .eq("id", userId)
         .single();
-    if (error) console.error("Unable to retrieve user name:", error);
+    if (error) console.error("Unable to retrieve user:", error);
     return { data, error };
 };
 

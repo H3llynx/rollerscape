@@ -9,19 +9,19 @@
 
     a:not(.profile-link-card).active,
     .active svg {
-        @apply text-yellow-2 opacity-60;
+        @apply text-grey opacity-50;
     }
 
     a:not(.profile-link-card),
     button {
-        @apply text-2xl text-white;
+        @apply text-2xl text-txt-main;
 
-        &:hover {
-            @apply text-yellow;
+        &:not(.active):hover {
+            @apply text-yellow-2;
         }
     }
 
-    svg:not(.logout) {
+    svg:not(.logout, .theme-svg) {
         @apply w-2 h-2;
     }
 
@@ -51,7 +51,7 @@
         @apply absolute top-0.5 right-1 md:static flex gap-1 items-center;
 
         button {
-            @apply text-white hover:text-yellow;
+            @apply text-txt-main hover:text-yellow-2;
         }
     }
 }
@@ -63,7 +63,7 @@
 @media (width <=48rem) {
     .navbar:has(input:checked) {
         ul {
-            @apply fixed z-1 w-screen inset-0 flex flex-col bg-dark-3 px-2 py-6;
+            @apply fixed z-1 w-screen inset-0 flex flex-col bg-bg-secondary px-2 py-6;
         }
 
         li {

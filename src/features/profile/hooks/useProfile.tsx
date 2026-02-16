@@ -8,8 +8,8 @@ export function useProfile() {
     const { loading, profile } = useAuth();
 
     useEffect(() => {
-        if (!profile) navigate("/auth");
-    }, [profile, navigate])
+        if (!loading && !profile) navigate("/auth");
+    }, [profile, navigate, loading])
 
     return { profile: profile as UserProfile, loading };
 }

@@ -1,0 +1,65 @@
+ @reference "../../../styles/index.css";
+
+ .theme-switcher {
+     @apply relative flex items-center gap-0.5 py-0.5;
+
+     &:hover {
+         transform: scale(1.05);
+     }
+
+     &:active {
+         transform: scale(0.95);
+     }
+
+     .theme-checkbox {
+         @apply sr-only;
+     }
+
+     .theme-svg {
+         @apply w-1.5 h-1.5
+     }
+ }
+
+ .switcher-track {
+     @apply w-[60px] h-[31px] bg-bg-main relative rounded-full border border-grey;
+     transition: background 0.3s ease;
+ }
+
+ .switcher-thumb {
+     @apply absolute top-0 left-px w-[29px] h-[29px] rounded-full flex items-center;
+     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+ }
+
+ .theme-checkbox:checked+.switcher-track .switcher-thumb {
+     transform: translateX(27px);
+ }
+
+ .roller-wheel {
+     @apply w-full h-full;
+     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+ }
+
+ .theme-checkbox:checked+.switcher-track .roller-wheel {
+     transform: rotate(360deg);
+ }
+
+ .theme-checkbox:active+.switcher-track {
+     animation: trackShake 0.3s ease;
+ }
+
+ @keyframes trackShake {
+
+     0%,
+     100% {
+         transform: translateX(0);
+     }
+
+     25% {
+         transform: translateX(-2px);
+     }
+
+     75% {
+         transform: translateX(2px);
+     }
+ }

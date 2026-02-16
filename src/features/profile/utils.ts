@@ -1,4 +1,6 @@
+import Skater from "../../assets/skater.png";
 import type { NominatimResult } from "../../types/geolocation_types";
+import type { UserProfile } from "../../types/user_types";
 import { COUNTRIES } from "./config/geolocation";
 
 export const formatLocation = (location: NominatimResult) => {
@@ -9,4 +11,10 @@ export const formatLocation = (location: NominatimResult) => {
 
 export const showFlag = (code: string) => {
     return COUNTRIES.filter(country => country.value === code).map(country => country.label.split(" ").splice(0, 1));
+}
+
+export const showAvatar = (profile: UserProfile) => {
+    if (!profile) return;
+    if (profile.avatar_url) return profile.avatar_url;
+    else return Skater;
 }

@@ -1,7 +1,57 @@
 @reference "../../../styles/index.css";
 
+.map-area {
+    @apply relative w-full h-[60dvh];
+}
+
+.leaflet-bottom,
+.leaflet-right {
+    @apply z-9992
+}
+
+.leaflet-control-layers, .leaflet-bar a {
+    @apply bg-bg-secondary text-txt-main;
+
+    & label {
+        @apply font-main;
+    }
+}
+
+.leaflet-control-layers-selector {
+    @apply rounded-md w-1 h-1 border border-grey relative cursor-pointer;
+    appearance: none;
+    -webkit-appearance: none;
+
+    &::after {
+        content: "";
+        background: var(--color-yellow);
+        position: absolute;
+        inset: 0;
+        margin: 3px;
+        border-radius: 3px;
+        transform: scale(0);
+        transition: 0.2s ease;
+    }
+
+    &:checked::after {
+        transform: scale(1.2);
+    }
+}
+
 @media (width >=48rem) {
     .map-area {
         @apply w-1/2 h-full absolute right-0 top-0 z-0;
+
+        &::after {
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            pointer-events: none;
+            width: 80px;
+            background: linear-gradient(to right, var(--color-rgba-dark), transparent);
+            z-index: 999;
+        }
     }
 }
