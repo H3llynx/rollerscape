@@ -8,7 +8,7 @@ export function ThemeToggle() {
   return (
     <label className="theme-switcher" aria-label="Switch theme">
       {theme === "light" &&
-        <Sun fill="var(--color-txt-main)" className="theme-svg" />
+        <Sun fill="var(--color-text)" className="theme-svg" />
       }
       <input
         type="checkbox"
@@ -22,7 +22,7 @@ export function ThemeToggle() {
         </div>
       </div>
       {theme === "dark" &&
-        <Moon fill="var(--color-txt-main)" className="theme-svg" />
+        <Moon fill="var(--color-text)" className="theme-svg" />
       }
     </label>
   )

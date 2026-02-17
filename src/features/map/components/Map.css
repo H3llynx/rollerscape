@@ -10,7 +10,7 @@
 }
 
 .leaflet-control-layers, .leaflet-bar a {
-    @apply bg-bg-secondary text-txt-main;
+    @apply bg-bg-secondary text-text;
 
     & label {
         @apply font-main;
@@ -18,17 +18,16 @@
 }
 
 .leaflet-control-layers-selector {
-    @apply rounded-md w-1 h-1 border border-grey relative cursor-pointer;
+    @apply w-1 h-1 rounded-md;
     appearance: none;
     -webkit-appearance: none;
 
     &::after {
         content: "";
-        background: var(--color-yellow);
+        background: var(--color-text-secondary);
         position: absolute;
-        inset: 0;
-        margin: 3px;
-        border-radius: 3px;
+        inset: 3px;
+        border-radius: 2px;
         transform: scale(0);
         transition: 0.2s ease;
     }

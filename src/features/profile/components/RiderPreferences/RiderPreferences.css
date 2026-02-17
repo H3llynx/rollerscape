@@ -8,6 +8,6 @@
     @apply flex mb-0.5 gap-[5px] flex-wrap items-center;
 
     span {
-        @apply text-xs font-medium text-txt-secondary
+        @apply text-xs font-medium text-text-secondary
     }
 }

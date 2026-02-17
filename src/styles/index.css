@@ -23,26 +23,26 @@
   --color-rgba-white: rgba(255, 255, 255, 0.2);
   --color-rgba-yellow: rgba(250, 204, 21, 0.4);
   --background-image-hover-yellow: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-  --background-image-stripes: repeating-linear-gradient(45deg,
-      #1a1a1a,
-      #1a1a1a 10px,
-      #1e1e1e 10px,
-      #1e1e1e 20px);
-  --color-txt-main: var(--color-white);
+  --color-text: var(--color-white);
   --color-bg-main: var(--color-dark);
   --color-bg-secondary: var(--color-dark-3);
   --color-bg-rgba: var(--color-rgba-dark);
   --color-bg-rgba-2: var(--color-rgba-grey);
   --color-bg-cta: var(--color-yellow);
-  --color-txt-cta: var(--color-dark);
+  --color-text-cta: var(--color-dark);
   --color-bg-cta-secondary: transparent;
   --color-bg-cta-active: var(--color-yellow-2);
-  --color-txt-secondary: var(--color-yellow);
+  --color-text-secondary: var(--color-yellow);
   --color-border: var(--color-rgba-white);
+  --background-image-stripes: repeating-linear-gradient(45deg,
+      #1a1a1a,
+      #1a1a1a 10px,
+      #1e1e1e 10px,
+      #1e1e1e 20px);
 }
 
 :root[data-theme="light"] {
-  --color-txt-main: var(--color-dark);
+  --color-text: var(--color-dark);
   --color-bg-main: var(--color-white);
   --color-bg-secondary: var(--color-white);
   --color-bg-rgba: var(--color-rgba-white);
@@ -50,10 +50,10 @@
   --color-grey: #5e5e63;
   --color-turquoise: rgb(0, 108, 97);
   --color-bg-cta: var(--color-dark-3);
-  --color-txt-cta: var(--color-white-2);
+  --color-text-cta: var(--color-white-2);
   --color-bg-cta-secondary: var(--color-white-2);
   --color-bg-cta-active: var(--color-dark);
-  --color-txt-secondary: var(--color-dark-3);
+  --color-text-secondary: var(--color-dark-3);
   --color-border: var(--color-rgba-grey);
   --background-image-stripes: repeating-linear-gradient(45deg,
       #e1e1e1,
@@ -73,7 +73,7 @@
     width: 100vw;
     max-height: 100dvh;
     font-family: var(--font-main);
-    color: var(--color-txt-main);
+    color: var(--color-text);
     background-image: url("../assets/hero.png");
     background-size: cover;
     background-position: bottom;
@@ -111,7 +111,7 @@
   }
 
   h2 {
-    @apply font-title text-txt-main text-2xl;
+    @apply font-title text-text text-2xl;
   }
 
   h3 {
@@ -123,7 +123,7 @@
   }
 
   label:not(.theme-switcher) {
-    @apply font-special text-txt-main flex flex-col gap-0.5;
+    @apply font-special text-text flex flex-col gap-0.5;
 
     &:has(input[type="checkbox"]) {
       @apply p-1 relative border border-grey bg-bg-rgba rounded-lg overflow-hidden;
@@ -152,7 +152,7 @@
     @apply border border-grey;
 
     &:not([type="checkbox"]) {
-      @apply w-full py-0.5 px-1 rounded-lg font-main font-medium text-sm;
+      @apply rounded-lg font-main font-medium text-sm;
     }
 
     &[type="checkbox"] {
@@ -162,16 +162,15 @@
       width: 1.25rem;
       height: 1.25rem;
 
-
       &::before {
         content: "✓";
-        color: var(--color-yellow);
+        color: var(--color-text-secondary);
         transform: scale(0);
         transition: 0.2s;
       }
 
       &:checked {
-        @apply bg-rgba-grey shadow-lg shadow-rgba-dark;
+        @apply bg-bg-secondary shadow-lg shadow-rgba-dark;
 
         &::before {
           transform: scale(1.2);
@@ -184,16 +183,16 @@
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
-      width: 8px;
+      width: 9px;
     }
 
     &::-webkit-scrollbar-track {
-      background: transparent;
+      background: var(--color-rgba-2);
     }
 
     &::-webkit-scrollbar-thumb {
       background: var(--color-rgba-yellow);
-      border-radius: 5px
+      border-radius: 5px;
     }
   }
 }
@@ -225,7 +224,7 @@
   }
 
   .separator {
-    @apply font-light text-xs text-center text-txt-main flex items-center gap-1;
+    @apply font-light text-xs text-center text-text flex items-center gap-1;
 
     &::before,
     &::after {
@@ -254,7 +253,7 @@
 
       &:hover,
       &:focus-visible {
-        @apply bg-rgba-yellow text-txt-main;
+        @apply bg-rgba-yellow text-text;
       }
 
       &:focus-visible {

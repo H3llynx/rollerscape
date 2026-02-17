@@ -14,7 +14,7 @@
 
     a:not(.profile-link-card),
     button {
-        @apply text-2xl text-txt-main;
+        @apply text-2xl text-text;
 
         &:not(.active):hover {
             @apply text-yellow-2;
@@ -51,7 +51,7 @@
         @apply absolute top-0 right-1 md:static flex max-w-[70%] gap-1 items-center;
 
         button {
-            @apply text-txt-main hover:text-yellow-2;
+            @apply text-text hover:text-yellow-2;
         }
     }
 }

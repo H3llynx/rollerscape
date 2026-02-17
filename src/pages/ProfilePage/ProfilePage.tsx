@@ -28,12 +28,12 @@ export function ProfilePage() {
         <main className="profile-page-main">
             {(loading || !profile || !profile.home_location_name) && <Loading />}
             {profile && profile.home_location_name &&
-                <section className="grid w-full md:grid-cols-2 place-items-center">
+                <section className="grid w-full md:grid-cols-2">
                     <article className="rider-preferences">
                         <h2 className="px-0.5">Welcome {profile.name}!</h2>
                         <div className="flex items-center gap-[5px] px-0.5 flex-wrap">
                             <span className="font-special">Home location: </span>
-                            <span className="text-sm text-txt-secondary">{profile.home_location_name} </span>
+                            <span className="text-sm text-text-secondary">{profile.home_location_name} </span>
                             <div className="flex items-center">
                                 <span>{showFlag(profile.home_country_code)}</span>
                                 <Button
