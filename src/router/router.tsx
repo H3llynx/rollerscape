@@ -1,10 +1,9 @@
 import { createHashRouter } from "react-router";
 import { Layout } from "../components/Layout/Layout";
-import { AuthPage } from "../pages/AuthPage";
-import { EventPage } from "../pages/EventPage";
+import { AuthPage } from "../features/auth/AuthPage";
+import { ProfilePage } from "../features/profile/ProfilePage";
 import { HomePage } from "../pages/HomePage";
 import { OnboardingPage } from "../pages/OnboardingPage";
-import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router = createHashRouter([
@@ -32,13 +31,6 @@ export const Router = createHashRouter([
                 element: (
                     <ProtectedRoute>
                         <ProfilePage />
-                    </ProtectedRoute>)
-            },
-            {
-                path: "/events",
-                element: (
-                    <ProtectedRoute>
-                        <EventPage />
                     </ProtectedRoute>)
             },
         ]

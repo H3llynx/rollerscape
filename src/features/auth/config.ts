@@ -1,4 +1,4 @@
-export const redirectURL = "profile";
+export const redirectURL = "/";
 
 export const authErrors = {
     invalid_credentials: "Wipeout! You missed your trick. Double-check your email and password.",

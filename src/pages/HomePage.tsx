@@ -1,13 +1,13 @@
+import { Header } from "../components/Header/Header";
+import { Map } from "../features/map/components/Map";
 
 export function HomePage() {
   return (
-    <main>
-      <section>
-        <h1>RollerScape</h1>
-        <label>Je teste un truc
-          <input type="checkbox" />
-        </label>
-      </section>
-    </main>
+    <>
+      <Header style="map" />
+      <main className="w-screen h-full z-0">
+        <Map />
+      </main>
+    </>
   )
 }

@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router';
 import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
+import { signUp } from '../../../../services/auth';
 import type { Credentials } from "../../../../types/user_types";
 import { redirectURL } from '../../config';
 import { useAuth } from '../../hooks/useAuth';
-import { signUp } from "../../services/auth";
 
 export function SignUp({ onError }: { onError: (error: AuthError) => void }) {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<Credentials>();

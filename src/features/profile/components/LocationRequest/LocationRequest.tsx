@@ -5,10 +5,10 @@ import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
+import { getBrowserPosition, reverseGeocode, searchLocations } from "../../../../services/geolocation";
 import type { Location } from "../../../../types/geolocation_types";
 import { COUNTRIES, geolocationErrors } from "../../config/geolocation";
 import { useLocate } from "../../hooks/useLocate";
-import { getBrowserPosition, reverseGeocode, searchLocations } from "../../services";
 
 type LocationRequest = {
     onSuccess?: () => void;

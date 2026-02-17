@@ -1,9 +1,5 @@
 @reference "../../styles/index.css";
 
-.profile-page-main {
-    @apply flex h-full w-full;
-}
-
 .rider-preferences {
     @apply flex flex-col p-2 lg:px-4 md:py-0.5 gap-1 relative w-full md:max-h-[70dvh] md:overflow-y-scroll;
 

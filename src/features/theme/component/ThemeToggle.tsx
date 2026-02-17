@@ -1,5 +1,5 @@
 import { Moon, Sun } from "lucide-react";
-import Wheel from "../../../assets/svg/wheel.svg?react";
+import Wheel from "../../../assets/wheel.png";
 import { useTheme } from "../hook/useTheme";
 import "./ThemeToggle.css";
 
@@ -18,7 +18,7 @@ export function ThemeToggle() {
       />
       <div className="switcher-track">
         <div className="switcher-thumb">
-          <Wheel className="roller-wheel" />
+          <img src={Wheel} className="roller-wheel" alt="" />
         </div>
       </div>
       {theme === "dark" &&

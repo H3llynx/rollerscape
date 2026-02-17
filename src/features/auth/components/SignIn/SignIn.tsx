@@ -6,10 +6,10 @@ import Google from "../../../../assets/svg/google.svg?react";
 import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from '../../../../components/Loading/Loading';
+import { loginWithGoogle, signIn } from '../../../../services/auth';
 import type { Credentials } from '../../../../types/user_types';
 import { redirectURL } from '../../config';
 import { useAuth } from '../../hooks/useAuth';
-import { loginWithGoogle, signIn } from "../../services/auth";
 
 type SignIn = {
     onError: (error: AuthError) => void;

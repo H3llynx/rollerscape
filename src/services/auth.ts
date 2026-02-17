@@ -1,6 +1,6 @@
-import type { Credentials } from "../../../types/user_types";
-import supabase from "../../../utils/supabase";
-import { redirectURL } from "../config";
+import { redirectURL } from "../features/auth/config";
+import type { Credentials } from "../types/user_types";
+import supabase from "../utils/supabase";
 
 export const loginWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({

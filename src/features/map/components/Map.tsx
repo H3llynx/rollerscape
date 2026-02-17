@@ -1,9 +1,13 @@
 import type { LatLngExpression } from "leaflet";
 import L from "leaflet";
+import { LocateFixed } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LayersControl, MapContainer, Marker, TileLayer, ZoomControl, useMap } from "react-leaflet";
-import Riders from "../../../assets/riders.png";
-import { useProfile } from "../../profile/hooks/useProfile";
+import Control from "react-leaflet-custom-control";
+import Skater from "../../../assets/skater.png";
+import { Button } from "../../../components/Button/Button";
+import { getBrowserPosition } from "../../../services/geolocation";
+import { useAuth } from "../../auth/hooks/useAuth";
 import { showAvatar } from "../../profile/utils";
 import "./Map.css";
 
@@ -17,24 +21,33 @@ const ReCenterMap = ({ lat, lon }: { lat: number; lon: number }) => {
 }
 
 export function Map() {
-    const { profile } = useProfile();
+    const { profile } = useAuth();
     const [center, setCenter] = useState<LatLngExpression | null>(null);
 
     useEffect(() => {
-        if (profile.home_lat && profile.home_lon)
-            setCenter([profile.home_lat, profile.home_lon])
+        const loadCenter = async () => {
+            if (profile && (profile.home_lat && profile.home_lon))
+                setCenter([profile.home_lat, profile.home_lon])
+            else {
+                const { data } = await getBrowserPosition();
+                if (data) {
+                    setCenter([data.lat, data.lon]);
+                }
+            }
+        }
+        loadCenter();
     }, [profile]);
 
     const homeIcon = L.icon({
-        iconUrl: showAvatar(profile) as string,
+        iconUrl: profile ? showAvatar(profile) as string : Skater,
         iconSize: [50, 50],
         iconAnchor: [25, 55],
         popupAnchor: [0, -50],
-        className: "rounded-full button-shadow border border-dark bg-dark"
+        className: "rounded-full button-shadow border border-rgba-yellow bg-dark-2"
     });
 
     return (
-        <div className="map-area">
+        <div className="w-full h-full">
             {center &&
                 <MapContainer center={center} zoom={16} scrollWheelZoom={false}
                     style={{ height: '100%', width: '100%' }}
@@ -62,16 +75,19 @@ export function Map() {
                             />
                         </LayersControl.BaseLayer>
                     </LayersControl>
+                    <Control position="bottomleft">
+                        <Button style="icon" className="track-me-btn" aria-label="Track my current location">
+                            <LocateFixed aria-hidden fill="white" className="track-me-icon" />
+                        </Button>
+                    </Control>
                     <ZoomControl position="bottomright" />
-                    <Marker position={center} icon={homeIcon} />
-                    {profile.home_lat && profile.home_lon &&
-                        <ReCenterMap lat={profile.home_lat} lon={profile.home_lon} />
-                    }
+                    {profile && <>
+                        <Marker position={center} icon={homeIcon} />
+                        {profile.home_lat && profile.home_lon &&
+                            <ReCenterMap lat={profile.home_lat} lon={profile.home_lon} />
+                        }</>}
                 </MapContainer>
             }
-            <div className="hidden lg:block absolute z-9991 bottom-0 left-0 w-full pointer-events-none drop-shadow-dark drop-shadow-xs">
-                <img src={Riders} alt="" className="w-full" />
-            </div>
         </div>
     )
 }

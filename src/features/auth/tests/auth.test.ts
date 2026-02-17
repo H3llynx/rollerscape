@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { signIn, signUp } from "../../../services/auth";
 import type { Credentials } from "../../../types/user_types";
-import { signIn, signUp } from "../services/auth";
 
 describe("signUp", () => {
     const password = "t3st678";

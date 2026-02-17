@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
-import { Header } from '../Header/Header';
 import "./Layout.css";
 
 export function Layout() {
@@ -12,7 +11,6 @@ export function Layout() {
 
     return (
         <div className="layout scroll">
-            <Header />
             <Outlet />
         </div>
     );

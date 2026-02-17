@@ -90,6 +90,10 @@
     }
   }
 
+  main {
+    @apply w-full h-full place-content-center;
+  }
+
   *:not(.suggestion-list):focus-visible {
     outline-width: 2px;
     outline-style: solid;
@@ -151,8 +155,8 @@
   input {
     @apply border border-grey;
 
-    &:not([type="checkbox"]) {
-      @apply rounded-lg font-main font-medium text-sm;
+    &:not([type="checkbox"], [type="radio"]) {
+      @apply rounded-lg font-main font-medium text-sm px-1 py-0.5 w-full;
     }
 
     &[type="checkbox"] {

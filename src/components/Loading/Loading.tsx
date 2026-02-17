@@ -1,11 +1,13 @@
-import Wheel from "../../assets/svg/wheel.svg?react";
+import Wheel from "../../assets/wheel.png";
 import "./Loading.css";
 
 export function Loading() {
     return (
         <div className="roller-loader">
             {[0, 1, 2, 3].map((i) => (
-                <Wheel key={i} className="wheel" />
+                <div key={i} className="wheel">
+                    <img src={Wheel} alt="Loading..." />
+                </div>
             ))}
         </div>
     )
