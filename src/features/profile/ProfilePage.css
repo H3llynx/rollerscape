@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .rider-preferences {
-    @apply flex flex-col p-2 lg:px-4 md:py-0.5 gap-1 relative w-full md:max-h-[70dvh] md:overflow-y-scroll;
+    @apply flex flex-col p-2 lg:px-4 gap-1 relative w-full md:max-h-[75dvh] md:overflow-y-scroll xl:items-center;
 
     &::-webkit-scrollbar {
         width: 9px;

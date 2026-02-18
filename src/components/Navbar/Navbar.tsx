@@ -4,6 +4,7 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 import { ThemeToggle } from "../../features/theme/component/ThemeToggle";
 import { signOut } from "../../services/auth";
+import { handleAria } from "../../utils/helpers";
 import { Button } from "../Button/Button";
 import { ProfileLinkCard } from "../ProfileLinkCard/ProfileLinkCard";
 import "./Navbar.css";
@@ -21,14 +22,6 @@ export function Navbar() {
         }
     }, [location.pathname]);
 
-    const handleMenu = () => {
-        const input = menuToggleRef.current;
-        if (input) {
-            input.setAttribute("aria-expanded", input.checked ? "true" : "false");
-        }
-        console.log(input)
-    }
-
     const handleSignOut = async () => {
         await signOut();
         navigate("/auth");
@@ -45,7 +38,7 @@ export function Navbar() {
                     ref={menuToggleRef}
                     aria-expanded="false"
                     aria-controls="main-menu"
-                    onChange={handleMenu}
+                    onChange={() => handleAria(menuToggleRef)}
                 />
                 <Menu aria-hidden className="menu" />
                 <X aria-hidden className="close" />

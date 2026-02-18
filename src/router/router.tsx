@@ -1,9 +1,9 @@
 import { createHashRouter } from "react-router";
 import { Layout } from "../components/Layout/Layout";
 import { AuthPage } from "../features/auth/AuthPage";
+import { MapPage } from "../features/map/MapPage";
+import { OnboardingPage } from "../features/profile/OnboardingPage";
 import { ProfilePage } from "../features/profile/ProfilePage";
-import { HomePage } from "../pages/HomePage";
-import { OnboardingPage } from "../pages/OnboardingPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router = createHashRouter([
@@ -13,7 +13,7 @@ export const Router = createHashRouter([
         children: [
             {
                 index: true,
-                element: <HomePage />
+                element: <MapPage />
             },
             {
                 path: "auth",

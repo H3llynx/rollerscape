@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .profile-link-card {
-    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-border text-text md:text-grey;
+    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-border bg-bg-rgba text-text md:text-grey;
 
     .profile-avatar {
         @apply w-3.5 h-3.5 rounded-full p-[3px] border border-yellow;

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
-import { Header } from "../components/Header/Header";
-import { LocationRequest } from "../features/profile/components/LocationRequest/LocationRequest";
+import { Header } from "../../components/Header/Header";
+import { LocationRequest } from "./components/LocationRequest/LocationRequest";
 
 export function OnboardingPage() {
     const navigate = useNavigate();

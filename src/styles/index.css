@@ -19,6 +19,7 @@
   --color-red: #ef4444;
   --color-turquoise: rgb(21, 177, 162);
   --color-rgba-dark: rgba(0, 0, 0, 0.4);
+  --color-rgba-dark-2: rgba(0, 0, 0, 0.2);
   --color-rgba-grey: rgba(46, 46, 46, 0.5);
   --color-rgba-white: rgba(255, 255, 255, 0.2);
   --color-rgba-yellow: rgba(250, 204, 21, 0.4);
@@ -126,7 +127,7 @@
     @apply font-special text-yellow
   }
 
-  label:not(.theme-switcher) {
+  label:not(.theme-switcher, .map-label) {
     @apply font-special text-text flex flex-col gap-0.5;
 
     &:has(input[type="checkbox"]) {
@@ -206,7 +207,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
   }
 
-  .input-shadow {
+  .slight-shadow {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 

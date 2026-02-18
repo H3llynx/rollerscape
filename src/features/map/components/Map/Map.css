@@ -1,15 +1,26 @@
-@reference "../../../styles/index.css";
+@reference "../../../../styles/index.css";
+
+@keyframes scale {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
 
 .leaflet-bottom,
 .leaflet-right {
-    @apply z-9992
+    @apply z-9992;
 }
 
-.leaflet-control-layers, .leaflet-bar a {
-    @apply bg-bg-main text-text font-medium;
+.leaflet-control-layers,
+.leaflet-bar a {
+    @apply bg-bg-main text-text;
 
     & label {
-        @apply font-main;
+        @apply font-main text-sm;
     }
 }
 
@@ -33,10 +44,6 @@
     }
 }
 
-.track-me-icon {
-    @apply drop-shadow-lg drop-shadow-dark w-3 h-3 text-dark-3;
-}
-
 .track-me-btn {
     &::after {
         content: "Track my location";
@@ -54,6 +61,37 @@
 
     &:hover::after {
         transform: scale(1);
+    }
+
+    .track-icon {
+        @apply drop-shadow-lg drop-shadow-dark w-3 h-3 text-dark-3;
+    }
+}
+
+.map-label {
+    @apply flex p-0.5 gap-0.5 font-medium text-sm;
+}
+
+.expand-filters-cta {
+    @apply flex p-0 mt-0.5 justify-center items-center bg-white w-3 h-3 rounded-full drop-shadow-lg drop-shadow-dark md:hidden;
+
+    .expand-filters-icon {
+        @apply w-2 h-2 text-dark-3
+    }
+}
+
+#spot-type-filters {
+    @apply hidden md:block bg-bg-main rounded-md py-0.5 pl-0.5 pr-1 border-2 border-rgba-dark-2;
+}
+
+.map-container {
+    @apply w-full h-full;
+
+    &:has(#expand-filters:checked) {
+        #spot-type-filters {
+            @apply block;
+            animation: scale 0.5s forwards;
+        }
     }
 }
 

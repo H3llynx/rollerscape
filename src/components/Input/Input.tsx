@@ -24,7 +24,7 @@ export function Input({ variant = "text", label, type, id, placeholder, icons = 
             {label && <span>{label}</span>}
             <div className="input-container">
                 <input
-                    className="input-shadow bg-blur"
+                    className="slight-shadow bg-blur"
                     id={id}
                     type={type}
                     placeholder={placeholder}

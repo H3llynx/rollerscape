@@ -6,7 +6,7 @@ import { databases } from "../../../../config";
 import { updateData } from "../../../../services/data";
 import type { UserProfile } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { riderPreferencesErrors, SKATING_STYLES, SKILLS, SPOT_TYPES, type SkatingStyle, type SpotType } from "../../config/user_info";
+import { riderPreferencesErrors, SKATING_STYLES, SKILLS, SPOT_PREFERENCES, type SkatingStyle, type SpotPreferences } from "../../config/user_info";
 import { useProfile } from "../../hooks/useProfile";
 import "./RiderPreferences.css";
 
@@ -30,7 +30,7 @@ export function RiderPreferences() {
         }
     };
 
-    const handleSpotsChange = async (value: SpotType) => {
+    const handleSpotsChange = async (value: SpotPreferences) => {
         const current = profile.preferred_spot_types || [];
         const updated = current.includes(value)
             ? current.filter(type => type !== value)
@@ -82,7 +82,7 @@ export function RiderPreferences() {
                     </legend>
                     <span>(Select all that apply)</span>
                 </div>
-                {SPOT_TYPES.map((spot) => (
+                {SPOT_PREFERENCES.map((spot) => (
                     <Input key={spot.value}
                         variant="checkbox"
                         type="checkbox"

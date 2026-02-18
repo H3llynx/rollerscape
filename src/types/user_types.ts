@@ -1,4 +1,4 @@
-import type { SkatingStyle, SkillLevel, SpotType } from "../features/profile/config/user_info";
+import type { SkatingStyle, SkillLevel, SpotPreferences } from "../features/profile/config/user_info";
 
 export type UserProfile = {
   id: string;
@@ -11,7 +11,7 @@ export type UserProfile = {
   home_lon: number | null
   skill_level?: SkillLevel;
   skating_style?: SkatingStyle[];
-  preferred_spot_types?: SpotType[];
+  preferred_spot_types?: SpotPreferences[];
 }
 
 export type Credentials = {
