@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { databases } from "../../../config";
-import { fetchData } from "../../../services/data";
-import type { Spot } from "../../../types/spots_types";
+import type { SpotWithTypes } from "../../../types/spots_types";
+import { fetchSpots } from "../services/spots";
 
 export function useSpots() {
     const [loading, setLoading] = useState<boolean>(true);
-    const [spots, setSpots] = useState<Spot[] | null>(null);
+    const [spots, setSpots] = useState<SpotWithTypes[] | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const loadSpots = async () => {
-            const { data, error } = await fetchData(databases.spots);
+            const { data, error } = await fetchSpots();
             if (error) setError(error.message);
             setSpots(data);
             setLoading(false);

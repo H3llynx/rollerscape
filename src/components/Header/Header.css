@@ -1,6 +1,7 @@
 @reference "../../styles/index.css";
 
 header {
+    pointer-events: none;
 
     &::after,
     &::before {

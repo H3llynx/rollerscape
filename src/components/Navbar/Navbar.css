@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .navbar {
-    @apply flex items-center font-title relative;
+    @apply flex items-center font-title relative pointer-events-auto;
 
     .active {
         @apply cursor-default;

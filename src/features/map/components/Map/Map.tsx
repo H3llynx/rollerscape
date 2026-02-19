@@ -6,12 +6,13 @@ import { Button } from "../../../../components/Button/Button";
 import { Loading } from "../../../../components/Loading/Loading";
 import { getBrowserPosition } from "../../../../services/geolocation";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
-import type { SpotType } from "../../../../types/spots_types";
-import { handleAria } from "../../../../utils/helpers";
+import type { JsonCoordinates, Spot, SpotType } from '../../../../types/spots_types';
+import { capitalize, handleAria } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { layers } from "../../config/leaflet";
 import { useSpots } from "../../hooks/useSpots";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
+import { LocationLayer } from "../LocationDisplay/LocationDisplay";
 import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
 import { UserMarker } from "../UserMarker/UserMarker";
@@ -33,18 +34,23 @@ export function Map({ zoom }: { zoom: number }) {
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const expandFiltersRef = useRef<HTMLInputElement>(null)
     const { spots, loading } = useSpots();
+    const [selectedSpot, setSelectedSpot] = useState<JsonCoordinates | null>(null)
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
-        return [...new Set(spots.flatMap(spot => spot.spot_types))];
-    }, [spots])
+        return [...new Set(spots.flatMap(spot => spot.spot_spot_types
+            .filter(s => s.spot_types)
+            .map(s => s.spot_types.name as SpotType)
+        )
+        )];
+    }, [spots]);
 
     const trackUser = async () => {
         const { data } = await getBrowserPosition();
         if (data) {
             setCenter([data.lat, data.lon]);
         }
-    }
+    };
 
     useEffect(() => {
         if (loadingProfile) return;
@@ -64,7 +70,11 @@ export function Map({ zoom }: { zoom: number }) {
         setCheckedTypes(types => types.includes(filter)
             ? types.filter(type => type !== filter)
             : [...types, filter])
-    }
+    };
+
+    const handleViewItinerary = (spot: Spot) => {
+        setSelectedSpot(spot.coordinates)
+    };
 
     return (
         <div className="map-container">
@@ -97,7 +107,7 @@ export function Map({ zoom }: { zoom: number }) {
                                                 checked={checkedTypes.includes(type)}
                                                 onChange={() => handleTypeChange(type)}
                                             />
-                                            {type}
+                                            {capitalize(type)}
                                         </label>
                                     ))}
                                 </div>
@@ -128,11 +138,16 @@ export function Map({ zoom }: { zoom: number }) {
                         <LayerGroup>
                             {spots
                                 .filter(spot =>
-                                    spot.spot_types.some(type => checkedTypes.includes(type))
+                                    spot.spot_spot_types.some(s =>
+                                        s.spot_types && checkedTypes.includes(s.spot_types.name)
+                                    )
                                 )
                                 .map(spot => (
                                     <SpotMarker
-                                        key={spot.id} spot={spot}
+                                        key={spot.id}
+                                        spot={spot}
+                                        onButtonClick={handleViewItinerary}
+                                        onMarkerClick={() => setSelectedSpot(null)}
                                     />
                                 ))}
                         </LayerGroup>
@@ -140,6 +155,7 @@ export function Map({ zoom }: { zoom: number }) {
                     {profile && <UserMarker profile={profile} center={center} />}
                     {!profile && <GuestMarker center={center} />}
                     <ReCenterMap lat={center[0]} lon={center[1]} />
+                    {selectedSpot && <LocationLayer data={selectedSpot} />}
                 </MapContainer>
             }
         </div>

@@ -5,3 +5,7 @@ export const handleAria = (checkboxRef: RefObject<HTMLInputElement | null>) => {
         checkboxRef.current.setAttribute("aria-expanded", checkboxRef.current.checked ? "true" : "false");
     }
 }
+
+export const capitalize = (label: string) => {
+    return (label).charAt(0).toUpperCase() + (label).slice(1);
+};

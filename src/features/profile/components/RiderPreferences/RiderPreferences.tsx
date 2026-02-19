@@ -4,9 +4,11 @@ import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { databases } from "../../../../config";
 import { updateData } from "../../../../services/data";
+import type { SpotType } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { riderPreferencesErrors, SKATING_STYLES, SKILLS, SPOT_PREFERENCES, type SkatingStyle, type SpotPreferences } from "../../config/user_info";
+import { SPOT_TYPES } from "../../../map/config/spots";
+import { riderPreferencesErrors, SKATING_STYLES, SKILLS, type SkatingStyle } from "../../config/user_info";
 import { useProfile } from "../../hooks/useProfile";
 import "./RiderPreferences.css";
 
@@ -30,7 +32,7 @@ export function RiderPreferences() {
         }
     };
 
-    const handleSpotsChange = async (value: SpotPreferences) => {
+    const handleSpotsChange = async (value: SpotType) => {
         const current = profile.preferred_spot_types || [];
         const updated = current.includes(value)
             ? current.filter(type => type !== value)
@@ -82,7 +84,7 @@ export function RiderPreferences() {
                     </legend>
                     <span>(Select all that apply)</span>
                 </div>
-                {SPOT_PREFERENCES.map((spot) => (
+                {SPOT_TYPES.map((spot) => (
                     <Input key={spot.value}
                         variant="checkbox"
                         type="checkbox"
