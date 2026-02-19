@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Header } from "../../components/Header/Header";
-import { Loading } from "../../components/Loading/Loading";
 import { RiderPreferences } from "../../features/profile/components/RiderPreferences/RiderPreferences";
 import { useProfile } from "../../features/profile/hooks/useProfile";
 import "./ProfilePage.css";
@@ -23,11 +22,6 @@ export function ProfilePage() {
         <>
             <Header />
             <main>
-                {(loading || !profile || !profile.home_location_name) &&
-                    <div className="w-screen h-dvh flex items-center">
-                        <Loading />
-                    </div>
-                }
                 {profile && profile.home_location_name &&
                     <section className="grid w-full md:grid-cols-2">
                         <article className="rider-preferences">

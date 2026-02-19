@@ -27,3 +27,5 @@ export type NominatimResult = {
         postcode: string;
     };
 };
+
+export type MapCoordinates = [number, number]; // order: [lat, lon]

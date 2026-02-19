@@ -1,25 +1,17 @@
-import type { LatLngExpression } from "leaflet";
 import L from "leaflet";
-import { useEffect } from "react";
-import { Marker, useMap } from "react-leaflet";
+import { Marker } from "react-leaflet";
+import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { showAvatar } from "../../../profile/utils";
+import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
 
 type UserMarker = {
     profile: UserProfile;
-    center: LatLngExpression
-}
-
-const ReCenterMap = ({ lat, lon }: { lat: number; lon: number }) => {
-    const map = useMap();
-    useEffect(() => {
-        map.setView([lat, lon], map.getZoom());
-    }, [lat, lon, map]);
-
-    return null;
+    center: MapCoordinates;
 }
 
 export function UserMarker({ profile, center }: UserMarker) {
+
     const homeIcon = L.icon({
         iconUrl: showAvatar(profile) as string,
         iconSize: [50, 50],

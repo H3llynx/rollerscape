@@ -1,15 +1,18 @@
-import type { LatLngExpression } from "leaflet";
 import { LocateFixed, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { LayerGroup, LayersControl, MapContainer, TileLayer, ZoomControl, useMapEvents } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { Button } from "../../../../components/Button/Button";
+import { Loading } from "../../../../components/Loading/Loading";
 import { getBrowserPosition } from "../../../../services/geolocation";
+import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotType } from "../../../../types/spots_types";
 import { handleAria } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { layers } from "../../config/leaflet";
 import { useSpots } from "../../hooks/useSpots";
+import { GuestMarker } from "../GuestMarker/GuestMarker";
+import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
 import { UserMarker } from "../UserMarker/UserMarker";
 import "./Map.css";
@@ -25,30 +28,33 @@ const CoordinatePicker = () => {
 };
 
 export function Map({ zoom }: { zoom: number }) {
-    const { profile } = useAuth();
-    const { loading, spots } = useSpots();
-    const [center, setCenter] = useState<LatLngExpression | null>(null);
+    const { profile, loading: loadingProfile } = useAuth();
+    const [center, setCenter] = useState<MapCoordinates | null>(null);
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const expandFiltersRef = useRef<HTMLInputElement>(null)
+    const { spots, loading } = useSpots();
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
         return [...new Set(spots.flatMap(spot => spot.spot_types))];
     }, [spots])
 
+    const trackUser = async () => {
+        const { data } = await getBrowserPosition();
+        if (data) {
+            setCenter([data.lat, data.lon]);
+        }
+    }
+
     useEffect(() => {
+        if (loadingProfile) return;
         const loadCenter = async () => {
             if (profile && (profile.home_lat && profile.home_lon))
                 setCenter([profile.home_lat, profile.home_lon])
-            else {
-                const { data } = await getBrowserPosition();
-                if (data) {
-                    setCenter([data.lat, data.lon]);
-                }
-            }
+            else await trackUser();
         }
         loadCenter();
-    }, [profile]);
+    }, [loadingProfile]);
 
     useEffect(() => {
         if (spotTypes.length) setCheckedTypes(spotTypes);
@@ -60,10 +66,10 @@ export function Map({ zoom }: { zoom: number }) {
             : [...types, filter])
     }
 
-
     return (
         <div className="map-container">
-            {center &&
+            {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
+            {!loading && center &&
                 <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}
                     style={{ height: '100%', width: '100%' }}
                     zoomControl={false}>
@@ -81,34 +87,40 @@ export function Map({ zoom }: { zoom: number }) {
                         })}
                     </LayersControl>
                     <Control position="bottomleft">
-                        <div className="bg-blur" id="spot-type-filters">
-                            {spotTypes.map(type => (
-                                <label className="map-label" key={type}>
-                                    <input
+                        <div className="flex gap-0.5 mx-0.5 relative md:items-end">
+                            <div>
+                                <div className="bg-blur" id="spot-type-filters">
+                                    {spotTypes.map(type => (
+                                        <label className="map-label" key={type}>
+                                            <input
+                                                type="checkbox"
+                                                checked={checkedTypes.includes(type)}
+                                                onChange={() => handleTypeChange(type)}
+                                            />
+                                            {type}
+                                        </label>
+                                    ))}
+                                </div>
+                                <label className="expand-filters-cta" aria-label="Expand filters" htmlFor="expand-filters">
+                                    <SlidersHorizontal aria-hidden className="expand-filters-icon" />
+                                    <input className="sr-only"
                                         type="checkbox"
-                                        checked={checkedTypes.includes(type)}
-                                        onChange={() => handleTypeChange(type)}
+                                        id="expand-filters"
+                                        aria-expanded="false"
+                                        aria-controls="spot-type-filters"
+                                        ref={expandFiltersRef}
+                                        onChange={() => handleAria(expandFiltersRef)}
                                     />
-                                    {type}
                                 </label>
-                            ))}
+                            </div>
+                            <Button
+                                style="icon"
+                                className="track-me-btn"
+                                aria-label="Track my current location"
+                                onClick={trackUser}>
+                                <LocateFixed aria-hidden fill="white" className="track-icon" />
+                            </Button>
                         </div>
-                        <label className="expand-filters-cta" aria-label="Expand filters" htmlFor="expand-filters">
-                            <SlidersHorizontal aria-hidden className="expand-filters-icon" />
-                            <input className="sr-only"
-                                type="checkbox"
-                                id="expand-filters"
-                                aria-expanded="false"
-                                aria-controls="spot-type-filters"
-                                ref={expandFiltersRef}
-                                onChange={() => handleAria(expandFiltersRef)}
-                            />
-                        </label>
-                    </Control>
-                    <Control position="bottomleft">
-                        <Button style="icon" className="track-me-btn" aria-label="Track my current location">
-                            <LocateFixed aria-hidden fill="white" className="track-icon" />
-                        </Button>
                     </Control>
                     <ZoomControl position="bottomright" />
                     <CoordinatePicker />
@@ -126,6 +138,8 @@ export function Map({ zoom }: { zoom: number }) {
                         </LayerGroup>
                     }
                     {profile && <UserMarker profile={profile} center={center} />}
+                    {!profile && <GuestMarker center={center} />}
+                    <ReCenterMap lat={center[0]} lon={center[1]} />
                 </MapContainer>
             }
         </div>

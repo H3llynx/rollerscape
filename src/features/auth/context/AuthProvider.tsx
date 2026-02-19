@@ -28,6 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return () => subscription.unsubscribe();
     }, []);
 
+
     return (
         <AuthContext value={{ user, profile, setProfile, loading }}>
             {children}
