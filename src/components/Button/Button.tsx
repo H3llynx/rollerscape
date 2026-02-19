@@ -14,7 +14,8 @@ const buttonVariants = tv({
             primary: "bg-bg-cta text-text-cta font-bold active:bg-bg-cta-active px-1.5 button-shadow",
             secondary: "border active:bg-bg-rgba font-medium px-1.5 button-shadow bg-bg-cta-secondary text-text-secondary border-text-secondary",
             tertiary: "px-[5px] text-text-secondary font-bold hover:text-turquoise",
-            icon: "px-[5px] text-text hover:text-yellow"
+            icon: "px-[5px] text-text hover:text-text-secondary",
+            readMore: "p-0 border-0 text-xs font-medium text-grey hover:text-text-secondary"
         }
     }
 });

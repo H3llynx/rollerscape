@@ -6,8 +6,8 @@ export type Spot = {
     country: string;
     created_by: string | null;
     description: string | null;
-    display_lat: number | null;
-    display_lon: number | null;
+    display_lat: number;
+    display_lon: number;
     has_obstacles: boolean | null;
     id: string;
     length_km: number | null;

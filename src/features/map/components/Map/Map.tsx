@@ -6,14 +6,15 @@ import { Button } from "../../../../components/Button/Button";
 import { Loading } from "../../../../components/Loading/Loading";
 import { getBrowserPosition } from "../../../../services/geolocation";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
-import type { JsonCoordinates, Spot, SpotType } from '../../../../types/spots_types';
-import { capitalize, handleAria } from "../../../../utils/helpers";
+import type { SpotType, SpotWithTypes } from '../../../../types/spots_types';
+import { handleAria } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { layers } from "../../config/leaflet";
+import { SPOT_TYPES } from "../../config/spots";
 import { useSpots } from "../../hooks/useSpots";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
-import { LocationLayer } from "../LocationDisplay/LocationDisplay";
 import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
+import { RouteDisplay } from "../RouteDisplay/RouteDisplay";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
 import { UserMarker } from "../UserMarker/UserMarker";
 import "./Map.css";
@@ -28,13 +29,20 @@ const CoordinatePicker = () => {
     return null;
 };
 
+const MapEvents = ({ onPopupClose }: { onPopupClose: () => void }) => {
+    useMapEvents({
+        popupclose: onPopupClose
+    });
+    return null;
+};
+
 export function Map({ zoom }: { zoom: number }) {
     const { profile, loading: loadingProfile } = useAuth();
     const [center, setCenter] = useState<MapCoordinates | null>(null);
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const expandFiltersRef = useRef<HTMLInputElement>(null)
     const { spots, loading } = useSpots();
-    const [selectedSpot, setSelectedSpot] = useState<JsonCoordinates | null>(null)
+    const [selectedSpot, setSelectedSpot] = useState<SpotWithTypes | null>(null)
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
@@ -72,10 +80,6 @@ export function Map({ zoom }: { zoom: number }) {
             : [...types, filter])
     };
 
-    const handleViewItinerary = (spot: Spot) => {
-        setSelectedSpot(spot.coordinates)
-    };
-
     return (
         <div className="map-container">
             {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
@@ -107,7 +111,7 @@ export function Map({ zoom }: { zoom: number }) {
                                                 checked={checkedTypes.includes(type)}
                                                 onChange={() => handleTypeChange(type)}
                                             />
-                                            {capitalize(type)}
+                                            {SPOT_TYPES.filter(spot => spot.value === type).map(spot => spot.label)}
                                         </label>
                                     ))}
                                 </div>
@@ -146,8 +150,8 @@ export function Map({ zoom }: { zoom: number }) {
                                     <SpotMarker
                                         key={spot.id}
                                         spot={spot}
-                                        onButtonClick={handleViewItinerary}
-                                        onMarkerClick={() => setSelectedSpot(null)}
+                                        onMarkerClick={() => setSelectedSpot(spot)}
+                                        dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
                                     />
                                 ))}
                         </LayerGroup>
@@ -155,7 +159,8 @@ export function Map({ zoom }: { zoom: number }) {
                     {profile && <UserMarker profile={profile} center={center} />}
                     {!profile && <GuestMarker center={center} />}
                     <ReCenterMap lat={center[0]} lon={center[1]} />
-                    {selectedSpot && <LocationLayer data={selectedSpot} />}
+                    {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} />}
+                    <MapEvents onPopupClose={() => setSelectedSpot(null)} />
                 </MapContainer>
             }
         </div>

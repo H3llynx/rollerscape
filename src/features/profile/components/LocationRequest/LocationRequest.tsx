@@ -9,6 +9,7 @@ import { getBrowserPosition, reverseGeocode, searchLocations } from "../../../..
 import type { Location } from "../../../../types/geolocation_types";
 import { COUNTRIES, geolocationErrors } from "../../config/geolocation";
 import { useLocate } from "../../hooks/useLocate";
+import "./LocationRequest.css";
 
 type LocationRequest = {
     onSuccess?: () => void;

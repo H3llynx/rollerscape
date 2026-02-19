@@ -1,7 +1,7 @@
  @reference "../../../styles/index.css";
 
  .theme-switcher {
-     @apply relative flex items-center gap-0.5;
+     @apply relative flex items-center gap-0.5 cursor-pointer;
 
      &:hover {
          transform: scale(1.05);

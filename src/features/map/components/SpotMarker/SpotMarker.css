@@ -1,0 +1,41 @@
+@reference "../../../../styles/index.css";
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    @apply bg-bg-rgba text-text;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+
+    p {
+        @apply my-0
+    }
+}
+
+.leaflet-popup-content-wrapper {
+    @apply w-[70vw] max-w-2xs flex font-main;
+}
+
+.spot-marker {
+    h3 {
+        @apply font-bold text-sm;
+    }
+
+    .flex-container {
+        @apply flex gap-[5px] items-center mb-0.5;
+    }
+
+    .address {
+        @apply text-grey text-xs;
+    }
+
+    .surface {
+        @apply gap-2;
+    }
+
+    .clamped {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+}

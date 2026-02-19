@@ -44,6 +44,14 @@
     }
 }
 
+.leaflet-overlay-pane svg {
+    transition: transform 0.01s ease-out, opacity 0.2s ease-out;
+}
+
+.leaflet-dragging .leaflet-overlay-pane svg {
+    opacity: 0.2;
+}
+
 .map-container {
     @apply w-full h-full;
 
@@ -92,7 +100,7 @@
 }
 
 #spot-type-filters {
-    @apply hidden md:block bg-bg-main rounded-md py-0.5 pl-0.5 pr-1 border-2 border-rgba-dark-2;
+    @apply hidden md:block bg-bg-main rounded-md py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
 }
 
 @media (width >=48rem) {
