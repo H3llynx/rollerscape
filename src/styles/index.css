@@ -197,7 +197,7 @@
   }
 
   .grid-left-article {
-    @apply flex flex-col p-2 lg:px-4 gap-1 my-auto relative w-full h-fit md:max-h-[75dvh] overflow-y-scroll xl:items-center;
+    @apply flex flex-col p-2 lg:px-4 gap-1 my-auto relative w-full h-fit md:max-h-[75dvh] overflow-y-scroll 2xl:items-center;
   }
 
   .image-container {

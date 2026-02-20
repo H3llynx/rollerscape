@@ -12,7 +12,11 @@
 }
 
 .leaflet-popup-content-wrapper {
-    @apply w-[70vw] max-w-2xs flex font-main relative;
+    @apply w-[70vw] max-w-2xs flex font-main;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    @apply text-text;
 }
 
 .leaflet-popup-content {

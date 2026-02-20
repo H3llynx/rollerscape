@@ -18,11 +18,7 @@ export const Router = createHashRouter([
             },
             {
                 path: "/spot/:slug",
-                element: (
-                    <ProtectedRoute>
-                        <SpotPage />
-                    </ProtectedRoute>
-                )
+                element: <SpotPage />
             },
             {
                 path: "auth",

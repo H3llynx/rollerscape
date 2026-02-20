@@ -1,5 +1,6 @@
+import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { NavLink, useLocation, useParams } from "react-router";
 import { Header } from "../../components/Header/Header";
 import type { SpotWithTypes } from "../../types/spots_types";
 import { fetchBySlug } from "../map/services/spots";
@@ -27,7 +28,11 @@ export function SpotPage() {
             {spot &&
                 <main>
                     <section className="grid w-full md:grid-cols-2 gap-3 md:gap-0 h-full">
-                        <SpotDescription spot={spot} />
+                        <article className="grid-left-article text-base mt-0 scroll">
+                            <NavLink to="/" className="flex items-center gap-[5px] font-medium text-grey text-sm hover:text-text-secondary">
+                                <ArrowLeft aria-hidden width={15} /> Back to map</NavLink>
+                            <SpotDescription spot={spot} />
+                        </article>
                         <SingleSpotMap spot={spot} />
                     </section>
                 </main>

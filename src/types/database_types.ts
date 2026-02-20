@@ -131,7 +131,6 @@ export type Database = {
                 has_obstacles: boolean | null
                 id: string
                 length_km: number | null
-                location: unknown
                 location_type: string | null
                 name: string
                 photos: string[] | null
