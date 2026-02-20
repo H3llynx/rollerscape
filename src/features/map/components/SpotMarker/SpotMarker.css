@@ -7,12 +7,24 @@
     -webkit-backdrop-filter: blur(3px);
 
     p {
-        @apply my-0
+        @apply mt-[5px] mb-0;
     }
 }
 
 .leaflet-popup-content-wrapper {
-    @apply w-[70vw] max-w-2xs flex font-main;
+    @apply w-[70vw] max-w-2xs flex font-main relative;
+}
+
+.leaflet-popup-content {
+    @apply my-[13px] ml-[13px] mr-[5px];
+
+    .button-container {
+        @apply flex flex-wrap gap-[5px] items-end md:flex-col md:justify-end;
+
+        button {
+            @apply w-2 h-2 p-[6px] bg-bg-secondary rounded-lg text-text border-grey relative;
+        }
+    }
 }
 
 .spot-marker {
@@ -21,11 +33,11 @@
     }
 
     .flex-container {
-        @apply flex gap-[5px] items-center mb-0.5;
+        @apply flex gap-[5px] items-center text-[0.8rem] mt-[5px];
     }
 
     .address {
-        @apply text-grey text-xs;
+        @apply text-grey;
     }
 
     .surface {
@@ -35,7 +47,7 @@
     .clamped {
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 3;
         overflow: hidden;
     }
 }

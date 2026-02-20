@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { CheckLine, Eye, MapPin } from "lucide-react";
+import { CheckLine, Eye, MapPin, Navigation, Share } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Marker, Popup } from 'react-leaflet';
 import Roller from "../../../../assets/marker.png";
@@ -60,39 +60,49 @@ export function SpotMarker({ spot, dimmed, onMarkerClick }: SpotMarker) {
             }}
         >
             <Popup className="spot-marker">
-                <div className="flex-container">
-                    <h3>{spot.name}</h3>
-                    <Button style="icon" aria-label="view spot information" className="text-grey">
-                        <Eye aria-hidden />
-                    </Button>
-                </div>
-                <div className="flex-container address">
-                    <MapPin aria-hidden width={15} /><span>{spot.address}</span>
-                </div>
-                <div className="flex-container surface">
-                    <p>Surface quality: {spot.surface_quality}</p>
-                    {spot.has_obstacles && <span className="flex items-center gap-[5px] text-text-secondary font-medium">
-                        <CheckLine width={15} /> Obstacles</span>}
-                </div>
-                {spot.description &&
-                    <>
-                        <p
-                            ref={descriptionRef}
-                            className={`text-xs my-0 ${visible ? "my-0" : "clamped"}`}
-                        > {spot.description}
-                        </p>
-                        {clamped &&
-                            <Button style="readMore" onClick={() => setVisible(!visible)}>
-                                Read more
-                            </Button>
+                <h3>{spot.name}</h3>
+                <div className="flex gap-0.5 flex-wrap md:flex-nowrap">
+                    <div>
+                        <div className="flex-container address">
+                            <MapPin aria-hidden width={15} /><span>{spot.address}</span>
+                        </div>
+                        <div className="flex-container surface">
+                            <span className="font-medium">Surface quality: {spot.surface_quality}</span>
+                            {spot.has_obstacles && <span className="flex items-center gap-[5px] text-text-secondary font-medium">
+                                <CheckLine width={15} /> Obstacles</span>}
+                        </div>
+                        {spot.description &&
+                            <>
+                                <p
+                                    ref={descriptionRef}
+                                    className={`text-[0.8rem] my-0 ${visible ? "my-0" : "clamped"}`}
+                                > {spot.description}
+                                </p>
+                                {clamped &&
+                                    <Button style="readMore" onClick={() => setVisible(!visible)}>
+                                        Read more
+                                    </Button>
+                                }
+                            </>
                         }
-                    </>
-                }
-                {spot.photos && spot.photos.slice(0, 3).map((photo, i) => (
-                    <div key={i} className="image-container">
-                        <img src={photo} alt="" />
+                        {spot.photos && spot.photos.slice(0, 3).map((photo, i) => (
+                            <div key={i} className="image-container">
+                                <img src={photo} alt="" />
+                            </div>
+                        ))}
                     </div>
-                ))}
+                    <div className="button-container">
+                        <Button style="icon" aria-label="view spot information">
+                            <Eye aria-hidden />
+                        </Button>
+                        <Button style="icon" aria-label="share spot">
+                            <Share aria-hidden />
+                        </Button>
+                        <Button style="icon" aria-label="Send to GPS app">
+                            <Navigation aria-hidden />
+                        </Button>
+                    </div>
+                </div>
             </Popup>
         </Marker >
     )
