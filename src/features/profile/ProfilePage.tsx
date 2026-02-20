@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import Riders from "../../assets/riders.png";
 import { Header } from "../../components/Header/Header";
 import { RiderPreferences } from "../../features/profile/components/RiderPreferences/RiderPreferences";
 import { useProfile } from "../../features/profile/hooks/useProfile";
 import "./ProfilePage.css";
 import { Greetings } from "./components/Greetings/Greetings";
-import { ProfileMap } from "./components/ProfileMap/ProfileMap";
 
 export function ProfilePage() {
     const { profile, loading } = useProfile();
@@ -23,12 +23,14 @@ export function ProfilePage() {
             <Header />
             <main>
                 {profile && profile.home_location_name &&
-                    <section className="grid w-full md:grid-cols-2">
+                    <section className="grid w-full md:grid-cols-2 h-full">
                         <article className="rider-preferences">
                             <Greetings profile={profile} />
                             <RiderPreferences />
                         </article>
-                        <ProfileMap />
+                        <div className="hidden lg:block mt-auto w-full pointer-events-none drop-shadow-dark drop-shadow-xs">
+                            <img src={Riders} alt="" className="w-full" />
+                        </div>
                     </section>
                 }
             </main>
