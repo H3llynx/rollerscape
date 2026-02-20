@@ -4,7 +4,6 @@ import Riders from "../../assets/riders.png";
 import { Header } from "../../components/Header/Header";
 import { RiderPreferences } from "../../features/profile/components/RiderPreferences/RiderPreferences";
 import { useProfile } from "../../features/profile/hooks/useProfile";
-import "./ProfilePage.css";
 import { Greetings } from "./components/Greetings/Greetings";
 
 export function ProfilePage() {
@@ -14,9 +13,7 @@ export function ProfilePage() {
 
     useEffect(() => {
         if (!loading && profile && !profile.home_location_name) navigate("/onboarding")
-    }, [loading, profile, navigate])
-
-
+    }, [loading, profile, navigate]);
 
     return (
         <>
@@ -24,7 +21,7 @@ export function ProfilePage() {
             <main>
                 {profile && profile.home_location_name &&
                     <section className="grid w-full md:grid-cols-2 h-full">
-                        <article className="rider-preferences">
+                        <article className="grid-left-article scroll">
                             <Greetings profile={profile} />
                             <RiderPreferences />
                         </article>

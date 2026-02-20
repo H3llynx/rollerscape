@@ -1,6 +1,7 @@
 
 export type Spot = {
     address: string | null;
+    average_rating: number | null;
     city: string;
     coordinates: JsonCoordinates;
     country: string;
@@ -15,6 +16,7 @@ export type Spot = {
     name: string;
     photos: string[] | null;
     surface_quality: number | null;
+    slug: string;
 };
 
 export type SpotWithTypes = Spot & {

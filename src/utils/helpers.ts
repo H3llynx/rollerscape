@@ -9,3 +9,10 @@ export const handleAria = (checkboxRef: RefObject<HTMLInputElement | null>) => {
 export const capitalize = (label: string) => {
     return (label).charAt(0).toUpperCase() + (label).slice(1);
 };
+
+export const createSlug = (name: string) => {
+    return name.normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "-")
+        .toLowerCase();
+}

@@ -120,6 +120,7 @@ export function Map({ zoom }: { zoom: number }) {
                             )
                         })}
                     </LayersControl>
+                    <ZoomControl position="bottomright" />
                     <Control position="bottomleft">
                         <div className="flex gap-0.5 mx-0.5 relative md:items-end">
                             <div>
@@ -156,7 +157,6 @@ export function Map({ zoom }: { zoom: number }) {
                             </Button>
                         </div>
                     </Control>
-                    <ZoomControl position="bottomright" />
                     <CoordinatePicker />
                     {!loading && spots &&
                         <LayerGroup>

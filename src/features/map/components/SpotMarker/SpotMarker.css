@@ -16,13 +16,18 @@
 }
 
 .leaflet-popup-content {
-    @apply my-[13px] ml-[13px] mr-[5px];
+    @apply md:mr-[5px];
 
     .button-container {
         @apply flex flex-wrap gap-[5px] items-end md:flex-col md:justify-end;
 
-        button {
-            @apply w-2 h-2 p-[6px] bg-bg-secondary rounded-lg text-text border-grey relative;
+        button,
+        a {
+            @apply w-2 h-2 p-[6px] bg-bg-secondary rounded-lg text-text hover:text-text-secondary border-grey relative;
+        }
+
+        a {
+            @apply flex items-center justify-center border hover:-translate-y-px;
         }
     }
 }
@@ -41,7 +46,7 @@
     }
 
     .surface {
-        @apply gap-2;
+        @apply gap-1 justify-between;
     }
 
     .clamped {

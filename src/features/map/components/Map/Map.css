@@ -12,7 +12,7 @@
 
 .leaflet-bottom,
 .leaflet-right {
-    @apply z-9992;
+    @apply z-401;
 }
 
 .leaflet-control-layers,

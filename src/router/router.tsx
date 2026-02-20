@@ -4,6 +4,7 @@ import { AuthPage } from "../features/auth/AuthPage";
 import { MapPage } from "../features/map/MapPage";
 import { OnboardingPage } from "../features/profile/OnboardingPage";
 import { ProfilePage } from "../features/profile/ProfilePage";
+import { SpotPage } from "../features/spot/SpotPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router = createHashRouter([
@@ -14,6 +15,14 @@ export const Router = createHashRouter([
             {
                 index: true,
                 element: <MapPage />
+            },
+            {
+                path: "/spot/:slug",
+                element: (
+                    <ProtectedRoute>
+                        <SpotPage />
+                    </ProtectedRoute>
+                )
             },
             {
                 path: "auth",

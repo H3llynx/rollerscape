@@ -2,6 +2,7 @@ import L from "leaflet";
 import { CheckLine, Eye, MapPin, Navigation, Share } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Marker, Popup } from 'react-leaflet';
+import { NavLink } from "react-router";
 import Roller from "../../../../assets/marker.png";
 import { Button } from "../../../../components/Button/Button";
 import type { SpotWithTypes } from "../../../../types/spots_types";
@@ -9,8 +10,8 @@ import "./SpotMarker.css";
 
 type SpotMarker = {
     spot: SpotWithTypes;
-    onMarkerClick: () => void;
-    dimmed: boolean;
+    onMarkerClick?: () => void;
+    dimmed?: boolean;
 }
 
 const spotIcon = L.icon({
@@ -68,9 +69,9 @@ export function SpotMarker({ spot, dimmed, onMarkerClick }: SpotMarker) {
 
             if (middle) url += `&waypoints=${middle}`;
 
-            window.open(url, '_blank');
+            window.open(url, "_blank");
         };
-    }
+    };
 
     const handleShare = async () => {
         const url = `https://www.google.com/maps?q=${spot.display_lat},${spot.display_lon}`;
@@ -86,7 +87,7 @@ export function SpotMarker({ spot, dimmed, onMarkerClick }: SpotMarker) {
                 alert("copied to clipboard");
             }
         }
-    }
+    };
 
     return (
         <Marker
@@ -129,16 +130,25 @@ export function SpotMarker({ spot, dimmed, onMarkerClick }: SpotMarker) {
                                 }
                             </>
                         }
-                        {spot.photos && spot.photos.slice(0, 3).map((photo, i) => (
-                            <div key={i} className="image-container">
-                                <img src={photo} alt="" />
+
+                        {spot.photos &&
+                            <div className="flex-container py-0.5 pr-0.5">
+                                {spot.photos.slice(0, 3).map((photo, i) => (
+                                    <div key={i} className="image-container">
+                                        <img src={photo} alt="" />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        }
                     </div>
                     <div className="button-container">
-                        <Button style="icon" aria-label="view spot information">
+                        <NavLink
+                            to={`/spot/${spot.slug}`}
+                            state={{ spot }}
+                            aria-label="view spot information"
+                        >
                             <Eye aria-hidden />
-                        </Button>
+                        </NavLink>
                         <Button style="icon" aria-label="share spot" onClick={handleShare}>
                             <Share aria-hidden />
                         </Button>
