@@ -27,13 +27,7 @@ export type SpotWithTypes = Spot & {
 }
 
 export type JsonCoordinates =
-    | {
-        type: "point";
-        coordinates: { lat: number; lon: number };
-    }
-    | {
-        type: "route";
-        coordinates: { lat: number; lon: number }[];
-    };
+    { lat: number; lon: number }[];
+
 
 export type SpotType = "skatepark" | "bowl" | "bike path" | "greenway" | "smooth flat" | "street";

@@ -16,10 +16,10 @@ const startEndIcon = L.divIcon({
 
 export function RouteDisplay({ data }: { data: JsonCoordinates }) {
 
-    if (!data || data.type === "point") return null;
+    if (!data || data.length < 2) return null;
 
-    const coords: MapCoordinates[] = data.coordinates.map(
-        c => [c.lat, c.lon] as MapCoordinates
+    const coords: MapCoordinates[] = data.map(
+        coord => [coord.lat, coord.lon] as MapCoordinates
     );
 
     return <>

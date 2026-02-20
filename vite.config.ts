@@ -10,5 +10,9 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node'
+  },
+  server: {
+    host: true,
+    allowedHosts: ["1592-2a0c-5a85-510f-b000-2036-d765-cffc-5ccd.ngrok-free.app"]
   }
 })

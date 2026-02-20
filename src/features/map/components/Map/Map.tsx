@@ -3,12 +3,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { LayerGroup, LayersControl, MapContainer, TileLayer, ZoomControl, useMapEvents } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { Button } from "../../../../components/Button/Button";
+import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Loading } from "../../../../components/Loading/Loading";
 import { getBrowserPosition } from "../../../../services/geolocation";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotType, SpotWithTypes } from '../../../../types/spots_types';
 import { handleAria } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
+import { geolocationErrors } from "../../config/geolocation";
 import { layers } from "../../config/leaflet";
 import { SPOT_TYPES } from "../../config/spots";
 import { useSpots } from "../../hooks/useSpots";
@@ -42,7 +44,9 @@ export function Map({ zoom }: { zoom: number }) {
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const expandFiltersRef = useRef<HTMLInputElement>(null)
     const { spots, loading } = useSpots();
-    const [selectedSpot, setSelectedSpot] = useState<SpotWithTypes | null>(null)
+    const [selectedSpot, setSelectedSpot] = useState<SpotWithTypes | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
@@ -54,11 +58,22 @@ export function Map({ zoom }: { zoom: number }) {
     }, [spots]);
 
     const trackUser = async () => {
-        const { data } = await getBrowserPosition();
+        const { data, error } = await getBrowserPosition();
+        if (error) {
+            if ("code" in error)
+                setError(geolocationErrors[error.code as keyof typeof geolocationErrors] || geolocationErrors[2]);
+            else setError(geolocationErrors[2])
+        };
         if (data) {
             setCenter([data.lat, data.lon]);
         }
     };
+
+    useEffect(() => {
+        if (error) {
+            dialogRef.current?.showModal();
+        }
+    }, [error]);
 
     useEffect(() => {
         if (loadingProfile) return;
@@ -73,6 +88,11 @@ export function Map({ zoom }: { zoom: number }) {
     useEffect(() => {
         if (spotTypes.length) setCheckedTypes(spotTypes);
     }, [spotTypes]);
+
+    const handleClose = () => {
+        dialogRef.current?.close();
+        setError(null);
+    };
 
     const handleTypeChange = (filter: SpotType) => {
         setCheckedTypes(types => types.includes(filter)
@@ -163,6 +183,9 @@ export function Map({ zoom }: { zoom: number }) {
                     <MapEvents onPopupClose={() => setSelectedSpot(null)} />
                 </MapContainer>
             }
+            <Dialog ref={dialogRef} style="error" close={handleClose}>
+                <p>{error}</p>
+            </Dialog>
         </div>
     )
 }
