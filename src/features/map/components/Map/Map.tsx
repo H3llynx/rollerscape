@@ -2,6 +2,7 @@ import { LocateFixed, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { LayerGroup, LayersControl, MapContainer, TileLayer, ZoomControl, useMapEvents } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
+import { useSearchParams } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Loading } from "../../../../components/Loading/Loading";
@@ -47,6 +48,7 @@ export function Map({ zoom }: { zoom: number }) {
     const [selectedSpot, setSelectedSpot] = useState<SpotWithTypes | null>(null);
     const [error, setError] = useState<string | null>(null);
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
@@ -86,8 +88,30 @@ export function Map({ zoom }: { zoom: number }) {
     }, [loadingProfile]);
 
     useEffect(() => {
-        if (spotTypes.length) setCheckedTypes(spotTypes);
-    }, [spotTypes]);
+        if (spotTypes.length && searchParams.size === 0) setCheckedTypes(spotTypes);
+    }, [spotTypes, searchParams]);
+
+    useEffect(() => {
+        const newParams = new URLSearchParams();
+        if (checkedTypes.length === spotTypes.length) {
+            setSearchParams({});
+            return
+        };
+        checkedTypes.forEach(type => {
+            newParams.set(type, "")
+        });
+        setSearchParams(newParams);
+    }, [checkedTypes]);
+
+    useEffect(() => {
+        const filtersToCheck: SpotType[] = [];
+        spotTypes.forEach(type => {
+            if (searchParams.get(type) === "") {
+                filtersToCheck.push(type);
+            }
+        });
+        setCheckedTypes(filtersToCheck);
+    }, [searchParams]);
 
     const handleClose = () => {
         dialogRef.current?.close();
@@ -132,7 +156,9 @@ export function Map({ zoom }: { zoom: number }) {
                                                 checked={checkedTypes.includes(type)}
                                                 onChange={() => handleTypeChange(type)}
                                             />
-                                            {SPOT_TYPES.filter(spot => spot.value === type).map(spot => spot.label)}
+                                            {SPOT_TYPES
+                                                .filter(spot => spot.value === type)
+                                                .map(spot => spot.label)}
                                         </label>
                                     ))}
                                 </div>

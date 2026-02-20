@@ -73,7 +73,7 @@ export function SpotMarker({ spot, dimmed, onMarkerClick, reduced }: SpotMarker)
                                     </>
                                 }
 
-                                {spot.photos &&
+                                {spot.photos && spot.photos.length > 0 &&
                                     <div className="flex-container py-0.5 pr-0.5">
                                         {spot.photos.slice(0, 3).map((photo, i) => (
                                             <div key={i} className="image-container">
