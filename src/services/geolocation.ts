@@ -1,5 +1,5 @@
 import { formatLocation } from "../features/profile/utils";
-import type { Coordinates, Location, NominatimResult } from "../types/geolocation_types";
+import type { Coordinates, Location, NominatimResult, OsrmRoute, RouteCoordinates } from "../types/geolocation_types";
 
 export const searchLocations = async (query: string, country: string): Promise<Location[]> => {
     if (query.length < 3) return [];
@@ -116,5 +116,21 @@ export const getCoordinates = async (location: string): Promise<{
             data: null,
             error: new Error("Coordinates could not be found.")
         }
+    }
+}
+
+export const fetchRoute = async (routeCoords: RouteCoordinates): Promise<OsrmRoute[] | null> => {
+    const { start, end, middle } = routeCoords;
+    if (!start || !end) return null;
+    try {
+        const url = routeCoords.middle && middle
+            ? `https://router.project-osrm.org/route/v1/cycling/${start.lon},${start.lat};${middle.lon},${middle.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
+            : `https://router.project-osrm.org/route/v1/cycling/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.routes;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
 }

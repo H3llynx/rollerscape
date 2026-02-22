@@ -109,19 +109,19 @@
   }
 
   h1 {
-    @apply font-title text-text-secondary text-3xl;
+    @apply font-title text-text-secondary text-2xl;
   }
 
   h2 {
     @apply font-title text-text text-2xl;
   }
 
-  h4 {
-    @apply font-special text-yellow
+  h3 {
+    @apply font-medium;
   }
 
-  label:not(.theme-switcher, .map-label, .img-label) {
-    @apply font-special text-text flex flex-col gap-0.5;
+  label:not(.theme-switcher, .map-label, .file-label) {
+    @apply md:font-special text-text flex flex-col gap-0.5;
 
     &:has(input[type="checkbox"]) {
       @apply p-1 relative border border-grey bg-bg-rgba rounded-lg overflow-hidden;
@@ -144,6 +144,10 @@
         @apply my-0.5;
       }
     }
+  }
+
+  .file-label {
+    @apply flex gap-0.5 items-center;
   }
 
   input {

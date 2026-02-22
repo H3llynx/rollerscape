@@ -1,5 +1,5 @@
 
-import { Camera } from "lucide-react";
+import { Camera, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -9,16 +9,15 @@ import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
 import { addSpotFields, SPOT_TYPES } from "../../../../config/spots";
 import { hostImg } from "../../../../services/image-hosting";
-import type { MapCoordinates } from "../../../../types/geolocation_types";
-import type { JsonCoordinates, Spot, SpotType } from "../../../../types/spots_types";
+import type { Coordinates, MapCoordinates } from "../../../../types/geolocation_types";
+import type { Spot, SpotType } from "../../../../types/spots_types";
 import { capitalize } from "../../../../utils/helpers";
-import "./AddSpotForm.css";
 
 type AddSpot = {
     center: MapCoordinates;
     locationType: Spot["location_type"];
-    spotCoordinates: JsonCoordinates | null;
-    setSpotCoordinates: (value: JsonCoordinates) => void;
+    spotCoordinates: Coordinates[] | null;
+    setSpotCoordinates: (value: Coordinates[]) => void;
     onSubmit: (newSpot: Record<string, unknown>) => void;
 }
 
@@ -37,7 +36,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
         register(spot_types.db_key, {
             validate: (value) => (value && value.length > 0) || "Please select at least one option!"
         });
-    }, [register]);
+    }, [register, spot_types.db_key]);
 
     const onCancel = () => {
         navigate("/");
@@ -66,18 +65,20 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
     };
 
     return (
-        <div className="add-spot-form-container bg-blur dialog-shadow scroll">
-            <div className="flex gap-2 justify-between">
-                <p className="font-special">Location type: <span className="font-light text-text-secondary">
-                    {locationType}
-                </span>
-                </p>
-                <Button style="tertiary" className="pt-0" onClick={onCancel}>Cancel</Button>
+        <div className="flex flex-col gap-1 pb-2 md:py-2">
+            <div className="flex gap-2 justify-between items-center">
+                <h2>Add a new spot</h2>
+                <Button style="tertiary" onClick={onCancel}>Cancel</Button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1 pr-1 w-full">
+            <p className="md:font-special">Location type: <span className="font-light text-text-secondary">
+                {locationType}
+            </span>
+            </p>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 pr-1 w-full">
                 {locationType === "point" &&
-                    <div>
-                        <p className="font-medium text-sm mb-0.5">{coordinates.label0}:</p>
+                    <fieldset>
+                        <p className="font-medium mb-0.5">{coordinates.label0}:</p>
                         <div className="flex gap-4">
                             <Input
                                 variant="number"
@@ -98,7 +99,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                                 onChange={(e) => setSpotCoordinates([{ lat: spotCoordinates?.[0]?.lat ?? 0, lon: Number(e.target.value) }])}
                                 required />
                         </div>
-                    </div>
+                    </fieldset>
                 }
                 <Input
                     label={name.label}
@@ -120,8 +121,8 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                     icons
                     required
                 />
-                <div>
-                    <p className="font-special mb-0.5">{spot_types.label}:</p>
+                <fieldset>
+                    <p className="md:font-special mb-0.5">{spot_types.label}:</p>
                     {SPOT_TYPES.map((type) => (
                         <Input key={type.value}
                             variant="checkbox"
@@ -133,15 +134,17 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         />
                     ))}
                     {errors[spot_types.db_key] && (
-                        <p className="text-red text-sm">{errors[spot_types.db_key]?.message as string}</p>
+                        <p className="text-red">{errors[spot_types.db_key]?.message as string}</p>
                     )}
-                </div>
-                <p className="font-special">{description.label}:</p>
-                <textarea
-                    id={description.id}
-                    className="slight-shadow bg-blur border text-sm border-grey rounded-lg px-1 py-0.5"
-                    {...register(description.db_key)}
-                />
+                </fieldset>
+                <fieldset>
+                    <p className="md:font-special">{description.label}:</p>
+                    <textarea
+                        id={description.id}
+                        className="slight-shadow bg-blur border border-grey rounded-lg px-1 py-0.5 min-h-6 w-full"
+                        {...register(description.db_key)}
+                    />
+                </fieldset>
                 <Dropdown
                     id={traffic_level.id}
                     label={traffic_level.label}
@@ -153,20 +156,22 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         )
                     })}
                 </Dropdown>
-                <label htmlFor={photos.id} className="img-label">
-                    <Camera className="w-1.5" aria-hidden />
-                    <input
-                        id={photos.id}
-                        className="text-xs font-medium cursor-pointer"
-                        type={photos.input_type}
-                        ref={fileInputRef}
-                        onChange={handlePhotoChange}
-                        multiple
-                    />
+                <fieldset className="flex">
+                    <label htmlFor={photos.id} className="file-label">
+                        <Camera className="w-1.5" aria-hidden />
+                        <input
+                            id={photos.id}
+                            className="text-xs font-medium cursor-pointer"
+                            type={photos.input_type}
+                            ref={fileInputRef}
+                            onChange={handlePhotoChange}
+                            multiple
+                        />
+                    </label>
                     {hasPhoto &&
-                        <Button type="button" style="tertiary" onClick={handlePhotoClear}>Cancel</Button>
+                        <Button type="button" style="tertiary" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
                     }
-                </label>
+                </fieldset>
                 <Button style="primary">{isSubmitting ? <Loading /> : "Add spot"}</Button>
             </form>
         </div>

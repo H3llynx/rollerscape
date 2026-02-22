@@ -2,8 +2,7 @@ import L from "leaflet";
 import { Flag } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { Marker, Polyline } from 'react-leaflet';
-import type { MapCoordinates } from "../../../../types/geolocation_types";
-import type { JsonCoordinates } from "../../../../types/spots_types";
+import type { Coordinates, MapCoordinates } from "../../../../types/geolocation_types";
 
 const startEndIcon = L.divIcon({
     html: renderToString(
@@ -15,7 +14,7 @@ const startEndIcon = L.divIcon({
 });
 
 type RouteDisplay = {
-    data: JsonCoordinates;
+    data: Coordinates[];
     selected?: boolean;
     onSelect?: () => void
 }

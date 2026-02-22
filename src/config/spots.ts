@@ -8,6 +8,7 @@ export const SPOT_TYPES = [
 ] as const;
 
 export const LOCATION_TYPE = ["point", "route"] as const;
+
 export const TRAFFIC_LEVEL = [
     { value: "always_quiet", label: "Always quiet" },
     { value: "busy_peak_hours", label: "Busy at peak hours" },
@@ -16,12 +17,26 @@ export const TRAFFIC_LEVEL = [
     { value: "unknown", label: "I'm not sure" }
 ] as const;
 
+export const ROUTE_GEN_MODE = [
+    { value: "map", label: "Create itinerary from the map" },
+    { value: "gpx", label: "Upload GPX" },
+] as const;
+
 export const addSpotFields = {
     location_type: {
         db_key: "location_type",
         id: "spot-location-type",
         label: "Pick a location type",
         options: LOCATION_TYPE
+    },
+    route_gen_mode: {
+        id: "route_gen",
+        label: "How do you want to generate the route?",
+        options: ROUTE_GEN_MODE
+    },
+    gpx: {
+        id: "gpx-id",
+        input_type: "file",
     },
     coordinates: {
         db_key: "coordinates",

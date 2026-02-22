@@ -30,6 +30,19 @@ export type NominatimResult = {
 
 export type MapCoordinates = [number, number]; // order: [lat, lon]
 
+export type RouteCoordinates = {
+    start: { lat: number; lon: number } | null;
+    end: { lat: number; lon: number } | null;
+    middle?: { lat: number; lon: number } | null;
+};
+
+export type RouteCoordinatesType = "start" | "end" | "middle";
+
+export type Route = {
+    coordinates: Coordinates[];
+    distance: number;
+};
+
 export type OsrmRoute = {
     geometry: { coordinates: [number, number][], type: string };
     distance: number;

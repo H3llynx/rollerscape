@@ -1,22 +1,39 @@
 @reference "../../../../styles/index.css";
 
+.button-container {
+    @apply flex flex-wrap gap-0.5 items-end;
+
+    button,
+    a {
+        @apply w-2.5 h-2.5 md:w-2 md:h-2 p-[6px] bg-bg-secondary rounded-lg text-text hover:text-text-secondary border-grey relative;
+    }
+
+    a {
+        @apply flex items-center justify-center border hover:-translate-y-px;
+    }
+}
+
 .gallery {
-    @apply flex gap-0.5 overflow-x-scroll h-[200px] pb-[2px] shrink-0;
-    -webkit-overflow-scrolling: touch;
+    @apply pl-1 md:pl-2 pr-0.5 mt-1.5;
 
-    img {
-        @apply h-full w-auto border border-bg-rgba rounded-lg;
-    }
+    .slider {
+        @apply flex gap-0.5 overflow-x-scroll h-[200px] pb-[4px] shrink-0 mt-0.5;
+        -webkit-overflow-scrolling: touch;
 
-    &::-webkit-scrollbar {
-        @apply h-[6px];
-    }
+        img {
+            @apply h-full w-auto border border-bg-rgba rounded-lg;
+        }
 
-    &::-webkit-scrollbar-track {
-        @apply bg-bg-rgba-2
-    }
+        &::-webkit-scrollbar {
+            @apply h-[6px];
+        }
 
-    &::-webkit-scrollbar-thumb {
-        @apply bg-text-secondary opacity-30 rounded-md;
+        &::-webkit-scrollbar-track {
+            @apply bg-bg-rgba-2;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            @apply bg-text-secondary opacity-30 rounded-md;
+        }
     }
 }

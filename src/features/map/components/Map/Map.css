@@ -1,10 +1,5 @@
 @reference "../../../../styles/index.css";
 
-.leaflet-bottom,
-.leaflet-right {
-    @apply z-401;
-}
-
 .leaflet-control-layers,
 .leaflet-bar a {
     @apply bg-bg-main text-text;
@@ -12,6 +7,10 @@
     & label {
         @apply font-main text-sm;
     }
+}
+
+.leaflet-bottom .leaflet-control-zoom a:hover {
+    @apply bg-text-secondary text-bg-main;
 }
 
 .leaflet-control-layers-selector {
@@ -43,6 +42,8 @@
 }
 
 .track-me-btn {
+    @apply relative;
+
     &::after {
         content: "Track my location";
         position: absolute;
@@ -67,5 +68,35 @@
 
     .track-icon {
         @apply drop-shadow-lg drop-shadow-grey w-3 h-3 text-dark-3;
+    }
+}
+
+.add-spot-btn {
+    @apply relative border-4 w-3 h-3 border-dark bg-text-secondary rounded-full drop-shadow-lg drop-shadow-grey;
+
+    .add-icon {
+        @apply text-bg-main;
+    }
+
+    &::after {
+        content: "Add a new spot";
+        position: absolute;
+        top: -2.5rem;
+        left: -0.5rem;
+        width: max-content;
+        background: var(--color-rgba-grey);
+        color: white;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 5px;
+        border-radius: 5px;
+        font-size: small;
+        font-weight: 500;
+        transform: scale(0);
+        transition: var(--default-transition)
+    }
+
+    &:hover::after {
+        transform: scale(1);
     }
 }

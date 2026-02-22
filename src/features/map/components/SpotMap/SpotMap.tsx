@@ -1,12 +1,15 @@
 import { SlidersHorizontal } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { LayerGroup, useMapEvents } from "react-leaflet";
 import { useSearchParams } from "react-router";
 import { Dialog } from "../../../../components/Dialog/Dialog";
+import { GridLeftPanel } from "../../../../components/GridLeftPanel/GridLeftPanel";
 import { Loading } from "../../../../components/Loading/Loading";
 import { SPOT_TYPES } from "../../../../config/spots";
+import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotType, SpotWithTypes } from '../../../../types/spots_types';
 import { handleAria } from "../../../../utils/helpers";
+import { SpotDescription } from "../../../spot/components/SpotDescription/SpotDescription";
 import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
@@ -30,7 +33,6 @@ export function SpotMap({ zoom }: { zoom: number }) {
     const { spots, loading } = useSpots();
     const [selectedSpot, setSelectedSpot] = useState<SpotWithTypes | null>(null);
     const { center, error, setError, trackUser, profile } = useCenter();
-
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -68,6 +70,24 @@ export function SpotMap({ zoom }: { zoom: number }) {
         setSearchParams(newParams);
     }, [checkedTypes]);
 
+    useEffect(() => {
+        if (!selectedSpot) return;
+        const newParams = new URLSearchParams();
+        if (selectedSpot) newParams.set(selectedSpot.slug, "expanded");
+        setSearchParams(newParams);
+    }, [selectedSpot]);
+
+    useEffect(() => {
+        if (!spots) return;
+        const spotToExpand = spots.find(spot => searchParams.get(spot.slug) === "expanded");
+        if (spotToExpand) {
+            const expandedSpotTypes: SpotType[] = []
+            spotToExpand.spot_spot_types.forEach(type => expandedSpotTypes.push(type.name))
+            setCheckedTypes(expandedSpotTypes);
+            setSelectedSpot(spotToExpand);
+        }
+    }, [spots]);
+
     const handleClose = () => {
         dialogRef.current?.close();
         setError(null);
@@ -79,7 +99,12 @@ export function SpotMap({ zoom }: { zoom: number }) {
             : [...types, filter])
     };
 
-    const filterTsx = (
+    const handleMarkerClick = (spot: SpotWithTypes) => {
+        if (selectedSpot === spot) setSelectedSpot(null);
+        else setSelectedSpot(spot);
+    }
+
+    const otherControls = (
         <div>
             <div className="bg-blur" id="spot-type-filters">
                 {spotTypes.map(type => (
@@ -110,41 +135,86 @@ export function SpotMap({ zoom }: { zoom: number }) {
     )
 
     return (
-        <div className="map-container">
-            {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
-            {!loading && center &&
-                <Map
-                    center={center}
-                    zoom={zoom}
-                    other={filterTsx}
-                    trackUser={trackUser}
-                >
-                    {!loading && spots &&
-                        <LayerGroup>
-                            {spots
-                                .filter(spot =>
-                                    spot.spot_spot_types.some(type => checkedTypes.includes(type.name))
-                                )
-                                .map(spot => (
-                                    <SpotMarker
-                                        key={spot.id}
-                                        spot={spot}
-                                        onMarkerClick={() => setSelectedSpot(spot)}
-                                        dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
-                                    />
-                                ))}
-                        </LayerGroup>
+        <>
+            <GridLeftPanel collapsed={!selectedSpot}>
+                <div className="left-panel scroll">
+                    {selectedSpot &&
+                        <div className="left-panel-container">
+                            <button
+                                className="md:hidden flex justify-center w-full p-[8px] h-2"
+                                aria-label="Hide spot description"
+                                onClick={() => setSelectedSpot(null)}
+                            >
+                                <div className="h-[6px] rounded-full w-[90px] bg-border opacity-60"></div>
+                            </button>
+                            <SpotDescription spot={selectedSpot} />
+                        </div>
                     }
-                    {profile && <UserMarker profile={profile} center={center} />}
-                    {!profile && <GuestMarker center={center} />}
-                    <ReCenterMap lat={center[0]} lon={center[1]} />
-                    {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
-                    <MapEvents onPopupClose={() => setSelectedSpot(null)} />
-                </Map>
-            }
+                </div>
+                {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
+                {!loading && center &&
+                    <div className="map-container">
+                        <Map
+                            center={center}
+                            zoom={zoom}
+                            other={otherControls}
+                            trackUser={trackUser}
+                        >
+                            {!loading && spots &&
+                                <LayerGroup>
+                                    {spots
+                                        .filter(spot =>
+                                            spot.spot_spot_types.some(type => checkedTypes.includes(type.name))
+                                        )
+                                        .map(spot => {
+                                            if (spot.location_type === "point")
+                                                return (
+                                                    <SpotMarker
+                                                        key={spot.id}
+                                                        spot={spot}
+                                                        position={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
+                                                        onMarkerClick={() => handleMarkerClick(spot)}
+                                                        dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
+                                                    />
+                                                )
+                                            if (spot.location_type === "route") {
+                                                const start = [spot.coordinates[0].lat, spot.coordinates[0].lon];
+                                                const end = [spot.coordinates[spot.coordinates.length - 1].lat, spot.coordinates[spot.coordinates.length - 1].lon];
+                                                return (
+                                                    <Fragment key={spot.id}>
+                                                        <SpotMarker
+                                                            key={`${spot.id}-start`}
+                                                            spot={spot}
+                                                            position={start as MapCoordinates}
+                                                            onMarkerClick={() => handleMarkerClick(spot)}
+                                                            dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
+                                                        />
+                                                        <SpotMarker
+                                                            key={`${spot.id}-end`}
+                                                            spot={spot}
+                                                            position={end as MapCoordinates}
+                                                            onMarkerClick={() => handleMarkerClick(spot)}
+                                                            dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
+                                                        />
+                                                    </Fragment>
+                                                )
+                                            }
+                                        }
+                                        )}
+                                </LayerGroup>
+                            }
+                            {profile && <UserMarker profile={profile} center={center} />}
+                            {!profile && <GuestMarker center={center} />}
+                            <ReCenterMap lat={center[0]} lon={center[1]} />
+                            {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
+                            <MapEvents onPopupClose={() => setSelectedSpot(null)} />
+                        </Map>
+                    </div>
+                }
+            </GridLeftPanel >
             <Dialog ref={dialogRef} style="error" close={handleClose}>
                 <p>{error}</p>
             </Dialog>
-        </div>
+        </>
     )
 }

@@ -30,6 +30,6 @@ header {
 }
 
 .logo-img {
-    @apply w-1/2 max-w-3xs landscape:w-10;
+    @apply w-[45%] max-w-3xs landscape:w-10;
     filter: drop-shadow(1px 1px 10px black);
 }

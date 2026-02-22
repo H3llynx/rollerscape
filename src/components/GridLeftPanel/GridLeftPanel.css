@@ -1,0 +1,29 @@
+@reference "../../styles/index.css";
+
+.full-width-container {
+    @apply w-full h-dvh grid z-0;
+    transition: var(--default-transition);
+}
+
+.expanded {
+    @apply grid-cols-1 grid-rows-[1fr_25%] md:grid-rows-1 md:grid-cols-[450px_1fr];
+}
+
+.collapsed {
+    @apply grid-cols-1 grid-rows-[1fr_0px] md:grid-rows-1 md:grid-cols-[0px_1fr];
+}
+
+.left-panel {
+    @apply h-max md:h-full bg-bg-main relative z-402 md:overflow-y-scroll order-1 md:order-0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.6);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    .left-panel-container {
+        @apply h-full;
+    }
+
+    &::-webkit-scrollbar {
+        @apply w-[4px]
+    }
+}

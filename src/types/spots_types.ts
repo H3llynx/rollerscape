@@ -1,10 +1,12 @@
-import { LOCATION_TYPE, TRAFFIC_LEVEL } from "../config/spots";
+import { LOCATION_TYPE, ROUTE_GEN_MODE, TRAFFIC_LEVEL } from "../config/spots";
+import type { Table } from "../services/data";
+import type { Coordinates } from "./geolocation_types";
 
 export type Spot = {
     address: string | null;
     average_rating: number | null;
     city: string;
-    coordinates: JsonCoordinates;
+    coordinates: Coordinates[];
     country: string;
     created_by: string | null;
     description: string | null;
@@ -31,13 +33,12 @@ export type SpotWithTypes = Spot & {
 
 export type TrafficLevel = typeof TRAFFIC_LEVEL[number]["value"];
 
-export type JsonCoordinates =
-    { lat: number; lon: number }[];
-
-
 export type SpotType = "skatepark" | "bowl" | "bike_path" | "greenway" | "smooth_flat" | "street";
 
-export type Route = {
-    coordinates: JsonCoordinates;
-    distance: number;
+export type JunctionInsert = {
+    table: Table;
+    fKey: string;
+    values: number[];
 }
+
+export type RouteGenMode = typeof ROUTE_GEN_MODE[number]["value"];

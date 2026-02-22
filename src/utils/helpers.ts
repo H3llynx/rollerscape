@@ -1,6 +1,5 @@
 import type { RefObject } from "react";
-import type { MapCoordinates } from "../types/geolocation_types";
-import type { JsonCoordinates } from "../types/spots_types";
+import type { Coordinates, MapCoordinates } from "../types/geolocation_types";
 
 export const handleAria = (checkboxRef: RefObject<HTMLInputElement | null>) => {
     if (checkboxRef.current) {
@@ -19,5 +18,5 @@ export const createSlug = (name: string) => {
         .toLowerCase();
 };
 
-export const osrmToJsonCoords = (osrmCoords: MapCoordinates[]): JsonCoordinates =>
+export const osrmToJsonCoords = (osrmCoords: MapCoordinates[]): Coordinates[] =>
     osrmCoords.map(([lon, lat]) => ({ lat, lon }));
