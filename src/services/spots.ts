@@ -1,5 +1,6 @@
-import type { SpotWithTypes } from "../../../types/spots_types";
-import supabase from "../../../utils/supabase";
+import type { OsrmRoute } from "../types/geolocation_types";
+import type { SpotWithTypes } from "../types/spots_types";
+import supabase from "../utils/supabase";
 
 export const fetchSpots = async () => {
     try {
@@ -8,7 +9,7 @@ export const fetchSpots = async () => {
             .select(`
                 *,
                 spot_spot_types(
-                    spot_types(id, name)
+                    ...spot_types(id, name)
                 )
             `);
         return { data, error };
@@ -26,7 +27,7 @@ export const fetchBySlug = async (slug: string) => {
             .select(`
                 *,
                 spot_spot_types(
-                    spot_types(id, name)
+                    ...spot_types(id, name)
                 )
             `)
             .eq("slug", slug)
@@ -81,3 +82,15 @@ export const sendToGps = (spot: SpotWithTypes) => {
         window.open(url, "_blank");
     };
 };
+
+export const fetchRoute = async (start: { lat: number, lon: number }, end: { lat: number, lon: number }): Promise<OsrmRoute[] | null> => {
+    try {
+        const url = `https://router.project-osrm.org/route/v1/cycling/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.routes;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}

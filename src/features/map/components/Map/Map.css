@@ -1,15 +1,5 @@
 @reference "../../../../styles/index.css";
 
-@keyframes scale {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1)
-    }
-}
-
 .leaflet-bottom,
 .leaflet-right {
     @apply z-401;
@@ -52,20 +42,13 @@
     opacity: 0.2;
 }
 
-.map-container {
-    @apply w-full h-full;
-
-    &:has(#expand-filters:checked) {
-        #spot-type-filters {
-            @apply block absolute md:relative bottom-[120%];
-            animation: scale 0.5s forwards;
-        }
-    }
-}
-
 .track-me-btn {
     &::after {
         content: "Track my location";
+        position: absolute;
+        top: -1.5rem;
+        left: 0.5rem;
+        width: max-content;
         background: var(--color-rgba-grey);
         color: white;
         backdrop-filter: blur(5px);
@@ -84,39 +67,5 @@
 
     .track-icon {
         @apply drop-shadow-lg drop-shadow-grey w-3 h-3 text-dark-3;
-    }
-}
-
-.map-label {
-    @apply flex p-0.5 gap-0.5 font-medium text-sm;
-}
-
-.expand-filters-cta {
-    @apply flex p-0 mt-0.5 justify-center items-center bg-bg-main w-3 h-3 rounded-full border border-rgba-dark-2 drop-shadow-lg drop-shadow-rgba-dark md:hidden;
-
-    .expand-filters-icon {
-        @apply w-2 h-2 text-text
-    }
-}
-
-#spot-type-filters {
-    @apply hidden md:block bg-bg-main rounded-md py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
-}
-
-@media (width >=48rem) {
-    .map-area {
-        @apply w-1/2 h-full absolute right-0 top-0 z-0;
-
-        &::after {
-            content: " ";
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            pointer-events: none;
-            width: 80px;
-            background: linear-gradient(to right, var(--color-rgba-dark), transparent);
-            z-index: 999;
-        }
     }
 }

@@ -14,7 +14,13 @@ const startEndIcon = L.divIcon({
     iconAnchor: [6, 22]
 });
 
-export function RouteDisplay({ data }: { data: JsonCoordinates }) {
+type RouteDisplay = {
+    data: JsonCoordinates;
+    selected?: boolean;
+    onSelect?: () => void
+}
+
+export function RouteDisplay({ data, selected = false, onSelect }: RouteDisplay) {
 
     if (!data || data.length < 2) return null;
 
@@ -26,9 +32,11 @@ export function RouteDisplay({ data }: { data: JsonCoordinates }) {
         <Polyline
             positions={coords}
             pathOptions={{
-                color: "var(--color-rgba-turquoise)",
-                weight: 7
+                color: selected ? "var(--color-rgba-turquoise)" : "grey",
+                weight: selected ? 7 : 4,
+                opacity: selected ? 1 : 0.5
             }}
+            eventHandlers={onSelect ? { click: onSelect } : {}}
         />
         <Marker position={coords[0]} icon={startEndIcon} />
         <Marker position={coords[coords.length - 1]} icon={startEndIcon} />

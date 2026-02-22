@@ -1,3 +1,4 @@
+import { LOCATION_TYPE, TRAFFIC_LEVEL } from "../config/spots";
 
 export type Spot = {
     address: string | null;
@@ -12,24 +13,31 @@ export type Spot = {
     has_obstacles: boolean | null;
     id: string;
     length_km: number | null;
-    location_type: "point" | "route";
+    location_type: typeof LOCATION_TYPE[number];
     name: string;
     photos: string[] | null;
     surface_quality: number | null;
     slug: string;
 };
 
+export type SpotTypeList = {
+    id: number;
+    name: SpotType;
+}[]
+
 export type SpotWithTypes = Spot & {
-    spot_spot_types: {
-        spot_types: {
-            id: number;
-            name: SpotType;
-        }
-    }[]
+    spot_spot_types: SpotTypeList;
 }
+
+export type TrafficLevel = typeof TRAFFIC_LEVEL[number]["value"];
 
 export type JsonCoordinates =
     { lat: number; lon: number }[];
 
 
-export type SpotType = "skatepark" | "bowl" | "bike path" | "greenway" | "smooth flat" | "street";
+export type SpotType = "skatepark" | "bowl" | "bike_path" | "greenway" | "smooth_flat" | "street";
+
+export type Route = {
+    coordinates: JsonCoordinates;
+    distance: number;
+}

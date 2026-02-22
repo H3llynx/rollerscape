@@ -7,11 +7,17 @@ export const COUNTRIES = [
     { value: "nl", label: "🇳🇱 Netherlands" }
 ] as const
 
-export const geolocationErrors = {
+export const geolocationErrorsProfile = {
     1: "Location blocked! Enable access in your browser or search below.",
     2: "Can't find you! Try searching your spot manually.",
     3: "Location timeout! That took too long. Search manually instead.",
     coordinates_issue: 'Location issue! Please try with the "Use your current location button".'
+} as const;
+
+export const geolocationErrors = {
+    1: "Location blocked! Enable access in your browser ",
+    2: "Sorry, we could not find you. Try again later.",
+    3: "Location timeout! That took too long. Try again later.",
 } as const;
 
 export const profileLocationUpdateError = "Your home location could not be set. Try again later."

@@ -1,12 +1,11 @@
-import { redirectURL } from "../features/auth/config";
 import type { Credentials } from "../types/user_types";
 import supabase from "../utils/supabase";
 
-export const loginWithGoogle = async () => {
+export const loginWithGoogle = async ({ redirectURL }: { redirectURL: string }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-            redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}#/${redirectURL}`
+            redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}#${redirectURL}`
         }
     })
     if (error) console.error("Google auth error:", error);

@@ -1,23 +1,25 @@
 import type { AuthError } from '@supabase/supabase-js';
 import { useEffect } from 'react';
 import { useForm, } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
 import { signUp } from '../../../../services/auth';
 import type { Credentials } from "../../../../types/user_types";
-import { redirectURL } from '../../config';
 import { useAuth } from '../../hooks/useAuth';
 
 export function SignUp({ onError }: { onError: (error: AuthError) => void }) {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<Credentials>();
     const navigate = useNavigate();
+    const location = useLocation();
     const { user } = useAuth();
+
+    const redirectURL = location.state?.from?.pathname ?? "/";
 
     useEffect(() => {
         if (user) {
-            navigate(`/${redirectURL}`);
+            navigate(redirectURL, { replace: true });
         }
     }, [user, navigate]);
 

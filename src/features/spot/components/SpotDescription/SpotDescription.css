@@ -9,16 +9,14 @@
     }
 
     &::-webkit-scrollbar {
-        height: 6px;
+        @apply h-[6px];
     }
 
     &::-webkit-scrollbar-track {
-        background: var(--color-bg-rgba-2);
+        @apply bg-bg-rgba-2
     }
 
     &::-webkit-scrollbar-thumb {
-        background: var(--color-text-secondary);
-        opacity: 0.3;
-        border-radius: 5px;
+        @apply bg-text-secondary opacity-30 rounded-md;
     }
 }

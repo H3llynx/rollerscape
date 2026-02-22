@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { Header } from "../../components/Header/Header";
+import { authErrors } from "../../config/auth";
 import { resetPassword } from "../../services/auth";
 import { SigIn } from "./components/SignIn/SignIn";
 import { SignUp } from "./components/SignUp/SignUp";
-import { authErrors } from "./config";
 
 export function AuthPage() {
     const [login, setLogin] = useState<boolean>(true);

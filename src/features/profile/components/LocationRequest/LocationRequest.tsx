@@ -5,9 +5,9 @@ import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
+import { COUNTRIES, geolocationErrorsProfile } from "../../../../config/geolocation";
 import { getBrowserPosition, reverseGeocode, searchLocations } from "../../../../services/geolocation";
 import type { Location } from "../../../../types/geolocation_types";
-import { COUNTRIES, geolocationErrors } from "../../config/geolocation";
 import { useLocate } from "../../hooks/useLocate";
 import "./LocationRequest.css";
 
@@ -81,8 +81,8 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
         const { data, error } = await getBrowserPosition();
         if (error) {
             if ("code" in error)
-                setError(geolocationErrors[error.code as keyof typeof geolocationErrors] || geolocationErrors[2]);
-            else setError(geolocationErrors[2])
+                setError(geolocationErrorsProfile[error.code as keyof typeof geolocationErrorsProfile] || geolocationErrorsProfile[2]);
+            else setError(geolocationErrorsProfile[2])
         };
         if (data) {
             const location = await reverseGeocode(data);

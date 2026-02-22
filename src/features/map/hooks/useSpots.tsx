@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { fetchSpots } from "../../../services/spots";
 import type { SpotWithTypes } from "../../../types/spots_types";
-import { fetchSpots } from "../services/spots";
 
 export function useSpots() {
     const [loading, setLoading] = useState<boolean>(true);

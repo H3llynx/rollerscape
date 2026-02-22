@@ -5,8 +5,8 @@ import { Marker, Popup } from 'react-leaflet';
 import { NavLink } from "react-router";
 import Roller from "../../../../assets/marker.png";
 import { Button } from "../../../../components/Button/Button";
+import { sendToGps, shareSpot } from "../../../../services/spots";
 import type { SpotWithTypes } from "../../../../types/spots_types";
-import { sendToGps, shareSpot } from "../../services/spots";
 import "./SpotMarker.css";
 
 type SpotMarker = {
@@ -35,7 +35,7 @@ export function SpotMarker({ spot, dimmed, onMarkerClick, reduced }: SpotMarker)
             icon={spotIcon}
             opacity={dimmed ? 0.3 : 1}
             eventHandlers={{
-                click: onMarkerClick,
+                ...(onMarkerClick && { click: onMarkerClick }),
                 popupopen: () => {
                     requestAnimationFrame(() => {
                         const el = descriptionRef.current;
@@ -45,16 +45,17 @@ export function SpotMarker({ spot, dimmed, onMarkerClick, reduced }: SpotMarker)
             }}
         >
             <Popup className="spot-marker">
-                <h3>{spot.name}</h3>
+                <h3 className="text-wrap">{spot.name}</h3>
                 <div className="flex gap-0.5 flex-wrap md:flex-nowrap">
                     <div>
                         <div className="flex-container address">
-                            <MapPin aria-hidden width={15} /><span>{spot.address}</span>
+                            <MapPin aria-hidden width={15} className="shrink-0 mb-auto" /><span>{spot.address}</span>
                         </div>
                         <div className="flex-container surface">
                             <span className="font-medium">Surface quality: {spot.surface_quality}</span>
                             {spot.has_obstacles && <span className="flex items-center gap-[5px] text-text-secondary font-medium">
                                 <CheckLine width={15} /> Obstacles</span>}
+                            {spot.length_km && <span className="flex items-center gap-[5px] font-medium">{spot.length_km} km</span>}
                         </div>
                         {!reduced &&
                             <>

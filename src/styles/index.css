@@ -92,10 +92,6 @@
     }
   }
 
-  main {
-    @apply w-full h-full place-content-center;
-  }
-
   *:not(.suggestion-list):focus-visible {
     outline-width: 2px;
     outline-style: solid;
@@ -124,7 +120,7 @@
     @apply font-special text-yellow
   }
 
-  label:not(.theme-switcher, .map-label) {
+  label:not(.theme-switcher, .map-label, .img-label) {
     @apply font-special text-text flex flex-col gap-0.5;
 
     &:has(input[type="checkbox"]) {
@@ -251,6 +247,6 @@
   }
 
   .tag {
-    @apply bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
+    @apply capitalize bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
   }
 }

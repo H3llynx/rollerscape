@@ -1,7 +1,7 @@
 import Skater from "../../assets/skater.png";
+import { COUNTRIES } from "../../config/geolocation";
 import type { NominatimResult } from "../../types/geolocation_types";
 import type { UserProfile } from "../../types/user_types";
-import { COUNTRIES } from "./config/geolocation";
 
 export const formatLocation = (location: NominatimResult) => {
     const city = `${location.address.city || location.address.town || location.address.village || location.address.municipality}`;

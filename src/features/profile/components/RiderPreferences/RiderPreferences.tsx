@@ -2,13 +2,13 @@ import { useRef, useState } from "react";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
-import { databases } from "../../../../config";
+import { databases } from "../../../../config/databases";
+import { SPOT_TYPES } from "../../../../config/spots";
+import { riderPreferencesErrors, SKATING_STYLES, SKILLS, type SkatingStyle } from "../../../../config/user_info";
 import { updateData } from "../../../../services/data";
 import type { SpotType } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { SPOT_TYPES } from "../../../map/config/spots";
-import { riderPreferencesErrors, SKATING_STYLES, SKILLS, type SkatingStyle } from "../../config/user_info";
 import { useProfile } from "../../hooks/useProfile";
 import "./RiderPreferences.css";
 

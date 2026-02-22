@@ -1,14 +1,13 @@
 import type { AuthError } from '@supabase/supabase-js';
 import { useEffect } from 'react';
 import { useForm, } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import Google from "../../../../assets/svg/google.svg?react";
 import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from '../../../../components/Loading/Loading';
 import { loginWithGoogle, signIn } from '../../../../services/auth';
 import type { Credentials } from '../../../../types/user_types';
-import { redirectURL } from '../../config';
 import { useAuth } from '../../hooks/useAuth';
 
 type SignIn = {
@@ -18,11 +17,14 @@ type SignIn = {
 export function SigIn({ onError, onEmailChange }: SignIn) {
     const { register, handleSubmit, watch, formState: { isSubmitting } } = useForm<Credentials>();
     const navigate = useNavigate();
+    const location = useLocation();
     const { user } = useAuth();
+
+    const redirectURL = location.state?.from?.pathname ?? "/";
 
     useEffect(() => {
         if (user) {
-            navigate(`/${redirectURL}`);
+            navigate(redirectURL, { replace: true });
         }
     }, [user, navigate]);
 
@@ -60,7 +62,7 @@ export function SigIn({ onError, onEmailChange }: SignIn) {
                 }
             </form>
             <p className="separator">OR</p>
-            <Button style="secondary" onClick={loginWithGoogle}>
+            <Button style="secondary" onClick={() => loginWithGoogle({ redirectURL })}>
                 <Google aria-hidden />Sign In With Google
             </Button>
         </section>

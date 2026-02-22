@@ -29,3 +29,8 @@ export type NominatimResult = {
 };
 
 export type MapCoordinates = [number, number]; // order: [lat, lon]
+
+export type OsrmRoute = {
+    geometry: { coordinates: [number, number][], type: string };
+    distance: number;
+};

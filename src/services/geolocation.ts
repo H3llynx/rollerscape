@@ -67,6 +67,7 @@ export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
         const data = await response.json();
         return {
             name: formatLocation(data),
+            city: data.address.city || data.address.town || data.address.village || data.address.municipality,
             country: data.address.country_code,
             lat: lat,
             lon: lon

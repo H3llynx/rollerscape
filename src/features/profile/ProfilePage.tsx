@@ -18,7 +18,7 @@ export function ProfilePage() {
     return (
         <>
             <Header />
-            <main>
+            <main className="w-full h-full place-content-center">
                 {profile && profile.home_location_name &&
                     <section className="grid w-full md:grid-cols-2 h-full">
                         <article className="grid-left-article scroll">
