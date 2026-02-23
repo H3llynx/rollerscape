@@ -1,9 +1,11 @@
 import { CheckLine, MapPin, Navigation, Share, X } from "lucide-react";
+import { useState } from "react";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
-import { TRAFFIC_LEVELS } from "../../../../config/spots";
+import { SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
 import { sendToGps, shareSpot } from "../../../../services/spots";
 import type { SpotFullInfo } from "../../../../types/spots_types";
+import { RiderCard } from "../RiderCard/RiderCard";
 import "./SpotDescription.css";
 
 type SpotDescription = {
@@ -12,6 +14,8 @@ type SpotDescription = {
 }
 
 export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
+    const [visible, setVisible] = useState(false);
+
     const src = spot.photos && spot.photos.length > 0
         ? spot.photos[0]
         : Skater
@@ -20,23 +24,45 @@ export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
         <>
             <div className="hidden md:block relative  w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
                 <img src={src} alt="" className="w-full h-full object-cover" />
-                <p className="font-special text-xs text-text-secondary absolute bottom-0.5 w-full px-1 md:px-2">
-                    Submitted by {spot.created_by}</p>
+                {spot.created_by &&
+                    <>
+                        <div className="spot-created-by bg-blur">
+                            Submitted by
+                            <span className="font-bold text-text-secondary">
+                                {spot.created_by_name}
+                            </span>
+                        </div>
+                        <div className="rider-card-container right-[5px] bottom-[28px]">
+                            <RiderCard riderId={spot.created_by} />
+                        </div>
+                    </>
+                }
             </div>
             <div className="pb-2 md:py-1 text-sm relative z-1">
 
                 <div className="px-1 md:px-2">
-                    <div className="flex w-full gap-2 justify-between items-start">
+                    <div className="flex gap-2 justify-between items-start">
                         <div>
                             <h1>{spot.name}</h1>
                             <div className="flex gap-0.5 mt-1">
                                 {spot.spot_spot_types.map((type, i) => (
                                     <span className="tag" key={i} >
-                                        {type.name.replace("_", " ")}
+                                        {SPOT_TYPES
+                                            .filter(spot => spot.value === type.name)
+                                            .map(spot => spot.label)
+                                        }
                                     </span>
                                 )
                                 )}
                             </div>
+                            {spot.created_by &&
+                                <div className="flex gap-[5px] items-center text-xs my-1">
+                                    Submitted by
+                                    <span className="text-text-secondary font-bold">
+                                        {spot.created_by_name}
+                                    </span>
+                                </div>
+                            }
                         </div>
                         <div className="button-container">
                             <Button style="icon" aria-label="share spot" onClick={() => shareSpot(spot)}>

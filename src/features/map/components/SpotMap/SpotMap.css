@@ -1,19 +1,9 @@
 @reference "../../../../styles/index.css";
 
-@keyframes scale {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1)
-    }
-}
-
 .map-container {
     &:has(#expand-filters:checked) {
         #spot-type-filters {
-            @apply block absolute md:relative bottom-[120%];
+            @apply block absolute md:relative bottom-[110%];
             animation: scale 0.5s forwards;
         }
     }
@@ -24,7 +14,7 @@
 }
 
 .expand-filters-cta {
-    @apply flex p-0 mt-0.5 justify-center items-center bg-bg-main w-3 h-3 rounded-full border border-rgba-dark-2 drop-shadow-lg drop-shadow-rgba-dark md:hidden;
+    @apply flex p-0 justify-center items-center bg-bg-main w-3 h-3 rounded-full border border-rgba-dark-2 drop-shadow-lg drop-shadow-rgba-dark md:hidden;
 
     .expand-filters-icon {
         @apply w-2 h-2 text-text
@@ -32,5 +22,5 @@
 }
 
 #spot-type-filters {
-    @apply hidden md:block bg-bg-main rounded-md py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
+    @apply hidden md:block bg-bg-main rounded-2xl py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
 }

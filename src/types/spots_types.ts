@@ -30,6 +30,7 @@ export type SpotTypeList = {
 export type SpotFullInfo = Spot & {
     spot_spot_types: SpotTypeList;
     spot_traffic_levels: { id: string; name: TrafficLevel }[];
+    created_by_name: string;
 }
 
 export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];

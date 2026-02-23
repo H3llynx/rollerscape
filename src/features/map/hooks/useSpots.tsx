@@ -17,7 +17,7 @@ export function useSpots() {
                         if (spot.created_by) {
                             return {
                                 ...spot,
-                                created_by: await getCreatedByName(spot.created_by),
+                                created_by_name: await getCreatedByName(spot.created_by),
                             };
                         }
                         return spot;

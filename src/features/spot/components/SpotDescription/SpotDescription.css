@@ -13,6 +13,19 @@
     }
 }
 
+.spot-created-by {
+    @apply font-special text-xs text-right text-text opacity-70 absolute bottom-0 w-full pt-[6px] pb-[4px] px-0.5 bg-bg-rgba-2 flex gap-[5px] items-center justify-end;
+
+    &:hover+.rider-card-container {
+        @apply block;
+    }
+}
+
+.rider-card-container {
+    @apply absolute hidden;
+    animation: scale 0.5s forwards;
+}
+
 .gallery {
     @apply pl-1 md:pl-2 pr-0.5 mt-1.5;
 

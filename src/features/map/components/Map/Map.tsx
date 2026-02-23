@@ -1,15 +1,15 @@
 
-import { LocateFixed, Plus } from "lucide-react";
+import { LocateFixed } from "lucide-react";
 import type { ReactNode } from "react";
 import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useLocation, useNavigate } from "react-router";
+import Add from "../../../../assets/add.png";
 import { Button } from "../../../../components/Button/Button";
 import { layers } from "../../../../config/leaflet";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import "./Map.css";
-
 
 type Map = {
     center: MapCoordinates;
@@ -43,21 +43,16 @@ export function Map({ center, zoom, other, children, trackUser }: Map) {
             </LayersControl>
             <ZoomControl position="bottomright" />
             <Control position="bottomleft">
-                <div className="flex gap-1 mx-0.5 md:items-end">
+                <div className="md:flex md:gap-0.5 items-end">
                     {other}
-                    <div className="flex items-center gap-0.5">
+                    <div className="flex gap-0 flex-wrap">
                         {profile && pathname !== "/add-spot" &&
                             <Button
-                                style="icon"
+                                style="tertiary"
                                 className="add-spot-btn"
                                 aria-label="Add new spot"
                                 onClick={() => navigate("/add-spot")}>
-                                <Plus
-                                    aria-hidden
-                                    fill="var(--color-text-secondary)"
-                                    className="add-icon"
-                                    strokeWidth={3}
-                                />
+                                <img src={Add} className="w-10 h-auto" />
                             </Button>
                         }
                         {trackUser &&

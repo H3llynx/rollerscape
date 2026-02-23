@@ -4,7 +4,7 @@
 .leaflet-bar a {
     @apply bg-bg-main text-text;
 
-    & label {
+    label {
         @apply font-main text-sm;
     }
 }
@@ -31,6 +31,23 @@
     &:checked::after {
         transform: scale(1.2);
     }
+}
+
+
+.leaflet-touch .leaflet-bar {
+    @apply border-grey rounded-lg;
+
+    a:first-child {
+        @apply rounded-t-md;
+    }
+
+    a:last-child {
+        @apply rounded-b-md;
+    }
+}
+
+.leaflet-touch .leaflet-control-layers {
+    @apply rounded-xl border-grey;
 }
 
 .leaflet-overlay-pane svg {
@@ -72,17 +89,13 @@
 }
 
 .add-spot-btn {
-    @apply relative border-4 w-3 h-3 border-dark bg-text-secondary rounded-full drop-shadow-lg drop-shadow-grey;
-
-    .add-icon {
-        @apply text-bg-main;
-    }
+    @apply p-0 drop-shadow-lg drop-shadow-rgba-dark;
 
     &::after {
         content: "Add a new spot";
         position: absolute;
         top: -2.5rem;
-        left: -0.5rem;
+        left: 1.5rem;
         width: max-content;
         background: var(--color-rgba-grey);
         color: white;

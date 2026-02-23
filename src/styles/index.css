@@ -258,4 +258,22 @@
   .tag {
     @apply capitalize bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
   }
+
+  .card {
+    @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-border;
+
+    .profile-avatar {
+      @apply w-3.5 h-3.5 rounded-full p-[3px] border border-text-secondary;
+    }
+  }
+}
+
+@keyframes scale {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1)
+  }
 }
