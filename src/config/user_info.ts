@@ -1,4 +1,13 @@
 
+export const COUNTRIES = [
+    { value: "es", label: "🇪🇸 Spain" },
+    { value: "fr", label: "🇫🇷 France" },
+    { value: "de", label: "🇩🇪 Germany" },
+    { value: "it", label: "🇮🇹 Italy" },
+    { value: "pt", label: "🇵🇹 Portugal" },
+    { value: "nl", label: "🇳🇱 Netherlands" }
+] as const
+
 export const SKILLS = [
     { value: "beginner", label: "Just starting out" },
     { value: "intermediate", label: "Cruise mode" },
@@ -15,9 +24,3 @@ export const SKATING_STYLES = [
 
 export type SkillLevel = typeof SKILLS[number]["value"];
 export type SkatingStyle = typeof SKATING_STYLES[number]["value"];
-
-export const riderPreferencesErrors = {
-    skill: "Failed to update your skills. Let's retry that trick!",
-    spot_types: "Style didn't land. Retry?",
-    skating_style: "Failed to update your spot preferences. One more go?"
-} as const;

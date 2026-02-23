@@ -1,19 +1,30 @@
-import { CheckLine, MapPin, Navigation, Share } from "lucide-react";
-import Rollers from "../../../../assets/rollerblades.jpg";
+import { CheckLine, MapPin, Navigation, Share, X } from "lucide-react";
+import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
+import { TRAFFIC_LEVELS } from "../../../../config/spots";
 import { sendToGps, shareSpot } from "../../../../services/spots";
-import type { SpotWithTypes } from "../../../../types/spots_types";
+import type { SpotFullInfo } from "../../../../types/spots_types";
 import "./SpotDescription.css";
 
-export function SpotDescription({ spot }: { spot: SpotWithTypes }) {
+type SpotDescription = {
+    spot: SpotFullInfo;
+    setSelectedSpot: (value: SpotFullInfo | null) => void;
+}
+
+export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
     const src = spot.photos && spot.photos.length > 0
         ? spot.photos[0]
-        : Rollers
+        : Skater
 
     return (
         <>
-            <img src={src} alt="" className="hidden md:block w-full h-[240px] object-cover z-0 shadow-sm shadow-rgba-grey" />
+            <div className="hidden md:block relative  w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
+                <img src={src} alt="" className="w-full h-full object-cover" />
+                <p className="font-special text-xs text-text-secondary absolute bottom-0.5 w-full px-1 md:px-2">
+                    Submitted by {spot.created_by}</p>
+            </div>
             <div className="pb-2 md:py-1 text-sm relative z-1">
+
                 <div className="px-1 md:px-2">
                     <div className="flex w-full gap-2 justify-between items-start">
                         <div>
@@ -35,6 +46,9 @@ export function SpotDescription({ spot }: { spot: SpotWithTypes }) {
                                 <Navigation aria-hidden />
                             </Button>
                         </div>
+                        <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
+                            <X aria-hidden />
+                        </Button>
                     </div>
                     <div className="flex items-center gap-[5px] text-grey mt-1">
                         <MapPin aria-hidden width={15} /><span>{spot.address}</span>
@@ -46,6 +60,16 @@ export function SpotDescription({ spot }: { spot: SpotWithTypes }) {
                         {spot.length_km &&
                             <div className="flex items-center gap-[5px]"><h3>Distance:</h3>{spot.length_km} km</div>
                         }
+                        <div className="flex items-center gap-[5px]">
+                            <h3>Traffic level:</h3>
+                            {spot.spot_traffic_levels.map(level =>
+                                <span key={level.id}>
+                                    {TRAFFIC_LEVELS
+                                        .filter(l => l.value === level.name)
+                                        .map(l => l.label)}
+                                </span>
+                            )}
+                        </div>
                         <div className="flex items-center gap-[5px]">
                             <h3>Average score</h3>{spot.average_rating ? spot.average_rating : (<span className="text-grey text-sm">No valoration given</span>)}
                         </div>
@@ -71,7 +95,7 @@ export function SpotDescription({ spot }: { spot: SpotWithTypes }) {
                         </div>
                     </div>
                 }
-            </div>
+            </div >
         </>
     )
 }

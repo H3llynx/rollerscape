@@ -9,7 +9,8 @@ export default defineConfig({
   base: "/rollerscape/",
   test: {
     globals: true,
-    environment: 'node'
+    setupFiles: ['./src/tests/setup.ts'],
+    environment: 'jsdom'
   },
   server: {
     host: true,

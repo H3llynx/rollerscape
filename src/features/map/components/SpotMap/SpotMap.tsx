@@ -7,7 +7,7 @@ import { GridLeftPanel } from "../../../../components/GridLeftPanel/GridLeftPane
 import { Loading } from "../../../../components/Loading/Loading";
 import { SPOT_TYPES } from "../../../../config/spots";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
-import type { SpotType, SpotWithTypes } from '../../../../types/spots_types';
+import type { SpotFullInfo, SpotType } from '../../../../types/spots_types';
 import { handleAria } from "../../../../utils/helpers";
 import { SpotDescription } from "../../../spot/components/SpotDescription/SpotDescription";
 import { useCenter } from "../../hooks/useCenter";
@@ -31,7 +31,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const expandFiltersRef = useRef<HTMLInputElement>(null)
     const { spots, loading } = useSpots();
-    const [selectedSpot, setSelectedSpot] = useState<SpotWithTypes | null>(null);
+    const [selectedSpot, setSelectedSpot] = useState<SpotFullInfo | null>(null);
     const { center, error, setError, trackUser, profile } = useCenter();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -99,7 +99,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
             : [...types, filter])
     };
 
-    const handleMarkerClick = (spot: SpotWithTypes) => {
+    const handleMarkerClick = (spot: SpotFullInfo) => {
         if (selectedSpot === spot) setSelectedSpot(null);
         else setSelectedSpot(spot);
     }
@@ -147,7 +147,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                             >
                                 <div className="h-[6px] rounded-full w-[90px] bg-border opacity-60"></div>
                             </button>
-                            <SpotDescription spot={selectedSpot} />
+                            <SpotDescription spot={selectedSpot} setSelectedSpot={setSelectedSpot} />
                         </div>
                     }
                 </div>
@@ -157,7 +157,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                         <Map
                             center={center}
                             zoom={zoom}
-                            other={otherControls}
+                            other={spots && spots.length > 0 && otherControls}
                             trackUser={trackUser}
                         >
                             {!loading && spots &&

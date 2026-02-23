@@ -8,6 +8,7 @@ import { Dialog } from "../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../components/GridLeftPanel/GridLeftPanel";
 import { Header } from "../../components/Header/Header";
 import { databases } from "../../config/databases";
+import { spotErrors } from "../../config/errors";
 import { addSpotFields } from "../../config/spots";
 import { insertDataWithJunctions, type Table } from "../../services/data";
 import { fetchRoute, reverseGeocode } from "../../services/geolocation";
@@ -94,6 +95,10 @@ export function AddSpotPage() {
 
     const addSpot = async (newSpot: Record<string, unknown>) => {
         if (!profile) return;
+        if (!spotCoordinates) {
+            setError(spotErrors.add.missing_coordinates);
+            return
+        };
 
         const coords = newSpot[coordinates.db_key] as Coordinates[];
         const geo = await reverseGeocode(coords[0]);
@@ -102,7 +107,6 @@ export function AddSpotPage() {
         const { data: typeRows } = await getSpotTypes(selectedTypes);
         const selectedLevel = newSpot[traffic_level.db_key] as TrafficLevel;
         const { data: levelRow } = await getTrafficLevel(selectedLevel);
-
         const values = {
             name: newSpot[name.db_key],
             description: newSpot[description.db_key] || null,
@@ -125,7 +129,7 @@ export function AddSpotPage() {
 
         const { error } = await insertDataWithJunctions(databases.spots, values, junctions);
         if (error) {
-            setError("Ooops, your spot could not be added. Please try again.")
+            setError(spotErrors.add.generic)
             return
         }
         navigate(`/?${slug}=expanded`);

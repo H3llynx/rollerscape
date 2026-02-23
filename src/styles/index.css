@@ -100,6 +100,14 @@
     border-radius: 5px;
   }
 
+  *::-webkit-scrollbar-track {
+    @apply bg-bg-rgba-2;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-text-secondary opacity-30 rounded-md;
+  }
+
   button,
   a,
   input,
@@ -183,16 +191,13 @@
 
   .scroll {
     &::-webkit-scrollbar {
-      width: 9px;
+      @apply w-[9px]
     }
+  }
 
-    &::-webkit-scrollbar-track {
-      background: var(--color-bg-rgba-2);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--color-rgba-yellow);
-      border-radius: 5px;
+  textarea {
+    &::-webkit-scrollbar {
+      @apply w-[4px];
     }
   }
 

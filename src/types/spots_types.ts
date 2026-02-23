@@ -1,4 +1,4 @@
-import { LOCATION_TYPE, ROUTE_GEN_MODE, TRAFFIC_LEVEL } from "../config/spots";
+import { LOCATION_TYPE, ROUTE_GEN_MODE, TRAFFIC_LEVELS } from "../config/spots";
 import type { Table } from "../services/data";
 import type { Coordinates } from "./geolocation_types";
 
@@ -27,11 +27,12 @@ export type SpotTypeList = {
     name: SpotType;
 }[]
 
-export type SpotWithTypes = Spot & {
+export type SpotFullInfo = Spot & {
     spot_spot_types: SpotTypeList;
+    spot_traffic_levels: { id: string; name: TrafficLevel }[];
 }
 
-export type TrafficLevel = typeof TRAFFIC_LEVEL[number]["value"];
+export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];
 
 export type SpotType = "skatepark" | "bowl" | "bike_path" | "greenway" | "smooth_flat" | "street";
 

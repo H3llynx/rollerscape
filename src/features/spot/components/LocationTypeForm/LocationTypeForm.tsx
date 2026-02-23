@@ -94,6 +94,7 @@ export function LocationTypeForm({ locationType, routeGenMode, setRouteGenMode, 
                                     type={gpx.input_type}
                                     ref={fileInputRef}
                                     onChange={handleGpxUpload}
+                                    accept=".gpx"
                                 />
                             </label>
                             {hasGpx &&

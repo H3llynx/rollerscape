@@ -9,12 +9,12 @@ export const SPOT_TYPES = [
 
 export const LOCATION_TYPE = ["point", "route"] as const;
 
-export const TRAFFIC_LEVEL = [
+export const TRAFFIC_LEVELS = [
     { value: "always_quiet", label: "Always quiet" },
     { value: "busy_peak_hours", label: "Busy at peak hours" },
     { value: "busy_weekends", label: "Busy on weekends" },
     { value: "busy_in_season", label: "Busy on season" },
-    { value: "unknown", label: "I'm not sure" }
+    { value: "unknown", label: "Unknown" }
 ] as const;
 
 export const ROUTE_GEN_MODE = [
@@ -74,7 +74,7 @@ export const addSpotFields = {
         db_key: "traffic_level",
         id: "spot-traffic_level",
         label: "How do you qualify the traffic level?",
-        options: TRAFFIC_LEVEL
+        options: TRAFFIC_LEVELS
     },
     photos: {
         db_key: "photos",

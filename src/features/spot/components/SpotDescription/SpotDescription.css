@@ -1,7 +1,7 @@
 @reference "../../../../styles/index.css";
 
 .button-container {
-    @apply flex flex-wrap gap-0.5 items-end;
+    @apply flex gap-0.5 items-end mr-1;
 
     button,
     a {
@@ -26,14 +26,6 @@
 
         &::-webkit-scrollbar {
             @apply h-[6px];
-        }
-
-        &::-webkit-scrollbar-track {
-            @apply bg-bg-rgba-2;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            @apply bg-text-secondary opacity-30 rounded-md;
         }
     }
 }

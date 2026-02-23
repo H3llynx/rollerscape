@@ -1,3 +1,4 @@
+import { url } from "../config/urls";
 import { formatLocation } from "../features/profile/utils";
 import type { Coordinates, Location, NominatimResult, OsrmRoute, RouteCoordinates } from "../types/geolocation_types";
 
@@ -5,7 +6,7 @@ export const searchLocations = async (query: string, country: string): Promise<L
     if (query.length < 3) return [];
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?` +
+            `${url.nominatim}/search?` +
             `q=${encodeURIComponent(query)}&` +
             `format=json&` +
             `addressdetails=1&` +
@@ -59,7 +60,7 @@ export const getBrowserPosition = async (): Promise<{
 export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?` +
+            `${url.nominatim}/reverse?` +
             `lat=${lat}&` +
             `lon=${lon}&` +
             `format=json`
@@ -89,7 +90,7 @@ export const getCoordinates = async (location: string): Promise<{
 }> => {
     try {
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?` +
+            `${url.nominatim}/search?` +
             `q=${encodeURIComponent(location)}` +
             `&format=json&limit=1`,
         )
@@ -123,10 +124,10 @@ export const fetchRoute = async (routeCoords: RouteCoordinates): Promise<OsrmRou
     const { start, end, middle } = routeCoords;
     if (!start || !end) return null;
     try {
-        const url = routeCoords.middle && middle
-            ? `https://router.project-osrm.org/route/v1/cycling/${start.lon},${start.lat};${middle.lon},${middle.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
-            : `https://router.project-osrm.org/route/v1/cycling/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
-        const response = await fetch(url);
+        const osrmUrl = routeCoords.middle && middle
+            ? `${url.osrm}/${start.lon},${start.lat};${middle.lon},${middle.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
+            : `${url.osrm}/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
+        const response = await fetch(osrmUrl);
         const data = await response.json();
         return data.routes;
     } catch (error) {

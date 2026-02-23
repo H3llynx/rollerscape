@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { geolocationErrors } from "../../../config/geolocation";
+import { geolocationErrors } from "../../../config/errors";
 import { getBrowserPosition } from "../../../services/geolocation";
 import type { MapCoordinates } from "../../../types/geolocation_types";
 import { useAuth } from "../../auth/hooks/useAuth";
@@ -23,8 +23,8 @@ export function useCenter() {
         const { data, error } = await getBrowserPosition();
         if (error) {
             if ("code" in error)
-                setError(geolocationErrors[error.code as keyof typeof geolocationErrors] || geolocationErrors[2]);
-            else setError(geolocationErrors[2])
+                setError(geolocationErrors.map[error.code as keyof typeof geolocationErrors.map] || geolocationErrors.map[2]);
+            else setError(geolocationErrors.map[2])
         };
         if (data) {
             setCenter([data.lat, data.lon]);

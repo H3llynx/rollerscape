@@ -1,5 +1,5 @@
 import Skater from "../../assets/skater.png";
-import { COUNTRIES } from "../../config/geolocation";
+import { COUNTRIES } from "../../config/user_info";
 import type { NominatimResult } from "../../types/geolocation_types";
 import type { UserProfile } from "../../types/user_types";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { databases } from "../../../config/databases";
-import { profileLocationUpdateError } from "../../../config/geolocation";
+import { geolocationErrors } from "../../../config/errors";
 import { updateData } from "../../../services/data";
 import type { HomeLocation } from "../../../types/geolocation_types";
 import type { UserProfile } from "../../../types/user_types";
@@ -23,7 +23,7 @@ export function useLocate() {
             } as UserProfile;
 
             const { data, error } = await updateData(updatedProfile, databases.profiles);
-            if (error) setUpdateError(profileLocationUpdateError);
+            if (error) setUpdateError(geolocationErrors.locationUpdate);
             else {
                 setProfile(data);
 

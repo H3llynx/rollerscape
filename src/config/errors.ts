@@ -1,0 +1,37 @@
+export const geolocationErrors = {
+    profile: {
+        1: "Bummer! Your GPS just bailed. Allow location access or find your home spot manually.",
+        2: "Can’t lock your spot! Try searching it instead.",
+        3: "Too slow on the roll… Location timed out. Set your spot manually.",
+        coordinates_issue: "GPS wobble! Try again with the 'Use your current location' button."
+    },
+    map: {
+        1: "Location blocked! Allow location access to keep rolling on the map.",
+        2: "Lost your line! Couldn’t find your spot. Try again in a moment.",
+        3: "Timeout! Your GPS took a pit stop—try again later.",
+    },
+    locationUpdate: "Couldn’t set your home location. Roll back and try again soon."
+} as const;
+
+export const riderPreferencesErrors = {
+    skill: "Failed to update your skills. Let's retry that trick!",
+    spot_types: "Style didn't land. Retry?",
+    skating_style: "Failed to update your spot preferences. One more go?"
+};
+
+export const authErrors = {
+    invalid_credentials: "Wipeout! You missed your trick. Double-check your email and password.",
+    weak_password: "⚡ That password needs more momentum! Roll with at least 6 characters.", // investigate AuthWeakPasswordError
+    user_already_exists: "Whoa, you're already rolling with us! Try logging in.",
+    email_not_confirmed: "One last checkpoint before you ride: verify your email!", // pending to re-enable email verification on supabase
+    user_not_found: "No rider found with those credentials. Want to sign up?",
+    too_many_requests: "Slow down, rider! Go clean your bearings and try again later.",
+    generic: "Something unexpected happened. Mind trying again?"
+};
+
+export const spotErrors = {
+    add: {
+        missing_coordinates: "No spot locked! Pick a location before dropping your route.",
+        generic: "Wipeout! Something went wrong adding your spot. Try again in a bit."
+    }
+};

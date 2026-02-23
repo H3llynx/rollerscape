@@ -2,10 +2,10 @@ import L from "leaflet";
 import { Marker } from 'react-leaflet';
 import Roller from "../../../../assets/marker.png";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
-import type { SpotWithTypes } from "../../../../types/spots_types";
+import type { SpotFullInfo } from "../../../../types/spots_types";
 
 type SpotMarker = {
-    spot: SpotWithTypes;
+    spot: SpotFullInfo;
     position: MapCoordinates;
     onMarkerClick?: () => void;
     dimmed?: boolean;

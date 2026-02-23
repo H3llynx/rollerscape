@@ -1,18 +1,31 @@
 import { useEffect, useState } from "react";
-import { fetchSpots } from "../../../services/spots";
-import type { SpotWithTypes } from "../../../types/spots_types";
+import { fetchSpots, getCreatedByName } from "../../../services/spots";
+import type { SpotFullInfo } from "../../../types/spots_types";
 
 export function useSpots() {
     const [loading, setLoading] = useState<boolean>(true);
-    const [spots, setSpots] = useState<SpotWithTypes[] | null>(null);
+    const [spots, setSpots] = useState<SpotFullInfo[] | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const loadSpots = async () => {
             const { data, error } = await fetchSpots();
             if (error) setError(error.message);
-            setSpots(data);
-            setLoading(false);
+            if (data) {
+                const spotList = await Promise.all(
+                    data.map(async spot => {
+                        if (spot.created_by) {
+                            return {
+                                ...spot,
+                                created_by: await getCreatedByName(spot.created_by),
+                            };
+                        }
+                        return spot;
+                    })
+                );
+                setSpots(spotList);
+                setLoading(false);
+            }
         };
         loadSpots();
     }, []);
