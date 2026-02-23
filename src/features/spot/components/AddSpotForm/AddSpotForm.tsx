@@ -75,7 +75,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
             </span>
             </p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 pr-1 w-full">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 md:pr-1 w-full">
                 {locationType === "point" &&
                     <fieldset>
                         <p className="font-medium mb-0.5">{coordinates.label0}:</p>
@@ -123,16 +123,23 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                 />
                 <fieldset>
                     <p className="md:font-special mb-0.5">{spot_types.label}:</p>
-                    {SPOT_TYPES.map((type) => (
-                        <Input key={type.value}
-                            variant="checkbox"
-                            type="checkbox"
-                            value={type.value}
-                            icons={false}
-                            label={type.label}
-                            onChange={() => handleTypeChange(type.value)}
-                        />
-                    ))}
+                    <div className="grid grid-cols-2 gap-0.5 pb-0.5">
+                        {SPOT_TYPES.map((type) => (
+                            <label
+                                key={type.value}
+                                aria-label={type.label}
+                                className="bg-bg-rgba-2 p-0 has-checked:border-text-secondary has-checked:bg-rgba-secondary">
+                                <input
+                                    key={type.value}
+                                    className="sr-only"
+                                    type={spot_types.input_type}
+                                    value={type.value}
+                                    onChange={() => handleTypeChange(type.value)}
+                                />
+                                <img src={type.img} alt={type.label} />
+                            </label>
+                        ))}
+                    </div>
                     {errors[spot_types.db_key] && (
                         <p className="text-red">{errors[spot_types.db_key]?.message as string}</p>
                     )}

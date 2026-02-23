@@ -9,6 +9,10 @@
     }
 }
 
+.leaflet-left {
+    @apply pb-1;
+}
+
 .leaflet-bottom .leaflet-control-zoom a:hover {
     @apply bg-text-secondary text-bg-main;
 }

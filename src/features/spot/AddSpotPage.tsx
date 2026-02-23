@@ -1,7 +1,6 @@
 import { MapPinX } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Marker } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { Button } from "../../components/Button/Button";
 import { Dialog } from "../../components/Dialog/Dialog";
@@ -21,6 +20,7 @@ import { ReCenterMap } from "../map/components/ReCenterMap/ReCenterMap";
 import { RouteDisplay } from "../map/components/RouteDisplay/RouteDisplay";
 import { UserMarker } from "../map/components/UserMarker/UserMarker";
 import { useCenter } from "../map/hooks/useCenter";
+import { AddMarker } from "./components/AddMarker/AddMarker";
 import { AddSpotForm } from "./components/AddSpotForm/AddSpotForm";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
 import { CoordinatePickerPoint, CoordinatePickerRoute, estimateDistanceFromGpx } from "./utils";
@@ -179,14 +179,14 @@ export function AddSpotPage() {
                         }
                         <UserMarker profile={profile} center={center} />
                         {spotCoordinates &&
-                            <Marker position={[spotCoordinates[0].lat, spotCoordinates[0].lon]} />
+                            <AddMarker position={[spotCoordinates[0].lat, spotCoordinates[0].lon]} />
                         }
                         {routeCoordinates.start && routes.length === 0 &&
-                            <Marker position={[routeCoordinates.start.lat, routeCoordinates.start.lon]} />}
+                            <AddMarker position={[routeCoordinates.start.lat, routeCoordinates.start.lon]} />}
                         {routeCoordinates.end &&
-                            <Marker position={[routeCoordinates.end.lat, routeCoordinates.end.lon]} />}
+                            <AddMarker position={[routeCoordinates.end.lat, routeCoordinates.end.lon]} />}
                         {routeCoordinates.middle &&
-                            <Marker position={[routeCoordinates.middle.lat, routeCoordinates.middle.lon]} />}
+                            <AddMarker position={[routeCoordinates.middle.lat, routeCoordinates.middle.lon]} />}
                         {routes.map((route, i) => (
                             <RouteDisplay
                                 key={i}

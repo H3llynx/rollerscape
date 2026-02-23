@@ -15,7 +15,7 @@ const labelVariants = tv({
             text: "flex flex-col",
             textMap: "flex flex-col font-main font-medium",
             checkbox: "flex py-1 text-sm font-medium text-grey flex-row-reverse cursor-pointer justify-end font-main has-checked:text-text bg-bg-rgba-2",
-            number: "w-fit font-main text-sm font-medium"
+            number: "w-fit font-main text-sm font-medium",
         }
     }
 });

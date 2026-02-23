@@ -105,7 +105,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
     }
 
     const otherControls = (
-        <div className="pb-1">
+        <div className="pb-1 md:pb-0">
             <div id="spot-type-filters">
                 {spotTypes.map(type => (
                     <label className="map-label" key={type}>

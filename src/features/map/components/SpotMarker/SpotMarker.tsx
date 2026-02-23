@@ -17,7 +17,7 @@ const spotIcon = L.icon({
     iconSize: [50, 50],
     iconAnchor: [0, 30],
     popupAnchor: [15, -30],
-    className: "drop-shadow-lg drop-shadow-rgba-grey"
+    className: "spot-marker"
 });
 
 export function SpotMarker({ spot, position, dimmed, onMarkerClick }: SpotMarker) {

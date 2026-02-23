@@ -3,6 +3,7 @@ import { LocateFixed } from "lucide-react";
 import type { ReactNode } from "react";
 import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
+import { useMediaQuery } from "react-responsive";
 import { useLocation, useNavigate } from "react-router";
 import Add from "../../../../assets/add.png";
 import { Button } from "../../../../components/Button/Button";
@@ -23,12 +24,13 @@ export function Map({ center, zoom, other, children, trackUser }: Map) {
     const navigate = useNavigate();
     const { profile } = useAuth();
     const { pathname } = useLocation();
+    const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     return (
         <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}
             style={{ height: '100%', width: '100%' }}
             zoomControl={false}>
-            <LayersControl position="bottomright" collapsed={false}>
+            <LayersControl position="bottomright" collapsed={isDesktop ? false : true}>
                 {layers.map(layer => {
                     return (
                         <LayersControl.BaseLayer key={layer.name} checked={layer.checked} name={layer.name}>
