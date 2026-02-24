@@ -1,4 +1,4 @@
-import { LOCATION_TYPE, ROUTE_GEN_MODE, TRAFFIC_LEVELS } from "../config/spots";
+import { LOCATION_TYPE, ROUTE_GEN_MODE, SPOT_TYPES, TRAFFIC_LEVELS } from "../config/spots";
 import type { Table } from "../services/data";
 import type { Coordinates } from "./geolocation_types";
 
@@ -35,7 +35,7 @@ export type SpotFullInfo = Spot & {
 
 export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];
 
-export type SpotType = "skatepark" | "bowl" | "bike_path" | "greenway" | "smooth_flat" | "street";
+export type SpotType = typeof SPOT_TYPES[number]["value"];
 
 export type JunctionInsert = {
     table: Table;

@@ -1,6 +1,8 @@
 @reference "../../../../styles/index.css";
 
-.map-container {
+.filters-container {
+    @apply pb-1 md:pb-0;
+
     &:has(#expand-filters:checked) {
         #spot-type-filters {
             @apply block absolute md:relative bottom-[110%];

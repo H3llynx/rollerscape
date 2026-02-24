@@ -47,14 +47,6 @@ export type Database = {
                 spot_id: string
                 spot_type_id: number
             }
-            Insert: {
-                spot_id: string
-                spot_type_id: number
-            }
-            Update: {
-                spot_id?: string
-                spot_type_id?: number
-            }
             Relationships: [
                 {
                     foreignKeyName: "spot_spot_types_spot_id_fkey"
@@ -76,14 +68,6 @@ export type Database = {
             Row: {
                 spot_id: string
                 traffic_level_id: number
-            }
-            Insert: {
-                spot_id: string
-                traffic_level_id: number
-            }
-            Update: {
-                spot_id?: string
-                traffic_level_id?: number
             }
             Relationships: [
                 {
@@ -107,14 +91,6 @@ export type Database = {
                 id: number
                 type: string | null
             }
-            Insert: {
-                id?: number
-                type?: string | null
-            }
-            Update: {
-                id?: number
-                type?: string | null
-            }
             Relationships: []
         }
         spots: {
@@ -136,46 +112,6 @@ export type Database = {
                 photos: string[] | null
                 surface_quality: number | null
             }
-            Insert: {
-                address?: string | null
-                average_rating?: number | null
-                city: string
-                coordinates: JSON
-                country: string
-                created_by?: string | null
-                description?: string | null
-                display_lat?: number | null
-                display_lon?: number | null
-                has_obstacles?: boolean | null
-                id?: string
-                length_km?: number | null
-                location?: unknown
-                location_type?: string | null
-                name: string
-                photos?: string[] | null
-                surface_quality?: number | null
-                traffic_level?: string | null
-            }
-            Update: {
-                address?: string | null
-                average_rating?: number | null
-                city?: string
-                coordinates?: JSON
-                country?: string
-                created_by?: string | null
-                description?: string | null
-                display_lat?: number | null
-                display_lon?: number | null
-                has_obstacles?: boolean | null
-                id?: string
-                length_km?: number | null
-                location?: unknown
-                location_type?: string | null
-                name?: string
-                photos?: string[] | null
-                surface_quality?: number | null
-                traffic_level?: string | null
-            }
             Relationships: [
                 {
                     foreignKeyName: "spots_created_by_fkey"
@@ -190,14 +126,6 @@ export type Database = {
             Row: {
                 id: number
                 name: string
-            }
-            Insert: {
-                id?: number
-                name: string
-            }
-            Update: {
-                id?: number
-                name?: string
             }
             Relationships: []
         }

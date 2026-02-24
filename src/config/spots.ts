@@ -71,11 +71,11 @@ export const addSpotFields = {
         min: 1,
         max: 5
     },
-    traffic_level: {
-        db_key: "traffic_level",
-        id: "spot-traffic_level",
+    traffic_levels: {
+        db_key: "traffic_levels",
         label: "How do you qualify the traffic level?",
-        options: TRAFFIC_LEVELS
+        id: "spot-traffic_levels",
+        input_type: "checkbox",
     },
     photos: {
         db_key: "photos",

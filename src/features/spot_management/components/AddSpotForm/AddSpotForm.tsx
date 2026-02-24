@@ -4,14 +4,13 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
-import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
-import { addSpotFields, SPOT_TYPES } from "../../../../config/spots";
+import { spotErrors } from "../../../../config/errors";
+import { addSpotFields, SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
 import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates, MapCoordinates } from "../../../../types/geolocation_types";
-import type { Spot, SpotType } from "../../../../types/spots_types";
-import { capitalize } from "../../../../utils/helpers";
+import type { Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
 
 type AddSpot = {
     center: MapCoordinates;
@@ -22,7 +21,7 @@ type AddSpot = {
 }
 
 export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoordinates, onSubmit }: AddSpot) {
-    const { name, coordinates, photos, description, surface_quality, spot_types, traffic_level } = addSpotFields;
+    const { name, coordinates, photos, description, surface_quality, spot_types, traffic_levels } = addSpotFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting, errors } } = useForm();
     const hasPhoto = watch(photos.db_key);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,11 +31,19 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
         if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
     }, [spotCoordinates]);
 
+
     useEffect(() => {
-        register(spot_types.db_key, {
-            validate: (value) => (value && value.length > 0) || "Please select at least one option!"
+        register(
+            spot_types.db_key, {
+            validate: (value) => (value && value.length > 0) || spotErrors.add.missing_spot_type
         });
-    }, [register, spot_types.db_key]);
+        register(
+            traffic_levels.db_key, {
+            validate: (value) => (value && value.length > 0) || spotErrors.add.missing_traffic_level
+        }
+        );
+    }, [register, spot_types.db_key, traffic_levels.db_key]);
+
 
     const onCancel = () => {
         navigate("/");
@@ -49,6 +56,14 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
             : [...current, value];
         setValue(spot_types.db_key, updated, { shouldValidate: true });
 
+    };
+
+    const handleLevelChange = (value: TrafficLevel) => {
+        const current: TrafficLevel[] = watch(traffic_levels.db_key) || [];
+        const updated = current.includes(value)
+            ? current.filter(level => level !== value)
+            : [...current, value];
+        setValue(traffic_levels.db_key, updated, { shouldValidate: true });
     };
 
     const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,17 +167,23 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         {...register(description.db_key)}
                     />
                 </fieldset>
-                <Dropdown
-                    id={traffic_level.id}
-                    label={traffic_level.label}
-                    {...register(traffic_level.db_key)}
-                >
-                    {traffic_level.options.map((option) => {
-                        return (
-                            <option key={option.value} value={option.value}>{capitalize(option.label)}</option>
-                        )
-                    })}
-                </Dropdown>
+                <fieldset>
+                    {TRAFFIC_LEVELS.map(level => (
+                        <Input
+                            key={level.value}
+                            variant="checkbox"
+                            id={level.value}
+                            label={level.label}
+                            type={traffic_levels.input_type}
+                            value={level.value}
+                            icons={false}
+                            onChange={() => handleLevelChange(level.value)}
+                        />
+                    ))}
+                    {errors[traffic_levels.db_key] && (
+                        <p className="text-red">{errors[traffic_levels.db_key]?.message as string}</p>
+                    )}
+                </fieldset>
                 <fieldset className="flex">
                     <label htmlFor={photos.id} className="file-label">
                         <Camera className="w-1.5" aria-hidden />

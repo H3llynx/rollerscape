@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .full-width-container {
-    @apply w-full h-dvh grid z-0;
+    @apply w-full h-dvh max-h-dvh grid z-0 overflow-y-scroll;
     transition: var(--default-transition);
 }
 
@@ -14,10 +14,8 @@
 }
 
 .left-panel {
-    @apply h-max md:h-full bg-bg-main relative z-402 md:overflow-y-scroll order-1 md:order-0;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.6);
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    @apply h-max -mt-1 border-x border-grey md:mt-0 md:h-full rounded-t-xl bg-bg-main relative z-402 overflow-y-scroll order-1 md:order-0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 
     .left-panel-container {
         @apply h-full;

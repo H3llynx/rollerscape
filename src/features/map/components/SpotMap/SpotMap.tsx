@@ -9,7 +9,7 @@ import { SPOT_TYPES } from "../../../../config/spots";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo, SpotType } from '../../../../types/spots_types';
 import { handleAria } from "../../../../utils/helpers";
-import { SpotDescription } from "../../../spot/components/SpotDescription/SpotDescription";
+import { SpotDescription } from "../../../spot_management/components/SpotDescription/SpotDescription";
 import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
@@ -105,7 +105,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
     }
 
     const otherControls = (
-        <div className="pb-1 md:pb-0">
+        <div className="filters-container">
             <div id="spot-type-filters">
                 {spotTypes.map(type => (
                     <label className="map-label" key={type}>
@@ -153,63 +153,61 @@ export function SpotMap({ zoom }: { zoom: number }) {
                 </div>
                 {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
                 {!loading && center &&
-                    <div className="map-container">
-                        <Map
-                            center={center}
-                            zoom={zoom}
-                            other={spots && spots.length > 0 && otherControls}
-                            trackUser={trackUser}
-                        >
-                            {!loading && spots &&
-                                <LayerGroup>
-                                    {spots
-                                        .filter(spot =>
-                                            spot.spot_spot_types.some(type => checkedTypes.includes(type.name))
-                                        )
-                                        .map(spot => {
-                                            if (spot.location_type === "point")
-                                                return (
+                    <Map
+                        center={center}
+                        zoom={zoom}
+                        other={spots && spots.length > 0 && otherControls}
+                        trackUser={trackUser}
+                    >
+                        {!loading && spots &&
+                            <LayerGroup>
+                                {spots
+                                    .filter(spot =>
+                                        spot.spot_spot_types.some(type => checkedTypes.includes(type.name))
+                                    )
+                                    .map(spot => {
+                                        if (spot.location_type === "point")
+                                            return (
+                                                <SpotMarker
+                                                    key={spot.id}
+                                                    spot={spot}
+                                                    position={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
+                                                    onMarkerClick={() => handleMarkerClick(spot)}
+                                                    dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
+                                                />
+                                            )
+                                        if (spot.location_type === "route") {
+                                            const start = [spot.coordinates[0].lat, spot.coordinates[0].lon];
+                                            const end = [spot.coordinates[spot.coordinates.length - 1].lat, spot.coordinates[spot.coordinates.length - 1].lon];
+                                            return (
+                                                <Fragment key={spot.id}>
                                                     <SpotMarker
-                                                        key={spot.id}
+                                                        key={`${spot.id}-start`}
                                                         spot={spot}
-                                                        position={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
+                                                        position={start as MapCoordinates}
                                                         onMarkerClick={() => handleMarkerClick(spot)}
                                                         dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
                                                     />
-                                                )
-                                            if (spot.location_type === "route") {
-                                                const start = [spot.coordinates[0].lat, spot.coordinates[0].lon];
-                                                const end = [spot.coordinates[spot.coordinates.length - 1].lat, spot.coordinates[spot.coordinates.length - 1].lon];
-                                                return (
-                                                    <Fragment key={spot.id}>
-                                                        <SpotMarker
-                                                            key={`${spot.id}-start`}
-                                                            spot={spot}
-                                                            position={start as MapCoordinates}
-                                                            onMarkerClick={() => handleMarkerClick(spot)}
-                                                            dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
-                                                        />
-                                                        <SpotMarker
-                                                            key={`${spot.id}-end`}
-                                                            spot={spot}
-                                                            position={end as MapCoordinates}
-                                                            onMarkerClick={() => handleMarkerClick(spot)}
-                                                            dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
-                                                        />
-                                                    </Fragment>
-                                                )
-                                            }
+                                                    <SpotMarker
+                                                        key={`${spot.id}-end`}
+                                                        spot={spot}
+                                                        position={end as MapCoordinates}
+                                                        onMarkerClick={() => handleMarkerClick(spot)}
+                                                        dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
+                                                    />
+                                                </Fragment>
+                                            )
                                         }
-                                        )}
-                                </LayerGroup>
-                            }
-                            {profile && <UserMarker profile={profile} center={center} />}
-                            {!profile && <GuestMarker center={center} />}
-                            <ReCenterMap lat={center[0]} lon={center[1]} />
-                            {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
-                            <MapEvents onPopupClose={() => setSelectedSpot(null)} />
-                        </Map>
-                    </div>
+                                    }
+                                    )}
+                            </LayerGroup>
+                        }
+                        {profile && <UserMarker profile={profile} center={center} />}
+                        {!profile && <GuestMarker center={center} />}
+                        <ReCenterMap lat={center[0]} lon={center[1]} />
+                        {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
+                        <MapEvents onPopupClose={() => setSelectedSpot(null)} />
+                    </Map>
                 }
             </GridLeftPanel >
             <Dialog ref={dialogRef} style="error" close={handleClose}>

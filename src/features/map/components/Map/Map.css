@@ -1,5 +1,13 @@
 @reference "../../../../styles/index.css";
 
+.leaflet-bottom {
+    @apply mb-1.5 md:mb-0;
+}
+
+.leaflet-container .leaflet-control-attribution {
+    @apply bg-transparent;
+}
+
 .leaflet-control-layers,
 .leaflet-bar a {
     @apply bg-bg-main text-text;

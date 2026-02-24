@@ -11,7 +11,7 @@ import { spotErrors } from "../../config/errors";
 import { addSpotFields } from "../../config/spots";
 import { insertDataWithJunctions, type Table } from "../../services/data";
 import { fetchRoute, reverseGeocode } from "../../services/geolocation";
-import { getSpotTypes, getTrafficLevel } from "../../services/spots";
+import { getSpotTypes, getTrafficLevels } from "../../services/spots";
 import type { Coordinates, OsrmRoute, Route, RouteCoordinates } from "../../types/geolocation_types";
 import type { JunctionInsert, RouteGenMode, Spot, SpotType, TrafficLevel } from "../../types/spots_types";
 import { createSlug, osrmToJsonCoords } from "../../utils/helpers";
@@ -27,7 +27,7 @@ import { CoordinatePickerPoint, CoordinatePickerRoute, estimateDistanceFromGpx }
 
 export function AddSpotPage() {
     const { center, trackUser, profile } = useCenter();
-    const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_level, photos } = addSpotFields;
+    const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_levels, photos } = addSpotFields;
     const [confirmedLocationType, setConfirmedLocationType] = useState<boolean>(false);
     const [locationType, setLocationType] = useState<Spot["location_type"]>(location_type.options[0] as Spot["location_type"]);
     const [routeGenMode, setRouteGenMode] = useState<RouteGenMode | null>(null);
@@ -98,15 +98,15 @@ export function AddSpotPage() {
         if (!spotCoordinates) {
             setError(spotErrors.add.missing_coordinates);
             return
-        };
-
+        }
+        const selectedLevels = newSpot[traffic_levels.db_key] as TrafficLevel[];
+        const selectedTypes = newSpot[spot_types.db_key] as SpotType[];
         const coords = newSpot[coordinates.db_key] as Coordinates[];
         const geo = await reverseGeocode(coords[0]);
         const slug = createSlug(`${newSpot[name.db_key]}-${geo.city}`);
-        const selectedTypes = newSpot[spot_types.db_key] as SpotType[];
         const { data: typeRows } = await getSpotTypes(selectedTypes);
-        const selectedLevel = newSpot[traffic_level.db_key] as TrafficLevel;
-        const { data: levelRow } = await getTrafficLevel(selectedLevel);
+        const { data: levelRows } = await getTrafficLevels(selectedLevels);
+
         const values = {
             name: newSpot[name.db_key],
             description: newSpot[description.db_key] || null,
@@ -124,7 +124,7 @@ export function AddSpotPage() {
 
         const junctions: JunctionInsert[] = [
             { table: "spot_spot_types", fKey: "spot_type_id", values: typeRows?.map(row => row.id) ?? [] },
-            ...(levelRow ? [{ table: "spot_traffic_levels" as Table, fKey: "traffic_level_id", values: [levelRow.id] }] : [])
+            { table: "spot_traffic_levels" as Table, fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
         ]
 
         const { error } = await insertDataWithJunctions(databases.spots, values, junctions);
@@ -156,7 +156,7 @@ export function AddSpotPage() {
                 <GridLeftPanel collapsed={!confirmedLocationType}>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
-                            <div className="left-panel-container p-2 md:pt-8">
+                            <div className="left-panel-container px-2 pt-1.5 pb-2 md:pt-8">
                                 <AddSpotForm
                                     center={center!}
                                     locationType={locationType}

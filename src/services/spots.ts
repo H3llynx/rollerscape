@@ -82,12 +82,11 @@ export const getSpotTypes = async (types: SpotType[]) => {
     return { data, error };
 }
 
-export const getTrafficLevel = async (level: TrafficLevel) => {
+export const getTrafficLevels = async (level: TrafficLevel[]) => {
     const { data, error } = await supabase
         .from(databases.traffic_levels)
         .select("id")
-        .eq("name", level)
-        .maybeSingle();
+        .in("name", level);
     return { data, error };
 }
 

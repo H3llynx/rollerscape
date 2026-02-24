@@ -70,7 +70,7 @@
 
 @layer base {
   html {
-    background: var(--color-dark);
+    background: var(--color-bg-main);
   }
 
   body {
