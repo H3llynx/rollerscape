@@ -55,7 +55,7 @@ export function Map({ center, zoom, other, children, trackUser }: Map) {
                                     className="add-spot-btn"
                                     aria-label="Add new spot"
                                     onClick={() => navigate("/add-spot")}>
-                                    <img src={Add} className="w-10 h-auto" />
+                                    <img src={Add} className="w-12 h-auto" />
                                 </Button>
                             }
                             {trackUser &&

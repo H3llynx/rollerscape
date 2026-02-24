@@ -143,10 +143,11 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                             <label
                                 key={type.value}
                                 aria-label={type.label}
-                                className="bg-bg-rgba-2 p-0 button-shadow cursor-pointer hover:-translate-y-px has-checked:border-text-secondary has-checked:bg-rgba-secondary">
+                                className="icon-label button-shadow">
                                 <input
                                     key={type.value}
                                     className="sr-only"
+                                    tabIndex={0}
                                     type={spot_types.input_type}
                                     value={type.value}
                                     onChange={() => handleTypeChange(type.value)}
@@ -156,7 +157,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         ))}
                     </div>
                     {errors[spot_types.db_key] && (
-                        <p className="text-red">{errors[spot_types.db_key]?.message as string}</p>
+                        <p className="error">{errors[spot_types.db_key]?.message as string}</p>
                     )}
                 </fieldset>
                 <fieldset>
@@ -181,7 +182,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         />
                     ))}
                     {errors[traffic_levels.db_key] && (
-                        <p className="text-red">{errors[traffic_levels.db_key]?.message as string}</p>
+                        <p className="error">{errors[traffic_levels.db_key]?.message as string}</p>
                     )}
                 </fieldset>
                 <fieldset className="flex">
@@ -197,7 +198,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         />
                     </label>
                     {hasPhoto &&
-                        <Button type="button" style="tertiary" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
+                        <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
                     }
                 </fieldset>
                 <Button style="primary">{isSubmitting ? <Loading /> : "Add spot"}</Button>

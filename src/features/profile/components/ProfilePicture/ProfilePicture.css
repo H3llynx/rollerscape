@@ -1,0 +1,27 @@
+@reference "../../../../styles/index.css";
+
+.avatar-button-container {
+    @apply w-6 h-6 p-0 relative rounded-lg overflow-hidden border border-rgba-secondary;
+    transition: var(--default-transition);
+
+    label {
+        @apply opacity-0 absolute w-full h-full inset-0 cursor-pointer hover:translate-0;
+        transition: var(--default-transition);
+
+        span {
+            @apply flex flex-col h-full font-main text-sm justify-center items-center text-bg-main;
+        }
+
+        input {
+            @apply sr-only;
+        }
+    }
+
+    &:hover {
+        @apply -translate-y-px;
+
+        label {
+            @apply opacity-100 bg-rgba-secondary;
+        }
+    }
+}

@@ -7,7 +7,7 @@ import { useAuth } from "../auth/hooks/useAuth";
 import { Greetings } from "./components/Greetings/Greetings";
 
 export function ProfilePage() {
-    const { profile, loading } = useAuth();
+    const { profile, loading, setProfile } = useAuth();
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export function ProfilePage() {
             <main className="w-full h-full place-content-center">
                 {profile && profile.home_location_name &&
                     <section className="grid w-full md:grid-cols-2 h-full">
-                        <article className="grid-left-article scroll">
+                        <article className="flex flex-col p-2 lg:px-4 my-auto relative w-full h-fit 2xl:items-center">
                             <Greetings profile={profile} />
                             <RiderPreferences />
                         </article>

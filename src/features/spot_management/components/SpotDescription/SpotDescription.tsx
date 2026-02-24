@@ -1,5 +1,5 @@
 import { Check, CheckLine, MapPin, Navigation, Share, X } from "lucide-react";
-import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
@@ -14,7 +14,7 @@ type SpotDescription = {
 }
 
 export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
-    const [visible, setVisible] = useState(false);
+    const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
 
     const src = spot.photos && spot.photos.length > 0
         ? spot.photos[0]
@@ -55,7 +55,7 @@ export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
                                 )
                                 )}
                             </div>
-                            {spot.created_by &&
+                            {spot.created_by && !isTabletorDesktop &&
                                 <div className="flex gap-[5px] items-center text-xs my-1">
                                     Submitted by
                                     <span className="text-text-secondary font-bold">
@@ -96,8 +96,8 @@ export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
                             {spot.spot_traffic_levels.map(level =>
                                 <li
                                     key={level.id}
-                                    className={`${spot.spot_traffic_levels.length > 1 ? "text-xs" : ""} flex gap-[5px] items-center text-text-secondary font-medium`}>
-                                    {spot.spot_traffic_levels.length > 1 && <Check aria-hidden width={12} height={20} />}
+                                    className={`${spot.spot_traffic_levels.length > 1 ? "text-xs" : ""} text-text-secondary font-medium`}>
+                                    {spot.spot_traffic_levels.length > 1 && <Check aria-hidden width={12} height={20} className="inline mr-[5px]" />}
                                     {TRAFFIC_LEVELS
                                         .filter(l => l.value === level.name)
                                         .map(l => l.label)}
