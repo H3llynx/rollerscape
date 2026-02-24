@@ -29,7 +29,7 @@ export function useCenter() {
         if (data) {
             setCenter([data.lat, data.lon]);
         }
-    };
+    }
 
     return { center, setCenter, error, setError, trackUser, profile }
 }

@@ -258,7 +258,7 @@
   }
 
   .tag {
-    @apply capitalize bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
+    @apply bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
   }
 
   .card {

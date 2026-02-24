@@ -10,14 +10,13 @@ import { updateData } from "../../../../services/data";
 import type { SpotType } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useProfile } from "../../hooks/useProfile";
 import "./RiderPreferences.css";
 
 export function RiderPreferences() {
     const [error, setError] = useState<string | null>(null);
-    const { setProfile } = useAuth();
-    const { profile } = useProfile();
+    const { profile, setProfile } = useAuth();
     const dialogRef = useRef<HTMLDialogElement>(null);
+    if (!profile) return;
 
     const handleClose = () => {
         dialogRef.current?.close();

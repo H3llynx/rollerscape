@@ -3,11 +3,11 @@ import { useNavigate } from "react-router";
 import Riders from "../../assets/riders.png";
 import { Header } from "../../components/Header/Header";
 import { RiderPreferences } from "../../features/profile/components/RiderPreferences/RiderPreferences";
-import { useProfile } from "../../features/profile/hooks/useProfile";
+import { useAuth } from "../auth/hooks/useAuth";
 import { Greetings } from "./components/Greetings/Greetings";
 
 export function ProfilePage() {
-    const { profile, loading } = useProfile();
+    const { profile, loading } = useAuth();
 
     const navigate = useNavigate();
 
