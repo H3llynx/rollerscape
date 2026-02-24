@@ -23,7 +23,7 @@
   --color-rgba-grey: rgba(46, 46, 46, 0.5);
   --color-rgba-white: rgba(255, 255, 255, 0.4);
   --color-rgba-yellow: rgba(250, 204, 21, 0.4);
-  --color-rgba-turquoise: rgba(21, 177, 162, 0.6);
+  --color-rgba-turquoise: rgba(21, 187, 132, 0.4);
   --background-image-hover-yellow: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
   --color-text: var(--color-white);
   --color-bg-main: var(--color-dark);
@@ -229,13 +229,7 @@
   .button-shadow {
     box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-
-    &:hover {
-      box-shadow:
-        0 6px 16px rgba(0, 0, 0, 0.5),
-        0 0 8px var(--color-bg-rgba-2);
-    }
+      inset 0 1px 5px rgba(255, 255, 255, 0.3);
   }
 
   .bg-blur {

@@ -143,7 +143,7 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                             <label
                                 key={type.value}
                                 aria-label={type.label}
-                                className="bg-bg-rgba-2 p-0 has-checked:border-text-secondary has-checked:bg-rgba-secondary">
+                                className="bg-bg-rgba-2 p-0 button-shadow cursor-pointer hover:-translate-y-px has-checked:border-text-secondary has-checked:bg-rgba-secondary">
                                 <input
                                     key={type.value}
                                     className="sr-only"

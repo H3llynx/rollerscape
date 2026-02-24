@@ -8,7 +8,7 @@ type Button = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const buttonVariants = tv({
-    base: "flex gap-0.5 items-center justify-center font-main text-sm rounded-lg py-0.5 border border-transparent hover:-translate-y-[1px]",
+    base: "flex gap-0.5 items-center justify-center font-main text-sm rounded-lg py-0.5 border border-transparent hover:-translate-y-px",
     variants: {
         style: {
             primary: "bg-bg-cta text-text-cta font-bold active:bg-bg-cta-active px-1.5 button-shadow",

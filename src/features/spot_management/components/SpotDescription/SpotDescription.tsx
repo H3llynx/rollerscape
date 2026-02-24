@@ -1,4 +1,4 @@
-import { CheckLine, MapPin, Navigation, Share, X } from "lucide-react";
+import { Check, CheckLine, MapPin, Navigation, Share, X } from "lucide-react";
 import { useState } from "react";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
@@ -79,7 +79,7 @@ export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
                     <div className="flex items-center gap-[5px] text-grey mt-1">
                         <MapPin aria-hidden width={15} /><span>{spot.address}</span>
                     </div>
-                    <div className="w-full flex gap-1 justify-between items-center flex-wrap mt-1">
+                    <div className="w-full flex gap-1 justify-between items-center flex-wrap my-1">
                         <div className="flex items-center gap-[5px]">
                             <h3>Surface quality:</h3>{spot.surface_quality}/5</div>
                         {spot.has_obstacles && <span className="flex items-center gap-[5px] text-medium text-text-secondary"><CheckLine width={15} /> Obstacles</span>}
@@ -87,18 +87,23 @@ export function SpotDescription({ spot, setSelectedSpot }: SpotDescription) {
                             <div className="flex items-center gap-[5px]"><h3>Distance:</h3>{spot.length_km} km</div>
                         }
                         <div className="flex items-center gap-[5px]">
-                            <h3>Traffic level:</h3>
+                            <h3>Average score</h3>{spot.average_rating ? spot.average_rating : (<span className="text-grey text-sm">No valoration given</span>)}
+                        </div>
+                    </div>
+                    <div className={`flex gap-[5px] ${spot.spot_traffic_levels.length > 1 ? "flex-col" : "flex-row"}`}>
+                        <h3>Traffic level:</h3>
+                        <ul>
                             {spot.spot_traffic_levels.map(level =>
-                                <span key={level.id}>
+                                <li
+                                    key={level.id}
+                                    className={`${spot.spot_traffic_levels.length > 1 ? "text-xs" : ""} flex gap-[5px] items-center text-text-secondary font-medium`}>
+                                    {spot.spot_traffic_levels.length > 1 && <Check aria-hidden width={12} height={20} />}
                                     {TRAFFIC_LEVELS
                                         .filter(l => l.value === level.name)
                                         .map(l => l.label)}
-                                </span>
+                                </li>
                             )}
-                        </div>
-                        <div className="flex items-center gap-[5px]">
-                            <h3>Average score</h3>{spot.average_rating ? spot.average_rating : (<span className="text-grey text-sm">No valoration given</span>)}
-                        </div>
+                        </ul>
                     </div>
                     {
                         spot.description &&
