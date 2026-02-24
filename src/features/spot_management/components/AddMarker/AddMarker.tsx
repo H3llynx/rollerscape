@@ -6,8 +6,7 @@ import type { MapCoordinates } from "../../../../types/geolocation_types";
 const spotIcon = L.icon({
     iconUrl: SpotMarker,
     iconSize: [50, 50],
-    iconAnchor: [0, 30],
-    popupAnchor: [15, -30],
+    iconAnchor: [30, 35],
     className: "spot-marker"
 });
 

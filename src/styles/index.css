@@ -153,12 +153,9 @@
     }
   }
 
+
   .file-label {
     @apply flex gap-0.5 items-center;
-  }
-
-  .icon-label {
-    @apply bg-bg-rgba-2 p-0 cursor-pointer focus-within:outline-2 focus-within:outline-text-secondary focus-within:outline-offset-2 hover:-translate-y-px has-checked:border-text-secondary has-checked:bg-rgba-secondary
   }
 
   input {
@@ -270,6 +267,10 @@
 
   .error {
     @apply text-red text-sm;
+  }
+
+  .icon-label {
+    @apply bg-bg-rgba-2 p-0 cursor-pointer focus-within:outline-2 focus-within:outline-text-secondary focus-within:outline-offset-2 hover:-translate-y-px has-checked:border-text-secondary has-checked:bg-rgba-secondary;
   }
 }
 

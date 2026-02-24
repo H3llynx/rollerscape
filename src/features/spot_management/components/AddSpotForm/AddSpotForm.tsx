@@ -55,7 +55,6 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
             ? current.filter(type => type !== value)
             : [...current, value];
         setValue(spot_types.db_key, updated, { shouldValidate: true });
-
     };
 
     const handleLevelChange = (value: TrafficLevel) => {

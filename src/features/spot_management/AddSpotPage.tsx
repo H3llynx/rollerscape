@@ -178,14 +178,14 @@ export function AddSpotPage() {
                             </>
                         }
                         <UserMarker profile={profile} center={center} />
-                        {spotCoordinates &&
+                        {spotCoordinates && routes.length === 0 && !gpxCoordinates &&
                             <AddMarker position={[spotCoordinates[0].lat, spotCoordinates[0].lon]} />
                         }
                         {routeCoordinates.start && routes.length === 0 &&
                             <AddMarker position={[routeCoordinates.start.lat, routeCoordinates.start.lon]} />}
-                        {routeCoordinates.end &&
+                        {routeCoordinates.end && routes.length === 0 &&
                             <AddMarker position={[routeCoordinates.end.lat, routeCoordinates.end.lon]} />}
-                        {routeCoordinates.middle &&
+                        {routeCoordinates.middle && routes.length === 0 &&
                             <AddMarker position={[routeCoordinates.middle.lat, routeCoordinates.middle.lon]} />}
                         {routes.map((route, i) => (
                             <RouteDisplay

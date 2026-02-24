@@ -98,7 +98,7 @@ export function LocationTypeForm({ locationType, routeGenMode, setRouteGenMode, 
                                 />
                             </label>
                             {hasGpx &&
-                                <Button type="button" style="tertiary" aria-label="Remove file" onClick={handleGpxClear}><X aria-hidden /></Button>
+                                <Button type="button" style="icon" aria-label="Remove file" onClick={handleGpxClear}><X aria-hidden /></Button>
                             }
                         </fieldset>
                     }
