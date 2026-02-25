@@ -1,4 +1,8 @@
-@reference "../../../../styles/index.css";
+@reference "../../../styles/index.css";
+
+.tag {
+    @apply bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
+}
 
 .button-container {
     @apply flex gap-0.5 items-end mr-1;
@@ -41,4 +45,22 @@
             @apply h-[6px];
         }
     }
+}
+
+.edit-button::after {
+    content: "Track my location";
+    position: absolute;
+    top: -1.5rem;
+    left: 0.5rem;
+    width: max-content;
+    background: var(--color-rgba-grey);
+    color: white;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: small;
+    font-weight: 500;
+    transform: scale(0);
+    transition: var(--default-transition)
 }

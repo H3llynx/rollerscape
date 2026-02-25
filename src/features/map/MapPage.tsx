@@ -1,12 +1,15 @@
 import { Header } from "../../components/Header/Header";
 import { SpotMap } from "./components/SpotMap/SpotMap";
+import { SpotsProvider } from "./context/Spots/SpotsProvider";
 
 export function MapPage() {
   return (
     <>
       <Header style="map" />
       <main className="w-screen h-full z-0">
-        <SpotMap zoom={14} />
+        <SpotsProvider>
+          <SpotMap zoom={14} />
+        </SpotsProvider>
       </main>
     </>
   )

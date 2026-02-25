@@ -44,3 +44,17 @@ export const insertDataWithJunctions = async (
     }
     return { data, error };
 };
+
+export const deleteData = async (id: string, table: Table) => {
+    try {
+        const { data, error } = await supabase
+            .from(table)
+            .delete()
+            .eq("id", id)
+        return { data, error };
+    } catch (err: unknown) {
+        const error = err as Error;
+        console.error(`${table} update error: ${error} | id: ${id} not deleted`);
+        return { data: null, error };
+    }
+};

@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 export const useAuth = () => {
     const context = useContext(AuthContext)
     if (!context) {
-        throw new Error("Context / provider error")
+        throw new Error("Auth context / provider error")
     }
     return context;
 };

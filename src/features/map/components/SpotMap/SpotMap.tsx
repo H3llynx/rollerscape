@@ -9,7 +9,7 @@ import { SPOT_TYPES } from "../../../../config/spots";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo, SpotType } from '../../../../types/spots_types';
 import { handleAria } from "../../../../utils/helpers";
-import { SpotDescription } from "../../../spot_management/components/SpotDescription/SpotDescription";
+import { SpotLeftPanel } from "../../../spot_management/components/SpotLeftPanel/SpotLeftPanel";
 import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
@@ -22,19 +22,13 @@ import { UserMarker } from "../UserMarker/UserMarker";
 import "./SpotMap.css";
 
 export function SpotMap({ zoom }: { zoom: number }) {
-    const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const expandFiltersRef = useRef<HTMLInputElement>(null)
-    const { spots, loading } = useSpots();
-    const [selectedSpot, setSelectedSpot] = useState<SpotFullInfo | null>(null);
+    const { spots, loading, selectedSpot, setSelectedSpot } = useSpots();
     const { center, error, setError, trackUser, profile } = useCenter();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
     const [spotCenter, setSpotCenter] = useState<MapCoordinates | null>(null);
-
-    const spotTypes = useMemo(() => {
-        if (!spots) return [];
-        return [...new Set(spots.flatMap(spot => spot.spot_spot_types.map(type => type.name as SpotType)))];
-    }, [spots]);
 
     useEffect(() => {
         if (error) {
@@ -42,14 +36,19 @@ export function SpotMap({ zoom }: { zoom: number }) {
         }
     }, [error]);
 
+    const spotTypes = useMemo(() => {
+        if (!spots) return [];
+        return [...new Set(spots.flatMap(spot => spot.spot_spot_types.map(type => type.name as SpotType)))];
+    }, [spots]);
+
     useEffect(() => {
         if (!spotTypes.length) return;
         if (searchParams.size === 0) {
             setCheckedTypes(spotTypes);
-        } else {
-            const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
-            setCheckedTypes(filtersToCheck);
+            return;
         }
+        const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
+        setCheckedTypes(filtersToCheck);
     }, [spotTypes]);
 
     useEffect(() => {
@@ -95,7 +94,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
     };
 
     const handleTypeChange = (filter: SpotType) => {
-        setCheckedTypes(types => types.includes(filter)
+        setCheckedTypes((types) => types.includes(filter)
             ? types.filter(type => type !== filter)
             : [...types, filter])
     };
@@ -148,7 +147,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                             >
                                 <div className="h-[6px] rounded-full w-[90px] bg-border opacity-60"></div>
                             </button>
-                            <SpotDescription spot={selectedSpot} setSelectedSpot={setSelectedSpot} />
+                            <SpotLeftPanel onDelete={() => setCheckedTypes(spotTypes)} />
                         </div>
                     }
                 </div>
@@ -161,7 +160,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                         trackUser={trackUser}
                     >
                         {!loading && spots &&
-                            <LayerGroup>
+                            <LayerGroup key={`${spots?.length}-${checkedTypes.length}`}>
                                 {spots
                                     .filter(spot =>
                                         spot.spot_spot_types.some(type => checkedTypes.includes(type.name))

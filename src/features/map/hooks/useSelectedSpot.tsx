@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { SpotsContext } from "../context/Spots/SpotsContext";
+import { SelectedSpotContext } from "../context/SelectedSpot/SelectedSpotContext";
 
 export const useSpots = () => {
-    const context = useContext(SpotsContext)
+    const context = useContext(SelectedSpotContext)
     if (!context) {
         throw new Error("SelectedSpot context / provider error")
     }

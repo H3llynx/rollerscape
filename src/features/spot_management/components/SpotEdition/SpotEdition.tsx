@@ -1,22 +1,15 @@
-import { Check, CheckLine, Edit2, MapPin, Navigation, Share, Trash2, X } from "lucide-react";
-import { useMediaQuery } from "react-responsive";
+import { Check, CheckLine, MapPin, PencilOff, Trash2, X } from "lucide-react";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
-import { SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
-import { sendToGps, shareSpot } from "../../../../services/spots";
-import { useAuth } from "../../../auth/hooks/useAuth";
+import { TRAFFIC_LEVELS } from "../../../../config/spots";
 import { useSpots } from "../../../map/hooks/useSpots";
-import "../../styles/spot_management.css";
-import { RiderCard } from "../RiderCard/RiderCard";
 
-type SpotDescription = {
-    onEdit: () => void;
+type SpotEdition = {
+    onCancel: () => void;
     onDelete: () => void;
 }
 
-export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
-    const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
-    const { profile } = useAuth();
+export function SpotEdition({ onCancel, onDelete }: SpotEdition) {
     const { selectedSpot, setSelectedSpot } = useSpots();
     if (!selectedSpot) return;
 
@@ -28,65 +21,21 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         <>
             <div className="hidden md:block relative  w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
                 <img src={src} alt="" className="w-full h-full object-cover" />
-                {selectedSpot.created_by &&
-                    <>
-                        <div className="spot-created-by bg-blur">
-                            Submitted by
-                            <span className="font-bold text-text-secondary">
-                                {selectedSpot.created_by_name}
-                            </span>
-                        </div>
-                        <div className="rider-card-container right-[5px] bottom-[28px]">
-                            <RiderCard riderId={selectedSpot.created_by} />
-                        </div>
-                    </>
-                }
             </div>
             <article className="pb-2 md:py-1 text-sm relative z-1">
 
                 <div className="px-1 md:px-2">
                     <div className="flex gap-2 justify-between items-start">
-                        <div>
-                            <h1>{selectedSpot.name}</h1>
-                            <div className="flex gap-0.5 mt-1 flex-wrap">
-                                {selectedSpot.spot_spot_types.map((type, i) => (
-                                    <span className="tag" key={i} >
-                                        {SPOT_TYPES
-                                            .filter(selectedSpot => selectedSpot.value === type.name)
-                                            .map(selectedSpot => selectedSpot.label)
-                                        }
-                                    </span>
-                                )
-                                )}
-                            </div>
-                            {selectedSpot.created_by && !isTabletorDesktop &&
-                                <div className="flex gap-[5px] items-center text-xs my-1">
-                                    Submitted by
-                                    <span className="text-text-secondary font-bold">
-                                        {selectedSpot.created_by_name}
-                                    </span>
-                                </div>
-                            }
-                        </div>
+                        <h1>{selectedSpot.name}</h1>
                         <div className="button-container">
-                            {profile && (profile.id === selectedSpot.created_by) &&
-                                <>
-                                    <Button style="icon" aria-label="edit selected spot" onClick={onEdit}>
-                                        <Edit2 aria-hidden />
-                                    </Button>
-                                    <Button style="icon" aria-label="Delete spot" onClick={onDelete}>
-                                        <Trash2 aria-hidden />
-                                    </Button>
-                                </>
-                            }
-                            <Button style="icon" aria-label="share selected spot" onClick={() => shareSpot(selectedSpot)}>
-                                <Share aria-hidden />
+                            <Button style="icon" aria-label="Delete spot" onClick={onDelete}>
+                                <Trash2 aria-hidden />
                             </Button>
-                            <Button style="icon" aria-label="Send to GPS app" onClick={() => sendToGps(selectedSpot)}>
-                                <Navigation aria-hidden />
+                            <Button style="icon" aria-label="Cancel edition" onClick={onCancel}>
+                                <PencilOff aria-hidden />
                             </Button>
                         </div>
-                        <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
+                        <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Cancel" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>
                     </div>

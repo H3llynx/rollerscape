@@ -234,10 +234,6 @@
     @apply w-[70%] md:w-fit;
   }
 
-  .tag {
-    @apply bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
-  }
-
   .card {
     @apply flex gap-0.5 p-0.5 items-center rounded-lg border border-border overflow-hidden;
 

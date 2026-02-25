@@ -22,13 +22,13 @@ export type Spot = {
     slug: string;
 };
 
-export type SpotTypeList = {
+export type SpotTypeArr = {
     id: number;
     name: SpotType;
 }[]
 
 export type SpotFullInfo = Spot & {
-    spot_spot_types: SpotTypeList;
+    spot_spot_types: SpotTypeArr;
     spot_traffic_levels: { id: string; name: TrafficLevel }[];
     created_by_name: string;
 }
