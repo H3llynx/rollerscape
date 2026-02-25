@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
+import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
 import { databases } from "../../../../config/databases";
 import { riderPreferencesErrors } from "../../../../config/errors";
@@ -84,17 +85,20 @@ export function RiderPreferences() {
                     </legend>
                     <span>(Select all that apply)</span>
                 </div>
-                {SPOT_TYPES.map((spot) => (
-                    <Input key={spot.value}
-                        variant="checkbox"
-                        type="checkbox"
-                        value={spot.value}
-                        icons={false}
-                        label={spot.label}
-                        onChange={() => handleSpotsChange(spot.value)}
-                        checked={profile.preferred_spot_types?.includes(spot.value)}
-                    />
-                ))}
+                <div className="spot-types-grid">
+                    {SPOT_TYPES.map((type) => (
+                        <IconInput
+                            key={type.value}
+                            id={type.value}
+                            label={type.label}
+                            value={type.value}
+                            onChange={() => handleSpotsChange(type.value)}
+                            checked={profile.preferred_spot_types?.includes(type.value)}
+                        >
+                            <img src={type.img} alt={type.label} />
+                        </IconInput>
+                    ))}
+                </div>
             </fieldset>
             <fieldset>
                 <div className="fieldset">

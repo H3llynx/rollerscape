@@ -2,7 +2,7 @@ import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { tv } from "tailwind-variants";
 import "./Input.css";
 
-export type Input = {
+type Input = {
     icons?: boolean;
     variant?: keyof typeof labelVariants.variants.variant;
     label?: string;

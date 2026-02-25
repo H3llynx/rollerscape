@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
+import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
 import { spotErrors } from "../../../../config/errors";
@@ -137,22 +138,18 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                 />
                 <fieldset>
                     <p className="md:font-special mb-0.5">{spot_types.label}:</p>
-                    <div className="grid grid-cols-2 gap-0.5 pb-0.5">
+                    <div className="spot-types-grid">
                         {SPOT_TYPES.map((type) => (
-                            <label
+                            <IconInput
                                 key={type.value}
-                                aria-label={type.label}
-                                className="icon-label button-shadow">
-                                <input
-                                    key={type.value}
-                                    className="sr-only"
-                                    tabIndex={0}
-                                    type={spot_types.input_type}
-                                    value={type.value}
-                                    onChange={() => handleTypeChange(type.value)}
-                                />
+                                id={type.value}
+                                label={type.label}
+                                type={spot_types.input_type}
+                                value={type.value}
+                                onChange={() => handleTypeChange(type.value)}
+                            >
                                 <img src={type.img} alt={type.label} />
-                            </label>
+                            </IconInput>
                         ))}
                     </div>
                     {errors[spot_types.db_key] && (
