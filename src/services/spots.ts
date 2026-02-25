@@ -2,35 +2,6 @@ import { databases } from "../config/databases";
 import type { SpotFullInfo, SpotType, TrafficLevel } from "../types/spots_types";
 import supabase from "../utils/supabase";
 
-export const fetchSpots = async () => {
-    const { data, error } = await supabase
-        .from("spots")
-        .select(`
-                *,
-                spot_spot_types(
-                    ...spot_types(id, name)
-                ),
-                spot_traffic_levels(
-                    ...traffic_levels(id, name)
-                )
-            `)
-    return { data, error };
-};
-
-export const fetchBySlug = async (slug: string) => {
-    const { data, error } = await supabase
-        .from("spots")
-        .select(`
-                *,
-                spot_spot_types(
-                    ...spot_types(id, name)
-                )
-            `)
-        .eq("slug", slug)
-        .single();
-    return { data, error };
-}
-
 export const shareSpot = async (spot: SpotFullInfo) => {
     const url = `https://www.google.com/maps?q=${spot.display_lat},${spot.display_lon}`;
     try {

@@ -4,11 +4,11 @@ import supabase from "../utils/supabase";
 
 export type Table = keyof Database["Tables"]
 
-export const fetchData = async (table: Table) => {
+export const fetchData = async<T>(table: Table, select: string) => {
     const { data, error } = await supabase
         .from(table)
-        .select("*");
-    return { data, error };
+        .select(select);
+    return { data: data as T[] | null, error };
 };
 
 export const updateData = async <T extends { id: string }>(updatedData: T, table: Table) => {

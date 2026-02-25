@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchSpots, getCreatedByName } from "../../../services/spots";
+import { databases, dbSelect } from "../../../config/databases";
+import { fetchData } from "../../../services/data";
+import { getCreatedByName } from "../../../services/spots";
 import type { SpotFullInfo } from "../../../types/spots_types";
 
 export function useSpots() {
@@ -9,12 +11,12 @@ export function useSpots() {
 
     useEffect(() => {
         const loadSpots = async () => {
-            const { data, error } = await fetchSpots();
+            const { data, error } = await fetchData<SpotFullInfo>(databases.spots, dbSelect.spots.allWithJunctions);
             if (error) setError(error.message);
             if (data) {
                 const spotList = await Promise.all(
-                    data.map(async spot => {
-                        if (spot.created_by) {
+                    data.map(async (spot) => {
+                        if (spot && spot.created_by) {
                             return {
                                 ...spot,
                                 created_by_name: await getCreatedByName(spot.created_by),

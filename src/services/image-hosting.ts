@@ -11,6 +11,6 @@ export const hostImg = async (file: File) => {
     });
     const data = await response.json();
 
-    if (!data.success) throw new Error("Image upload failed");
+    if (!data.success) return null;
     return data.data.url;
 }
