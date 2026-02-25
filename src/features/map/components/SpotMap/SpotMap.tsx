@@ -1,6 +1,6 @@
 import { SlidersHorizontal } from "lucide-react";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { LayerGroup, useMapEvents } from "react-leaflet";
+import { LayerGroup } from "react-leaflet";
 import { useSearchParams } from "react-router";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../../../components/GridLeftPanel/GridLeftPanel";
@@ -12,6 +12,7 @@ import { handleAria } from "../../../../utils/helpers";
 import { SpotDescription } from "../../../spot_management/components/SpotDescription/SpotDescription";
 import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
+import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
 import { Map } from "../Map/Map";
 import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
@@ -19,13 +20,6 @@ import { RouteDisplay } from "../RouteDisplay/RouteDisplay";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
 import { UserMarker } from "../UserMarker/UserMarker";
 import "./SpotMap.css";
-
-const MapEvents = ({ onPopupClose }: { onPopupClose: () => void }) => {
-    useMapEvents({
-        popupclose: onPopupClose
-    });
-    return null;
-};
 
 export function SpotMap({ zoom }: { zoom: number }) {
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
@@ -35,6 +29,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
     const { center, error, setError, trackUser, profile } = useCenter();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [spotCenter, setSpotCenter] = useState<MapCoordinates | null>(null);
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
@@ -71,10 +66,16 @@ export function SpotMap({ zoom }: { zoom: number }) {
     }, [checkedTypes]);
 
     useEffect(() => {
-        if (!selectedSpot) return;
+        if (!selectedSpot) {
+            setSpotCenter(null);
+            return
+        };
         const newParams = new URLSearchParams();
-        if (selectedSpot) newParams.set(selectedSpot.slug, "expanded");
-        setSearchParams(newParams);
+        if (selectedSpot) {
+            newParams.set(selectedSpot.slug, "expanded");
+            setSearchParams(newParams);
+            if (selectedSpot.location_type === "point") setSpotCenter([selectedSpot.coordinates[0].lat, selectedSpot.coordinates[0].lon]);
+        }
     }, [selectedSpot]);
 
     useEffect(() => {
@@ -154,7 +155,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                 {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
                 {!loading && center &&
                     <Map
-                        center={center}
+                        center={spotCenter ? spotCenter : center}
                         zoom={zoom}
                         other={spots && spots.length > 0 && otherControls}
                         trackUser={trackUser}
@@ -205,8 +206,8 @@ export function SpotMap({ zoom }: { zoom: number }) {
                         {profile && <UserMarker profile={profile} center={center} />}
                         {!profile && <GuestMarker center={center} />}
                         <ReCenterMap lat={center[0]} lon={center[1]} />
+                        <FlyToSpot spot={selectedSpot} />
                         {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
-                        <MapEvents onPopupClose={() => setSelectedSpot(null)} />
                     </Map>
                 }
             </GridLeftPanel >

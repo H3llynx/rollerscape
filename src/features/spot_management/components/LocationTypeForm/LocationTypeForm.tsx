@@ -104,10 +104,7 @@ export function LocationTypeForm({ locationType, routeGenMode, setRouteGenMode, 
                     }
                 </div>
                 <div className="flex mt-1.5 gap-0.5 justify-center">
-                    <Button
-                        style="primary"
-                        className="bg-text text-bg-main"
-                    >
+                    <Button className="bg-text text-bg-main">
                         Confirm
                     </Button>
                     <Button

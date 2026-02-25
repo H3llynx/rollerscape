@@ -137,7 +137,6 @@ export function AddSpotPage() {
 
     const resetRoute = locationType === "route" && routeCoordinates.start
         ? (<Button
-            style="primary"
             className="my-auto order-1 bg-bg-main text-text"
             onClick={() => {
                 setrouteCoordinates({ start: null, end: null });

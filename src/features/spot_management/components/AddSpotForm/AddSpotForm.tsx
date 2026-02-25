@@ -197,7 +197,9 @@ export function AddSpotForm({ center, locationType, spotCoordinates, setSpotCoor
                         <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
                     }
                 </fieldset>
-                <Button style="primary">{isSubmitting ? <Loading /> : "Add spot"}</Button>
+                {isSubmitting ? <Loading /> :
+                    <Button>Add spot</Button>
+                }
             </form>
         </div>
     )
