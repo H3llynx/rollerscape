@@ -2,6 +2,7 @@ import { Camera, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../../components/Button/Button";
 import { databases } from "../../../../config/databases";
+import { udpdateError } from "../../../../config/errors";
 import { updateData } from "../../../../services/data";
 import { hostImg } from "../../../../services/image-hosting";
 import { useAuth } from "../../../auth/hooks/useAuth";
@@ -80,7 +81,7 @@ export function ProfilePicture() {
                     <Button type="button" style="icon" className="p-0" aria-label="Remove images" onClick={handlePhotoClear}><X width={16} aria-hidden /></Button>
                 </div>
             }
-            {error && <p className="error absolute text-xs text-center -mx-1">Oops! Update failed. Try again.
+            {error && <p className="error absolute text-xs text-center -mx-1">{udpdateError}
                 <Button
                     style="icon"
                     aria-label="Close error message"

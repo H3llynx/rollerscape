@@ -19,10 +19,11 @@ import { Map } from "../map/components/Map/Map";
 import { ReCenterMap } from "../map/components/ReCenterMap/ReCenterMap";
 import { RouteDisplay } from "../map/components/RouteDisplay/RouteDisplay";
 import { UserMarker } from "../map/components/UserMarker/UserMarker";
+import { SpotsProvider } from "../map/context/SpotsProvider";
 import { useCenter } from "../map/hooks/useCenter";
 import { AddMarker } from "./components/AddMarker/AddMarker";
-import { AddSpotForm } from "./components/AddSpotForm/AddSpotForm";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
+import { SpotForm } from "./components/SpotForm/SpotForm";
 import { CoordinatePickerPoint, CoordinatePickerRoute, estimateDistanceFromGpx } from "./utils";
 
 export function AddSpotPage() {
@@ -113,7 +114,7 @@ export function AddSpotPage() {
             location_type: locationType,
             coordinates: coords,
             length_km: getRouteLength(),
-            surface_quality: Number(newSpot[surface_quality.db_key]),
+            surface_quality: newSpot[surface_quality.db_key],
             city: geo.city,
             country: geo.country,
             address: geo.name,
@@ -149,18 +150,17 @@ export function AddSpotPage() {
         : ""
 
     return (
-        <>
+        <SpotsProvider>
             <Header style="map" />
             {profile && center &&
                 <GridLeftPanel collapsed={!confirmedLocationType}>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <div className="left-panel-container px-2 pt-1.5 pb-2 md:pt-8">
-                                <AddSpotForm
-                                    center={center!}
+                                <SpotForm
+                                    isAdding
                                     locationType={locationType}
                                     spotCoordinates={spotCoordinates}
-                                    setSpotCoordinates={setSpotCoordinates}
                                     onSubmit={addSpot}
                                 />
                             </div>
@@ -216,6 +216,6 @@ export function AddSpotPage() {
             <Dialog ref={dialogRef} style="error" close={handleClose}>
                 <p>{error}</p>
             </Dialog>
-        </>
+        </SpotsProvider>
     )
 }

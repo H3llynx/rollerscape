@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "../../../../components/Button/Button";
+import { Dialog } from "../../../../components/Dialog/Dialog";
 import { databases } from "../../../../config/databases";
+import { spotErrors } from "../../../../config/errors";
 import { deleteData } from "../../../../services/data";
+import type { SpotFullInfo } from "../../../../types/spots_types";
 import { useSpots } from "../../../map/hooks/useSpots";
 import { SpotDescription } from "../SpotDescription/SpotDescription";
 import { SpotEdition } from "../SpotEdition/SpotEdition";
@@ -10,24 +14,59 @@ type SpotLeftPanel = {
 }
 
 export function SpotLeftPanel({ onDelete }: SpotLeftPanel) {
-    const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [error, setError] = useState<boolean>(true);
+    const [spotToEdit, setSpotToEdit] = useState<SpotFullInfo | null>(null);
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
     const { selectedSpot, setSelectedSpot } = useSpots();
     const { loadSpots } = useSpots();
     if (!selectedSpot) return;
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        if (error || isDeleting) {
+            dialogRef.current?.showModal();
+        }
+    }, [error, isDeleting]);
+
+    useEffect(() => {
+        if (spotToEdit && (selectedSpot.id !== spotToEdit.id)) setSpotToEdit(null);
+    }, [selectedSpot, spotToEdit])
+
+    const handleClose = () => {
+        dialogRef.current?.close();
+        setError(null);
+        setIsDeleting(false);
+    };
+
+    const confirmDelete = () => {
+        setIsDeleting(true);
+    }
 
     const deleteSpot = async (spotId: string) => {
         const { error } = await deleteData(spotId, databases.spots);
-        if (error) setError(true);
+        if (error) setError(spotErrors.delete.spot);
         setSelectedSpot(null);
+        setIsDeleting(false);
         loadSpots();
         onDelete();
     };
 
     return (
         <>
-            {!isEditing && <SpotDescription onEdit={() => setIsEditing(true)} onDelete={() => deleteSpot(selectedSpot.id)} />}
-            {isEditing && <SpotEdition onCancel={() => setIsEditing(false)} onDelete={() => deleteSpot(selectedSpot.id)} />}
+            {!spotToEdit && <SpotDescription onEdit={() => setSpotToEdit(selectedSpot)} onDelete={confirmDelete} />}
+            {spotToEdit && <SpotEdition onCancel={() => setSpotToEdit(null)} onDelete={confirmDelete} />}
+            <Dialog ref={dialogRef} style={error ? "error" : "default"} close={handleClose}>
+                {error && <p>{error}</p>}
+                {isDeleting &&
+                    <>
+                        <p>Are you sure you want to delete <span className="font-title text-lg text-text-secondary">{selectedSpot.name}</span> ?</p>
+                        <div className="flex gap-0.5 justify-center">
+                            <Button onClick={() => deleteSpot(selectedSpot.id)}>Confirm</Button>
+                            <Button style="secondary" onClick={handleClose}>Cancel</Button>
+                        </div>
+                    </>
+                }
+            </Dialog>
         </>
     )
 }

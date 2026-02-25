@@ -5,15 +5,15 @@
 }
 
 .button-container {
-    @apply flex gap-0.5 items-end mr-1;
+    @apply grid grid-cols-2 gap-0.5 items-end mr-1 shrink-0;
 
     button,
     a {
-        @apply w-2.5 h-2.5 md:w-2 md:h-2 p-[6px] bg-bg-secondary rounded-lg text-text hover:text-text-secondary border-grey relative;
+        @apply w-2.5 h-2.5 md:w-2 md:h-2 p-[6px] bg-bg-secondary rounded-lg text-text border-grey relative hover:bg-text-secondary hover:text-bg-main;
     }
 
     a {
-        @apply flex items-center justify-center border hover:-translate-y-px;
+        @apply flex items-center justify-center border hover:-translate-y-px
     }
 }
 
@@ -63,4 +63,12 @@
     font-weight: 500;
     transform: scale(0);
     transition: var(--default-transition)
+}
+
+.surface-quality-container {
+    @apply flex flex-row-reverse gap-1 justify-end;
+
+    button {
+        @apply text-text;
+    }
 }

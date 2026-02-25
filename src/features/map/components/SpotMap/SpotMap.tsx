@@ -28,7 +28,6 @@ export function SpotMap({ zoom }: { zoom: number }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
-    const [spotCenter, setSpotCenter] = useState<MapCoordinates | null>(null);
 
     useEffect(() => {
         if (error) {
@@ -65,15 +64,11 @@ export function SpotMap({ zoom }: { zoom: number }) {
     }, [checkedTypes]);
 
     useEffect(() => {
-        if (!selectedSpot) {
-            setSpotCenter(null);
-            return
-        };
+        if (!selectedSpot) return;
         const newParams = new URLSearchParams();
         if (selectedSpot) {
             newParams.set(selectedSpot.slug, "expanded");
             setSearchParams(newParams);
-            if (selectedSpot.location_type === "point") setSpotCenter([selectedSpot.coordinates[0].lat, selectedSpot.coordinates[0].lon]);
         }
     }, [selectedSpot]);
 
@@ -154,7 +149,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                 {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
                 {!loading && center &&
                     <Map
-                        center={spotCenter ? spotCenter : center}
+                        center={center}
                         zoom={zoom}
                         other={spots && spots.length > 0 && otherControls}
                         trackUser={trackUser}

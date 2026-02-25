@@ -45,7 +45,6 @@ export const addSpotFields = {
         label0: "Click on the map to set the coordinates",
         label1: "Latitude",
         label2: "Longitude",
-        input_type: "number"
     },
     name: {
         db_key: "name",

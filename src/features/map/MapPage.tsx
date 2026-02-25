@@ -1,6 +1,6 @@
 import { Header } from "../../components/Header/Header";
 import { SpotMap } from "./components/SpotMap/SpotMap";
-import { SpotsProvider } from "./context/Spots/SpotsProvider";
+import { SpotsProvider } from "./context/SpotsProvider";
 
 export function MapPage() {
   return (

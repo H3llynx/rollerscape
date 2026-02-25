@@ -4,6 +4,7 @@ import { Button } from "../../../../components/Button/Button";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
 import { databases } from "../../../../config/databases";
+import { udpdateError } from "../../../../config/errors";
 import { updateData } from "../../../../services/data";
 import { useAuth } from "../../../auth/hooks/useAuth";
 
@@ -40,7 +41,7 @@ export function NameChangeForm({ onSuccess }: NameChangeForm) {
             {isSubmitting ? <Loading /> :
                 <Button>Update name</Button>
             }
-            {error && <p className="error">Sorry, the update did not work. Try again later.</p>}
+            {error && <p className="error">{udpdateError}</p>}
         </form>
     )
 }

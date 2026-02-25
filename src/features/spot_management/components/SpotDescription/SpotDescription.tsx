@@ -69,6 +69,12 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             }
                         </div>
                         <div className="button-container">
+                            <Button style="icon" aria-label="share selected spot" onClick={() => shareSpot(selectedSpot)}>
+                                <Share aria-hidden />
+                            </Button>
+                            <Button style="icon" aria-label="Send to GPS app" onClick={() => sendToGps(selectedSpot)}>
+                                <Navigation aria-hidden />
+                            </Button>
                             {profile && (profile.id === selectedSpot.created_by) &&
                                 <>
                                     <Button style="icon" aria-label="edit selected spot" onClick={onEdit}>
@@ -79,12 +85,6 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                     </Button>
                                 </>
                             }
-                            <Button style="icon" aria-label="share selected spot" onClick={() => shareSpot(selectedSpot)}>
-                                <Share aria-hidden />
-                            </Button>
-                            <Button style="icon" aria-label="Send to GPS app" onClick={() => sendToGps(selectedSpot)}>
-                                <Navigation aria-hidden />
-                            </Button>
                         </div>
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />

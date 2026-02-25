@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { databases, dbSelect } from "../../../../config/databases";
-import { fetchData } from "../../../../services/data";
-import { getCreatedByName } from "../../../../services/spots";
-import type { SpotFullInfo } from "../../../../types/spots_types";
+import { databases, dbSelect } from "../../../config/databases";
+import { fetchData } from "../../../services/data";
+import { getCreatedByName } from "../../../services/spots";
+import type { SpotFullInfo } from "../../../types/spots_types";
 import { SpotsContext } from "./SpotsContext";
 
 export function SpotsProvider({ children }: { children: ReactNode }) {
@@ -34,7 +34,6 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         loadSpots();
     }, []);
-
 
     const value = {
         spots, loading, error, loadSpots,
