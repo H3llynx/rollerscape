@@ -42,15 +42,15 @@ export function SpotMap({ zoom }: { zoom: number }) {
 
     useEffect(() => {
         if (!spotTypes.length) return;
-        if (searchParams.size === 0) {
-            const defaultFilters: SpotType[] = profile && profile.preferred_spot_types
-                ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
-                : spotTypes
-            setCheckedTypes(defaultFilters);
+        const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
+        if (filtersToCheck.length > 0) {
+            setCheckedTypes(filtersToCheck);
             return;
         }
-        const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
-        setCheckedTypes(filtersToCheck);
+        const defaultFilters: SpotType[] = profile && profile.preferred_spot_types
+            ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
+            : spotTypes
+        setCheckedTypes(defaultFilters);
     }, [spotTypes]);
 
     useEffect(() => {
@@ -153,7 +153,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                             >
                                 <div className="h-[6px] rounded-full w-[90px] bg-border opacity-60"></div>
                             </button>
-                            <SpotLeftPanel onDelete={() => setCheckedTypes(spotTypes)} />
+                            <SpotLeftPanel />
                         </div>
                     }
                 </div>

@@ -36,7 +36,7 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
     }, []);
 
     const value = {
-        spots, loading, error, loadSpots,
+        spots, setSpots, loading, error, loadSpots,
         selectedSpot, setSelectedSpot
     };
 

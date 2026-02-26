@@ -1,24 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../../components/Button/Button";
 import { Dialog } from "../../../../components/Dialog/Dialog";
-import { databases } from "../../../../config/databases";
+import { databases, dbSelect } from "../../../../config/databases";
 import { spotErrors } from "../../../../config/errors";
-import { deleteData } from "../../../../services/data";
+import { deleteData, fetchDataById } from "../../../../services/data";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 import { useSpots } from "../../../map/hooks/useSpots";
 import { SpotDescription } from "../SpotDescription/SpotDescription";
 import { SpotEdition } from "../SpotEdition/SpotEdition";
 
-type SpotLeftPanel = {
-    onDelete: () => void;
-}
 
-export function SpotLeftPanel({ onDelete }: SpotLeftPanel) {
+export function SpotLeftPanel() {
     const [spotToEdit, setSpotToEdit] = useState<SpotFullInfo | null>(null);
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const { selectedSpot, setSelectedSpot } = useSpots();
-    const { loadSpots } = useSpots();
+    const { setSpots } = useSpots();
     if (!selectedSpot) return;
     const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -45,16 +42,21 @@ export function SpotLeftPanel({ onDelete }: SpotLeftPanel) {
     const deleteSpot = async (spotId: string) => {
         const { error } = await deleteData(spotId, databases.spots);
         if (error) setError(spotErrors.delete.spot);
-        setSelectedSpot(null);
         setIsDeleting(false);
-        loadSpots();
-        onDelete();
+        setSpots(prev => prev!.filter(spot => spot !== selectedSpot));
+        setSelectedSpot(null);
     };
+
+    const handleEditted = async () => {
+        setSpotToEdit(null);
+        const { data } = await fetchDataById<SpotFullInfo>(databases.spots, dbSelect.spots.allWithJunctions, selectedSpot.id);
+        if (data) setSelectedSpot(data);
+    }
 
     return (
         <>
             {!spotToEdit && <SpotDescription onEdit={() => setSpotToEdit(selectedSpot)} onDelete={confirmDelete} />}
-            {spotToEdit && <SpotEdition onCancel={() => setSpotToEdit(null)} onDelete={confirmDelete} />}
+            {spotToEdit && <SpotEdition onCancel={() => setSpotToEdit(null)} onDelete={confirmDelete} onEditted={handleEditted} />}
             <Dialog ref={dialogRef} style={error ? "error" : "default"} close={handleClose}>
                 {error && <p>{error}</p>}
                 {isDeleting &&

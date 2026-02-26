@@ -39,7 +39,13 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     return (
         <>
             <div className="hidden md:block relative  w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
-                <img src={src} alt="" className="w-full h-full object-cover" />
+                <img src={src} onError={(e) => {
+                    const img = e.currentTarget;
+                    if (img.src !== Skater) {
+                        img.src = Skater;
+                    }
+                }}
+                    alt="" className="w-full h-full object-cover" />
                 {selectedSpot.created_by &&
                     <>
                         <div className="spot-created-by bg-blur">

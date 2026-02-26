@@ -5,7 +5,7 @@
 }
 
 .button-container {
-    @apply grid grid-cols-2 gap-0.5 items-end mr-1 shrink-0;
+    @apply grid grid-cols-3 gap-0.5 items-end mr-0.5 shrink-0;
 
     button,
     a {

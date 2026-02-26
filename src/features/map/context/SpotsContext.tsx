@@ -3,6 +3,7 @@ import type { SpotFullInfo } from "../../../types/spots_types";
 
 type SpotsContext = {
     spots: SpotFullInfo[] | null;
+    setSpots: Dispatch<SetStateAction<SpotFullInfo[] | null>>;
     loading: boolean;
     error: string | null;
     loadSpots: () => void;

@@ -7,10 +7,8 @@ import { Button } from "../../../../components/Button/Button";
 import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
-import { databases } from "../../../../config/databases";
 import { spotErrors } from "../../../../config/errors";
 import { addSpotFields, SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
-import { updateData } from "../../../../services/data";
 import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
 import type { Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
@@ -35,11 +33,26 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const [selectedTrafficLevel, setSelectedTrafficLevel] = useState<TrafficLevel[]>(selectedSpot ? selectedSpot.spot_traffic_levels.map(t => t.name) : watch(traffic_levels.db_key) || []);
     const [error, setError] = useState<boolean>(false);
     const selectedScore = watch(surface_quality.db_key) as number;
+    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(
+        selectedSpot?.photos || []
+    );
 
     useEffect(() => {
         if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
     }, [spotCoordinates]);
 
+    useEffect(() => {
+        if (selectedTypes.length > 0) {
+            setValue(spot_types.db_key, selectedTypes);
+        }
+        if (selectedTrafficLevel.length > 0) {
+            setValue(traffic_levels.db_key, selectedTrafficLevel);
+        }
+    }, []);
+
+    useEffect(() => {
+        setValue(photos.db_key, selectedPhotos);
+    }, [selectedPhotos]);
 
     useEffect(() => {
         register(
@@ -79,21 +92,14 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
         if (files.length) {
-            const urls = await Promise.all(files.map(file => hostImg(file)));
-            setValue(photos.db_key, urls);
-        } else setValue(photos.db_key, null);
-    };
-
+            const addedPhotos = await Promise.all(files.map(file => hostImg(file)));
+            setSelectedPhotos(prev => [...prev, ...addedPhotos]);
+            handlePhotoClear();
+        };
+    }
     const deletePhoto = async (picture: string) => {
         if (!selectedSpot) return;
-        if (!selectedSpot.photos) return;
-        const newPhotosArr = selectedSpot.photos.filter(p => p !== picture);
-        const { error } = await updateData({ id: selectedSpot.id, photos: newPhotosArr }, databases.spots);
-        if (error) {
-            setError(true);
-            return
-        };
-        setSelectedSpot({ ...selectedSpot, photos: newPhotosArr })
+        setSelectedPhotos(prev => prev.filter(p => p !== picture));
     };
 
     const handlePhotoClear = () => {
@@ -206,41 +212,39 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                         <p className="error">{errors[traffic_levels.db_key]?.message as string}</p>
                     )}
                 </fieldset>
-                {isAdding &&
-                    <fieldset className="flex">
-                        <label htmlFor={photos.id} className="file-label">
-                            <Camera className="w-1.5" aria-hidden />
-                            <input
-                                id={photos.id}
-                                className="text-xs font-medium cursor-pointer"
-                                type={photos.input_type}
-                                ref={fileInputRef}
-                                onChange={handlePhotoChange}
-                                multiple
-                            />
-                        </label>
-                        {hasPhoto &&
-                            <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
-                        }
-                    </fieldset>
-                }
+                <fieldset className="flex">
+                    <label htmlFor={photos.id} className="file-label">
+                        <Camera className="w-1.5" aria-hidden />
+                        <input
+                            id={photos.id}
+                            className="text-xs font-medium cursor-pointer"
+                            type={photos.input_type}
+                            ref={fileInputRef}
+                            onChange={handlePhotoChange}
+                            multiple
+                        />
+                    </label>
+                    {hasPhoto &&
+                        <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
+                    }
+                </fieldset>
                 {selectedSpot && selectedSpot.photos &&
                     <>
                         <div className="grid grid-cols-3 gap-0.5">
-                            {selectedSpot.photos.map((photo, i) => (
+                            {selectedPhotos.map((photo, i) => (
                                 <div
-                                    key={i}
+                                    key={`${photo}-${i}`}
                                     className="relative rounded-md slight-shadow">
                                     <img
                                         src={photo}
-                                        alt={`${i} of ${selectedSpot.name}`}
+                                        alt=""
                                     />
                                     <Button
                                         style="icon"
                                         type="button"
                                         aria-label="Remove picture"
                                         className="absolute top-[2px] right-[2px] p-0 w-[20px] h-[20px] bg-bg-rgba-2 rounded-sm"
-                                        onClick={() => deletePhoto(photo)}
+                                        onClick={() => { deletePhoto(photo) }}
                                     >
                                         <X aria-hidden className="text-red" />
                                     </Button>
