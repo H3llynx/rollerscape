@@ -18,7 +18,7 @@
   --color-yellow-2: #eab308;
   --color-red: #ef4444;
   --color-turquoise: rgb(21, 177, 162);
-  --color-rgba-dark: rgba(0, 0, 0, 0.7);
+  --color-rgba-dark: rgba(0, 0, 0, 0.6);
   --color-rgba-dark-2: rgba(0, 0, 0, 0.2);
   --color-rgba-grey: rgba(46, 46, 46, 0.5);
   --color-rgba-white: rgba(255, 255, 255, 0.4);
@@ -275,5 +275,11 @@
 
   to {
     transform: scale(1)
+  }
+}
+
+@media (width <=48rem) {
+  .spot-types-grid {
+    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
   }
 }

@@ -4,34 +4,39 @@ import { getSpotType } from "../../../../utils/helpers";
 import { Map } from "../../../map/components/Map/Map";
 import { ButtonContainer } from "../../../spot_management/components/ButtonContainer/ButtonContainer";
 import { FavoriteMarker } from "../FavoriteMarker/FavoriteMarker";
+import "./FavoriteSpotCard.css";
 
 export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
     const navigate = useNavigate();
 
     return (
-        <div className="card p-0">
-            <div className="p-1 border">
-                <h3 className="font-title text-text-secondary text-lg">{spot.name}</h3>
-                <p>{spot.address}</p>
-                <div className="flex gap-0.5">
-                    {spot.spot_spot_types.map((type, i) => (
-                        <span className="tag" key={i} >
-                            {getSpotType(type.name)}
-                        </span>
-                    )
-                    )}
+        <div className="card favorite-map-container">
+            <Map
+                center={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
+                zoom={13}
+                controls={false}
+            >
+                <FavoriteMarker
+                    position={[spot.coordinates[0].lat, spot.coordinates[0].lon]} />
+            </Map>
+            <div className="favorite-text-overlay">
+                <button aria-label="See that spot on the map" onClick={() => navigate(`/?${spot.slug}=expanded`)}>
+                    <div className="flex flex-col px-1 sm:py-1 h-full my-auto text-left">
+                        <h2 className="text-lg md:text-xl text-dark-3">{spot.name}</h2>
+                        <p className="text-grey text-xs md:text-sm">{spot.address}</p>
+                        <div className="flex gap-0.5 mt-1 items-start">
+                            {spot.spot_spot_types.map((type, i) => (
+                                <span className="tag" key={i} >
+                                    {getSpotType(type.name)}
+                                </span>
+                            )
+                            )}
+                        </div>
+                    </div>
+                </button>
+                <div className="w-full flex justify-center sm:w-fit place-self-end">
+                    <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(`/?${spot.slug}=expanded`)} />
                 </div>
-                <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(`/?${spot.slug}=expanded`)} />
-            </div>
-            <div className="w-10 h-10">
-                <Map
-                    center={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
-                    zoom={13}
-                    controls={false}
-                >
-                    <FavoriteMarker
-                        position={[spot.coordinates[0].lat, spot.coordinates[0].lon]} />
-                </Map>
             </div>
         </div>
     )

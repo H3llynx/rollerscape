@@ -53,7 +53,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     <div className="flex gap-2 justify-between items-start">
                         <div>
                             <h1>{selectedSpot.name}</h1>
-                            <div className="flex gap-0.5 mt-1 flex-wrap">
+                            <div className="flex gap-0.5 mt-1 items-start flex-wrap">
                                 {selectedSpot.spot_spot_types.map((type, i) => (
                                     <span className="tag" key={i} >
                                         {getSpotType(type.name)}

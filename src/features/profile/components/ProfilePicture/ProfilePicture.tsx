@@ -72,6 +72,7 @@ export function ProfilePicture() {
                         type="file"
                         onChange={handlePictureChange}
                         ref={fileInputRef}
+                        accept="image/*"
                     />
                 </label>
             </div>
