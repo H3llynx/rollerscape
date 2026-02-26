@@ -43,7 +43,10 @@ export function SpotMap({ zoom }: { zoom: number }) {
     useEffect(() => {
         if (!spotTypes.length) return;
         if (searchParams.size === 0) {
-            setCheckedTypes(spotTypes);
+            const defaultFilters: SpotType[] = profile && profile.preferred_spot_types
+                ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
+                : spotTypes
+            setCheckedTypes(defaultFilters);
             return;
         }
         const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
