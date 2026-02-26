@@ -1,12 +1,12 @@
-import { Check, CheckLine, Edit2, MapPin, Navigation, Share, Star, Trash2, X } from "lucide-react";
+import { Check, CheckLine, MapPin, X } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
-import { SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
-import { deleteFav, saveAsFav, sendToGps, shareSpot } from "../../../../services/spots";
-import { useAuth } from "../../../auth/hooks/useAuth";
+import { TRAFFIC_LEVELS } from "../../../../config/spots";
+import { getSpotType } from "../../../../utils/helpers";
 import { useSpots } from "../../../map/hooks/useSpots";
 import "../../styles/spot_management.css";
+import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
 import { RiderCard } from "../RiderCard/RiderCard";
 
 type SpotDescription = {
@@ -16,25 +16,12 @@ type SpotDescription = {
 
 export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
-    const { profile, setProfile } = useAuth();
     const { selectedSpot, setSelectedSpot } = useSpots();
     if (!selectedSpot) return;
 
     const src = selectedSpot.photos && selectedSpot.photos.length > 0
         ? selectedSpot.photos[0]
         : Skater
-
-    const addToFav = async () => {
-        if (!profile) return;
-        await saveAsFav(selectedSpot.id, profile.id)
-        setProfile({ ...profile, favorites: [...profile.favorites, selectedSpot.id] })
-    }
-
-    const removeFromFav = async () => {
-        if (!profile) return;
-        await deleteFav(selectedSpot.id, profile.id);
-        setProfile({ ...profile, favorites: profile.favorites.filter(fav => fav !== selectedSpot.id) })
-    }
 
     return (
         <>
@@ -69,10 +56,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             <div className="flex gap-0.5 mt-1 flex-wrap">
                                 {selectedSpot.spot_spot_types.map((type, i) => (
                                     <span className="tag" key={i} >
-                                        {SPOT_TYPES
-                                            .filter(selectedSpot => selectedSpot.value === type.name)
-                                            .map(selectedSpot => selectedSpot.label)
-                                        }
+                                        {getSpotType(type.name)}
                                     </span>
                                 )
                                 )}
@@ -86,36 +70,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 </div>
                             }
                         </div>
-                        <div className="button-container">
-                            {profile &&
-                                <>
-                                    {profile.favorites.includes(selectedSpot.id) ?
-                                        <Button style="icon" aria-label="Save as favorite" onClick={removeFromFav}>
-                                            <Star aria-hidden fill="var(--color-text)" />
-                                        </Button>
-                                        : <Button style="icon" aria-label="Save as favorite" onClick={addToFav}>
-                                            <Star aria-hidden />
-                                        </Button>
-                                    }
-                                </>
-                            }
-                            <Button style="icon" aria-label="Share selected spot" onClick={() => shareSpot(selectedSpot)}>
-                                <Share aria-hidden />
-                            </Button>
-                            <Button style="icon" aria-label="Send to GPS app" onClick={() => sendToGps(selectedSpot)}>
-                                <Navigation aria-hidden />
-                            </Button>
-                            {profile && (profile.id === selectedSpot.created_by) &&
-                                <>
-                                    <Button style="icon" aria-label="edit selected spot" onClick={onEdit}>
-                                        <Edit2 aria-hidden />
-                                    </Button>
-                                    <Button style="icon" aria-label="Delete spot" onClick={onDelete}>
-                                        <Trash2 aria-hidden />
-                                    </Button>
-                                </>
-                            }
-                        </div>
+                        <ButtonContainer onEdit={onEdit} onDelete={onDelete} spot={selectedSpot} />
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>

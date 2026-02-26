@@ -33,13 +33,21 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const [selectedTrafficLevel, setSelectedTrafficLevel] = useState<TrafficLevel[]>(selectedSpot ? selectedSpot.spot_traffic_levels.map(t => t.name) : watch(traffic_levels.db_key) || []);
     const [error, setError] = useState<boolean>(false);
     const selectedScore = watch(surface_quality.db_key) as number;
-    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(
-        selectedSpot?.photos || []
-    );
+    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(selectedSpot?.photos || []);
+    const [photoLoading, setPhotoLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
     }, [spotCoordinates]);
+
+    useEffect(() => {
+        if (isAdding) {
+            if (selectedSpot) setSelectedSpot(null);
+            setSelectedTypes([]);
+            setSelectedTrafficLevel([]);
+            setSelectedPhotos([]);
+        }
+    }, [])
 
     useEffect(() => {
         if (selectedTypes.length > 0) {
@@ -66,11 +74,6 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
         );
     }, [register, spot_types.db_key, traffic_levels.db_key]);
 
-
-    const onCancel = () => {
-        navigate("/");
-    }
-
     const handleTypeChange = (value: SpotType) => {
         const current = selectedTypes;
         const updated = current.includes(value)
@@ -92,11 +95,14 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
         if (files.length) {
+            setPhotoLoading(true)
             const addedPhotos = await Promise.all(files.map(file => hostImg(file)));
             setSelectedPhotos(prev => [...prev, ...addedPhotos]);
+            setPhotoLoading(false);
             handlePhotoClear();
         };
-    }
+    };
+
     const deletePhoto = async (picture: string) => {
         if (!selectedSpot) return;
         setSelectedPhotos(prev => prev.filter(p => p !== picture));
@@ -114,7 +120,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                     ? <h2>Add a new spot</h2>
                     : <h2>Edit spot</h2>
                 }
-                <Button style="tertiary" onClick={onCancel}>Cancel</Button>
+                {isAdding && <Button style="tertiary" onClick={() => navigate("/")}>Cancel</Button>}
             </div>
             {isAdding &&
                 <p className="md:font-special">Location type: <span className="font-light text-text-secondary">
@@ -128,7 +134,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                     id={name.id}
                     variant="text"
                     type={name.input_type}
-                    defaultValue={selectedSpot ? selectedSpot.name : ""}
+                    defaultValue={!isAdding && selectedSpot ? selectedSpot.name : ""}
                     {...register(name.db_key)}
                     icons
                     required
@@ -138,7 +144,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                     <input
                         id={surface_quality.id}
                         type={surface_quality.input_type}
-                        defaultValue={selectedSpot && selectedSpot.surface_quality ? selectedSpot.surface_quality : undefined}
+                        defaultValue={!isAdding && selectedSpot && selectedSpot.surface_quality ? selectedSpot.surface_quality : undefined}
                         {...register(surface_quality.db_key, { valueAsNumber: true })}
                         min={surface_quality.min}
                         max={surface_quality.max}
@@ -189,7 +195,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                     <p className="md:font-special">{description.label}:</p>
                     <textarea
                         id={description.id}
-                        defaultValue={selectedSpot && selectedSpot.description ? selectedSpot.description : undefined}
+                        defaultValue={!isAdding && selectedSpot && selectedSpot.description ? selectedSpot.description : undefined}
                         className="slight-shadow bg-blur border border-grey rounded-lg px-1 py-0.5 min-h-6 w-full"
                         {...register(description.db_key)}
                     />
@@ -221,6 +227,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                             type={photos.input_type}
                             ref={fileInputRef}
                             onChange={handlePhotoChange}
+                            accept="image/*"
                             multiple
                         />
                     </label>
@@ -228,7 +235,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                         <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
                     }
                 </fieldset>
-                {selectedSpot && selectedSpot.photos &&
+                {selectedPhotos &&
                     <>
                         <div className="grid grid-cols-3 gap-0.5">
                             {selectedPhotos.map((photo, i) => (
@@ -265,9 +272,14 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                         }
                     </>
                 }
-                {isSubmitting ? <Loading /> :
-                    <Button>{isAdding ? "Add spot" : "Update spot"}</Button>
-                }
+                <div className="flex flex-col gap-1">
+                    {isSubmitting || photoLoading ? <Loading /> :
+                        <Button>{isAdding ? "Add spot" : "Update spot"}</Button>
+                    }
+                    {!isAdding &&
+                        <Button style="secondary" onClick={() => setSelectedSpot(null)}>Cancel</Button>
+                    }
+                </div>
             </form>
         </div >
     )

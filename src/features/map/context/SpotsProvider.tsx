@@ -12,6 +12,7 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
     const [selectedSpot, setSelectedSpot] = useState<SpotFullInfo | null>(null);
 
     const loadSpots = async () => {
+        setLoading(true);
         const { data, error } = await fetchData<SpotFullInfo>(databases.spots, dbSelect.spots.allWithJunctions);
         if (error) setError(error.message);
         if (data) {

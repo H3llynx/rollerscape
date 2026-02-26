@@ -18,9 +18,10 @@ type Map = {
     other?: ReactNode;
     children: ReactNode;
     trackUser?: () => void;
+    controls?: boolean;
 }
 
-export function Map({ center, zoom, other, children, trackUser }: Map) {
+export function Map({ center, zoom, other, children, trackUser, controls = true }: Map) {
     const navigate = useNavigate();
     const { profile } = useAuth();
     const { pathname } = useLocation();
@@ -31,49 +32,58 @@ export function Map({ center, zoom, other, children, trackUser }: Map) {
             <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}
                 style={{ height: '100%', width: '100%' }}
                 zoomControl={false}>
-                <LayersControl position="bottomright" collapsed={isDesktop ? false : true}>
-                    {layers.map(layer => {
-                        return (
-                            <LayersControl.BaseLayer key={layer.name} checked={layer.checked} name={layer.name}>
-                                <TileLayer
-                                    attribution={layer.attribution}
-                                    url={layer.url}
-                                    maxZoom={20}
-                                />
-                            </LayersControl.BaseLayer>
-                        )
-                    })}
-                </LayersControl>
-                <ZoomControl position="bottomright" />
-                <Control position="bottomleft">
-                    <div className="md:flex md:gap-0.5 items-end">
-                        {other}
-                        <div className="flex gap-0 flex-wrap">
-                            {profile && pathname !== "/add-spot" &&
-                                <Button
-                                    style="tertiary"
-                                    className="add-spot-btn"
-                                    aria-label="Add new spot"
-                                    onClick={() => navigate("/add-spot")}>
-                                    <img src={Add} className="w-12 h-auto" />
-                                </Button>
-                            }
-                            {trackUser &&
-                                <Button
-                                    style="icon"
-                                    className="track-me-btn"
-                                    aria-label="Track my current location"
-                                    onClick={trackUser}>
-                                    <LocateFixed
-                                        aria-hidden
-                                        fill="white"
-                                        className="track-icon"
+                {controls ?
+                    <LayersControl position="bottomright" collapsed={isDesktop ? false : true}>
+                        {layers.map(layer => {
+                            return (
+                                <LayersControl.BaseLayer key={layer.name} checked={layer.checked} name={layer.name}>
+                                    <TileLayer
+                                        attribution={layer.attribution}
+                                        url={layer.url}
+                                        maxZoom={20}
                                     />
-                                </Button>
-                            }
-                        </div>
-                    </div>
-                </Control>
+                                </LayersControl.BaseLayer>
+                            )
+                        })}
+                    </LayersControl>
+                    : <TileLayer
+                        url={layers[0].url}
+                    />
+                }
+                {controls &&
+                    <>
+                        <ZoomControl position="bottomright" />
+                        <Control position="bottomleft">
+                            <div className="md:flex md:gap-0.5 items-end">
+                                {other}
+                                <div className="flex gap-0 flex-wrap">
+                                    {profile && pathname !== "/add-spot" &&
+                                        <Button
+                                            style="tertiary"
+                                            className="add-spot-btn"
+                                            aria-label="Add new spot"
+                                            onClick={() => navigate("/add-spot")}>
+                                            <img src={Add} className="w-12 h-auto" />
+                                        </Button>
+                                    }
+                                    {trackUser &&
+                                        <Button
+                                            style="icon"
+                                            className="track-me-btn"
+                                            aria-label="Track my current location"
+                                            onClick={trackUser}>
+                                            <LocateFixed
+                                                aria-hidden
+                                                fill="white"
+                                                className="track-icon"
+                                            />
+                                        </Button>
+                                    }
+                                </div>
+                            </div>
+                        </Control>
+                    </>
+                }
                 {children}
             </MapContainer>
         </div>

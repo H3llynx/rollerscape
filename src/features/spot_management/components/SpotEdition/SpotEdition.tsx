@@ -1,4 +1,4 @@
-import { MapPin, PencilOff, Trash2, X } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 import { useRef, useState } from "react";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
@@ -12,6 +12,7 @@ import { getSpotTypes, getTrafficLevels } from "../../../../services/spots";
 import type { JunctionInsert, Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { createSlug } from "../../../../utils/helpers";
 import { useSpots } from "../../../map/hooks/useSpots";
+import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
 import { SpotForm } from "../SpotForm/SpotForm";
 
 type SpotEdition = {
@@ -79,14 +80,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                 <div className="px-1 md:px-2">
                     <div className="flex gap-2 justify-between items-start">
                         <h1>{selectedSpot.name}</h1>
-                        <div className="button-container">
-                            <Button style="icon" aria-label="Delete spot" onClick={onDelete}>
-                                <Trash2 aria-hidden />
-                            </Button>
-                            <Button style="icon" aria-label="Cancel edition" onClick={onCancel}>
-                                <PencilOff aria-hidden />
-                            </Button>
-                        </div>
+                        <ButtonContainer variant="update" onDelete={onDelete} onCancel={onCancel} spot={selectedSpot} />
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Cancel" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>

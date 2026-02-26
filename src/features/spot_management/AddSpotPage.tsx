@@ -19,8 +19,8 @@ import { Map } from "../map/components/Map/Map";
 import { ReCenterMap } from "../map/components/ReCenterMap/ReCenterMap";
 import { RouteDisplay } from "../map/components/RouteDisplay/RouteDisplay";
 import { UserMarker } from "../map/components/UserMarker/UserMarker";
-import { SpotsProvider } from "../map/context/SpotsProvider";
 import { useCenter } from "../map/hooks/useCenter";
+import { useSpots } from "../map/hooks/useSpots";
 import { AddMarker } from "./components/AddMarker/AddMarker";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
 import { SpotForm } from "./components/SpotForm/SpotForm";
@@ -28,6 +28,7 @@ import { CoordinatePickerPoint, CoordinatePickerRoute, estimateDistanceFromGpx }
 
 export function AddSpotPage() {
     const { center, trackUser, profile } = useCenter();
+    const { loadSpots } = useSpots();
     const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_levels, photos } = addSpotFields;
     const [confirmedLocationType, setConfirmedLocationType] = useState<boolean>(false);
     const [locationType, setLocationType] = useState<Spot["location_type"]>(location_type.options[0] as Spot["location_type"]);
@@ -133,6 +134,7 @@ export function AddSpotPage() {
             setError(spotErrors.add.generic)
             return
         }
+        await loadSpots();
         navigate(`/?${slug}=expanded`);
     }
 
@@ -150,7 +152,7 @@ export function AddSpotPage() {
         : ""
 
     return (
-        <SpotsProvider>
+        <>
             <Header style="map" />
             {profile && center &&
                 <GridLeftPanel collapsed={!confirmedLocationType}>
@@ -216,6 +218,6 @@ export function AddSpotPage() {
             <Dialog ref={dialogRef} style="error" close={handleClose}>
                 <p>{error}</p>
             </Dialog>
-        </SpotsProvider>
+        </>
     )
 }

@@ -6,7 +6,7 @@ type SpotsContext = {
     setSpots: Dispatch<SetStateAction<SpotFullInfo[] | null>>;
     loading: boolean;
     error: string | null;
-    loadSpots: () => void;
+    loadSpots: () => Promise<void>;
     selectedSpot: SpotFullInfo | null;
     setSelectedSpot: Dispatch<SetStateAction<SpotFullInfo | null>>;
 }

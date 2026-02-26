@@ -1,20 +1,18 @@
-import { SlidersHorizontal } from "lucide-react";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { LayerGroup } from "react-leaflet";
 import { useSearchParams } from "react-router";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../../../components/GridLeftPanel/GridLeftPanel";
 import { Loading } from "../../../../components/Loading/Loading";
-import { SPOT_TYPES } from "../../../../config/spots";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo, SpotType } from '../../../../types/spots_types';
-import { handleAria } from "../../../../utils/helpers";
 import { SpotLeftPanel } from "../../../spot_management/components/SpotLeftPanel/SpotLeftPanel";
 import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
 import { Map } from "../Map/Map";
+import { MapFilters } from "../MapFilters/MapFilters";
 import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
 import { RouteDisplay } from "../RouteDisplay/RouteDisplay";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
@@ -22,7 +20,6 @@ import { UserMarker } from "../UserMarker/UserMarker";
 import "./SpotMap.css";
 
 export function SpotMap({ zoom }: { zoom: number }) {
-    const expandFiltersRef = useRef<HTMLInputElement>(null)
     const { spots, loading, selectedSpot, setSelectedSpot } = useSpots();
     const { center, error, setError, trackUser, profile } = useCenter();
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -91,53 +88,17 @@ export function SpotMap({ zoom }: { zoom: number }) {
         setError(null);
     };
 
-    const handleTypeChange = (filter: SpotType) => {
-        setCheckedTypes((types) => types.includes(filter)
-            ? types.filter(type => type !== filter)
-            : [...types, filter])
-    };
-
     const handleMarkerClick = (spot: SpotFullInfo) => {
         if (selectedSpot === spot) setSelectedSpot(null);
         else setSelectedSpot(spot);
     }
 
     const otherControls = (
-        <div className="filters-container">
-            <div id="spot-type-filters">
-                <label className="map-label">
-                    <input
-                        type="checkbox"
-                        checked={checkedTypes === spotTypes}
-                        onChange={() => setCheckedTypes(spotTypes)}
-                    />
-                    <span className="text-text-secondary">Select all</span>
-                </label>
-                {spotTypes.map(type => (
-                    <label className="map-label" key={type}>
-                        <input
-                            type="checkbox"
-                            checked={checkedTypes.includes(type)}
-                            onChange={() => handleTypeChange(type)}
-                        />
-                        {SPOT_TYPES
-                            .filter(spot => spot.value === type)
-                            .map(spot => spot.label)}
-                    </label>
-                ))}
-            </div>
-            <label className="expand-filters-cta" aria-label="Expand filters" htmlFor="expand-filters">
-                <SlidersHorizontal aria-hidden className="expand-filters-icon" />
-                <input className="sr-only"
-                    type="checkbox"
-                    id="expand-filters"
-                    aria-expanded="false"
-                    aria-controls="spot-type-filters"
-                    ref={expandFiltersRef}
-                    onChange={() => handleAria(expandFiltersRef)}
-                />
-            </label>
-        </div>
+        <MapFilters
+            spotTypes={spotTypes}
+            checkedTypes={checkedTypes}
+            setCheckedTypes={setCheckedTypes}
+        />
     )
 
     return (
