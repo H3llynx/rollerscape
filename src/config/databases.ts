@@ -2,7 +2,8 @@ export const databases = {
     profiles: "profiles",
     spots: "spots",
     spot_types: "spot_types",
-    traffic_levels: "traffic_levels"
+    traffic_levels: "traffic_levels",
+    favorites: "favorites",
 } as const
 
 export const dbSelect = {
@@ -18,4 +19,8 @@ export const dbSelect = {
                 )
             `,
     }
+}
+
+export const views = {
+    public_rider: "public_rider",
 }

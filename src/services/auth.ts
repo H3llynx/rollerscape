@@ -15,11 +15,15 @@ export const loginWithGoogle = async ({ redirectURL }: { redirectURL: string }) 
 export const getUserProfile = async (userId: string) => {
     const { data, error } = await supabase
         .from("profiles")
-        .select("*")
+        .select("*, favorites(spot_id)")
         .eq("id", userId)
-        .single();
+        .maybeSingle();
     if (error) console.error("Unable to retrieve user:", error);
-    return { data, error };
+    const userProfile = data ? {
+        ...data,
+        favorites: data.favorites?.map((fav: { spot_id: string }) => fav.spot_id) || []
+    } : null;
+    return { data: userProfile, error };
 };
 
 export const signOut = async () => {

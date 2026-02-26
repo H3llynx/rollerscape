@@ -1,9 +1,9 @@
-import { Check, CheckLine, Edit2, MapPin, Navigation, Share, Trash2, X } from "lucide-react";
+import { Check, CheckLine, Edit2, MapPin, Navigation, Share, Star, Trash2, X } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
-import { sendToGps, shareSpot } from "../../../../services/spots";
+import { deleteFav, saveAsFav, sendToGps, shareSpot } from "../../../../services/spots";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
 import "../../styles/spot_management.css";
@@ -16,13 +16,25 @@ type SpotDescription = {
 
 export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
-    const { profile } = useAuth();
+    const { profile, setProfile } = useAuth();
     const { selectedSpot, setSelectedSpot } = useSpots();
     if (!selectedSpot) return;
 
     const src = selectedSpot.photos && selectedSpot.photos.length > 0
         ? selectedSpot.photos[0]
         : Skater
+
+    const addToFav = async () => {
+        if (!profile) return;
+        await saveAsFav(selectedSpot.id, profile.id)
+        setProfile({ ...profile, favorites: [...profile.favorites, selectedSpot.id] })
+    }
+
+    const removeFromFav = async () => {
+        if (!profile) return;
+        await deleteFav(selectedSpot.id, profile.id);
+        setProfile({ ...profile, favorites: profile.favorites.filter(fav => fav !== selectedSpot.id) })
+    }
 
     return (
         <>
@@ -69,7 +81,19 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             }
                         </div>
                         <div className="button-container">
-                            <Button style="icon" aria-label="share selected spot" onClick={() => shareSpot(selectedSpot)}>
+                            {profile &&
+                                <>
+                                    {profile.favorites.includes(selectedSpot.id) ?
+                                        <Button style="icon" aria-label="Save as favorite" onClick={removeFromFav}>
+                                            <Star aria-hidden fill="var(--color-text)" />
+                                        </Button>
+                                        : <Button style="icon" aria-label="Save as favorite" onClick={addToFav}>
+                                            <Star aria-hidden />
+                                        </Button>
+                                    }
+                                </>
+                            }
+                            <Button style="icon" aria-label="Share selected spot" onClick={() => shareSpot(selectedSpot)}>
                                 <Share aria-hidden />
                             </Button>
                             <Button style="icon" aria-label="Send to GPS app" onClick={() => sendToGps(selectedSpot)}>

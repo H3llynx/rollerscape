@@ -7,7 +7,7 @@ import { useAuth } from "../auth/hooks/useAuth";
 import { Greetings } from "./components/Greetings/Greetings";
 
 export function ProfilePage() {
-    const { profile, loading, setProfile } = useAuth();
+    const { profile, loading } = useAuth();
 
     const navigate = useNavigate();
 

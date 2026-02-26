@@ -5,6 +5,7 @@ export type UserProfile = {
   id: string;
   name: string;
   avatar_url: string;
+  favorites: string[];
   home_country_code: string
   home_lat: number | null
   home_location_name: string | null

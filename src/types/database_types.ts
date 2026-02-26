@@ -1,5 +1,42 @@
 export type Database = {
     Tables: {
+        favorites: {
+            Row: {
+                spot_id: string
+                user_id: string
+            }
+            Insert: {
+                spot_id: string
+                user_id: string
+            }
+            Update: {
+                spot_id?: string
+                user_id?: string
+            }
+            Relationships: [
+                {
+                    foreignKeyName: "favorites_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "spots"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "favorites_user_id_fkey"
+                    columns: ["user_id"]
+                    isOneToOne: false
+                    referencedRelation: "profiles"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "favorites_user_id_fkey"
+                    columns: ["user_id"]
+                    isOneToOne: false
+                    referencedRelation: "public_rider"
+                    referencedColumns: ["id"]
+                },
+            ]
+        }
         profiles: {
             Row: {
                 avatar_url: string | null
@@ -12,7 +49,6 @@ export type Database = {
                 preferred_spot_types: string[] | null
                 skating_style: string[] | null
                 skill_level: string | null
-                updated_at: string | null
             }
             Insert: {
                 avatar_url?: string | null
@@ -25,7 +61,6 @@ export type Database = {
                 preferred_spot_types?: string[] | null
                 skating_style?: string[] | null
                 skill_level?: string | null
-                updated_at?: string | null
             }
             Update: {
                 avatar_url?: string | null
@@ -38,7 +73,30 @@ export type Database = {
                 preferred_spot_types?: string[] | null
                 skating_style?: string[] | null
                 skill_level?: string | null
-                updated_at?: string | null
+            }
+            Relationships: []
+        }
+        spatial_ref_sys: {
+            Row: {
+                auth_name: string | null
+                auth_srid: number | null
+                proj4text: string | null
+                srid: number
+                srtext: string | null
+            }
+            Insert: {
+                auth_name?: string | null
+                auth_srid?: number | null
+                proj4text?: string | null
+                srid: number
+                srtext?: string | null
+            }
+            Update: {
+                auth_name?: string | null
+                auth_srid?: number | null
+                proj4text?: string | null
+                srid?: number
+                srtext?: string | null
             }
             Relationships: []
         }
@@ -46,6 +104,14 @@ export type Database = {
             Row: {
                 spot_id: string
                 spot_type_id: number
+            }
+            Insert: {
+                spot_id: string
+                spot_type_id: number
+            }
+            Update: {
+                spot_id?: string
+                spot_type_id?: number
             }
             Relationships: [
                 {
@@ -69,6 +135,14 @@ export type Database = {
                 spot_id: string
                 traffic_level_id: number
             }
+            Insert: {
+                spot_id: string
+                traffic_level_id: number
+            }
+            Update: {
+                spot_id?: string
+                traffic_level_id?: number
+            }
             Relationships: [
                 {
                     foreignKeyName: "spot_traffic_levels_spot_id_fkey"
@@ -89,7 +163,15 @@ export type Database = {
         spot_types: {
             Row: {
                 id: number
-                type: string | null
+                name: string | null
+            }
+            Insert: {
+                id?: number
+                name?: string | null
+            }
+            Update: {
+                id?: number
+                name?: string | null
             }
             Relationships: []
         }
@@ -102,15 +184,48 @@ export type Database = {
                 country: string
                 created_by: string | null
                 description: string | null
-                display_lat: number | null
-                display_lon: number | null
                 has_obstacles: boolean | null
                 id: string
                 length_km: number | null
                 location_type: string | null
                 name: string
                 photos: string[] | null
+                slug: string
                 surface_quality: number | null
+            }
+            Insert: {
+                address?: string | null
+                average_rating?: number | null
+                city: string
+                coordinates: JSON
+                country: string
+                created_by?: string | null
+                description?: string | null
+                has_obstacles?: boolean | null
+                id?: string
+                length_km?: number | null
+                location_type?: string | null
+                name: string
+                photos?: string[] | null
+                slug: string
+                surface_quality?: number | null
+            }
+            Update: {
+                address?: string | null
+                average_rating?: number | null
+                city?: string
+                coordinates?: JSON
+                country?: string
+                created_by?: string | null
+                description?: string | null
+                has_obstacles?: boolean | null
+                id?: string
+                length_km?: number | null
+                location_type?: string | null
+                name?: string
+                photos?: string[] | null
+                slug?: string
+                surface_quality?: number | null
             }
             Relationships: [
                 {
@@ -120,6 +235,13 @@ export type Database = {
                     referencedRelation: "profiles"
                     referencedColumns: ["id"]
                 },
+                {
+                    foreignKeyName: "spots_created_by_fkey"
+                    columns: ["created_by"]
+                    isOneToOne: false
+                    referencedRelation: "public_rider"
+                    referencedColumns: ["id"]
+                },
             ]
         }
         traffic_levels: {
@@ -127,7 +249,35 @@ export type Database = {
                 id: number
                 name: string
             }
+            Insert: {
+                id?: number
+                name: string
+            }
+            Update: {
+                id?: number
+                name?: string
+            }
             Relationships: []
         }
     }
-};
+    Views: {
+        public_rider: {
+            Row: {
+                avatar_url: string | null
+                id: string | null
+                name: string | null
+            }
+            Insert: {
+                avatar_url?: string | null
+                id?: string | null
+                name?: string | null
+            }
+            Update: {
+                avatar_url?: string | null
+                id?: string | null
+                name?: string | null
+            }
+            Relationships: []
+        }
+    }
+}
