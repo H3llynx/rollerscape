@@ -105,6 +105,14 @@ export function SpotMap({ zoom }: { zoom: number }) {
     const otherControls = (
         <div className="filters-container">
             <div id="spot-type-filters">
+                <label className="map-label">
+                    <input
+                        type="checkbox"
+                        checked={checkedTypes === spotTypes}
+                        onChange={() => setCheckedTypes(spotTypes)}
+                    />
+                    <span className="text-text-secondary">Select all</span>
+                </label>
                 {spotTypes.map(type => (
                     <label className="map-label" key={type}>
                         <input
