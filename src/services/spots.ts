@@ -1,4 +1,4 @@
-import { databases, views } from "../config/databases";
+import { databases } from "../config/databases";
 import type { SpotFullInfo, SpotType, TrafficLevel } from "../types/spots_types";
 import supabase from "../utils/supabase";
 
@@ -59,15 +59,6 @@ export const getTrafficLevels = async (level: TrafficLevel[]) => {
         .select("id")
         .in("name", level);
     return { data, error };
-}
-
-export const getCreatedByName = async (id: string) => {
-    const { data } = await supabase
-        .from(views.public_rider)
-        .select("name")
-        .eq("id", id)
-        .maybeSingle();
-    return data ? data.name : null;
 };
 
 export const saveAsFav = async (spotId: string, userId: string) => {

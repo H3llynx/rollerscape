@@ -1,5 +1,6 @@
 import { LOCATION_TYPE, ROUTE_GEN_MODE, SPOT_TYPES, TRAFFIC_LEVELS } from "../config/spots";
-import type { Table } from "../services/data";
+import type { SkatingStyle } from "../config/user_info";
+import type { Data } from "../services/data";
 import type { Coordinates } from "./geolocation_types";
 
 export type Spot = {
@@ -27,10 +28,18 @@ export type SpotTypeArr = {
     name: SpotType;
 }[]
 
+export type CreatedBy = {
+    id: string;
+    name: string;
+    avatar_url: string;
+    skating_style: SkatingStyle[];
+}
+
 export type SpotFullInfo = Spot & {
-    spot_spot_types: SpotTypeArr;
-    spot_traffic_levels: { id: string; name: TrafficLevel }[];
+    spot_types: SpotTypeArr;
+    traffic_levels: { id: string; name: TrafficLevel }[];
     created_by_name: string;
+    creator_profile: CreatedBy;
 }
 
 export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];
@@ -38,7 +47,7 @@ export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];
 export type SpotType = typeof SPOT_TYPES[number]["value"];
 
 export type JunctionInsert = {
-    table: Table;
+    table: Data;
     fKey: string;
     values: number[];
 }

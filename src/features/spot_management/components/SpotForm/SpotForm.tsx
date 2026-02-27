@@ -30,10 +30,10 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const navigate = useNavigate();
     const { selectedSpot, setSelectedSpot } = useSpots();
     const [selectedTypes, setSelectedTypes] = useState<SpotType[]>(
-        !isAdding && selectedSpot ? selectedSpot.spot_spot_types.map(t => t.name) : []
+        !isAdding && selectedSpot ? selectedSpot.spot_types.map(t => t.name) : []
     );
     const [selectedTrafficLevel, setSelectedTrafficLevel] = useState<TrafficLevel[]>(
-        !isAdding && selectedSpot ? selectedSpot.spot_traffic_levels.map(t => t.name) : []
+        !isAdding && selectedSpot ? selectedSpot.traffic_levels.map(t => t.name) : []
     );
     const [selectedPhotos, setSelectedPhotos] = useState<string[]>(
         !isAdding && selectedSpot?.photos ? selectedSpot.photos : []

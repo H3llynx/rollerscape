@@ -1,8 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { databases, dbSelect } from "../../../config/databases";
-import { fetchData } from "../../../services/data";
-import { getCreatedByName } from "../../../services/spots";
+import { views } from "../../../config/databases";
 import type { SpotFullInfo } from "../../../types/spots_types";
+import supabase from "../../../utils/supabase";
 import { SpotsContext } from "./SpotsContext";
 
 export function SpotsProvider({ children }: { children: ReactNode }) {
@@ -13,23 +12,14 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
 
     const loadSpots = async () => {
         setLoading(true);
-        const { data, error } = await fetchData<SpotFullInfo>(databases.spots, dbSelect.spots.allWithJunctions);
+        const { data, error } = await supabase
+            .from(views.public_spots)
+            .select("*");
         if (error) setError(error.message);
         if (data) {
-            const spotList = await Promise.all(
-                data.map(async (spot) => {
-                    if (spot && spot.created_by) {
-                        return {
-                            ...spot,
-                            created_by_name: await getCreatedByName(spot.created_by),
-                        };
-                    }
-                    return spot;
-                })
-            );
-            setSpots(spotList);
-            setLoading(false);
+            setSpots(data);
         }
+        setLoading(false);
     };
 
     useEffect(() => {

@@ -34,7 +34,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
 
     const spotTypes = useMemo(() => {
         if (!spots) return [];
-        return [...new Set(spots.flatMap(spot => spot.spot_spot_types.map(type => type.name as SpotType)))];
+        return [...new Set(spots.flatMap(spot => spot.spot_types.map(type => type.name as SpotType)))];
     }, [spots]);
 
     useEffect(() => {
@@ -77,7 +77,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
         const spotToExpand = spots.find(spot => searchParams.get(spot.slug) === "expanded");
         if (spotToExpand) {
             const expandedSpotTypes: SpotType[] = []
-            spotToExpand.spot_spot_types.forEach(type => expandedSpotTypes.push(type.name))
+            spotToExpand.spot_types.forEach(type => expandedSpotTypes.push(type.name))
             setCheckedTypes(expandedSpotTypes);
             setSelectedSpot(spotToExpand);
         }
@@ -130,7 +130,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                             <LayerGroup key={`${spots?.length}-${checkedTypes.length}`}>
                                 {spots
                                     .filter(spot =>
-                                        spot.spot_spot_types.some(type => checkedTypes.includes(type.name))
+                                        spot.spot_types.some(type => checkedTypes.includes(type.name))
                                     )
                                     .map(spot => {
                                         if (spot.location_type === "point")

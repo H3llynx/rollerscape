@@ -2,16 +2,16 @@ import type { Database } from "../types/database_types";
 import type { JunctionInsert } from "../types/spots_types";
 import supabase from "../utils/supabase";
 
-export type Table = keyof Database["Tables"]
+export type Data = keyof Database["Tables"] | keyof Database["Views"]
 
-export const fetchData = async<T>(table: Table, select: string) => {
+export const fetchData = async<T>(table: Data, select: string) => {
     const { data, error } = await supabase
         .from(table)
         .select(select);
     return { data: data as T[] | null, error };
 };
 
-export const fetchDataById = async <T>(table: Table, select: string, id: string) => {
+export const fetchDataById = async <T>(table: Data, select: string, id: string) => {
     const { data, error } = await supabase
         .from(table)
         .select(select)
@@ -20,7 +20,7 @@ export const fetchDataById = async <T>(table: Table, select: string, id: string)
     return { data: data as T | null, error };
 };
 
-export const updateData = async <T extends { id: string }>(updatedData: T, table: Table) => {
+export const updateData = async <T extends { id: string }>(updatedData: T, table: Data) => {
     const { data, error } = await supabase
         .from(table)
         .update(updatedData)
@@ -30,7 +30,7 @@ export const updateData = async <T extends { id: string }>(updatedData: T, table
     return { data, error };
 };
 
-export const deleteData = async (id: string, table: Table) => {
+export const deleteData = async (id: string, table: Data) => {
     try {
         const { data, error } = await supabase
             .from(table)
@@ -45,7 +45,7 @@ export const deleteData = async (id: string, table: Table) => {
 };
 
 export const insertDataWithJunctions = async (
-    mainTable: Table,
+    mainTable: Data,
     values: Record<string, unknown>,
     junctions: JunctionInsert[]
 ) => {
@@ -69,7 +69,7 @@ export const insertDataWithJunctions = async (
 };
 
 export const updateDataWithJunctions = async (
-    mainTable: Table,
+    mainTable: Data,
     id: string | number,
     values: Record<string, unknown>,
     junctions: JunctionInsert[]

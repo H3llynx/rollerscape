@@ -25,7 +25,7 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
                         <h2 className="text-xl text-dark-3">{spot.name}</h2>
                         <p className="text-grey text-xs md:text-sm">{spot.address}</p>
                         <div className="flex gap-0.5 mt-1 items-start">
-                            {spot.spot_spot_types.map((type, i) => (
+                            {spot.spot_types.map((type, i) => (
                                 <span className="tag" key={i} >
                                     {getSpotType(type.name)}
                                 </span>

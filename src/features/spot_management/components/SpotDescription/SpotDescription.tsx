@@ -38,11 +38,11 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         <div className="spot-created-by bg-blur">
                             Submitted by
                             <span className="font-bold text-text-secondary">
-                                {selectedSpot.created_by_name}
+                                {selectedSpot.creator_profile.name}
                             </span>
                         </div>
                         <div className="rider-card-container right-[5px] bottom-[28px]">
-                            <RiderCard riderId={selectedSpot.created_by} />
+                            <RiderCard />
                         </div>
                     </>
                 }
@@ -54,7 +54,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         <div>
                             <h1>{selectedSpot.name}</h1>
                             <div className="flex gap-0.5 mt-1 items-start flex-wrap">
-                                {selectedSpot.spot_spot_types.map((type, i) => (
+                                {selectedSpot.spot_types.map((type, i) => (
                                     <span className="tag" key={i} >
                                         {getSpotType(type.name)}
                                     </span>
@@ -89,14 +89,14 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             <h3>Average score</h3>{selectedSpot.average_rating ? selectedSpot.average_rating : (<span className="text-grey text-sm">No valoration given</span>)}
                         </div>
                     </div>
-                    <div className={`flex gap-[5px] ${selectedSpot.spot_traffic_levels.length > 1 ? "flex-col" : "flex-row"}`}>
+                    <div className={`flex gap-[5px] ${selectedSpot.traffic_levels.length > 1 ? "flex-col" : "flex-row"}`}>
                         <h3>Traffic level:</h3>
                         <ul>
-                            {selectedSpot.spot_traffic_levels.map(level =>
+                            {selectedSpot.traffic_levels.map(level =>
                                 <li
                                     key={level.id}
-                                    className={`${selectedSpot.spot_traffic_levels.length > 1 ? "text-xs" : ""} text-text-secondary font-medium`}>
-                                    {selectedSpot.spot_traffic_levels.length > 1 && <Check aria-hidden width={12} height={20} className="inline mr-[5px]" />}
+                                    className={`${selectedSpot.traffic_levels.length > 1 ? "text-xs" : ""} text-text-secondary font-medium`}>
+                                    {selectedSpot.traffic_levels.length > 1 && <Check aria-hidden width={12} height={20} className="inline mr-[5px]" />}
                                     {TRAFFIC_LEVELS
                                         .filter(l => l.value === level.name)
                                         .map(l => l.label)}
