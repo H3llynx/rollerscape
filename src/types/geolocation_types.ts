@@ -22,6 +22,8 @@ export type NominatimResult = {
         town?: string;
         village?: string;
         municipality?: string;
+        neighbourhood?: string;
+        suburb?: string;
         country?: string;
         country_code?: string;
         postcode: string;

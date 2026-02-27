@@ -36,7 +36,7 @@ export function GreetingsSection({ profile }: { profile: UserProfile }) {
             <div className="flex flex-row-reverse gap-1 justify-end md:flex-row md:justify-between items-center">
                 <div className="flex items-center px-0.5 mt-1 flex-wrap w-full">
                     <p className="font-special w-full">Home location:</p>
-                    <p className="text-sm text-text-secondary w-fit mr-0.5">{profile.home_location_name} </p>
+                    <p className="text-sm text-text-secondary w-fit mr-0.5 capitalize">{profile.home_location_name} </p>
                     <div className="flex items-center w-fit">
                         <span>{showFlag(profile.home_country_code)}</span>
                         <Button

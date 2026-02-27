@@ -10,10 +10,10 @@ import { SpotLeftPanel } from "../../../spot_management/components/SpotLeftPanel
 import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
+import { FlyToUser } from "../FlyToUser/FlyToUser";
 import { GuestMarker } from "../GuestMarker/GuestMarker";
 import { Map } from "../Map/Map";
 import { MapFilters } from "../MapFilters/MapFilters";
-import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
 import { RouteDisplay } from "../RouteDisplay/RouteDisplay";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
 import { UserMarker } from "../UserMarker/UserMarker";
@@ -171,7 +171,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                         }
                         {profile && <UserMarker profile={profile} center={center} />}
                         {!profile && <GuestMarker center={center} />}
-                        <ReCenterMap lat={center[0]} lon={center[1]} />
+                        <FlyToUser center={center} />
                         <FlyToSpot spot={selectedSpot} />
                         {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
                     </Map>

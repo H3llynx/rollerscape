@@ -20,11 +20,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     useEffect(() => {
-        const trackUser = supabase.auth.onAuthStateChange((_event, session) => {
+        const trackSession = supabase.auth.onAuthStateChange((_event, session) => {
             const loggedUser = session ? session.user : null
             setUserAndProfile(loggedUser);
         });
-        const subscription = trackUser.data.subscription;
+        const subscription = trackSession.data.subscription;
         return () => subscription.unsubscribe();
     }, []);
 

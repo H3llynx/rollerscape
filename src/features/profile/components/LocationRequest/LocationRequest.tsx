@@ -5,12 +5,13 @@ import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
+import { databases } from "../../../../config/databases";
 import { geolocationErrors } from "../../../../config/errors";
 import { COUNTRIES } from "../../../../config/user_info";
+import { updateData } from "../../../../services/data";
 import { getBrowserPosition, reverseGeocode, searchLocations } from "../../../../services/geolocation";
-import type { Location } from "../../../../types/geolocation_types";
+import type { HomeLocation, Location } from "../../../../types/geolocation_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useLocate } from "../../hooks/useLocate";
 import "./LocationRequest.css";
 
 type LocationRequest = {
@@ -24,9 +25,9 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
     const [country, setCountry] = useState<string>(COUNTRIES[0].value);
     const [showingSuggestions, setShowingSuggestions] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState<boolean>(false)
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const { loading, updateError, setUpdateError, updateUserLocation } = useLocate();
-    const { profile } = useAuth();
+    const { profile, setProfile } = useAuth();
 
     useEffect(() => {
         const search = async () => {
@@ -37,10 +38,10 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
     }, [query, country]);
 
     useEffect(() => {
-        if (error || updateError) {
+        if (error) {
             dialogRef.current?.showModal();
         }
-    }, [error, updateError]);
+    }, [error]);
 
     if (!profile) return;
 
@@ -61,7 +62,7 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
     };
 
     const handleSelect = (location: Location) => {
-        setQuery(location.name);
+        setQuery(location.display_name!);
         setLocation(location);
         setShowingSuggestions(false);
     };
@@ -69,30 +70,45 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
     const handleClose = () => {
         dialogRef.current?.close();
         setError(null);
-        setUpdateError(null);
     };
+
+    const updateUserLocation = async (location: HomeLocation) => {
+        setLoading(true);
+        const updatedLocation = {
+            home_country_code: location.country,
+            home_lat: location.lat,
+            home_location_name: location.name,
+            home_lon: location.lon
+        };
+        const { data, error } = await updateData({ id: profile.id, ...updatedLocation }, databases.profiles);
+        if (error) {
+            setError(geolocationErrors.locationUpdate);
+            setLoading(false);
+            return;
+        }
+        setProfile(data);
+        setQuery("");
+        setLoading(false);
+        if (onSuccess) onSuccess();
+    }
 
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
         if (!location) return;
-        const homeLocation = { ...location, country };
-        await updateUserLocation(profile.id, homeLocation);
-        setQuery("");
-        if (onSuccess) onSuccess();
+        updateUserLocation({ ...location, country });
     };
 
     const useBrowserLocation = async () => {
         if (query.length > 0) setQuery("");
         const { data, error } = await getBrowserPosition();
         if (error) {
-            if ("code" in error)
-                setError(geolocationErrors.profile[error.code as keyof typeof geolocationErrors.profile] || geolocationErrors.profile[2]);
-            else setError(geolocationErrors.profile[2])
-        };
+            if ("code" in error) setError(geolocationErrors.profile[error.code as keyof typeof geolocationErrors.profile] || geolocationErrors.profile[2]);
+            else setError(geolocationErrors.profile[2]);
+            return;
+        }
         if (data) {
             const location = await reverseGeocode(data);
-            updateUserLocation(profile.id, location);
-            if (onSuccess) onSuccess();
+            updateUserLocation(location)
         }
     };
 
@@ -143,7 +159,8 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
                         </ul>
                     )}
                 </div>
-                {loading ? <Loading /> :
+                {loading ? <Loading />
+                    :
                     <>
                         <Button>Set home location</Button>
                         <p className="separator">OR</p>

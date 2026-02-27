@@ -1,8 +1,7 @@
 
 import { LocateFixed } from "lucide-react";
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import Control from "react-leaflet-custom-control";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useNavigate } from "react-router";
 import Add from "../../../../assets/add.png";
@@ -10,6 +9,7 @@ import { Button } from "../../../../components/Button/Button";
 import { layers } from "../../../../config/leaflet";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
+import { LocationSearch } from "../LocationSearch/LocationSearch";
 import "./Map.css";
 
 type Map = {
@@ -53,35 +53,34 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
                 {controls &&
                     <>
                         <ZoomControl position="bottomright" />
-                        <Control position="bottomleft">
-                            <div className="md:flex md:gap-0.5 items-end">
-                                {other}
-                                <div className="flex gap-0 flex-wrap">
-                                    {profile && pathname !== "/add-spot" &&
-                                        <Button
-                                            style="tertiary"
-                                            className="add-spot-btn"
-                                            aria-label="Add new spot"
-                                            onClick={() => navigate("/add-spot")}>
-                                            <img src={Add} className="w-12 h-auto" />
-                                        </Button>
-                                    }
-                                    {trackUser &&
-                                        <Button
-                                            style="icon"
-                                            className="track-me-btn"
-                                            aria-label="Track my current location"
-                                            onClick={trackUser}>
-                                            <LocateFixed
-                                                aria-hidden
-                                                fill="white"
-                                                className="track-icon"
-                                            />
-                                        </Button>
-                                    }
-                                </div>
+                        <div className="controls">
+                            {other}
+                            <div className="flex gap-0.5 md:gap-1 items-center flex-wrap md:flex-nowrap">
+                                {profile && pathname !== "/add-spot" &&
+                                    <Button
+                                        style="tertiary"
+                                        className="add-spot-btn"
+                                        aria-label="Add new spot"
+                                        onClick={() => navigate("/add-spot")}>
+                                        <img src={Add} className="w-10 md:w-11 h-auto" />
+                                    </Button>
+                                }
+                                {trackUser &&
+                                    <Button
+                                        style="icon"
+                                        className="track-me-btn"
+                                        aria-label="Track my current location"
+                                        onClick={trackUser}>
+                                        <LocateFixed
+                                            aria-hidden
+                                            fill="white"
+                                            className="track-icon"
+                                        />
+                                    </Button>
+                                }
+                                <LocationSearch />
                             </div>
-                        </Control>
+                        </div>
                     </>
                 }
                 {children}

@@ -3,7 +3,6 @@ import { Marker } from "react-leaflet";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { showAvatar } from "../../../profile/utils";
-import { ReCenterMap } from "../ReCenterMap/ReCenterMap";
 
 type UserMarker = {
     profile: UserProfile;
@@ -20,10 +19,6 @@ export function UserMarker({ profile, center }: UserMarker) {
         className: "rounded-full button-shadow border border-rgba-yellow bg-dark-2"
     });
     return (
-        <>
-            <Marker position={center} icon={homeIcon} />
-            {profile.home_lat && profile.home_lon &&
-                <ReCenterMap lat={profile.home_lat} lon={profile.home_lon} />}
-        </>
+        <Marker position={center} icon={homeIcon} />
     )
 }

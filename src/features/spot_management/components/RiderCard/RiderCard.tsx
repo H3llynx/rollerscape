@@ -25,19 +25,22 @@ export function RiderCard() {
                 </div>
                 <div className="flex flex-col min-w-0 flex-1 text-sm text-left text-text-secondary">
                     <p className="font-title">Rider: <span className="text-text">{rider.name}</span></p>
-                    <div className="font-main text-sm font-light flex flex-col mt-0.5 gap-[3px]">
-                        <p className="font-title pb">Skating style:</p>
-                        <ul>
-                            {rider.skating_style && rider.skating_style.map((style, i) => (
-                                <li className="font-medium text-xs text-text" key={i}>
-                                    <Check aria-hidden width={12} height={20} className="inline mr-[5px]" />
-                                    {SKATING_STYLES
-                                        .filter(s => s.value === style)
-                                        .map(s => s.label)
-                                    }</li>
-                            ))}
-                        </ul>
-                    </div>
+
+                    {rider.skating_style &&
+                        <div className="font-main text-sm font-light flex flex-col mt-0.5 gap-[3px]">
+                            <p className="font-title pb">Skating style:</p>
+                            <ul>
+                                {rider.skating_style.map((style, i) => (
+                                    <li className="font-medium text-xs text-text" key={i}>
+                                        <Check aria-hidden width={12} height={20} className="inline mr-[5px]" />
+                                        {SKATING_STYLES
+                                            .filter(s => s.value === style)
+                                            .map(s => s.label)
+                                        }</li>
+                                ))}
+                            </ul>
+                        </div>
+                    }
                 </div>
             </div>
         </>

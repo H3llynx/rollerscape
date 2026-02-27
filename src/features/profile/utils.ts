@@ -6,8 +6,12 @@ import type { UserProfile } from "../../types/user_types";
 
 export const formatLocation = (location: NominatimResult) => {
     const city = `${location.address.city || location.address.town || location.address.village || location.address.municipality}`;
-    return `${(location.name && location.name !== city) ? location.name + "," : ""}
-    ${location.address.postcode}, ${city}`;
+    const quartier = `${location.address.neighbourhood || location.address.suburb || " "}`
+    return `
+    ${(location.name && location.name !== city) ? location.name + "," : ""}
+    ${quartier ?? quartier}
+    ${location.address.postcode} ${city}
+    `;
 }
 
 export const showFlag = (code: string) => {

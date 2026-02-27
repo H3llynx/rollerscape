@@ -9,14 +9,14 @@ import { Header } from "../../components/Header/Header";
 import { databases } from "../../config/databases";
 import { spotErrors } from "../../config/errors";
 import { spotFormFields } from "../../config/spots";
-import { insertDataWithJunctions, type Table } from "../../services/data";
+import { insertDataWithJunctions } from "../../services/data";
 import { fetchRoute, reverseGeocode } from "../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../services/spots";
 import type { Coordinates, OsrmRoute, Route, RouteCoordinates } from "../../types/geolocation_types";
 import type { JunctionInsert, RouteGenMode, Spot, SpotType, TrafficLevel } from "../../types/spots_types";
 import { createSlug, osrmToJsonCoords } from "../../utils/helpers";
+import { FlyToUser } from "../map/components/FlyToUser/FlyToUser";
 import { Map } from "../map/components/Map/Map";
-import { ReCenterMap } from "../map/components/ReCenterMap/ReCenterMap";
 import { RouteDisplay } from "../map/components/RouteDisplay/RouteDisplay";
 import { UserMarker } from "../map/components/UserMarker/UserMarker";
 import { useCenter } from "../map/hooks/useCenter";
@@ -126,7 +126,7 @@ export function AddSpotPage() {
 
         const junctions: JunctionInsert[] = [
             { table: "spot_spot_types", fKey: "spot_type_id", values: typeRows?.map(row => row.id) ?? [] },
-            { table: "spot_traffic_levels" as Table, fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
+            { table: "spot_traffic_levels", fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
         ]
 
         const { error } = await insertDataWithJunctions(databases.spots, values, junctions);
@@ -168,8 +168,13 @@ export function AddSpotPage() {
                             </div>
                         }
                     </div>
-                    <Map center={center} zoom={14} trackUser={trackUser} other={resetRoute}>
-                        <ReCenterMap lat={center[0]} lon={center[1]} />
+                    <Map
+                        center={center}
+                        zoom={14}
+                        trackUser={trackUser}
+                        other={resetRoute}
+                    >
+                        <FlyToUser center={center} />
                         {confirmedLocationType && !gpxCoordinates &&
                             <>
                                 {locationType === "point" &&

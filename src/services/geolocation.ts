@@ -84,42 +84,6 @@ export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
     }
 };
 
-export const getCoordinates = async (location: string): Promise<{
-    data: Coordinates | null;
-    error: Error | null;
-}> => {
-    try {
-        const response = await fetch(
-            `${url.nominatim}/search?` +
-            `q=${encodeURIComponent(location)}` +
-            `&format=json&limit=1`,
-        )
-        const results = await response.json();
-
-        if (results.length > 0) {
-            return {
-                data: {
-                    lat: Number(results[0].lat),
-                    lon: Number(results[0].lon)
-                },
-                error: null
-            };
-        } else {
-            return {
-                data: null,
-                error: new Error("No coordinates found.")
-            }
-        }
-
-    } catch (error) {
-        console.error("Geocoding error:", error);
-        return {
-            data: null,
-            error: new Error("Coordinates could not be found.")
-        }
-    }
-}
-
 export const fetchRoute = async (routeCoords: RouteCoordinates): Promise<OsrmRoute[] | null> => {
     const { start, end, middle } = routeCoords;
     if (!start || !end) return null;
@@ -134,4 +98,4 @@ export const fetchRoute = async (routeCoords: RouteCoordinates): Promise<OsrmRou
         console.error(error);
         return null;
     }
-}
+};

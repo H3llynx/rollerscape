@@ -1,0 +1,22 @@
+@reference "../../../../styles/index.css";
+
+.search-container {
+    &:has(#expand-search:checked) {
+        #search-form {
+            @apply block md:relative absolute top-0 right-0 left-4;
+            animation: scale 0.5s forwards;
+        }
+    }
+
+    .expand-search-cta {
+        @apply flex md:hidden p-[10px] justify-center items-center bg-bg-cta w-3 h-3 rounded-full;
+
+        .expand-search-icon {
+            @apply w-2 h-2 text-text-cta
+        }
+    }
+
+    #search-form {
+        @apply hidden md:block relative overflow-hidden w-auto h-2.5 rounded-lg;
+    }
+}

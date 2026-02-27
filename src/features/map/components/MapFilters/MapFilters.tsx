@@ -2,6 +2,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { useRef, type Dispatch, type SetStateAction } from "react";
 import type { SpotType } from "../../../../types/spots_types";
 import { getSpotType, handleAria } from "../../../../utils/helpers";
+import "./MapFilters.css";
 
 type MapFilter = {
     spotTypes: SpotType[];
@@ -19,7 +20,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilt
     };
 
     return (
-        <div className="filters-container">
+        <div className="filter-container">
             <div id="spot-type-filters">
                 <label className="map-label">
                     <input

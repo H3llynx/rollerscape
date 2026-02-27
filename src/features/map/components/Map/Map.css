@@ -1,9 +1,5 @@
 @reference "../../../../styles/index.css";
 
-.leaflet-bottom {
-    @apply mb-1.5 md:mb-0;
-}
-
 .leaflet-container .leaflet-control-attribution {
     @apply bg-transparent;
 }
@@ -15,10 +11,6 @@
     label {
         @apply font-main text-sm;
     }
-}
-
-.leaflet-left {
-    @apply pb-1;
 }
 
 .leaflet-bottom .leaflet-control-zoom a:hover {
@@ -68,6 +60,10 @@
 
 .leaflet-dragging .leaflet-overlay-pane svg {
     opacity: 0.2;
+}
+
+.controls {
+    @apply flex flex-col md:flex-row gap-1 items-start md:items-end absolute bottom-[10px] left-[10px] z-400 mb-1.5 md:mb-0 max-w-[85vw];
 }
 
 .track-me-btn {

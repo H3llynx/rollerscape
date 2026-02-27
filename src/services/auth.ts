@@ -15,7 +15,7 @@ export const loginWithGoogle = async ({ redirectURL }: { redirectURL: string }) 
 export const getUserProfile = async (userId: string) => {
     const { data, error } = await supabase
         .from("profiles")
-        .select("*")
+        .select("*, favorites(spot_id)")
         .eq("id", userId)
         .maybeSingle();
     if (error) console.error("Unable to retrieve user:", error);

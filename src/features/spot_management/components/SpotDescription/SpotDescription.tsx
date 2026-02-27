@@ -81,18 +81,19 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                         </span>
                                     </p>
                                     <ul className="mx-0 mt-[5px]">
-                                        <span>Skating style: </span>
-                                        {selectedSpot.creator_profile.skating_style.map((style, i) =>
-                                        (
-                                            <li className="inline-block pr-0.5" key={i}>
-                                                <CircleCheck className="inline text-text-secondary mr-[3px]" width={15} height={15} />
-                                                {SKATING_STYLES
-                                                    .filter(s => s.value === style)
-                                                    .map(s => s.label)
-                                                }
-                                            </li>
-                                        )
-                                        )
+                                        {selectedSpot.creator_profile.skating_style &&
+                                            <>
+                                                <span>Skating style: </span>
+                                                {selectedSpot.creator_profile.skating_style.map((style, i) => (
+                                                    <li className="inline-block pr-0.5" key={i}>
+                                                        <CircleCheck className="inline text-text-secondary mr-[3px]" width={15} height={15} />
+                                                        {SKATING_STYLES
+                                                            .filter(s => s.value === style)
+                                                            .map(s => s.label)
+                                                        }
+                                                    </li>
+                                                ))}
+                                            </>
                                         }
                                     </ul>
                                 </div>

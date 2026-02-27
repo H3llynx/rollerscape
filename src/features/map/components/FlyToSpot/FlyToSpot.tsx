@@ -19,7 +19,6 @@ export function FlyToSpot({ spot }: { spot: SpotFullInfo | null }) {
             map.flyTo([spot.coordinates[0].lat, spot.coordinates[0].lon], 15);
         } else {
             const bounds = spot.coordinates.map(coords => [coords.lat, coords.lon] as MapCoordinates);
-            console.log(bounds);
             map.fitBounds(bounds, { padding: [10, 10] });
         }
     }, [spot]);
