@@ -5,7 +5,7 @@ import { Button } from "../../../../components/Button/Button";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { databases } from "../../../../config/databases";
 import { udpdateError } from "../../../../config/errors";
-import { addSpotFields } from "../../../../config/spots";
+import { spotFormFields } from "../../../../config/spots";
 import { updateDataWithJunctions, type Table } from "../../../../services/data";
 import { reverseGeocode } from "../../../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../../../services/spots";
@@ -32,7 +32,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
         ? selectedSpot.photos[0]
         : Skater
 
-    const { name, description, surface_quality, spot_types, traffic_levels, photos } = addSpotFields;
+    const { name, description, surface_quality, spot_types, traffic_levels, photos } = spotFormFields;
 
     const handleClose = () => {
         dialogRef.current?.close();

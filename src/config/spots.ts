@@ -22,7 +22,7 @@ export const ROUTE_GEN_MODE = [
     { value: "gpx", label: "Upload GPX" },
 ] as const;
 
-export const addSpotFields = {
+export const spotFormFields = {
     location_type: {
         db_key: "location_type",
         id: "spot-location-type",
@@ -81,4 +81,20 @@ export const addSpotFields = {
         id: "spot-photo",
         input_type: "file",
     },
+}
+
+export const commentFormFields = {
+    score: {
+        db_key: "rating",
+        label: "Your vibe on this spot",
+        id: "comment-rating",
+        input_type: "number",
+        min: 1,
+        max: 5,
+    },
+    comment: {
+        db_key: "comment",
+        label: "Anything to add?",
+        id: "comment-text",
+    }
 }

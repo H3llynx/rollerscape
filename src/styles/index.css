@@ -126,6 +126,10 @@
     @apply font-medium;
   }
 
+  form {
+    @apply flex flex-col gap-2 md:pr-1 w-full;
+  }
+
   label:not(.theme-switcher, .map-label, .file-label) {
     @apply md:font-special text-text flex flex-col gap-0.5;
 
@@ -184,6 +188,8 @@
   }
 
   textarea {
+    @apply border border-grey rounded-lg px-1 mt-0.5 py-0.5 min-h-6 w-full;
+
     &::-webkit-scrollbar {
       @apply w-[4px];
     }

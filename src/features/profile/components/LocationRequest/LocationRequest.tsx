@@ -9,6 +9,7 @@ import { geolocationErrors } from "../../../../config/errors";
 import { COUNTRIES } from "../../../../config/user_info";
 import { getBrowserPosition, reverseGeocode, searchLocations } from "../../../../services/geolocation";
 import type { Location } from "../../../../types/geolocation_types";
+import { useAuth } from "../../../auth/hooks/useAuth";
 import { useLocate } from "../../hooks/useLocate";
 import "./LocationRequest.css";
 
@@ -25,6 +26,7 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
     const [error, setError] = useState<string | null>(null)
     const dialogRef = useRef<HTMLDialogElement>(null);
     const { loading, updateError, setUpdateError, updateUserLocation } = useLocate();
+    const { profile } = useAuth();
 
     useEffect(() => {
         const search = async () => {
@@ -39,6 +41,8 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
             dialogRef.current?.showModal();
         }
     }, [error, updateError]);
+
+    if (!profile) return;
 
     const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCountry(e.target.value);
@@ -72,7 +76,7 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
         e.preventDefault();
         if (!location) return;
         const homeLocation = { ...location, country };
-        await updateUserLocation(homeLocation);
+        await updateUserLocation(profile.id, homeLocation);
         setQuery("");
         if (onSuccess) onSuccess();
     };
@@ -87,7 +91,7 @@ export function LocationRequest({ onSuccess }: LocationRequest) {
         };
         if (data) {
             const location = await reverseGeocode(data);
-            updateUserLocation(location);
+            updateUserLocation(profile.id, location);
             if (onSuccess) onSuccess();
         }
     };

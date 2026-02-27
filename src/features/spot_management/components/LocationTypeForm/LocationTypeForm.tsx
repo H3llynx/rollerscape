@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
-import { addSpotFields } from "../../../../config/spots";
+import { spotFormFields } from "../../../../config/spots";
 import type { Coordinates } from "../../../../types/geolocation_types";
 import type { RouteGenMode, Spot } from "../../../../types/spots_types";
 import { capitalize } from "../../../../utils/helpers";
@@ -19,7 +19,7 @@ type LocationTypeForm = {
 }
 
 export function LocationTypeForm({ locationType, routeGenMode, setRouteGenMode, setGpxCoordinates, setLocationType, onSubmit }: LocationTypeForm) {
-    const { location_type, route_gen_mode, gpx } = addSpotFields;
+    const { location_type, route_gen_mode, gpx } = spotFormFields;
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [hasGpx, setHasGpx] = useState<boolean>(false);
     const navigate = useNavigate();

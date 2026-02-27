@@ -8,7 +8,7 @@ import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
 import { spotErrors } from "../../../../config/errors";
-import { addSpotFields, SPOT_TYPES, TRAFFIC_LEVELS } from "../../../../config/spots";
+import { SPOT_TYPES, spotFormFields, TRAFFIC_LEVELS } from "../../../../config/spots";
 import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
 import type { Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
@@ -23,7 +23,7 @@ type SpotForm = {
 }
 
 export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: SpotForm) {
-    const { name, coordinates, photos, description, surface_quality, spot_types, traffic_levels } = addSpotFields;
+    const { name, coordinates, photos, description, surface_quality, spot_types, traffic_levels } = spotFormFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting, errors } } = useForm();
     const hasPhoto = watch(photos.db_key);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,15 +51,9 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     }, [isAdding])
 
     useEffect(() => {
-        if (selectedTypes.length > 0) {
-            setValue(spot_types.db_key, selectedTypes, { shouldValidate: true });
-            setValue(traffic_levels.db_key, selectedTrafficLevel, { shouldValidate: true });
-        }
+        setValue(spot_types.db_key, selectedTypes);
+        setValue(traffic_levels.db_key, selectedTrafficLevel);
     }, [selectedTrafficLevel, selectedTypes]);
-
-    useEffect(() => {
-        setValue(photos.db_key, selectedPhotos);
-    }, [selectedPhotos]);
 
     useEffect(() => {
         register(
@@ -72,6 +66,10 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
         }
         );
     }, [register, spot_types.db_key, traffic_levels.db_key]);
+
+    useEffect(() => {
+        setValue(photos.db_key, selectedPhotos);
+    }, [selectedPhotos]);
 
     const handleTypeChange = (value: SpotType) => {
         const current = selectedTypes;
@@ -125,7 +123,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                 </span>
                 </p>
             }
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 md:pr-1 w-full">
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     label={name.label}
                     id={name.id}
@@ -148,8 +146,8 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                         className="sr-only"
                         required
                     />
-                    <div className="surface-quality-container" aria-hidden>
-                        {[5, 4, 3, 2, 1].map((score) => {
+                    <div className="score-container" aria-hidden>
+                        {[1, 2, 3, 4, 5].map((score) => {
                             const isActive = score <= selectedScore;
                             return (
                                 <Button
@@ -193,7 +191,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                     <textarea
                         id={description.id}
                         defaultValue={!isAdding && selectedSpot && selectedSpot.description ? selectedSpot.description : undefined}
-                        className="slight-shadow bg-blur border border-grey rounded-lg px-1 py-0.5 min-h-6 w-full"
+                        className="slight-shadow bg-blur"
                         {...register(description.db_key)}
                     />
                 </fieldset>

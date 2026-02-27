@@ -52,8 +52,8 @@
     transition: var(--default-transition)
 }
 
-.surface-quality-container {
-    @apply flex flex-row-reverse gap-1 justify-end;
+.score-container {
+    @apply flex gap-1;
 
     button {
         @apply text-text;

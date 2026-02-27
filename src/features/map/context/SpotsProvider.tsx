@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { views } from "../../../config/databases";
+import { fetchData } from "../../../services/data";
 import type { SpotFullInfo } from "../../../types/spots_types";
-import supabase from "../../../utils/supabase";
 import { SpotsContext } from "./SpotsContext";
 
 export function SpotsProvider({ children }: { children: ReactNode }) {
@@ -12,9 +12,7 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
 
     const loadSpots = async () => {
         setLoading(true);
-        const { data, error } = await supabase
-            .from(views.public_spots)
-            .select("*");
+        const { data, error } = await fetchData<SpotFullInfo>(views.public_spots, "*")
         if (error) setError(error.message);
         if (data) {
             setSpots(data);

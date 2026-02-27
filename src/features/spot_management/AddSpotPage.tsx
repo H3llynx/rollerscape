@@ -8,7 +8,7 @@ import { GridLeftPanel } from "../../components/GridLeftPanel/GridLeftPanel";
 import { Header } from "../../components/Header/Header";
 import { databases } from "../../config/databases";
 import { spotErrors } from "../../config/errors";
-import { addSpotFields } from "../../config/spots";
+import { spotFormFields } from "../../config/spots";
 import { insertDataWithJunctions, type Table } from "../../services/data";
 import { fetchRoute, reverseGeocode } from "../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../services/spots";
@@ -29,7 +29,7 @@ import { CoordinatePickerPoint, CoordinatePickerRoute, estimateDistanceFromGpx }
 export function AddSpotPage() {
     const { center, trackUser, profile } = useCenter();
     const { loadSpots } = useSpots();
-    const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_levels, photos } = addSpotFields;
+    const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_levels, photos } = spotFormFields;
     const [confirmedLocationType, setConfirmedLocationType] = useState<boolean>(false);
     const [locationType, setLocationType] = useState<Spot["location_type"]>(location_type.options[0] as Spot["location_type"]);
     const [routeGenMode, setRouteGenMode] = useState<RouteGenMode | null>(null);

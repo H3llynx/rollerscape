@@ -5,7 +5,6 @@ import type { Coordinates } from "./geolocation_types";
 
 export type Spot = {
     address: string | null;
-    average_rating: number | null;
     city: string;
     coordinates: Coordinates[];
     country: string;
@@ -13,7 +12,6 @@ export type Spot = {
     description: string | null;
     display_lat: number;
     display_lon: number;
-    has_obstacles: boolean | null;
     id: string;
     length_km: number | null;
     location_type: typeof LOCATION_TYPE[number];
@@ -40,6 +38,7 @@ export type SpotFullInfo = Spot & {
     traffic_levels: { id: string; name: TrafficLevel }[];
     created_by_name: string;
     creator_profile: CreatedBy;
+    average_rating: number | null;
 }
 
 export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];
@@ -53,3 +52,12 @@ export type JunctionInsert = {
 }
 
 export type RouteGenMode = typeof ROUTE_GEN_MODE[number]["value"];
+
+export type Comments = {
+    comment: string | null;
+    created_at: string;
+    id: string;
+    rating: number | null;
+    spot_id: string;
+    user_id: string;
+}

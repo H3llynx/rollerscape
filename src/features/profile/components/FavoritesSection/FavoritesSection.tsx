@@ -8,22 +8,29 @@ import { FavoriteSpotCard } from "../FavoriteSpotCard/FavoriteSpotCard";
 export function FavoritesSection() {
     const { profile } = useAuth();
     const { spots } = useSpots();
-    if (!profile || !spots) return
-
     const isDesktop = useMediaQuery({ minWidth: 1024 });
     const favPerPage = isDesktop ? 2 : 6;
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        setCurrentPage(1);
-    }, [profile.favorites]);
+        if (profile?.favorites)
+            setCurrentPage(1);
+    }, [profile?.favorites]);
+
+    if (!profile || !spots) return
+
+    if (!profile.favorites) return (
+        <div>
+            <h2>Your favorites spots</h2>
+            <p className="text-grey text-sm">You have not saved any spot yet.</p>
+        </div>
+    )
 
     const totalPages = Math.ceil(profile.favorites.length / favPerPage);
     const paginatedSpots = profile.favorites.slice(
         (currentPage - 1) * favPerPage,
         currentPage * favPerPage
     );
-
     return (
         <div>
             <h2>Your favorites spots</h2>

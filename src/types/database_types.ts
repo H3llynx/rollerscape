@@ -1,5 +1,47 @@
 export type Database = {
     Tables: {
+        comments: {
+            Row: {
+                comment: string | null
+                created_at: string | null
+                id: string
+                rating: number | null
+                spot_id: string | null
+                user_id: string | null
+            }
+            Insert: {
+                comment?: string | null
+                created_at?: string | null
+                id?: string
+                rating?: number | null
+                spot_id?: string | null
+                user_id?: string | null
+            }
+            Update: {
+                comment?: string | null
+                created_at?: string | null
+                id?: string
+                rating?: number | null
+                spot_id?: string | null
+                user_id?: string | null
+            }
+            Relationships: [
+                {
+                    foreignKeyName: "comments_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "public_spots"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "comments_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "spots"
+                    referencedColumns: ["id"]
+                },
+            ]
+        },
         favorites: {
             Row: {
                 profile_id: string
@@ -181,7 +223,6 @@ export type Database = {
                 country: string
                 created_by: string | null
                 description: string | null
-                has_obstacles: boolean | null
                 id: string
                 length_km: number | null
                 location_type: string | null
@@ -198,7 +239,6 @@ export type Database = {
                 country: string
                 created_by?: string | null
                 description?: string | null
-                has_obstacles?: boolean | null
                 id?: string
                 length_km?: number | null
                 location_type?: string | null
@@ -215,7 +255,6 @@ export type Database = {
                 country?: string
                 created_by?: string | null
                 description?: string | null
-                has_obstacles?: boolean | null
                 id?: string
                 length_km?: number | null
                 location_type?: string | null
@@ -256,8 +295,35 @@ export type Database = {
             }
             Relationships: []
         }
-    }
+    },
     Views: {
+        public_comments: {
+            Row: {
+                comment: string | null
+                commenter_profile: JSON | null
+                created_at: string | null
+                id: string | null
+                rating: number | null
+                spot_id: string | null
+                user_id: string | null
+            }
+            Relationships: [
+                {
+                    foreignKeyName: "comments_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "public_spots"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "comments_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "spots"
+                    referencedColumns: ["id"]
+                },
+            ]
+        }
         public_rider: {
             Row: {
                 avatar_url: string | null
@@ -289,7 +355,6 @@ export type Database = {
                 created_by: string | null
                 creator_profile: JSON | null
                 description: string | null
-                has_obstacles: boolean | null
                 id: string | null
                 length_km: number | null
                 location_type: string | null

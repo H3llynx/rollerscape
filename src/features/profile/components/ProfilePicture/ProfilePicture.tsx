@@ -15,13 +15,13 @@ export function ProfilePicture() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<boolean>(false);
 
-    if (!profile) return;
-
     useEffect(() => {
         return () => {
             if (preview) URL.revokeObjectURL(preview);
         };
     }, [preview]);
+
+    if (!profile) return;
 
     const handlePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];

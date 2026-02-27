@@ -44,7 +44,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
             setCheckedTypes(filtersToCheck);
             return;
         }
-        const defaultFilters: SpotType[] = profile && profile.preferred_spot_types
+        const defaultFilters: SpotType[] = profile && profile.preferred_spot_types && profile.preferred_spot_types.length > 0
             ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
             : spotTypes
         setCheckedTypes(defaultFilters);

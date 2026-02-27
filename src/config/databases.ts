@@ -8,7 +8,7 @@ export const databases = {
 
 export const views = {
     public_spots: "public_spots",
-}
+} as const
 
 export const dbSelect = {
     spots: {
@@ -18,7 +18,7 @@ spot_spot_types(
 ),
 spot_traffic_levels(
     ...traffic_levels(id, name)
-),`
+)`
     }
 }
 

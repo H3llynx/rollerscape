@@ -1,11 +1,11 @@
 @reference "../../../../styles/index.css";
 
 .favorite-map-container {
-    @apply w-full h-10 p-0 relative z-0 pointer-events-none cursor-pointer hover:-translate-px;
+    @apply w-full h-12 md:h-10 p-0 relative z-0 pointer-events-none cursor-pointer hover:-translate-px;
     transition: var(--default-transition);
 }
 
 .favorite-text-overlay {
-    @apply flex flex-wrap justify-center sm:justify-between absolute w-full h-full z-1 pointer-events-auto;
+    @apply flex flex-col md:flex-row justify-between absolute w-full h-full z-1 pointer-events-auto;
     background-image: linear-gradient(to right, var(--color-rgba-white), transparent);
 }
