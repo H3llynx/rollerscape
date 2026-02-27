@@ -29,34 +29,33 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const { selectedSpot, setSelectedSpot } = useSpots();
-    const [selectedTypes, setSelectedTypes] = useState<SpotType[]>(selectedSpot ? selectedSpot.spot_spot_types.map(t => t.name) : watch(spot_types.db_key) || []);
-    const [selectedTrafficLevel, setSelectedTrafficLevel] = useState<TrafficLevel[]>(selectedSpot ? selectedSpot.spot_traffic_levels.map(t => t.name) : watch(traffic_levels.db_key) || []);
+    const [selectedTypes, setSelectedTypes] = useState<SpotType[]>(
+        !isAdding && selectedSpot ? selectedSpot.spot_spot_types.map(t => t.name) : []
+    );
+    const [selectedTrafficLevel, setSelectedTrafficLevel] = useState<TrafficLevel[]>(
+        !isAdding && selectedSpot ? selectedSpot.spot_traffic_levels.map(t => t.name) : []
+    );
+    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(
+        !isAdding && selectedSpot?.photos ? selectedSpot.photos : []
+    );
     const [error, setError] = useState<boolean>(false);
-    const selectedScore = watch(surface_quality.db_key) as number;
-    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(selectedSpot?.photos || []);
     const [photoLoading, setPhotoLoading] = useState<boolean>(false);
+    const selectedScore = watch(surface_quality.db_key) as number;
 
     useEffect(() => {
         if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
     }, [spotCoordinates]);
 
     useEffect(() => {
-        if (isAdding) {
-            if (selectedSpot) setSelectedSpot(null);
-            setSelectedTypes([]);
-            setSelectedTrafficLevel([]);
-            setSelectedPhotos([]);
-        }
-    }, [])
+        if (isAdding) setSelectedSpot(null);
+    }, [isAdding])
 
     useEffect(() => {
         if (selectedTypes.length > 0) {
-            setValue(spot_types.db_key, selectedTypes);
+            setValue(spot_types.db_key, selectedTypes, { shouldValidate: true });
+            setValue(traffic_levels.db_key, selectedTrafficLevel, { shouldValidate: true });
         }
-        if (selectedTrafficLevel.length > 0) {
-            setValue(traffic_levels.db_key, selectedTrafficLevel);
-        }
-    }, []);
+    }, [selectedTrafficLevel, selectedTypes]);
 
     useEffect(() => {
         setValue(photos.db_key, selectedPhotos);
@@ -80,7 +79,6 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
             ? current.filter(type => type !== value)
             : [...current, value];
         setSelectedTypes(updated);
-        setValue(spot_types.db_key, updated, { shouldValidate: true });
     };
 
     const handleLevelChange = (value: TrafficLevel) => {
@@ -89,7 +87,6 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
             ? current.filter(level => level !== value)
             : [...current, value];
         setSelectedTrafficLevel(updated);
-        setValue(traffic_levels.db_key, updated, { shouldValidate: true });
     };
 
     const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
