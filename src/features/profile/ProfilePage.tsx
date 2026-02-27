@@ -22,7 +22,7 @@ export function ProfilePage() {
         <>
             <Header />
             <main className="w-full h-full place-content-center">
-                <section className="grid w-full md:grid-cols-2 h-full">
+                <section className="grid w-full lg:grid-cols-2 h-full">
                     <article className="flex gap-3 flex-col p-2 lg:px-4 my-auto relative w-full h-fit 2xl:items-center">
                         <GreetingsSection profile={profile} />
                         <RollerbladerProfileSection />
