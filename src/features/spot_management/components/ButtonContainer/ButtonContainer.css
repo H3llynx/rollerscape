@@ -1,8 +1,7 @@
 @reference "../../../../styles/index.css";
 
 .button-container {
-    @apply grid gap-0.5 justify-end mr-0.5 w-fit min-w-8 pointer-events-auto;
-    grid-template-columns: repeat(auto-fit, 2rem);
+    @apply flex justify-end gap-0.5 p-0.5 shrink-0 flex-wrap pointer-events-auto;
 
     button,
     a {
@@ -11,12 +10,5 @@
 
     a {
         @apply flex items-center justify-center border hover:-translate-y-px
-    }
-}
-
-@media (width <=48rem) {
-    .button-container {
-        @apply min-w-6;
-        grid-template-columns: repeat(auto-fit, 2.5rem);
     }
 }

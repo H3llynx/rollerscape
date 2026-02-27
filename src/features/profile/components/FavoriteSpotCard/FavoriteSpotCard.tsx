@@ -21,8 +21,8 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
             </Map>
             <div className="favorite-text-overlay">
                 <button aria-label="See that spot on the map" onClick={() => navigate(`/?${spot.slug}=expanded`)}>
-                    <div className="flex flex-col px-1 sm:py-1 h-full my-auto text-left">
-                        <h2 className="text-lg md:text-xl text-dark-3">{spot.name}</h2>
+                    <div className="flex flex-col px-1 pt-0.5 h-full my-auto text-left justify-center">
+                        <h2 className="text-xl text-dark-3">{spot.name}</h2>
                         <p className="text-grey text-xs md:text-sm">{spot.address}</p>
                         <div className="flex gap-0.5 mt-1 items-start">
                             {spot.spot_spot_types.map((type, i) => (
@@ -34,7 +34,7 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
                         </div>
                     </div>
                 </button>
-                <div className="w-full flex justify-center sm:w-fit place-self-end">
+                <div className="w-full flex justify-center sm:w-fit">
                     <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(`/?${spot.slug}=expanded`)} />
                 </div>
             </div>

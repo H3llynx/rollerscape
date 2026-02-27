@@ -29,7 +29,7 @@ export function ButtonContainer({ spot, onEdit, onDelete, onCancel, variant = "d
     }
 
     return (
-        <div className="button-container">
+        <div className={`${variant === "favorite" ? "w-fit" : "max-w-1/3 md:max-w-1/2"} button-container`}>
             {(variant === "description" || variant === "favorite") &&
                 <>
                     {profile &&
