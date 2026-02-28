@@ -1,9 +1,12 @@
 import { databases } from "../config/databases";
+import { redirecttoSpotUrl } from "../config/urls";
+import type { Coordinates } from "../types/geolocation_types";
 import type { SpotFullInfo, SpotType, TrafficLevel } from "../types/spots_types";
 import supabase from "../utils/supabase";
 
 export const shareSpot = async (spot: SpotFullInfo) => {
-    const url = `https://www.google.com/maps?q=${spot.coordinates[0].lat},${spot.coordinates[0].lon}`;
+    const url = `${window.location.origin}/rollerscape/#${redirecttoSpotUrl(spot.slug)}`;
+    console.log(url)
     try {
         await navigator.share({
             title: `Spot roller : ${spot.name}`,
@@ -18,11 +21,11 @@ export const shareSpot = async (spot: SpotFullInfo) => {
     }
 };
 
-export const sendToGps = (spot: SpotFullInfo) => {
+export const sendToGps = (name: string, startCoordinates: Coordinates) => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const url = isIOS
-        ? `maps://maps.apple.com/?ll=${spot.coordinates[0].lat},${spot.coordinates[0].lon}&q=${encodeURIComponent(spot.name)}`
-        : `https://www.google.com/maps?q=${spot.coordinates[0].lat},${spot.coordinates[0].lon}`;
+        ? `maps://maps.apple.com/?ll=${startCoordinates.lat},${startCoordinates.lon}&q=${encodeURIComponent(name)}`
+        : `https://www.google.com/maps?q=${startCoordinates.lat},${startCoordinates.lon}`;
 
     window.open(url, '_blank');
 };

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import { redirecttoSpotUrl } from "../../../../config/urls";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { Map } from "../../../map/components/Map/Map";
@@ -20,7 +21,7 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
                     position={[spot.coordinates[0].lat, spot.coordinates[0].lon]} />
             </Map>
             <div className="favorite-text-overlay">
-                <button aria-label="See that spot on the map" onClick={() => navigate(`/?${spot.slug}=expanded`)}>
+                <button aria-label="See that spot on the map" onClick={() => navigate(`${redirecttoSpotUrl(spot.slug)}`)}>
                     <div className="flex flex-col px-1 pt-0.5 h-full my-auto text-left justify-center">
                         <h2 className="text-xl text-dark-3 line-clamp-2">{spot.name}</h2>
                         <p className="text-grey text-xs md:text-sm">{spot.address}</p>
@@ -35,7 +36,7 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
                     </div>
                 </button>
                 <div className="w-full flex justify-center sm:w-fit">
-                    <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(`/?${spot.slug}=expanded`)} />
+                    <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(`${redirecttoSpotUrl(spot.slug)}`)} />
                 </div>
             </div>
         </div>

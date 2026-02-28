@@ -6,7 +6,7 @@ import { Dialog } from "../../../../components/Dialog/Dialog";
 import { databases } from "../../../../config/databases";
 import { udpdateError } from "../../../../config/errors";
 import { spotFormFields } from "../../../../config/spots";
-import { updateDataWithJunctions, type Table } from "../../../../services/data";
+import { updateDataWithJunctions } from "../../../../services/data";
 import { reverseGeocode } from "../../../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../../../services/spots";
 import type { JunctionInsert, Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
@@ -59,7 +59,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
 
         const junctions: JunctionInsert[] = [
             { table: "spot_spot_types", fKey: "spot_type_id", values: typeRows?.map(row => row.id) ?? [] },
-            { table: "spot_traffic_levels" as Table, fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
+            { table: "spot_traffic_levels", fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
         ]
 
         const { error } = await updateDataWithJunctions(databases.spots, selectedSpot.id, values, junctions);
@@ -80,7 +80,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                 <div className="px-1 md:px-2">
                     <div className="flex gap-2 justify-between items-start">
                         <h1>{selectedSpot.name}</h1>
-                        <ButtonContainer variant="update" onDelete={onDelete} onCancel={onCancel} spot={selectedSpot} />
+                        <ButtonContainer variant="update" onDelete={onDelete} onCancel={onCancel} />
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Cancel" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>

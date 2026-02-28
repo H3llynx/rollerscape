@@ -9,6 +9,7 @@ import { Header } from "../../components/Header/Header";
 import { databases } from "../../config/databases";
 import { spotErrors } from "../../config/errors";
 import { spotFormFields } from "../../config/spots";
+import { redirecttoSpotUrl } from "../../config/urls";
 import { insertDataWithJunctions } from "../../services/data";
 import { fetchRoute, reverseGeocode } from "../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../services/spots";
@@ -135,7 +136,7 @@ export function AddSpotPage() {
             return
         }
         await loadSpots();
-        navigate(`/?${slug}=expanded`);
+        navigate(`${redirecttoSpotUrl(slug)}`);
     }
 
     const resetRoute = locationType === "route" && routeCoordinates.start

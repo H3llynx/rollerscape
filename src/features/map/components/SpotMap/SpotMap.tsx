@@ -38,11 +38,9 @@ export function SpotMap({ zoom }: { zoom: number }) {
     }, [spots]);
 
     useEffect(() => {
-        console.log("spotTypes:", spotTypes);
-        console.log("profile:", profile);
-        console.log("preferred:", profile?.preferred_spot_types);
         if (!spotTypes.length) return;
-        const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
+        const params = searchParams.getAll("type");
+        const filtersToCheck = spotTypes.filter(type => params.includes(type));
         if (filtersToCheck.length > 0) {
             setCheckedTypes(filtersToCheck);
             return;
@@ -51,7 +49,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
             ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
             : spotTypes
         setCheckedTypes(defaultFilters);
-    }, [spotTypes, profile]);
+    }, [spotTypes]);
 
     useEffect(() => {
         if (!spotTypes.length) return;
@@ -61,7 +59,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
             return
         }
         checkedTypes.forEach(type => {
-            newParams.set(type, "")
+            newParams.append("type", type);
         });
         setSearchParams(newParams);
     }, [checkedTypes]);
@@ -70,14 +68,14 @@ export function SpotMap({ zoom }: { zoom: number }) {
         if (!selectedSpot) return;
         const newParams = new URLSearchParams();
         if (selectedSpot) {
-            newParams.set(selectedSpot.slug, "expanded");
+            newParams.set("spot", selectedSpot.slug);
             setSearchParams(newParams);
         }
     }, [selectedSpot]);
 
     useEffect(() => {
         if (!spots) return;
-        const spotToExpand = spots.find(spot => searchParams.get(spot.slug) === "expanded");
+        const spotToExpand = spots.find(spot => searchParams.get("spot") === spot.slug);
         if (spotToExpand) {
             const expandedSpotTypes: SpotType[] = []
             spotToExpand.spot_types.forEach(type => expandedSpotTypes.push(type.name))

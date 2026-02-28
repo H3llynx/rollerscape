@@ -45,7 +45,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     }
                 }}
                     alt="" className="w-full h-full object-cover" />
-                {selectedSpot.created_by &&
+                {selectedSpot.creator_profile &&
                     <>
                         <div className="spot-created-by bg-blur">
                             Submitted by
@@ -72,7 +72,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 )
                                 )}
                             </div>
-                            {selectedSpot.created_by && !isTabletorDesktop &&
+                            {selectedSpot.creator_profile && !isTabletorDesktop &&
                                 <div className="text-xs mt-1">
                                     <p className="flex gap-[5px] items-center flex-wrap">
                                         Submitted by
@@ -99,7 +99,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 </div>
                             }
                         </div>
-                        <ButtonContainer onEdit={onEdit} onDelete={onDelete} spot={selectedSpot} />
+                        <ButtonContainer onEdit={onEdit} onDelete={onDelete} />
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>
@@ -143,7 +143,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             {selectedSpot.traffic_levels.map(level =>
                                 <li
                                     key={level.id}
-                                    className={`${selectedSpot.traffic_levels.length > 1 ? "text-xs" : ""}`}>
+                                    className={`${selectedSpot.traffic_levels.length > 1 && "text-xs"}`}>
                                     {selectedSpot.traffic_levels.length > 1 && <Check aria-hidden width={12} height={20} className="inline mr-[5px]" />}
                                     {TRAFFIC_LEVELS
                                         .filter(l => l.value === level.name)

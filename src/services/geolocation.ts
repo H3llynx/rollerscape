@@ -1,4 +1,4 @@
-import { url } from "../config/urls";
+import { urls } from "../config/urls";
 import { formatLocation } from "../features/profile/utils";
 import type { Coordinates, Location, NominatimResult, OsrmRoute, RouteCoordinates } from "../types/geolocation_types";
 
@@ -6,7 +6,7 @@ export const searchLocations = async (query: string, country: string): Promise<L
     if (query.length < 3) return [];
     try {
         const response = await fetch(
-            `${url.nominatim}/search?` +
+            `${urls.nominatim}/search?` +
             `q=${encodeURIComponent(query)}&` +
             `format=json&` +
             `addressdetails=1&` +
@@ -60,7 +60,7 @@ export const getBrowserPosition = async (): Promise<{
 export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
     try {
         const response = await fetch(
-            `${url.nominatim}/reverse?` +
+            `${urls.nominatim}/reverse?` +
             `lat=${lat}&` +
             `lon=${lon}&` +
             `format=json`
@@ -89,8 +89,8 @@ export const fetchRoute = async (routeCoords: RouteCoordinates): Promise<OsrmRou
     if (!start || !end) return null;
     try {
         const osrmUrl = routeCoords.middle && middle
-            ? `${url.osrm}/${start.lon},${start.lat};${middle.lon},${middle.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
-            : `${url.osrm}/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
+            ? `${urls.osrm}/${start.lon},${start.lat};${middle.lon},${middle.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
+            : `${urls.osrm}/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
         const response = await fetch(osrmUrl);
         const data = await response.json();
         return data.routes;
