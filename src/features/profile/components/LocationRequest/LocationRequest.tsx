@@ -11,14 +11,11 @@ import { COUNTRIES } from "../../../../config/user_info";
 import { updateData } from "../../../../services/data";
 import { getBrowserPosition, reverseGeocode, searchLocations } from "../../../../services/geolocation";
 import type { HomeLocation, Location } from "../../../../types/geolocation_types";
+import type { FormProps } from "../../../../types/other_reusable_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import "./LocationRequest.css";
 
-type LocationRequest = {
-    onSuccess?: () => void;
-}
-
-export function LocationRequest({ onSuccess }: LocationRequest) {
+export function LocationRequest({ onSuccess }: FormProps) {
     const [query, setQuery] = useState<string>("");
     const [suggestions, setSuggestions] = useState<Location[]>([]);
     const [location, setLocation] = useState<Location | null>(null);

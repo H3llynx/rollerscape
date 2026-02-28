@@ -43,3 +43,8 @@ export const spotErrors = {
 };
 
 export const udpdateError = "Oops! Update failed. Try again."
+
+export const commentErrors = {
+    23505: "You've already rated this spot!",
+    generic: "Something went wrong, please try again",
+}

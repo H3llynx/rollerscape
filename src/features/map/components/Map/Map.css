@@ -84,7 +84,7 @@
         left: 0.5rem;
         width: max-content;
         background: var(--color-rgba-grey);
-        color: white;
+        color: var(--color-white);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         padding: 5px;
@@ -95,7 +95,8 @@
         transition: var(--default-transition)
     }
 
-    &:hover::after {
+    &:hover::after,
+    &:focus-visible::after {
         transform: scale(1);
     }
 
@@ -114,7 +115,7 @@
         left: 1.5rem;
         width: max-content;
         background: var(--color-rgba-grey);
-        color: white;
+        color: var(--color-white);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         padding: 5px;
@@ -125,6 +126,7 @@
         transition: var(--default-transition)
     }
 
+    &:hover::after,
     &:hover::after {
         transform: scale(1);
     }

@@ -4,7 +4,7 @@ import supabase from "../utils/supabase";
 
 export type Data = keyof Database["Tables"] | keyof Database["Views"]
 
-export const fetchData = async<T>(table: Data, select: string) => {
+export const fetchData = async <T>(table: Data, select: string) => {
     const { data, error } = await supabase
         .from(table)
         .select(select);
@@ -43,6 +43,13 @@ export const deleteData = async (id: string, table: Data) => {
         return { data: null, error };
     }
 };
+
+export const insertData = async <T>(table: Data, content: T) => {
+    const { data, error } = await supabase
+        .from(table)
+        .insert(content);
+    return { data, error }
+}
 
 export const insertDataWithJunctions = async (
     mainTable: Data,

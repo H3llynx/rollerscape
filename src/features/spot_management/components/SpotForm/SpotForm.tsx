@@ -13,7 +13,6 @@ import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
 import type { Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { useSpots } from "../../../map/hooks/useSpots";
-import "../../styles/spot_management.css";
 
 type SpotForm = {
     isAdding: boolean;

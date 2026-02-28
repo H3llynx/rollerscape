@@ -1,0 +1,7 @@
+@reference "../../../../styles/index.css";
+
+.comment-form-container {
+    @apply p-1 md:p-2 my-3 border-y border-border;
+    background: url(../../../../assets/mask.png);
+    background-size: cover;
+}

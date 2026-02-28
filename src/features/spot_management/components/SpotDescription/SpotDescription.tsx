@@ -1,17 +1,20 @@
-import { Check, CircleCheck, MapPin, PencilLine, Star, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { Check, Info, MapPin, PencilLine, PencilOffIcon, Star, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { TRAFFIC_LEVELS } from "../../../../config/spots";
 import { SKATING_STYLES } from "../../../../config/user_info";
+import { getComments } from "../../../../services/spots";
+import type { Comments } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
-import "../../styles/spot_management.css";
 import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
+import { CommentCard } from "../CommentCard/CommentCard";
 import { CommentForm } from "../CommentForm/CommentForm";
 import { RiderCard } from "../RiderCard/RiderCard";
+import "./SpotDescription.css";
 
 type SpotDescription = {
     onEdit: () => void;
@@ -21,19 +24,32 @@ type SpotDescription = {
 export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
     const { selectedSpot, setSelectedSpot } = useSpots();
-    if (!selectedSpot) return;
     const { profile } = useAuth();
     const [isRating, setIsRating] = useState<boolean>(false);
     const commentsRef = useRef<HTMLDivElement>(null);
+    const [comments, setComments] = useState<Comments[]>([]);
+
+    const fetchComments = async () => {
+        if (!selectedSpot) return;
+        const { data } = await getComments(selectedSpot.id)
+        if (data) setComments(data);
+    };
+
+    useEffect(() => {
+        fetchComments();
+    }, [selectedSpot])
+
+    useEffect(() => {
+        if (isRating && commentsRef.current) {
+            commentsRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    }, [isRating]);
+
+    if (!selectedSpot) return;
 
     const src = selectedSpot.photos && selectedSpot.photos.length > 0
         ? selectedSpot.photos[0]
         : Skater
-
-    const handleComment = () => {
-        setIsRating(true);
-        commentsRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
 
     return (
         <>
@@ -47,9 +63,9 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     alt="" className="w-full h-full object-cover" />
                 {selectedSpot.creator_profile &&
                     <>
-                        <div className="spot-created-by bg-blur">
+                        <div className="spot-created-by bg-blur cursor-pointer">
                             Submitted by
-                            <span className="font-bold text-text-secondary">
+                            <span className="font-bold text-text-secondary" tabIndex={0}>
                                 {selectedSpot.creator_profile.name}
                             </span>
                         </div>
@@ -61,7 +77,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
             </div>
             <article className="pb-2 md:py-1 text-sm relative z-1">
                 <div className="px-1 md:px-2">
-                    <div className="flex gap-2 justify-between items-start">
+                    <div className="flex justify-between items-start">
                         <div>
                             <h1>{selectedSpot.name}</h1>
                             <div className="flex gap-0.5 mt-1 items-start flex-wrap">
@@ -73,29 +89,29 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 )}
                             </div>
                             {selectedSpot.creator_profile && !isTabletorDesktop &&
-                                <div className="text-xs mt-1">
+                                <div className="text-xs mt-1 border border-border rounded-lg p-0.5">
                                     <p className="flex gap-[5px] items-center flex-wrap">
                                         Submitted by
                                         <span className="text-text-secondary font-bold">
                                             {selectedSpot.creator_profile.name}
                                         </span>
                                     </p>
-                                    <ul className="mx-0 mt-[5px]">
-                                        {selectedSpot.creator_profile.skating_style &&
-                                            <>
-                                                <span>Skating style: </span>
+                                    {selectedSpot.creator_profile.skating_style &&
+                                        <>
+                                            <span className="font-medium">Skating style:</span>
+                                            <ul className="mx-0 mt-[5px]">
                                                 {selectedSpot.creator_profile.skating_style.map((style, i) => (
-                                                    <li className="inline-block pr-0.5" key={i}>
-                                                        <CircleCheck className="inline text-text-secondary mr-[3px]" width={15} height={15} />
+                                                    <li className="text-[0.70rem]" key={i}>
+                                                        <Check className="inline mr-[3px]" width={15} height={15} />
                                                         {SKATING_STYLES
                                                             .filter(s => s.value === style)
                                                             .map(s => s.label)
                                                         }
                                                     </li>
                                                 ))}
-                                            </>
-                                        }
-                                    </ul>
+                                            </ul>
+                                        </>
+                                    }
                                 </div>
                             }
                         </div>
@@ -108,28 +124,55 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
                     </div>
                     <div className="w-full flex gap-1 justify-between items-center flex-wrap my-1">
-                        <div className="flex items-center gap-[5px]">
-                            <h3>Surface quality:</h3>
+                        <div className="flex items-center gap-[5px] w-full">
+                            <h3 className="shrink-0">Surface quality:</h3>
                             {selectedSpot.surface_quality &&
-                                <span aria-label={`${selectedSpot.surface_quality}`}>
+                                <span className="shrink-0" aria-label={`${selectedSpot.surface_quality}`}>
                                     {Array.from({ length: selectedSpot.surface_quality }, (_, i) => (
-                                        <span key={i} aria-hidden><Star fill="var(--color-text)" width={15} className="inline text-text mr-[3px]" /></span>
+                                        <Star
+                                            key={i}
+                                            fill="var(--color-grey)"
+                                            width={15}
+                                            className="inline mr-[3px] cursor-auto"
+                                            aria-hidden />
                                     ))}
                                 </span>
                             }
+                            <div className="relative w-full">
+                                <Info width={14} arian-hidden className="info-icon" tabIndex={0} />
+                                <span className="surface-quality-info">Reported by the submitter</span>
+                            </div>
                         </div>
                         <div className="flex items-center gap-[5px] flex-wrap">
                             <h3>Average rating:</h3>
-                            {selectedSpot.average_rating
-                                ? selectedSpot.average_rating
-                                : <div className="text-xs">
-                                    <span className=" text-grey mr-0.5">No punctuation given yet </span>
-                                    {profile &&
-                                        <Button style="tertiary" className="text-xs p-0 inline" onClick={handleComment}>
-                                            <PencilLine aria-hidden className="inline" width={13} /> Be the first to comment
-                                        </Button>
+                            {selectedSpot.average_rating ?
+                                <span aria-label={`${selectedSpot.average_rating}`}>
+                                    {Array.from({ length: Math.round(selectedSpot.average_rating) }).map((_, i) => (
+                                        <Star
+                                            key={i}
+                                            fill="var(--color-grey)"
+                                            width={15}
+                                            className="inline mr-[3px] cursor-auto"
+                                            aria-hidden />
+                                    ))}
+                                </span>
+                                : <span className="text-xs text-grey mr-0.5">No ratings yet</span>
+                            }
+
+                            {profile &&
+                                <Button style="tertiary" className="text-xs py-0 inline" onClick={() => setIsRating(!isRating)}>
+                                    {!isRating ?
+                                        <>
+                                            <PencilLine aria-hidden className="inline mr-[5px]" width={13} />
+                                            {selectedSpot.average_rating ? "Rate this spot!" : "Be the first!"}
+                                        </>
+                                        :
+                                        <>
+                                            <PencilOffIcon aria-hidden className="inline mr-[5px]" width={13} />
+                                            "Never mind"
+                                        </>
                                     }
-                                </div>
+                                </Button>
                             }
                         </div>
                         {selectedSpot.length_km &&
@@ -152,16 +195,14 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             )}
                         </ul>
                     </div>
-                    {
-                        selectedSpot.description &&
+                    {selectedSpot.description &&
                         <>
                             <h3 className="mt-1">Description:</h3>
                             {selectedSpot.description}
                         </>
                     }
                 </div>
-                {
-                    selectedSpot.photos && selectedSpot.photos.length > 0 &&
+                {selectedSpot.photos && selectedSpot.photos.length > 0 &&
                     <div className="gallery">
                         <h3 className="mt-1">Photos:</h3>
                         <div className="slider">
@@ -173,10 +214,17 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         </div>
                     </div>
                 }
-                <div ref={commentsRef} className="px-1 md:px-2 my-3">
-                    {
-                        profile && isRating &&
-                        <CommentForm />
+                <div ref={commentsRef}>
+                    {profile && isRating &&
+                        <CommentForm onSuccess={() => setIsRating(false)} />
+                    }
+                    {comments.length > 0 &&
+                        <div className="px-1 md:px-2 my-3 flex flex-col gap-1">
+                            <h2 className="text-grey text-xl">Community Ratings</h2>
+                            {comments.map(comment => (
+                                <CommentCard comment={comment} />
+                            ))}
+                        </div>
                     }
                 </div>
             </article >

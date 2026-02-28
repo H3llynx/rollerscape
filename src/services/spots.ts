@@ -1,4 +1,4 @@
-import { databases } from "../config/databases";
+import { databases, views } from "../config/databases";
 import { redirecttoSpotUrl } from "../config/urls";
 import type { Coordinates } from "../types/geolocation_types";
 import type { SpotFullInfo, SpotType, TrafficLevel } from "../types/spots_types";
@@ -63,3 +63,20 @@ export const deleteFav = async (spotId: string, userId: string) => {
         .eq("profile_id", userId);
     return { error };
 };
+
+export const getComments = async (spotId: string) => {
+    const { data, error } = await supabase
+        .from(views.public_comments)
+        .select("*")
+        .eq("spot_id", spotId);
+    return { data, error };
+}
+
+export const getUserInfo = async (userId: string) => {
+    const { data, error } = await supabase
+        .from(views.public_rider)
+        .select("*")
+        .eq("id", userId)
+        .maybeSingle();
+    return { data, error }
+}

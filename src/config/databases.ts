@@ -4,10 +4,13 @@ export const databases = {
     spot_types: "spot_types",
     traffic_levels: "traffic_levels",
     favorites: "favorites",
+    comments: "comments"
 } as const
 
 export const views = {
     public_spots: "public_spots",
+    public_comments: "public_comments",
+    public_rider: "public_rider",
 } as const
 
 export const dbSelect = {

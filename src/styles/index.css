@@ -272,6 +272,19 @@
     @apply grid gap-0.5 pb-0.5;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   }
+
+  .tag {
+    @apply bg-text-secondary text-bg-main px-0.5 py-[3px] rounded-md text-sm font-medium;
+  }
+
+  .score-container {
+    @apply flex gap-1;
+
+    button {
+      @apply text-text;
+    }
+  }
+
 }
 
 @keyframes scale {

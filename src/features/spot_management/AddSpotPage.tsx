@@ -140,7 +140,7 @@ export function AddSpotPage() {
     }
 
     const resetRoute = locationType === "route" && routeCoordinates.start
-        ? (<Button
+        && (<Button
             className="my-auto order-1 bg-bg-main text-text"
             onClick={() => {
                 setrouteCoordinates({ start: null, end: null });
@@ -149,8 +149,7 @@ export function AddSpotPage() {
             }
             }>
             <MapPinX width={20} /> Reset
-        </Button>)
-        : ""
+        </Button>);
 
     return (
         <>

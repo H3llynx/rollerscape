@@ -6,26 +6,26 @@ import { Loading } from "../../../../components/Loading/Loading";
 import { databases } from "../../../../config/databases";
 import { udpdateError } from "../../../../config/errors";
 import { updateData } from "../../../../services/data";
+import type { FormProps } from "../../../../types/other_reusable_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 
-type NameChangeForm = {
-    onSuccess: () => void;
-}
-
-export function NameChangeForm({ onSuccess }: NameChangeForm) {
+export function NameChangeForm({ onSuccess }: FormProps) {
     const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<{ name: string }>();
     const [error, setError] = useState<boolean>(false);
     const { profile, setProfile } = useAuth();
 
+    if (!profile) return;
+
     const updateName = async ({ name }: { name: string }) => {
-        if (!profile) return;
         const { error } = await updateData({ id: profile.id, name }, databases.profiles);
-        if (error) setError(true);
-        else {
-            onSuccess()
-            setProfile({ ...profile, name });
-            reset();
+        if (error) {
+            console.log(error.code)
+            setError(true);
+            return;
         }
+        onSuccess()
+        setProfile({ ...profile, name });
+        reset();
     }
 
     return (
@@ -36,6 +36,7 @@ export function NameChangeForm({ onSuccess }: NameChangeForm) {
                 label="What cool name should we call you?"
                 type="text"
                 id="name"
+                placeholder={profile.name}
                 {...register("name", { onChange: () => setError(false) })}
             />
             {isSubmitting ? <Loading /> :
