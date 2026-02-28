@@ -32,7 +32,7 @@ export function FavoritesSection() {
         currentPage * favPerPage
     );
     return (
-        <div>
+        <div className="-mt-1">
             <h2>Your favorites spots</h2>
             {profile.favorites.length > 0 ?
                 <div className="flex gap-1 flex-col mt-1">

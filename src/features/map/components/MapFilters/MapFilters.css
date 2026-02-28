@@ -19,5 +19,16 @@
 }
 
 #spot-type-filters {
-    @apply hidden md:block bg-bg-main rounded-2xl py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
+    @apply hidden md:block relative bg-bg-main rounded-2xl py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
+
+    &::before {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        width: 100%;
+        opacity: 0.6;
+        inset: 0;
+        background: url(../../../../assets/mask.png);
+        background-size: cover;
+    }
 }

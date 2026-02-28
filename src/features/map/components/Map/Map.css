@@ -62,8 +62,16 @@
     opacity: 0.2;
 }
 
+.leaflet-bottom {
+    @apply mb-1.5 md:mb-0;
+}
+
+.leaflet-left {
+    @apply max-w-[85vw]
+}
+
 .controls {
-    @apply flex flex-col md:flex-row gap-1 items-start md:items-end absolute bottom-[10px] left-[10px] z-400 mb-1.5 md:mb-0 max-w-[85vw];
+    @apply flex flex-col md:flex-row gap-1 pb-[5px] items-start md:items-end;
 }
 
 .track-me-btn {

@@ -19,6 +19,14 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilt
             : [...types, filter])
     };
 
+    const handleSelectAll = () => {
+        checkedTypes !== (spotTypes)
+            ? setCheckedTypes(spotTypes)
+            : setCheckedTypes([]);
+    }
+
+    const allChecked = checkedTypes.length === spotTypes.length;
+
     return (
         <div className="filter-container">
             <div id="spot-type-filters">
@@ -26,10 +34,12 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilt
                     <input
                         type="checkbox"
                         checked={checkedTypes === spotTypes}
-                        onChange={() => setCheckedTypes(spotTypes)}
+                        onChange={handleSelectAll}
                         value={"all"}
                     />
-                    <span className="text-text-secondary">Select all</span>
+                    <span className="text-text-secondary">
+                        {allChecked ? "Clear all" : "Select all"}
+                    </span>
                 </label>
                 {spotTypes.map(type => (
                     <label className="map-label" key={type}>

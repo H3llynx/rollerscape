@@ -2,6 +2,7 @@
 import { LocateFixed } from "lucide-react";
 import { type ReactNode } from "react";
 import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import Control from "react-leaflet-custom-control";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useNavigate } from "react-router";
 import Add from "../../../../assets/add.png";
@@ -53,34 +54,36 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
                 {controls &&
                     <>
                         <ZoomControl position="bottomright" />
-                        <div className="controls">
-                            {other}
-                            <div className="flex gap-0.5 md:gap-1 items-center flex-wrap md:flex-nowrap">
-                                {profile && pathname !== "/add-spot" &&
-                                    <Button
-                                        style="tertiary"
-                                        className="add-spot-btn"
-                                        aria-label="Add new spot"
-                                        onClick={() => navigate("/add-spot")}>
-                                        <img src={Add} className="w-10 md:w-11 h-auto" />
-                                    </Button>
-                                }
-                                {trackUser &&
-                                    <Button
-                                        style="icon"
-                                        className="track-me-btn"
-                                        aria-label="Track my current location"
-                                        onClick={trackUser}>
-                                        <LocateFixed
-                                            aria-hidden
-                                            fill="white"
-                                            className="track-icon"
-                                        />
-                                    </Button>
-                                }
-                                <LocationSearch />
+                        <Control position="bottomleft">
+                            <div className="controls">
+                                {other}
+                                <div className="flex gap-0.5 md:gap-1 items-center flex-wrap md:flex-nowrap">
+                                    {profile && pathname !== "/add-spot" &&
+                                        <Button
+                                            style="tertiary"
+                                            className="add-spot-btn"
+                                            aria-label="Add new spot"
+                                            onClick={() => navigate("/add-spot")}>
+                                            <img src={Add} className="w-10 md:w-11 h-auto" />
+                                        </Button>
+                                    }
+                                    {trackUser &&
+                                        <Button
+                                            style="icon"
+                                            className="track-me-btn"
+                                            aria-label="Track my current location"
+                                            onClick={trackUser}>
+                                            <LocateFixed
+                                                aria-hidden
+                                                fill="white"
+                                                className="track-icon"
+                                            />
+                                        </Button>
+                                    }
+                                    <LocationSearch />
+                                </div>
                             </div>
-                        </div>
+                        </Control>
                     </>
                 }
                 {children}

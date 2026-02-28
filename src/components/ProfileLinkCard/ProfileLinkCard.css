@@ -8,6 +8,6 @@
     }
 
     &.active {
-        @apply text-grey
+        @apply text-grey border-0 shadow-none bg-transparent;
     }
 }
