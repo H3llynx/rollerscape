@@ -1,4 +1,4 @@
-import { Edit2, Locate, MapPin, Navigation, PencilOff, Share, Star, Trash2, X } from "lucide-react";
+import { Edit2, Flag, Locate, MapPinned, PencilOff, Share, Star, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../../../../components/Button/Button";
 import { deleteFav, saveAsFav, sendToGps, shareSpot } from "../../../../services/spots";
@@ -53,7 +53,7 @@ export function ButtonContainer({ onEdit, onDelete, onCancel, variant = "descrip
                     </Button>
                     {selectedSpot.location_type === "point" &&
                         <Button style="icon" aria-label="Send to GPS app" onClick={() => sendToGps(selectedSpot.name, selectedSpot.coordinates[0])}>
-                            <Navigation aria-hidden />
+                            <MapPinned aria-hidden />
                         </Button>
                     }
                     {selectedSpot.location_type === "route" &&
@@ -61,7 +61,7 @@ export function ButtonContainer({ onEdit, onDelete, onCancel, variant = "descrip
                             <Button style="icon" className={`${itineraryStart && "gps-btn"}`} aria-label="Send to GPS app" onClick={() => setItineraryStart(!itineraryStart)}>
                                 {itineraryStart
                                     ? <X aria-hidden />
-                                    : <Navigation aria-hidden />
+                                    : <MapPinned aria-hidden />
                                 }
                             </Button>
                             {itineraryStart &&
@@ -76,7 +76,7 @@ export function ButtonContainer({ onEdit, onDelete, onCancel, variant = "descrip
                                         sendToGps(selectedSpot.name, selectedSpot.coordinates[selectedSpot.coordinates.length - 1]);
                                         setItineraryStart(false);
                                     }}>
-                                        <MapPin aria-hidden width={18} />End
+                                        <Flag aria-hidden width={18} />End
                                     </Button>
                                 </div>
                             }

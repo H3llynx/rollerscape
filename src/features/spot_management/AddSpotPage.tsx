@@ -184,7 +184,7 @@ export function AddSpotPage() {
                                     <CoordinatePickerRoute onPick={handleRoutePick} routeCoords={routeCoordinates} />}
                             </>
                         }
-                        <UserMarker profile={profile} center={center} />
+                        <UserMarker />
                         {spotCoordinates && routes.length === 0 && !gpxCoordinates &&
                             <AddMarker position={[spotCoordinates[0].lat, spotCoordinates[0].lon]} />
                         }

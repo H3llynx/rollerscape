@@ -1,10 +1,20 @@
 import L from "leaflet";
-import { Flag } from "lucide-react";
+import { Flag, MapPin } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { Marker, Polyline } from 'react-leaflet';
 import type { Coordinates, MapCoordinates } from "../../../../types/geolocation_types";
 
-const startEndIcon = L.divIcon({
+
+const startIcon = L.divIcon({
+    html: renderToString(
+        <MapPin color="var(--color-dark)"
+            fill="rgb(21, 177, 162)"
+            strokeWidth={2}
+            size={30} />),
+    iconAnchor: [16, 32]
+});
+
+const endIcon = L.divIcon({
     html: renderToString(
         <Flag color="var(--color-dark)"
             fill="rgb(21, 177, 162)"
@@ -27,17 +37,19 @@ export function RouteDisplay({ data, selected = false, onSelect }: RouteDisplay)
         coord => [coord.lat, coord.lon] as MapCoordinates
     );
 
-    return <>
-        <Polyline
-            positions={coords}
-            pathOptions={{
-                color: selected ? "var(--color-rgba-turquoise)" : "grey",
-                weight: selected ? 7 : 4,
-                opacity: selected ? 1 : 0.5
-            }}
-            eventHandlers={onSelect ? { click: onSelect } : {}}
-        />
-        <Marker position={coords[0]} icon={startEndIcon} />
-        <Marker position={coords[coords.length - 1]} icon={startEndIcon} />
-    </>
+    return (
+        <>
+            <Polyline
+                positions={coords}
+                pathOptions={{
+                    color: selected ? "var(--color-rgba-turquoise)" : "grey",
+                    weight: selected ? 7 : 4,
+                    opacity: selected ? 1 : 0.5
+                }}
+                eventHandlers={onSelect ? { click: onSelect } : {}}
+            />
+            <Marker position={coords[0]} icon={startIcon} />
+            <Marker position={coords[coords.length - 1]} icon={endIcon} />
+        </>
+    )
 }

@@ -11,7 +11,6 @@ import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
 import { FlyToUser } from "../FlyToUser/FlyToUser";
-import { GuestMarker } from "../GuestMarker/GuestMarker";
 import { Map } from "../Map/Map";
 import { MapFilters } from "../MapFilters/MapFilters";
 import { RouteDisplay } from "../RouteDisplay/RouteDisplay";
@@ -170,8 +169,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                                     )}
                             </LayerGroup>
                         }
-                        {profile && <UserMarker profile={profile} center={center} />}
-                        {!profile && <GuestMarker center={center} />}
+                        <UserMarker />
                         <FlyToUser center={center} />
                         <FlyToSpot spot={selectedSpot} />
                         {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}

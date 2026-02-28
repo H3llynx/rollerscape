@@ -15,8 +15,7 @@ type SpotMarker = {
 const spotIcon = L.icon({
     iconUrl: Roller,
     iconSize: [50, 50],
-    iconAnchor: [0, 30],
-    popupAnchor: [15, -30],
+    iconAnchor: [28, 45],
     className: "spot-marker"
 });
 
