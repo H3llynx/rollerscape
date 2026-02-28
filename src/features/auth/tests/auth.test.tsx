@@ -3,13 +3,11 @@ import { userEvent } from "@testing-library/user-event";
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
 import { signIn } from '../../../services/auth';
+import { valAuthNoUser, valAuthUser } from '../../../tests/setup';
+import { SpotsProvider } from '../../map/context/SpotsProvider';
 import { MapPage } from '../../map/MapPage';
 import { AuthPage } from "../AuthPage";
 import { AuthContext } from '../context/AuthContext';
-
-vi.mock("../../../features/theme/component/ThemeToggle", () => ({
-    ThemeToggle: () => null,
-}));
 
 vi.mock("../../../services/auth", () => ({
     signIn: vi.fn(),
@@ -26,20 +24,6 @@ vi.mock('react-router', async () => {
     };
 });
 
-const valueProviderFail = {
-    user: null,
-    profile: null,
-    setProfile: () => { },
-    loading: false
-};
-
-const valueProviderWithUser = {
-    user: { id: '123' },
-    profile: null,
-    setProfile: () => { },
-    loading: false
-};
-
 describe("Authentication process", () => {
     HTMLDialogElement.prototype.showModal = vi.fn();
 
@@ -49,7 +33,7 @@ describe("Authentication process", () => {
         );
         render(
             <MemoryRouter>
-                <AuthContext value={valueProviderFail}>
+                <AuthContext value={valAuthNoUser}>
                     <AuthPage />
                 </AuthContext>
             </MemoryRouter>
@@ -69,7 +53,7 @@ describe("Authentication process", () => {
         );
         render(
             <MemoryRouter>
-                <AuthContext value={valueProviderWithUser as any}>
+                <AuthContext value={valAuthUser as any}>
                     <AuthPage />
                 </AuthContext>
             </MemoryRouter>
@@ -91,8 +75,10 @@ describe("Authentication process", () => {
         };
         render(
             <MemoryRouter>
-                <AuthContext value={{ ...valueProviderWithUser, profile } as any}>
-                    <MapPage />
+                <AuthContext value={{ ...valAuthUser, profile } as any}>
+                    <SpotsProvider>
+                        <MapPage />
+                    </SpotsProvider>
                 </AuthContext>
             </MemoryRouter>
         );

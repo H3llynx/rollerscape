@@ -3,7 +3,7 @@ import type { SpotFullInfo, SpotType, TrafficLevel } from "../types/spots_types"
 import supabase from "../utils/supabase";
 
 export const shareSpot = async (spot: SpotFullInfo) => {
-    const url = `https://www.google.com/maps?q=${spot.display_lat},${spot.display_lon}`;
+    const url = `https://www.google.com/maps?q=${spot.coordinates[0].lat},${spot.coordinates[0].lon}`;
     try {
         await navigator.share({
             title: `Spot roller : ${spot.name}`,
@@ -19,30 +19,12 @@ export const shareSpot = async (spot: SpotFullInfo) => {
 };
 
 export const sendToGps = (spot: SpotFullInfo) => {
-    if (spot.location_type === "point") {
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const url = isIOS
-            ? `maps://maps.apple.com/?ll=${spot.display_lat},${spot.display_lon}&q=${encodeURIComponent(spot.name)}`
-            : `https://www.google.com/maps?q=${spot.display_lat},${spot.display_lon}`;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const url = isIOS
+        ? `maps://maps.apple.com/?ll=${spot.coordinates[0].lat},${spot.coordinates[0].lon}&q=${encodeURIComponent(spot.name)}`
+        : `https://www.google.com/maps?q=${spot.coordinates[0].lat},${spot.coordinates[0].lon}`;
 
-        window.open(url, '_blank');
-    }
-    else if (spot.location_type === "route") {
-        const waypoints = spot.coordinates.map(point => ({ lat: point.lat, lon: point.lon }));
-
-        const origin = waypoints[0];
-        const destination = waypoints[waypoints.length - 1];
-        const middle = waypoints.slice(1, -1).map(p => `${p.lat},${p.lon}`).join('|');
-
-        let url = `https://www.google.com/maps/dir/?api=1`
-            + `&origin=${origin.lat},${origin.lon}`
-            + `&destination=${destination.lat},${destination.lon}`
-            + `&travelmode=walking`;
-
-        if (middle) url += `&waypoints=${middle}`;
-
-        window.open(url, "_blank");
-    };
+    window.open(url, '_blank');
 };
 
 export const getSpotTypes = async (types: SpotType[]) => {

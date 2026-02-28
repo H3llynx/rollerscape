@@ -10,8 +10,6 @@ export type Spot = {
     country: string;
     created_by: string | null;
     description: string | null;
-    display_lat: number;
-    display_lon: number;
     id: string;
     length_km: number | null;
     location_type: typeof LOCATION_TYPE[number];
@@ -37,7 +35,7 @@ export type SpotFullInfo = Spot & {
     spot_types: SpotTypeArr;
     traffic_levels: { id: string; name: TrafficLevel }[];
     created_by_name: string;
-    creator_profile: CreatedBy;
+    creator_profile: CreatedBy | null;
     average_rating: number | null;
 }
 

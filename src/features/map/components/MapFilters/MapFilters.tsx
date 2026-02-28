@@ -27,6 +27,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilt
                         type="checkbox"
                         checked={checkedTypes === spotTypes}
                         onChange={() => setCheckedTypes(spotTypes)}
+                        value={"all"}
                     />
                     <span className="text-text-secondary">Select all</span>
                 </label>
@@ -36,6 +37,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilt
                             type="checkbox"
                             checked={checkedTypes.includes(type)}
                             onChange={() => handleTypeChange(type)}
+                            value={type}
                         />
                         {getSpotType(type)}
                     </label>

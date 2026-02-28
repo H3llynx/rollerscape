@@ -38,6 +38,9 @@ export function SpotMap({ zoom }: { zoom: number }) {
     }, [spots]);
 
     useEffect(() => {
+        console.log("spotTypes:", spotTypes);
+        console.log("profile:", profile);
+        console.log("preferred:", profile?.preferred_spot_types);
         if (!spotTypes.length) return;
         const filtersToCheck = spotTypes.filter(type => searchParams.get(type) === "");
         if (filtersToCheck.length > 0) {
@@ -48,7 +51,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
             ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
             : spotTypes
         setCheckedTypes(defaultFilters);
-    }, [spotTypes]);
+    }, [spotTypes, profile]);
 
     useEffect(() => {
         if (!spotTypes.length) return;
