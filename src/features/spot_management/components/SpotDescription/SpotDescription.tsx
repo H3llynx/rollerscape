@@ -4,7 +4,6 @@ import { useMediaQuery } from "react-responsive";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { TRAFFIC_LEVELS } from "../../../../config/spots";
-import { SKATING_STYLES } from "../../../../config/user_info";
 import { getComments } from "../../../../services/spots";
 import type { Comments } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
@@ -63,12 +62,10 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     alt="" className="w-full h-full object-cover" />
                 {selectedSpot.creator_profile &&
                     <>
-                        <div className="spot-created-by bg-blur cursor-pointer">
-                            Submitted by
-                            <span className="font-bold text-text-secondary" tabIndex={0}>
-                                {selectedSpot.creator_profile.name}
-                            </span>
-                        </div>
+                        <p className="spot-created-by bg-blur cursor-pointer">
+                            Submitted by <span className="font-bold text-text-secondary" tabIndex={0}>
+                                {selectedSpot.creator_profile.name}</span>
+                        </p>
                         <div className="rider-card-container right-[5px] bottom-[28px]">
                             <RiderCard />
                         </div>
@@ -89,30 +86,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 )}
                             </div>
                             {selectedSpot.creator_profile && !isTabletorDesktop &&
-                                <div className="text-xs mt-1 border border-border rounded-lg p-0.5">
-                                    <p className="flex gap-[5px] items-center flex-wrap">
-                                        Submitted by
-                                        <span className="text-text-secondary font-bold">
-                                            {selectedSpot.creator_profile.name}
-                                        </span>
-                                    </p>
-                                    {selectedSpot.creator_profile.skating_style &&
-                                        <>
-                                            <span className="font-medium">Skating style:</span>
-                                            <ul className="mx-0 mt-[5px]">
-                                                {selectedSpot.creator_profile.skating_style.map((style, i) => (
-                                                    <li className="text-[0.70rem]" key={i}>
-                                                        <Check className="inline mr-[3px]" width={15} height={15} />
-                                                        {SKATING_STYLES
-                                                            .filter(s => s.value === style)
-                                                            .map(s => s.label)
-                                                        }
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </>
-                                    }
-                                </div>
+                                <RiderCard desktop={false} />
                             }
                         </div>
                         <ButtonContainer onEdit={onEdit} onDelete={onDelete} />
@@ -139,7 +113,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 </span>
                             }
                             <div className="relative w-full">
-                                <Info width={14} arian-hidden className="info-icon" tabIndex={0} />
+                                <Info width={14} aria-hidden className="info-icon" tabIndex={0} />
                                 <span className="surface-quality-info">Reported by the submitter</span>
                             </div>
                         </div>
@@ -222,7 +196,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         <div className="px-1 md:px-2 my-3 flex flex-col gap-1">
                             <h2 className="text-grey text-xl">Community Ratings</h2>
                             {comments.map(comment => (
-                                <CommentCard comment={comment} />
+                                <CommentCard key={comment.id} comment={comment} />
                             ))}
                         </div>
                     }

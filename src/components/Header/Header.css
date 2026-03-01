@@ -3,28 +3,16 @@
 header {
     pointer-events: none;
 
-    &::after,
-    &::before {
+    &::after {
         content: " ";
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         pointer-events: none;
-    }
-
-    &::after {
         height: 200px;
         background: linear-gradient(to bottom, var(--color-bg-rgba), transparent);
         z-index: -1;
-    }
-
-    &::before {
-        height: 80px;
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
-        mask: linear-gradient(to bottom, black, transparent);
-        -webkit-mask: linear-gradient(to bottom, black, transparent);
     }
 
 }

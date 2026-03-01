@@ -9,7 +9,7 @@ export const shareSpot = async (spot: SpotFullInfo) => {
     console.log(url)
     try {
         await navigator.share({
-            title: `Spot roller : ${spot.name}`,
+            title: `${spot.name}`,
             text: "Check out this spot! 🛼",
             url: url
         });

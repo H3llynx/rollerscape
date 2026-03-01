@@ -19,7 +19,7 @@ export function GreetingsSection({ profile }: { profile: UserProfile }) {
     };
     const titleAndButton = (
         <div className="flex gap-0.5">
-            <h2>Welcome {profile.name}!</h2>
+            <h2 className="truncate">Welcome {profile.name}!</h2>
             <Button
                 onClick={() => nameRef.current?.showModal()}
                 style="icon"

@@ -8,11 +8,13 @@ import { udpdateError } from "../../../../config/errors";
 import { updateData } from "../../../../services/data";
 import type { FormProps } from "../../../../types/other_reusable_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
+import { useSpots } from "../../../map/hooks/useSpots";
 
 export function NameChangeForm({ onSuccess }: FormProps) {
     const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<{ name: string }>();
     const [error, setError] = useState<boolean>(false);
     const { profile, setProfile } = useAuth();
+    const { loadSpots } = useSpots();
 
     if (!profile) return;
 
@@ -25,6 +27,7 @@ export function NameChangeForm({ onSuccess }: FormProps) {
         }
         onSuccess()
         setProfile({ ...profile, name });
+        await loadSpots();
         reset();
     }
 

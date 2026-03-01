@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import { SPOT_TYPES } from "../config/spots";
+import { SKATING_STYLES, SKILLS, type SkatingStyle, type SkillLevel } from "../config/user_info";
 import type { Coordinates, MapCoordinates } from "../types/geolocation_types";
 import type { SpotType } from "../types/spots_types";
 
@@ -30,4 +31,12 @@ export const osrmToJsonCoords = (osrmCoords: MapCoordinates[]): Coordinates[] =>
 
 export const getSpotType = (type: SpotType) => SPOT_TYPES
     .filter(spot => spot.value === type)
-    .map(spot => spot.label)
+    .map(spot => spot.label);
+
+export const getSkillLevel = (level: SkillLevel) => SKILLS
+    .filter(skill => skill.value === level)
+    .map(skill => skill.label);
+
+export const getSkatingStyles = (style: SkatingStyle) => SKATING_STYLES
+    .filter(skating => skating.value === style)
+    .map(skating => skating.label);

@@ -1,7 +1,7 @@
 @reference "../../../../styles/index.css";
 
 .spot-created-by {
-    @apply font-special text-xs text-right text-text opacity-70 absolute bottom-0 w-full pt-[6px] pb-[4px] px-0.5 bg-bg-rgba-2 flex gap-[5px] items-center justify-end;
+    @apply font-special text-xs text-right text-text opacity-70 absolute bottom-0 w-full pt-[6px] pb-[4px] px-0.5 bg-bg-rgba-2;
 
     &:hover+.rider-card-container {
         @apply block;

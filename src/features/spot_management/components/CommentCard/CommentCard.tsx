@@ -1,10 +1,10 @@
-import { Check, Star } from "lucide-react";
+import { Star, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import Skater from "../../../../assets/skater.png";
-import { SKATING_STYLES } from "../../../../config/user_info";
 import { getUserInfo } from "../../../../services/spots";
 import type { Comments } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
+import { getSkatingStyles, getSkillLevel } from "../../../../utils/helpers";
 
 export function CommentCard({ comment }: { comment: Comments }) {
     const [user, setUser] = useState<UserProfile | null>(null)
@@ -32,17 +32,17 @@ export function CommentCard({ comment }: { comment: Comments }) {
                             }} />
                     </div>
                     <div>
-                        <h3>{user?.name}</h3>
+                        <h3 className="inline">{user?.name} </h3>
+                        {user?.skill_level &&
+                            <span className="text-[0.65rem]">({getSkillLevel(user.skill_level)})</span>
+                        }
                         <ul className="mx-0 text-[0.65rem]">
                             {user?.skating_style &&
                                 <>
-                                    {user?.skating_style.map((style, i) => (
+                                    {user.skating_style.map((style, i) => (
                                         <li key={i}>
-                                            <Check aria-hidden width={12} height={12} className="inline mr-[5px]" />
-                                            {SKATING_STYLES
-                                                .filter(s => s.value === style)
-                                                .map(s => s.label)
-                                            }
+                                            <Zap aria-hidden width={12} height={12} fill="var(--color-grey)" className="inline mr-[5px]" />
+                                            {getSkatingStyles(style)}
                                         </li>
                                     ))}
                                 </>

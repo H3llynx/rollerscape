@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .profile-link-card {
-    @apply bg-bg-rgba text-text md:text-grey;
+    @apply bg-bg-rgba max-w-3xs md:text-grey;
 
     &:not(.active):hover {
         @apply -translate-y-px border-rgba-yellow bg-rgba-yellow text-text;

@@ -2,16 +2,23 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Header } from "../../components/Header/Header";
 import { useAuth } from "../auth/hooks/useAuth";
+import { useSpots } from "../map/hooks/useSpots";
 import { FavoritesSection } from "./components/FavoritesSection/FavoritesSection";
 import { GreetingsSection } from "./components/GreetingsSection/GreetingsSection";
 import { RollerbladerProfileSection } from "./components/RollerbladerProfileSection/RollerbladerProfileSection";
 
 export function ProfilePage() {
     const { profile, loading } = useAuth();
+    const { selectedSpot, setSelectedSpot } = useSpots();
     const navigate = useNavigate();
+
     useEffect(() => {
         if (!loading && profile && !profile.home_location_name) navigate("/onboarding")
     }, [loading, profile, navigate]);
+
+    useEffect(() => {
+        if (selectedSpot) setSelectedSpot(null);
+    }, []);
 
     if (!profile) return;
 

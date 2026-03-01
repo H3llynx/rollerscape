@@ -1,5 +1,5 @@
 import { LOCATION_TYPE, ROUTE_GEN_MODE, SPOT_TYPES, TRAFFIC_LEVELS } from "../config/spots";
-import type { SkatingStyle } from "../config/user_info";
+import type { SkatingStyle, SkillLevel } from "../config/user_info";
 import type { Data } from "../services/data";
 import type { Coordinates } from "./geolocation_types";
 
@@ -29,6 +29,7 @@ export type CreatedBy = {
     name: string;
     avatar_url: string;
     skating_style: SkatingStyle[];
+    skill_level: SkillLevel;
 }
 
 export type SpotFullInfo = Spot & {
