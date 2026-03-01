@@ -59,3 +59,12 @@ export const resetPassword = async (email: string) => {
     if (error) console.error("Reset error:", error)
     return { error };
 }
+
+export const deleteUser = async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return;
+    const { error } = await supabase.functions.invoke("delete-user")
+    if (!error) {
+        await supabase.auth.signOut({ scope: "local" })
+    }
+};

@@ -107,12 +107,7 @@ export function LocationTypeForm({ locationType, routeGenMode, setRouteGenMode, 
                     <Button className="bg-text text-bg-main">
                         Confirm
                     </Button>
-                    <Button
-                        type="button"
-                        style="secondary"
-                        className=" text-text border-text"
-                        onClick={() => navigate("/")}
-                    >
+                    <Button type="button" style="secondary" className=" text-text border-text" onClick={() => navigate("/")}>
                         Cancel
                     </Button>
                 </div>

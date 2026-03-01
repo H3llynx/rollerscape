@@ -1,11 +1,12 @@
 import type { User } from "@supabase/supabase-js";
-import { createContext } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
 import type { UserProfile } from "../../../types/user_types";
 
 type AuthContext = {
     user: User | null;
+    setUser: Dispatch<SetStateAction<User | null>>;
     profile: UserProfile | null;
-    setProfile: (profile: UserProfile) => void;
+    setProfile: Dispatch<SetStateAction<UserProfile | null>>;
     loading: boolean;
 }
 

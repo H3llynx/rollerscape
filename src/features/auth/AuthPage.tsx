@@ -55,8 +55,8 @@ export function AuthPage() {
                 <Dialog ref={dialogRef} style="error" close={handleClose}>
                     <p>{error}</p>
                     <div className="flex gap-[5px] text-end flex-row-reverse">
-                        <Button style="secondary" className="border-white text-text bg-rgba-dark" onClick={handleClose}>Try again</Button>
-                        <Button style="tertiary" className="text-text" onClick={() => handlePasswordReset(email)}>Reset password</Button>
+                        <Button style="secondary" className="border-white text-text" onClick={handleClose}>Try again</Button>
+                        {login && <Button style="tertiary" className="text-text" onClick={() => handlePasswordReset(email)}>Reset password</Button>}
                     </div>
                 </Dialog>
             </main>

@@ -1,27 +1,52 @@
-import { Edit2, LocationEdit } from "lucide-react";
-import { useRef } from "react";
+import { Edit2, LocationEdit, Trash2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { Dialog } from "../../../../components/Dialog/Dialog";
+import { deleteUserError } from "../../../../config/errors";
+import { deleteUser } from "../../../../services/auth";
 import type { UserProfile } from "../../../../types/user_types";
+import { useAuth } from "../../../auth/hooks/useAuth";
 import { showFlag } from "../../utils";
 import { LocationRequest } from "../LocationRequest/LocationRequest";
 import { NameChangeForm } from "../NameChangeForm/NameChangeForm";
 import { ProfilePicture } from "../ProfilePicture/ProfilePicture";
 import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
+import "./GreetingSection.css";
 
 export function GreetingsSection({ profile }: { profile: UserProfile }) {
-    const locationRef = useRef<HTMLDialogElement>(null);
-    const nameRef = useRef<HTMLDialogElement>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const [action, setAction] = useState<"name" | "location" | "delete" | null>(null);
+    const [error, setError] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const { setUser } = useAuth();
 
     const handleClose = () => {
-        locationRef.current?.close();
-        nameRef.current?.close();
+        setAction(null);
+        setError(false);
+        dialogRef.current?.close();
     };
+
+    useEffect(() => {
+        if (!action) return;
+        dialogRef.current?.showModal();
+    }, [action])
+
+    const deleteProfile = async () => {
+        await deleteUser();
+        if (error) {
+            setError(true);
+            return;
+        };
+        setUser(null);
+        navigate("/auth");
+    };
+
     const titleAndButton = (
         <div className="flex gap-0.5">
             <h2 className="truncate">Welcome {profile.name}!</h2>
             <Button
-                onClick={() => nameRef.current?.showModal()}
+                onClick={() => setAction("name")}
                 style="icon"
                 aria-label="Change your name"
                 className="inline p-0 align-middle"
@@ -40,7 +65,7 @@ export function GreetingsSection({ profile }: { profile: UserProfile }) {
                     <div className="flex items-center w-fit">
                         <span>{showFlag(profile.home_country_code)}</span>
                         <Button
-                            onClick={() => locationRef.current?.showModal()}
+                            onClick={() => setAction("location")}
                             style="icon"
                             aria-label="Update your home location"
                         >
@@ -50,11 +75,29 @@ export function GreetingsSection({ profile }: { profile: UserProfile }) {
                 </div>
                 <ProfilePicture />
             </div>
-            <Dialog ref={locationRef} close={handleClose}>
-                <LocationRequest onSuccess={() => locationRef.current?.close()} />
-            </Dialog>
-            <Dialog ref={nameRef} close={handleClose}>
-                <NameChangeForm onSuccess={() => nameRef.current?.close()} />
+            <Button style="icon" className="delete-btn" onClick={() => setAction("delete")}>
+                <Trash2 aria-hidden width={18} className="ml-[8px]" />
+                <span>Delete my profile</span>
+            </Button>
+
+            <Dialog ref={dialogRef} close={handleClose}>
+                {action === "name" &&
+                    <NameChangeForm onSuccess={() => dialogRef.current?.close()} />
+                }
+                {action === "location" &&
+                    <LocationRequest onSuccess={() => dialogRef.current?.close()} />
+                }
+                {action === "delete" &&
+                    <>
+                        <p>Your profile will be deleted, but your spots will remain for the community.
+                            This move can’t be undone. Continue?</p>
+                        <div className="flex gap-0.5 justify-center">
+                            <Button onClick={deleteProfile}>Confirm</Button>
+                            <Button style="secondary" onClick={handleClose}>Cancel</Button>
+                        </div>
+                    </>
+                }
+                {error && deleteUserError}
             </Dialog>
         </SectionTemplate >
     )

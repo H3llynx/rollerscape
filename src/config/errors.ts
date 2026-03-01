@@ -48,3 +48,5 @@ export const commentErrors = {
     23505: "You've already rated this spot!",
     generic: "Something went wrong, please try again",
 }
+
+export const deleteUserError = "Account bail failed! Your profile is still rolling. Try again in a bit.";

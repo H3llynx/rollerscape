@@ -9,7 +9,7 @@ type Dialog = {
 }
 
 const dialogVariants = tv({
-    base: "m-auto [[open]]:flex [[open]]:flex-col gap-1 text-center rounded-lg border backdrop:bg-black/20 font-main font-medium border-grey text-sm bg-bg-rgba py-2 px-3 bg-blur dialog-shadow overflow-hidden",
+    base: "m-auto [[open]]:flex [[open]]:flex-col gap-1 text-center rounded-lg border backdrop:bg-black/20 font-main font-medium border-grey text-sm bg-bg-rgba py-2 px-3 bg-blur dialog-shadow overflow-hidden max-w-lg",
     variants: {
         style: {
             default: "text-text",

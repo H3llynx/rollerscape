@@ -24,18 +24,22 @@ export function ProfilePage() {
 
     return (
         <>
-            <Header />
-            <main className="w-full h-full place-content-center xl:px-4">
-                <section className="grid w-full lg:grid-cols-2 h-full">
-                    <article className="flex gap-3 flex-col p-2 my-auto relative w-full h-fit">
-                        <GreetingsSection profile={profile} />
-                        <RollerbladerProfileSection />
-                    </article>
-                    <article className="flex gap-3 flex-col p-2 w-full">
-                        <FavoritesSection />
-                    </article>
-                </section>
-            </main>
+            {profile.home_location_name &&
+                <>
+                    <Header />
+                    <main className="w-full h-full place-content-center xl:px-4">
+                        <section className="grid w-full lg:grid-cols-2 h-full">
+                            <article className="flex gap-3 flex-col p-2 my-auto relative w-full h-fit">
+                                <GreetingsSection profile={profile} />
+                                <RollerbladerProfileSection />
+                            </article>
+                            <article className="flex gap-3 flex-col p-2 w-full">
+                                <FavoritesSection />
+                            </article>
+                        </section>
+                    </main>
+                </>
+            }
         </>
     )
 }
