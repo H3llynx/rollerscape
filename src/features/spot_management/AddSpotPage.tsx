@@ -1,4 +1,4 @@
-import { MapPinX } from "lucide-react";
+import { MapPinPenIcon, MapPinX, RouteIcon, Undo2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -25,46 +25,32 @@ import { useSpots } from "../map/hooks/useSpots";
 import { AddMarker } from "./components/AddMarker/AddMarker";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
 import { SpotForm } from "./components/SpotForm/SpotForm";
-import { CoordinatePickerPoint, CoordinatePickerRoute, estimateDistanceFromGpx } from "./utils";
+import { CoordinatePicker, estimateDistanceFromCoords } from "./utils";
 
 export function AddSpotPage() {
     const { center, trackUser, profile } = useCenter();
     const { loadSpots } = useSpots();
     const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_levels, photos } = spotFormFields;
+    const { setValue } = useForm();
+    const navigate = useNavigate();
     const [confirmedLocationType, setConfirmedLocationType] = useState<boolean>(false);
     const [locationType, setLocationType] = useState<Spot["location_type"]>(location_type.options[0] as Spot["location_type"]);
     const [routeGenMode, setRouteGenMode] = useState<RouteGenMode | null>(null);
-    const [spotCoordinates, setSpotCoordinates] = useState<Coordinates[] | null>(null)
-    const { setValue } = useForm();
-    const navigate = useNavigate();
-    const [routeCoordinates, setrouteCoordinates] = useState<RouteCoordinates>({ start: null, end: null });
+    const [spotCoordinates, setSpotCoordinates] = useState<Coordinates[]>([]);
+    const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinates>({ start: null, end: null });
     const [routes, setRoutes] = useState<Route[]>([]);
     const [selectedRoute, setSelectedRoute] = useState<number>(0);
+    const [custom, setCustom] = useState<boolean>(false);
     const [gpxCoordinates, setGpxCoordinates] = useState<Coordinates[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const dialogRef = useRef<HTMLDialogElement>(null);
-
-    const handleRoutePick = (lat: number, lon: number, type: "start" | "end" | "middle") => {
-        setrouteCoordinates({ ...routeCoordinates, [type]: { lat, lon } });
-    };
-
-    const handleSetLocationType = () => {
-        setLocationType(locationType);
-        setConfirmedLocationType(true);
-        setValue(location_type.db_key, locationType);
-        if (gpxCoordinates) setSpotCoordinates(gpxCoordinates);
-    };
+    const customDistanceRef = useRef(0);
 
     useEffect(() => {
         if (error) {
             dialogRef.current?.showModal();
         }
     }, [error]);
-
-    const handleClose = () => {
-        dialogRef.current?.close();
-        setError(null);
-    };
 
     useEffect(() => {
         const getRoute = async () => {
@@ -83,22 +69,70 @@ export function AddSpotPage() {
     }, [routeCoordinates]);
 
     useEffect(() => {
-        if (locationType === "route" && routes.length > 0) {
-            setSelectedRoute(0);
+        if (locationType === "route" && !custom && routes.length > 0) {
             setSpotCoordinates(routes[selectedRoute].coordinates)
         }
-    }, [selectedRoute, routes, locationType])
+    }, [selectedRoute, routes, locationType, custom]);
+
+    const handleClose = () => {
+        dialogRef.current?.close();
+        setError(null);
+    };
+
+    const handleSetLocationType = () => {
+        setLocationType(locationType);
+        setConfirmedLocationType(true);
+        setValue(location_type.db_key, locationType);
+        if (gpxCoordinates) setSpotCoordinates(gpxCoordinates);
+    };
+
+    const resetRoute = () => {
+        setRouteCoordinates({ start: null, end: null });
+        setRoutes([]);
+        setSpotCoordinates([]);
+        customDistanceRef.current = 0;
+    }
+
+    const handleCustom = () => {
+        setCustom(!custom);
+        resetRoute();
+    }
+
+    const handleRoutePick = (lat: number, lon: number) => {
+        if (!custom) {
+            if (!routeCoordinates.start) setRouteCoordinates({ ...routeCoordinates, start: { lat, lon } });
+            else if (!routeCoordinates.end) setRouteCoordinates({ ...routeCoordinates, end: { lat, lon } });
+        } else {
+            if (spotCoordinates.length > 0) {
+                const distance = estimateDistanceFromCoords([spotCoordinates[spotCoordinates.length - 1], { lat, lon }]);
+                customDistanceRef.current += distance;
+            }
+            setSpotCoordinates(prev => [...prev, { lat, lon }]);
+        }
+    };
+
+    const handleUndoPoint = () => {
+        if (spotCoordinates.length > 1) {
+            const distance = estimateDistanceFromCoords([
+                spotCoordinates[spotCoordinates.length - 2],
+                spotCoordinates[spotCoordinates.length - 1]
+            ]);
+            customDistanceRef.current -= distance;
+        }
+        setSpotCoordinates(prev => prev.slice(0, -1));
+    };
 
     const getRouteLength = () => {
         if (locationType !== "route") return;
-        return gpxCoordinates
-            ? estimateDistanceFromGpx(gpxCoordinates)
+        if (gpxCoordinates) return estimateDistanceFromCoords(gpxCoordinates);
+        return custom
+            ? customDistanceRef.current
             : Number((routes[selectedRoute].distance / 1000).toFixed(2));
     };
 
     const addSpot = async (newSpot: Record<string, unknown>) => {
         if (!profile) return;
-        if (!spotCoordinates) {
+        if (!spotCoordinates.length) {
             setError(spotErrors.add.missing_coordinates);
             return
         }
@@ -139,18 +173,43 @@ export function AddSpotPage() {
         navigate(`${redirecttoSpotUrl(slug)}`);
     }
 
-    const resetRoute = locationType === "route" && routeCoordinates.start
-        && (<Button
-            className="my-auto order-1 bg-bg-main text-text"
-            onClick={() => {
-                setrouteCoordinates({ start: null, end: null });
-                setRoutes([]);
-                setSpotCoordinates(null);
+    const otherControls = (
+        <>
+            {locationType === "route" &&
+                <>
+                    {(routeCoordinates.start || spotCoordinates.length) &&
+                        <div className="flex gap-1 order-1 my-auto">
+                            <Button
+                                className="my-auto"
+                                onClick={resetRoute}>
+                                <MapPinX width={20} /> Reset
+                            </Button>
+                            <Button
+                                style="icon"
+                                className="bg-dark-3 border border-grey text-text px-0.5"
+                                onClick={handleUndoPoint}
+                                aria-label="Undo last point">
+                                <Undo2 aria-hidden />
+                            </Button>
+                        </div>}
+                    <div className="absolute bottom-5 left-2">
+                        <Button style="tertiary" onClick={handleCustom} className=" bg-bg-rgba text-text px-0.5">
+                            {custom ?
+                                <>
+                                    <RouteIcon />
+                                    Get routes suggestions
+                                </>
+                                : <>
+                                    <MapPinPenIcon />
+                                    Create custom itinerary
+                                </>}
+                        </Button>
+                    </div>
+                </>
             }
-            }>
-            <MapPinX width={20} /> Reset
-        </Button>);
+        </>
 
+    )
     return (
         <>
             <Header style="map" />
@@ -168,31 +227,30 @@ export function AddSpotPage() {
                             </div>
                         }
                     </div>
+
                     <Map
                         center={center}
                         zoom={14}
                         trackUser={trackUser}
-                        other={resetRoute}
+                        other={otherControls}
                     >
                         <FlyToUser center={center} />
                         {confirmedLocationType && !gpxCoordinates &&
                             <>
                                 {locationType === "point" &&
-                                    <CoordinatePickerPoint onPick={(lat, lon) => setSpotCoordinates([{ lat, lon }])} />}
-                                {locationType === "route" && !routeCoordinates.middle &&
-                                    <CoordinatePickerRoute onPick={handleRoutePick} routeCoords={routeCoordinates} />}
+                                    <CoordinatePicker onPick={(lat, lon) => setSpotCoordinates([{ lat, lon }])} />}
+                                {locationType === "route" &&
+                                    <CoordinatePicker onPick={handleRoutePick} routeCoords={routeCoordinates} />}
                             </>
                         }
                         <UserMarker />
-                        {spotCoordinates && routes.length === 0 && !gpxCoordinates &&
+                        {spotCoordinates.length > 0 && routes.length === 0 && !gpxCoordinates &&
                             <AddMarker position={[spotCoordinates[0].lat, spotCoordinates[0].lon]} />
                         }
                         {routeCoordinates.start && routes.length === 0 &&
                             <AddMarker position={[routeCoordinates.start.lat, routeCoordinates.start.lon]} />}
                         {routeCoordinates.end && routes.length === 0 &&
                             <AddMarker position={[routeCoordinates.end.lat, routeCoordinates.end.lon]} />}
-                        {routeCoordinates.middle && routes.length === 0 &&
-                            <AddMarker position={[routeCoordinates.middle.lat, routeCoordinates.middle.lon]} />}
                         {routes.map((route, i) => (
                             <RouteDisplay
                                 key={i}
@@ -201,6 +259,12 @@ export function AddSpotPage() {
                                 onSelect={() => setSelectedRoute(i)}
                             />
                         ))}
+                        {custom && spotCoordinates.length > 1 &&
+                            <RouteDisplay
+                                data={spotCoordinates}
+                                selected
+                            />
+                        }
                         {gpxCoordinates &&
                             <RouteDisplay
                                 data={gpxCoordinates}
@@ -210,6 +274,9 @@ export function AddSpotPage() {
                     </Map>
                 </GridLeftPanel>
             }
+
+
+
             {!confirmedLocationType &&
                 <LocationTypeForm
                     locationType={locationType}

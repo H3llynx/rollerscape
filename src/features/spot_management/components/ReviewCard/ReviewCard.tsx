@@ -3,23 +3,23 @@ import { useEffect, useState } from "react";
 import Skater from "../../../../assets/skater.png";
 import { Button } from "../../../../components/Button/Button";
 import { getUserInfo } from "../../../../services/spots";
-import type { Comment } from "../../../../types/spots_types";
+import type { Review } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { getSkatingStyles, getSkillLevel } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { showAvatar } from "../../../profile/utils";
 
 type CommentCard = {
-    comment: Comment;
+    review: Review;
     onEdit: () => void;
 }
 
-export function CommentCard({ comment, onEdit }: CommentCard) {
+export function ReviewCard({ review, onEdit }: CommentCard) {
     const [user, setUser] = useState<UserProfile | null>(null)
     const { profile } = useAuth();
     useEffect(() => {
         const getUser = async () => {
-            const { data } = await getUserInfo(comment.user_id);
+            const { data } = await getUserInfo(review.user_id);
             setUser(data);
         }
         getUser();
@@ -56,8 +56,8 @@ export function CommentCard({ comment, onEdit }: CommentCard) {
                     </div>
                 </div>
                 <div className="flex gap-0.5">
-                    <span aria-label={`${comment.rating}`} className="shrink-0">
-                        {Array.from({ length: comment.rating! }, (_, i) => (
+                    <span aria-label={`${review.rating}`} className="shrink-0">
+                        {Array.from({ length: review.rating! }, (_, i) => (
                             <Star
                                 key={i}
                                 fill="var(--color-grey)"
@@ -66,14 +66,14 @@ export function CommentCard({ comment, onEdit }: CommentCard) {
                                 aria-hidden />
                         ))}
                     </span>
-                    {profile?.id === comment.user_id &&
-                        <Button style="icon" aria-label="Edit score and comment" className="text-grey self-start p-0">
+                    {profile?.id === review.user_id &&
+                        <Button style="icon" aria-label="Edit score and review" className="text-grey self-start p-0">
                             <Edit aria-hidden width={18} onClick={onEdit} />
                         </Button>
                     }
                 </div>
             </div>
-            {comment.comment && <p className="font-light self-end ml-1">{comment.comment}</p>}
+            {review.comment && <p className="font-light self-end ml-1">{review.comment}</p>}
         </div>
     )
 }

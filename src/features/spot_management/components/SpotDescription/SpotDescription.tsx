@@ -4,14 +4,14 @@ import { useMediaQuery } from "react-responsive";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { TRAFFIC_LEVELS } from "../../../../config/spots";
-import { getComments } from "../../../../services/spots";
-import type { Comment } from "../../../../types/spots_types";
+import { getReviews } from "../../../../services/spots";
+import type { Review } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
 import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
-import { CommentCard } from "../CommentCard/CommentCard";
-import { CommentForm } from "../CommentForm/CommentForm";
+import { ReviewCard } from "../ReviewCard/ReviewCard";
+import { ReviewForm } from "../ReviewForm/ReviewForm";
 import { RiderCard } from "../RiderCard/RiderCard";
 import "./SpotDescription.css";
 
@@ -26,14 +26,14 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const { profile } = useAuth();
     const [isRating, setIsRating] = useState<boolean>(false);
     const commentsRef = useRef<HTMLDivElement>(null);
-    const [comments, setComments] = useState<Comment[]>([]);
-    const [commentToEdit, setCommentToEdit] = useState<Comment | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [reviewToEdit, setReviewToEdit] = useState<Review | null>(null);
     const { loadSpots } = useSpots();
 
     const fetchComments = async () => {
         if (!selectedSpot) return;
-        const { data } = await getComments(selectedSpot.id)
-        if (data) setComments(data);
+        const { data } = await getReviews(selectedSpot.id)
+        if (data) setReviews(data);
     };
 
     useEffect(() => {
@@ -46,14 +46,14 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         }
     }, [isRating]);
 
-    const handleCommentEdit = (comment: Comment) => {
+    const handleCommentEdit = (review: Review) => {
         setIsRating(true);
-        setCommentToEdit(comment);
+        setReviewToEdit(review);
     }
 
     const handleCommentSubmit = () => {
         setIsRating(false);
-        setCommentToEdit(null);
+        setReviewToEdit(null);
         loadSpots();
     }
 
@@ -203,13 +203,13 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                 }
                 <div ref={commentsRef}>
                     {profile && isRating &&
-                        <CommentForm onSuccess={handleCommentSubmit} commentToEdit={commentToEdit} />
+                        <ReviewForm onSuccess={handleCommentSubmit} reviewToEdit={reviewToEdit} />
                     }
-                    {comments.length > 0 &&
+                    {reviews.length > 0 &&
                         <div className="px-1 md:px-2 my-3 flex flex-col gap-1">
                             <h2 className="text-grey text-xl">Community Ratings</h2>
-                            {comments.map(comment => (
-                                <CommentCard key={comment.id} comment={comment} onEdit={() => handleCommentEdit(comment)} />
+                            {reviews.map(review => (
+                                <ReviewCard key={review.id} review={review} onEdit={() => handleCommentEdit(review)} />
                             ))}
                         </div>
                     }

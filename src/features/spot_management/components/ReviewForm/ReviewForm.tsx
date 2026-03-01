@@ -1,46 +1,57 @@
 import type { PostgrestError } from "@supabase/supabase-js";
-import { Star } from "lucide-react";
+import { Star, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../../../../components/Button/Button";
 import { Loading } from "../../../../components/Loading/Loading";
 import { databases } from "../../../../config/databases";
-import { commentErrors } from "../../../../config/errors";
+import { spotErrors } from "../../../../config/errors";
 import { commentFormFields } from "../../../../config/spots";
-import { insertData, updateData } from "../../../../services/data";
-import type { Comment } from "../../../../types/spots_types";
+import { deleteData, insertData, updateData } from "../../../../services/data";
+import type { Review } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
-import "./CommentForm.css";
+import "./ReviewForm.css";
 
-type CommentForm = {
-    commentToEdit: Comment | null;
+type ReviewForm = {
+    reviewToEdit: Review | null;
     onSuccess: () => void;
 }
 
-export function CommentForm({ commentToEdit, onSuccess }: CommentForm) {
-    const { selectedSpot, loadSpots } = useSpots();
+export function ReviewForm({ reviewToEdit, onSuccess }: ReviewForm) {
+    const { selectedSpot } = useSpots();
     const { profile } = useAuth();
     const { score, comment } = commentFormFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting } } = useForm();
     const selectedScore = watch(score.db_key) as number;
-    const [commentError, setCommentError] = useState<PostgrestError | null>(null);
+    const [reviewError, setReviewError] = useState<PostgrestError | null>(null);
+    const [deleteError, setDeleteError] = useState<boolean>(false);
 
     if (!selectedSpot || !profile) return;
 
-    const rateSpot = async (newScore: Record<string, unknown>) => {
-        if (commentError) setCommentError(null);
+    const reviewSpot = async (newScore: Record<string, unknown>) => {
+        if (reviewError) setReviewError(null);
         const rating = {
             comment: newScore[comment.db_key],
             rating: newScore[score.db_key],
             spot_id: selectedSpot.id,
             user_id: profile.id,
         }
-        const { error } = commentToEdit
-            ? await updateData({ id: commentToEdit.id, ...rating }, databases.comments)
-            : await insertData(databases.comments, rating);
+        const { error } = reviewToEdit
+            ? await updateData({ id: reviewToEdit.id, ...rating }, databases.reviews)
+            : await insertData(databases.reviews, rating);
         if (error) if (error) {
-            setCommentError(error);
+            setReviewError(error);
+            return;
+        }
+        onSuccess();
+    }
+
+    const deleteReview = async () => {
+        if (!reviewToEdit) return;
+        const { error } = await deleteData(reviewToEdit.id, databases.reviews);
+        if (error) {
+            setDeleteError(true);
             return;
         }
         onSuccess();
@@ -48,13 +59,13 @@ export function CommentForm({ commentToEdit, onSuccess }: CommentForm) {
 
     return (
         <div className="comment-form-container">
-            <form onSubmit={handleSubmit(rateSpot)}>
+            <form onSubmit={handleSubmit(reviewSpot)}>
                 <label htmlFor={score.id}>
                     <span>{score.label}</span>
                     <input
                         id={score.id}
                         type={score.input_type}
-                        defaultValue={commentToEdit && commentToEdit.rating ? commentToEdit.rating : undefined}
+                        defaultValue={reviewToEdit && reviewToEdit.rating ? reviewToEdit.rating : undefined}
                         {...register(score.db_key, { valueAsNumber: true })}
                         min={score.min}
                         max={score.max}
@@ -90,7 +101,7 @@ export function CommentForm({ commentToEdit, onSuccess }: CommentForm) {
                     <textarea
                         id={comment.id}
                         className="slight-shadow bg-blur"
-                        defaultValue={commentToEdit && commentToEdit.comment ? commentToEdit.comment : ""}
+                        defaultValue={reviewToEdit && reviewToEdit.comment ? reviewToEdit.comment : ""}
                         {...register(comment.db_key)}
                     />
                 </fieldset>
@@ -98,15 +109,19 @@ export function CommentForm({ commentToEdit, onSuccess }: CommentForm) {
                     <Button style="tertiary" type="button" className="text-text" onClick={onSuccess}>Cancel</Button>
                     {isSubmitting ? <Loading /> :
                         <Button style="secondary" className="border-text text-text">
-                            {commentToEdit ? "Update score" : "Rate this spot"}</Button>
+                            {reviewToEdit ? "Update score" : "Rate this spot"}</Button>
+                    }
+                    {reviewToEdit &&
+                        <Button style="icon" aria-label="Delete review" onClick={deleteReview}><Trash2 aria-hidden /></Button>
                     }
                 </div>
             </form>
-            {commentError &&
+            {reviewError &&
                 <p className="error">
-                    {commentError.code === "23505" ? commentErrors[23505] : commentErrors.generic}
+                    {reviewError.code === "23505" ? spotErrors.review[23505] : spotErrors.review.generic}
                 </p>
             }
+            {deleteError && <p className="error">{spotErrors.delete.review}</p>}
         </div>
     )
 }

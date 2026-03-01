@@ -52,7 +52,7 @@ export type JunctionInsert = {
 
 export type RouteGenMode = typeof ROUTE_GEN_MODE[number]["value"];
 
-export type Comment = {
+export type Review = {
     comment: string | null;
     created_at: string;
     id: string;

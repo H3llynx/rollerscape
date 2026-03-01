@@ -1,6 +1,6 @@
 export type Database = {
     Tables: {
-        comments: {
+        reviews: {
             Row: {
                 comment: string | null
                 created_at: string | null
@@ -297,7 +297,7 @@ export type Database = {
         }
     },
     Views: {
-        public_comments: {
+        public_reviews: {
             Row: {
                 comment: string | null
                 commenter_profile: JSON | null

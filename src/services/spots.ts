@@ -64,9 +64,9 @@ export const deleteFav = async (spotId: string, userId: string) => {
     return { error };
 };
 
-export const getComments = async (spotId: string) => {
+export const getReviews = async (spotId: string) => {
     const { data, error } = await supabase
-        .from(views.public_comments)
+        .from(views.public_reviews)
         .select("*")
         .eq("spot_id", spotId);
     return { data, error };

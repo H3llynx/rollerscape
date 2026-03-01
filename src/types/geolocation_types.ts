@@ -38,7 +38,7 @@ export type RouteCoordinates = {
     middle?: { lat: number; lon: number } | null;
 };
 
-export type RouteCoordinatesType = "start" | "end" | "middle";
+export type RouteCoordinatesType = "start" | "end";
 
 export type Route = {
     coordinates: Coordinates[];

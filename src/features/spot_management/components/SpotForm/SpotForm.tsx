@@ -1,5 +1,5 @@
 
-import { Camera, Star, X } from "lucide-react";
+import { Camera, ChevronDown, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -111,17 +111,24 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
         <div className="flex flex-col gap-1 pb-2 md:py-2">
             <div className="flex gap-2 justify-between items-center">
                 {isAdding
-                    ? <h2>Add a new spot</h2>
+                    ? <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
                     : <h2>Edit spot</h2>
                 }
-                {isAdding && <Button style="tertiary" onClick={() => navigate("/")}>Cancel</Button>}
+                {isAdding && <Button style="tertiary" className="text-grey" onClick={() => navigate("/")}>Cancel</Button>}
             </div>
-            {isAdding &&
-                <p className="md:font-special">Location type: <span className="font-light text-text-secondary">
-                    {locationType}
+            <p className="flex flex-col gap-0.5 md:font-special border p-0.5 rounded-lg mb-1 md:mr-1 bg-bg-rgba slight-shadow">
+                <span className="text-text-secondary">
+                    <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
+                    {locationType === "route"
+                        ? "Click two points on the map to get route suggestions."
+                        : "Pin your skate spot on the map"
+                    }
                 </span>
-                </p>
-            }
+                <span>
+                    <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>
+                    Add all the details below <ChevronDown className="inline" />
+                </span>
+            </p>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     label={name.label}

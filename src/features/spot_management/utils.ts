@@ -1,27 +1,18 @@
 import { useMapEvents } from "react-leaflet";
-import type { Coordinates, RouteCoordinates, RouteCoordinatesType } from "../../types/geolocation_types";
+import type { Coordinates, RouteCoordinates } from "../../types/geolocation_types";
 
-export const CoordinatePickerPoint = ({ onPick }: { onPick: (lat: number, lon: number) => void }) => {
-    useMapEvents({
-        click: (e) => {
-            const { lat, lng } = e.latlng;
-            onPick(lat, lng);
-        }
-    });
-    return null;
-};
-
-export const CoordinatePickerRoute = ({ onPick, routeCoords }: {
-    onPick: (lat: number, lon: number, type: RouteCoordinatesType) => void;
-    routeCoords: RouteCoordinates;
+export const CoordinatePicker = ({ onPick, onMouseMove }: {
+    onPick: (lat: number, lon: number) => void;
+    onMouseMove?: (lat: number, lon: number) => void;
+    routeCoords?: RouteCoordinates;
 }) => {
     useMapEvents({
         click: (e) => {
-            const { lat, lng } = e.latlng;
-            if (!routeCoords.start) onPick(lat, lng, "start");
-            else if (routeCoords.start && routeCoords.end) onPick(lat, lng, "middle");
-            else onPick(lat, lng, "end");
-        }
+            onPick(e.latlng.lat, e.latlng.lng);
+        },
+        mousemove: (e) => {
+            onMouseMove?.(e.latlng.lat, e.latlng.lng);
+        },
     });
     return null;
 };
@@ -45,7 +36,7 @@ export const parseGpx = (xml: string) => {
     return coordinates;
 }
 
-export const estimateDistanceFromGpx = (coords: Coordinates[]) => {
+export const estimateDistanceFromCoords = (coords: Coordinates[]) => {
     let total = 0;
     for (let i = 0; i < coords.length - 1; i++) {
         const R = 6371;

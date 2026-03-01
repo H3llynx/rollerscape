@@ -39,14 +39,15 @@ export const spotErrors = {
     delete: {
         spot: "Sorry, your spot could not be deleted. Try again later.",
         picture: "That picture could not be deleted. Try again later.",
+        review: "Your comment could not be deleted. Try again later."
+    },
+    review: {
+        23505: "You've already rated this spot!",
+        generic: "Something went wrong, please try again"
     }
 };
 
 export const udpdateError = "Oops! Update failed. Try again."
 
-export const commentErrors = {
-    23505: "You've already rated this spot!",
-    generic: "Something went wrong, please try again",
-}
 
 export const deleteUserError = "Account bail failed! Your profile is still rolling. Try again in a bit.";
