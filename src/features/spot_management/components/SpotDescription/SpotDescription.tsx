@@ -5,7 +5,7 @@ import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { TRAFFIC_LEVELS } from "../../../../config/spots";
 import { getComments } from "../../../../services/spots";
-import type { Comments } from "../../../../types/spots_types";
+import type { Comment } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
@@ -26,7 +26,9 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const { profile } = useAuth();
     const [isRating, setIsRating] = useState<boolean>(false);
     const commentsRef = useRef<HTMLDivElement>(null);
-    const [comments, setComments] = useState<Comments[]>([]);
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [commentToEdit, setCommentToEdit] = useState<Comment | null>(null);
+    const { loadSpots } = useSpots();
 
     const fetchComments = async () => {
         if (!selectedSpot) return;
@@ -43,6 +45,17 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
             commentsRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
     }, [isRating]);
+
+    const handleCommentEdit = (comment: Comment) => {
+        setIsRating(true);
+        setCommentToEdit(comment);
+    }
+
+    const handleCommentSubmit = () => {
+        setIsRating(false);
+        setCommentToEdit(null);
+        loadSpots();
+    }
 
     if (!selectedSpot) return;
 
@@ -190,13 +203,13 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                 }
                 <div ref={commentsRef}>
                     {profile && isRating &&
-                        <CommentForm onSuccess={() => setIsRating(false)} />
+                        <CommentForm onSuccess={handleCommentSubmit} commentToEdit={commentToEdit} />
                     }
                     {comments.length > 0 &&
                         <div className="px-1 md:px-2 my-3 flex flex-col gap-1">
                             <h2 className="text-grey text-xl">Community Ratings</h2>
                             {comments.map(comment => (
-                                <CommentCard key={comment.id} comment={comment} />
+                                <CommentCard key={comment.id} comment={comment} onEdit={() => handleCommentEdit(comment)} />
                             ))}
                         </div>
                     }

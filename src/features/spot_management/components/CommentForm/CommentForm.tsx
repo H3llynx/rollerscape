@@ -7,24 +7,28 @@ import { Loading } from "../../../../components/Loading/Loading";
 import { databases } from "../../../../config/databases";
 import { commentErrors } from "../../../../config/errors";
 import { commentFormFields } from "../../../../config/spots";
-import { insertData } from "../../../../services/data";
-import type { FormProps } from "../../../../types/other_reusable_types";
+import { insertData, updateData } from "../../../../services/data";
+import type { Comment } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
 import "./CommentForm.css";
 
-export function CommentForm({ onSuccess }: FormProps) {
+type CommentForm = {
+    commentToEdit: Comment | null;
+    onSuccess: () => void;
+}
+
+export function CommentForm({ commentToEdit, onSuccess }: CommentForm) {
     const { selectedSpot, loadSpots } = useSpots();
     const { profile } = useAuth();
-
-    if (!selectedSpot || !profile) return;
-
     const { score, comment } = commentFormFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting } } = useForm();
     const selectedScore = watch(score.db_key) as number;
     const [commentError, setCommentError] = useState<PostgrestError | null>(null);
 
-    const addScore = async (newScore: Record<string, unknown>) => {
+    if (!selectedSpot || !profile) return;
+
+    const rateSpot = async (newScore: Record<string, unknown>) => {
         if (commentError) setCommentError(null);
         const rating = {
             comment: newScore[comment.db_key],
@@ -32,23 +36,25 @@ export function CommentForm({ onSuccess }: FormProps) {
             spot_id: selectedSpot.id,
             user_id: profile.id,
         }
-        const { error } = await insertData(databases.comments, rating);
+        const { error } = commentToEdit
+            ? await updateData({ id: commentToEdit.id, ...rating }, databases.comments)
+            : await insertData(databases.comments, rating);
         if (error) if (error) {
             setCommentError(error);
             return;
         }
-        loadSpots();
         onSuccess();
     }
 
     return (
         <div className="comment-form-container">
-            <form onSubmit={handleSubmit(addScore)}>
+            <form onSubmit={handleSubmit(rateSpot)}>
                 <label htmlFor={score.id}>
                     <span>{score.label}</span>
                     <input
                         id={score.id}
                         type={score.input_type}
+                        defaultValue={commentToEdit && commentToEdit.rating ? commentToEdit.rating : undefined}
                         {...register(score.db_key, { valueAsNumber: true })}
                         min={score.min}
                         max={score.max}
@@ -84,13 +90,15 @@ export function CommentForm({ onSuccess }: FormProps) {
                     <textarea
                         id={comment.id}
                         className="slight-shadow bg-blur"
+                        defaultValue={commentToEdit && commentToEdit.comment ? commentToEdit.comment : ""}
                         {...register(comment.db_key)}
                     />
                 </fieldset>
                 <div className="flex gap-0.5 self-end">
                     <Button style="tertiary" type="button" className="text-text" onClick={onSuccess}>Cancel</Button>
                     {isSubmitting ? <Loading /> :
-                        <Button style="secondary" className="border-text text-text">Rate this spot</Button>
+                        <Button style="secondary" className="border-text text-text">
+                            {commentToEdit ? "Update score" : "Rate this spot"}</Button>
                     }
                 </div>
             </form>

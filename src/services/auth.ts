@@ -65,6 +65,6 @@ export const deleteUser = async () => {
     if (!session) return;
     const { error } = await supabase.functions.invoke("delete-user")
     if (!error) {
-        await supabase.auth.signOut({ scope: "local" })
+        await signOut();
     }
 };

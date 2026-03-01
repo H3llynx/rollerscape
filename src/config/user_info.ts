@@ -21,6 +21,3 @@ export const SKATING_STYLES = [
     { value: "freestyle", label: "Aggressive / Freestyle" },
     { value: "dog_skating", label: "Dog Skating" }
 ] as const;
-
-export type SkillLevel = typeof SKILLS[number]["value"];
-export type SkatingStyle = typeof SKATING_STYLES[number]["value"];

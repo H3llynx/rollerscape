@@ -1,7 +1,7 @@
 import { LOCATION_TYPE, ROUTE_GEN_MODE, SPOT_TYPES, TRAFFIC_LEVELS } from "../config/spots";
-import type { SkatingStyle, SkillLevel } from "../config/user_info";
 import type { Data } from "../services/data";
 import type { Coordinates } from "./geolocation_types";
+import type { SkatingStyle, SkillLevel } from "./user_types";
 
 export type Spot = {
     address: string | null;
@@ -52,7 +52,7 @@ export type JunctionInsert = {
 
 export type RouteGenMode = typeof ROUTE_GEN_MODE[number]["value"];
 
-export type Comments = {
+export type Comment = {
     comment: string | null;
     created_at: string;
     id: string;

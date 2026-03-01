@@ -36,7 +36,7 @@ export function ButtonContainer({ onEdit, onDelete, onCancel, variant = "descrip
         <div className={`${variant === "favorite" ? "w-fit" : "max-w-1/3 md:max-w-1/2"} button-container`}>
             {(variant === "description" || variant === "favorite") &&
                 <>
-                    {profile &&
+                    {profile && profile.favorites &&
                         <>
                             {profile.favorites.includes(selectedSpot.id) ?
                                 <Button style="icon" aria-label="Save as favorite" onClick={removeFromFav}>

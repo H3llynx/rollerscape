@@ -1,4 +1,4 @@
-import type { SkatingStyle, SkillLevel } from "../config/user_info";
+import type { SKATING_STYLES, SKILLS } from "../config/user_info";
 import type { SpotType } from "./spots_types";
 
 export type UserProfile = {
@@ -20,3 +20,6 @@ export type Credentials = {
   email: string;
   password: string;
 }
+
+export type SkillLevel = typeof SKILLS[number]["value"];
+export type SkatingStyle = typeof SKATING_STYLES[number]["value"];

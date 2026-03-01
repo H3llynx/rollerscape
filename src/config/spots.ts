@@ -1,10 +1,10 @@
 export const SPOT_TYPES = [
     { value: "skatepark", label: "Skateparks", img: "spot_type_icons/skatepark.png" },
-    { value: "bowl", label: "Bowls", img: "spot_type_icons/bowl.png" },
+    { value: "street_plaza", label: "Street & Plazas", img: "spot_type_icons/street.png" },
+    { value: "smooth_flat", label: "Smooth Flat", img: "spot_type_icons/smooth-flat.png" },
     { value: "bike_path", label: "Bike Paths", img: "spot_type_icons/bike-path.png" },
     { value: "greenway", label: "Greenways", img: "spot_type_icons/greenway.png" },
-    { value: "smooth_flat", label: "Smooth Flat", img: "spot_type_icons/smooth-flat.png" },
-    { value: "street", label: "Street", img: "spot_type_icons/street.png" },
+    { value: "urban_cruising", label: "Urban Cruising", img: "spot_type_icons/urban-cruising.png" },
 ] as const;
 
 export const LOCATION_TYPE = ["point", "route"] as const;

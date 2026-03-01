@@ -1,8 +1,9 @@
 import type { RefObject } from "react";
 import { SPOT_TYPES } from "../config/spots";
-import { SKATING_STYLES, SKILLS, type SkatingStyle, type SkillLevel } from "../config/user_info";
+import { SKATING_STYLES, SKILLS, } from "../config/user_info";
 import type { Coordinates, MapCoordinates } from "../types/geolocation_types";
 import type { SpotType } from "../types/spots_types";
+import type { SkatingStyle, SkillLevel } from "../types/user_types";
 
 export const handleAria = (checkboxRef: RefObject<HTMLInputElement | null>) => {
     if (checkboxRef.current) {
