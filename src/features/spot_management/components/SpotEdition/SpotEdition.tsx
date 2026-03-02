@@ -80,7 +80,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                 <div className="px-1 md:px-2">
                     <div className="flex gap-2 justify-between items-start">
                         <h1>{selectedSpot.name}</h1>
-                        <ButtonContainer variant="update" onDelete={onDelete} onCancel={onCancel} />
+                        <ButtonContainer spot={selectedSpot} variant="update" onDelete={onDelete} onCancel={onCancel} />
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Cancel" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>

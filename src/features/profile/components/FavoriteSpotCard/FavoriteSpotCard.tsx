@@ -1,30 +1,61 @@
+import L from "leaflet";
+import { Flag, MapPin } from "lucide-react";
+import { renderToString } from "react-dom/server";
+import { Marker, Polyline } from "react-leaflet";
 import { useNavigate } from "react-router";
 import { redirecttoSpotUrl } from "../../../../config/urls";
+import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { Map } from "../../../map/components/Map/Map";
 import { ButtonContainer } from "../../../spot_management/components/ButtonContainer/ButtonContainer";
-import { FavoriteMarker } from "../FavoriteMarker/FavoriteMarker";
 import "./FavoriteSpotCard.css";
 
 export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
     const navigate = useNavigate();
+    const coords: MapCoordinates[] = spot.coordinates.map(
+        coord => [coord.lat, coord.lon] as MapCoordinates
+    );
+    const startIcon = L.divIcon({
+        html: renderToString(
+            <MapPin color="var(--color-red)"
+                fill="var(--color-white)"
+                strokeWidth={3}
+                size={29} />),
+        iconAnchor: [18, 26]
+    });
+
+    const endIcon = L.divIcon({
+        html: renderToString(
+            <Flag color="var(--color-red)"
+                fill="var(--color-white)"
+                strokeWidth={3}
+                size={30} />),
+        iconAnchor: [5, 28]
+    });
 
     return (
-        <div className="card favorite-map-container">
+        <div className="card favorite-map-container -">
             <Map
                 center={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
-                zoom={13}
+                zoom={12}
                 controls={false}
             >
-                <FavoriteMarker
-                    position={[spot.coordinates[0].lat, spot.coordinates[0].lon]} />
+
+                <Polyline
+                    positions={coords}
+                    pathOptions={{
+                        color: "var(--color-red)",
+                        weight: 5,
+                    }}
+                />
+                <Marker position={coords[0]} icon={startIcon} />
+                {coords.length > 1 && <Marker position={coords[coords.length - 1]} icon={endIcon} />}
             </Map>
-            <div className="favorite-text-overlay">
-                <button aria-label="See that spot on the map" onClick={() => navigate(`${redirecttoSpotUrl(spot.slug)}`)}>
-                    <div className="flex flex-col px-1 pt-0.5 h-full my-auto text-left justify-center">
-                        <h2 className="text-xl text-dark-3 line-clamp-2">{spot.name}</h2>
-                        <p className="text-grey text-xs md:text-sm">{spot.address}</p>
+            <div className="favorite-text-overlay overlay">
+                <button aria-label="See that spot on the map" onClick={() => navigate(redirecttoSpotUrl(spot.slug))} className="overlay">
+                    <div className="px-1 text-left absolute top-0.5 w-full h-full">
+                        <h2 className="text-xl text-dark-3 line-clamp-2 text-shadow-md text-shadow-white bg-blur w-fit">{spot.name}</h2>
                         <div className="flex gap-0.5 mt-1 items-start">
                             {spot.spot_types.map((type, i) => (
                                 <span className="tag" key={i} >
@@ -35,8 +66,8 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
                         </div>
                     </div>
                 </button>
-                <div className="w-full flex justify-center sm:w-fit">
-                    <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(`${redirecttoSpotUrl(spot.slug)}`)} />
+                <div className="max-w-2.5 bg-rgba-dark justify-center flex items-start">
+                    <ButtonContainer variant="favorite" spot={spot} onEdit={() => navigate(redirecttoSpotUrl(spot.slug))} />
                 </div>
             </div>
         </div>

@@ -6,6 +6,9 @@
 }
 
 .favorite-text-overlay {
-    @apply flex flex-col md:flex-row justify-between absolute w-full h-full z-1 pointer-events-auto;
+    @apply flex justify-between absolute w-full h-full z-1 pointer-events-auto;
+}
+
+.overlay {
     background-image: linear-gradient(to right, var(--color-rgba-white), transparent);
 }

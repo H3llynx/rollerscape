@@ -49,7 +49,7 @@ export function SpotLeftPanel() {
 
     const handleEditted = async () => {
         setSpotToEdit(null);
-        const { data } = await fetchDataById<SpotFullInfo>(views.public_spots, dbSelect.spots.allWithJunctions, selectedSpot.id);
+        const { data } = await fetchDataById<SpotFullInfo>(views.public_spots, dbSelect.spots.allWithJunctions, "id", selectedSpot.id);
         if (data) setSelectedSpot(data);
     }
 

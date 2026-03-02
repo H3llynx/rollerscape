@@ -11,12 +11,11 @@ export const fetchData = async <T>(table: Data, select: string) => {
     return { data: data as T[] | null, error };
 };
 
-export const fetchDataById = async <T>(table: Data, select: string, id: string) => {
+export const fetchDataById = async <T>(table: Data, select: string, id1: string, id2: string) => {
     const { data, error } = await supabase
         .from(table)
         .select(select)
-        .eq("id", id)
-        .single();
+        .eq(id1, id2)
     return { data: data as T | null, error };
 };
 

@@ -5,6 +5,7 @@ import { useAuth } from "../auth/hooks/useAuth";
 import { useSpots } from "../map/hooks/useSpots";
 import { FavoritesSection } from "./components/FavoritesSection/FavoritesSection";
 import { GreetingsSection } from "./components/GreetingsSection/GreetingsSection";
+import { ReviewsSection } from "./components/ReviewsSection/ReviewsSection";
 import { RollerbladerProfileSection } from "./components/RollerbladerProfileSection/RollerbladerProfileSection";
 
 export function ProfilePage() {
@@ -35,6 +36,7 @@ export function ProfilePage() {
                             </article>
                             <article className="flex gap-3 flex-col p-2 w-full">
                                 <FavoritesSection />
+                                <ReviewsSection />
                             </article>
                         </section>
                     </main>

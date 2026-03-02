@@ -105,7 +105,7 @@ export function AddSpotPage() {
             return
         }
         await loadSpots();
-        navigate(`${redirecttoSpotUrl(slug)}`);
+        navigate(redirecttoSpotUrl(slug));
     }
 
     return (

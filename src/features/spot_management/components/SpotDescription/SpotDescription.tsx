@@ -102,7 +102,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                 <RiderCard desktop={false} />
                             }
                         </div>
-                        <ButtonContainer onEdit={onEdit} onDelete={onDelete} />
+                        <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
                         <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>
@@ -209,7 +209,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         <div className="px-1 md:px-2 my-3 flex flex-col gap-1">
                             <h2 className="text-grey text-xl">Community Ratings</h2>
                             {reviews.map(review => (
-                                <ReviewCard key={review.id} review={review} onEdit={() => handleCommentEdit(review)} />
+                                <ReviewCard key={review.id} review={review} onClick={() => handleCommentEdit(review)} description />
                             ))}
                         </div>
                     }

@@ -29,7 +29,7 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
     const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     return (
-        <div className="relative w-full h-full inset-0">
+        <div className="sticky w-full h-full inset-0">
             <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}
                 style={{ height: '100%', width: '100%' }}
                 zoomControl={false}>

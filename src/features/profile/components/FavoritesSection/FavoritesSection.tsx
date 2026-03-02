@@ -19,7 +19,7 @@ export function FavoritesSection() {
 
     if (!profile || !spots) return
 
-    if (!profile.favorites) return (
+    if (!profile.favorites || !profile.favorites.length) return (
         <div>
             <h2>Your favorites spots</h2>
             <p className="text-grey text-sm">You have not saved any spot yet.</p>
@@ -34,18 +34,15 @@ export function FavoritesSection() {
     return (
         <div className="-mt-1">
             <h2>Your favorites spots</h2>
-            {profile.favorites.length > 0 ?
-                <div className="flex gap-1 flex-col mt-1">
-                    {paginatedSpots.map(favorite => {
-                        const spot = spots.find(spot => spot.id === favorite)
-                        if (!spot) return;
-                        return (
-                            <FavoriteSpotCard key={favorite} spot={spot} />
-                        )
-                    })}
-                </div>
-                : <p className="text-grey text-sm">You have not saved any spot yet.</p>
-            }
+            <div className="flex gap-1 flex-col mt-1">
+                {paginatedSpots.map(favorite => {
+                    const spot = spots.find(spot => spot.id === favorite)
+                    if (!spot) return;
+                    return (
+                        <FavoriteSpotCard key={favorite} spot={spot} />
+                    )
+                })}
+            </div>
             {totalPages > 1 &&
                 <div className="flex gap-0.5 items-center text-sm">
                     <Button style="tertiary" onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1}>Prev</Button>
