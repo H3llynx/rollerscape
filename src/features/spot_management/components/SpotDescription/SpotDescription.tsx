@@ -1,7 +1,6 @@
 import { Check, Info, MapPin, PencilLine, PencilOffIcon, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
 import { TRAFFIC_LEVELS } from "../../../../config/spots";
 import { getReviews } from "../../../../services/spots";
@@ -10,9 +9,11 @@ import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
 import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
+import { DesktopSpotHeader } from "../DesktopSpotHeader/DesktopSpotHeader";
 import { ReviewCard } from "../ReviewCard/ReviewCard";
 import { ReviewForm } from "../ReviewForm/ReviewForm";
 import { RiderCard } from "../RiderCard/RiderCard";
+import { SpotPhotos } from "../SpotPhotos/SpotPhotos";
 import "./SpotDescription.css";
 
 type SpotDescription = {
@@ -29,6 +30,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [reviewToEdit, setReviewToEdit] = useState<Review | null>(null);
     const { loadSpots } = useSpots();
+    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchComments = async () => {
         if (!selectedSpot) return;
@@ -57,34 +59,18 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         loadSpots();
     }
 
-    if (!selectedSpot) return;
+    const reviewsPerPage = 6;
+    const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+    const paginatedReviews = reviews.slice(
+        (currentPage - 1) * reviewsPerPage,
+        currentPage * reviewsPerPage
+    );
 
-    const src = selectedSpot.photos && selectedSpot.photos.length > 0
-        ? selectedSpot.photos[0]
-        : Skater
+    if (!selectedSpot) return;
 
     return (
         <>
-            <div className="hidden md:block relative w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
-                <img src={src} onError={(e) => {
-                    const img = e.currentTarget;
-                    if (img.src !== Skater) {
-                        img.src = Skater;
-                    }
-                }}
-                    alt="" className="w-full h-full object-cover" />
-                {selectedSpot.creator_profile &&
-                    <>
-                        <p className="spot-created-by bg-blur cursor-pointer">
-                            Submitted by <span className="font-bold text-text-secondary" tabIndex={0}>
-                                {selectedSpot.creator_profile.name}</span>
-                        </p>
-                        <div className="rider-card-container right-[5px] bottom-[28px]">
-                            <RiderCard />
-                        </div>
-                    </>
-                }
-            </div>
+            <DesktopSpotHeader />
             <article className="pb-2 md:py-1 text-sm relative z-1">
                 <div className="px-1 md:px-2">
                     <div className="flex justify-between items-start">
@@ -189,29 +175,27 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         </>
                     }
                 </div>
-                {selectedSpot.photos && selectedSpot.photos.length > 0 &&
-                    <div className="gallery">
-                        <h3 className="mt-1">Photos:</h3>
-                        <div className="slider">
-                            {selectedSpot.photos.map((photo, i) => (
-                                <img key={i}
-                                    src={photo}
-                                    alt="" />
-                            ))}
-                        </div>
-                    </div>
-                }
+                <SpotPhotos />
                 <div ref={commentsRef}>
                     {profile && isRating &&
                         <ReviewForm onSuccess={handleCommentSubmit} reviewToEdit={reviewToEdit} />
                     }
                     {reviews.length > 0 &&
-                        <div className="px-1 md:px-2 my-3 flex flex-col gap-1">
-                            <h2 className="text-grey text-xl">Community Ratings</h2>
-                            {reviews.map(review => (
-                                <ReviewCard key={review.id} review={review} onClick={() => handleCommentEdit(review)} description />
-                            ))}
-                        </div>
+                        <>
+                            <div className=" md:px-2 mt-3.5 flex flex-col gap-1">
+                                <h2 className="text-xl">Community Ratings</h2>
+                                {paginatedReviews.map(review => (
+                                    <ReviewCard key={review.id} review={review} onClick={() => handleCommentEdit(review)} description />
+                                ))}
+                            </div>
+                            {totalPages > 1 &&
+                                <div className="px-1 md:px-2 flex gap-0.5 items-center text-sm">
+                                    <Button style="tertiary" className="text-text" onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1}>Prev</Button>
+                                    <span className="text-grey">{currentPage} / {totalPages}</span>
+                                    <Button style="tertiary" className="text-text" onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages}>Next</Button>
+                                </div>
+                            }
+                        </>
                     }
                 </div>
             </article >

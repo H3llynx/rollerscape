@@ -18,18 +18,18 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
     );
     const startIcon = L.divIcon({
         html: renderToString(
-            <MapPin color="var(--color-red)"
-                fill="var(--color-white)"
-                strokeWidth={3}
+            <MapPin color="var(--color-dark)"
+                fill="var(--color-yellow-2)"
+                strokeWidth={2}
                 size={29} />),
         iconAnchor: [18, 26]
     });
 
     const endIcon = L.divIcon({
         html: renderToString(
-            <Flag color="var(--color-red)"
-                fill="var(--color-white)"
-                strokeWidth={3}
+            <Flag color="var(--color-dark-3)"
+                fill="var(--color-yellow-2)"
+                strokeWidth={2}
                 size={30} />),
         iconAnchor: [5, 28]
     });
@@ -45,7 +45,7 @@ export function FavoriteSpotCard({ spot }: { spot: SpotFullInfo }) {
                 <Polyline
                     positions={coords}
                     pathOptions={{
-                        color: "var(--color-red)",
+                        color: "var(--color-yellow-2)",
                         weight: 5,
                     }}
                 />

@@ -20,7 +20,7 @@ export function RouteDisplay({ data, selected, custom = false, onSelect }: Route
     const startIcon = L.icon({
         iconUrl: custom ? StartMarker : StartMarker2,
         iconSize: [50, 50],
-        iconAnchor: [26, 41],
+        iconAnchor: [26, 36],
         className: "spot-marker"
     });
 
@@ -33,7 +33,7 @@ export function RouteDisplay({ data, selected, custom = false, onSelect }: Route
 
     const getColor = () => {
         if (custom) return "green";
-        if (selected) return "var(--color-rgba-turquoise)";
+        if (selected) return "var(--color-turquoise)";
         return "var(--color-grey)";
     };
     const getWeight = () => {

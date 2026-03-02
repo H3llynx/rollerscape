@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { Marker } from 'react-leaflet';
-import Roller from "../../../../assets/markers/marker.png";
+import Wheel from "../../../../assets/wheel.png";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 
@@ -13,9 +13,9 @@ type SpotMarker = {
 }
 
 const spotIcon = L.icon({
-    iconUrl: Roller,
-    iconSize: [50, 50],
-    iconAnchor: [28, 45],
+    iconUrl: Wheel,
+    iconSize: [35, 35],
+    iconAnchor: [21, 18],
     className: "spot-marker"
 });
 

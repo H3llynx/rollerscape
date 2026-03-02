@@ -143,7 +143,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                                                     dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
                                                 />
                                             )
-                                        if (spot.location_type === "route") {
+                                        if (spot.location_type === "route" && spot !== selectedSpot) {
                                             const start = [spot.coordinates[0].lat, spot.coordinates[0].lon];
                                             const end = [spot.coordinates[spot.coordinates.length - 1].lat, spot.coordinates[spot.coordinates.length - 1].lon];
                                             return (
