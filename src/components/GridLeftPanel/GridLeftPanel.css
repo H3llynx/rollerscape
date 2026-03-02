@@ -6,7 +6,7 @@
 }
 
 .expanded {
-    @apply grid-cols-1 grid-rows-[1fr_25%] md:grid-rows-1 md:grid-cols-[450px_1fr];
+    @apply grid-cols-1 grid-rows-[1fr_25%] md:grid-rows-1 lg:grid-cols-[450px_1fr] md:grid-cols-[350px_1fr];
 }
 
 .collapsed {

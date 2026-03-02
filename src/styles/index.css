@@ -157,7 +157,7 @@
   }
 
   input {
-    @apply border border-grey;
+    @apply border border-border;
 
     &:not([type="checkbox"], [type="radio"]) {
       @apply rounded-lg font-main font-medium text-sm px-1 py-0.5 w-full;
@@ -188,7 +188,7 @@
   }
 
   textarea {
-    @apply border border-grey rounded-lg px-1 mt-0.5 py-0.5 min-h-6 w-full;
+    @apply border border-border rounded-lg px-1 mt-0.5 py-0.5 min-h-6 w-full;
 
     &::-webkit-scrollbar {
       @apply w-[4px];

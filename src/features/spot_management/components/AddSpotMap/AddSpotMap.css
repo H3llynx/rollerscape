@@ -1,0 +1,43 @@
+@reference "../../../../styles/index.css";
+
+.route-mode {
+    &::after {
+        position: absolute;
+        top: -2rem;
+        left: 0rem;
+        width: max-content;
+        background: var(--color-rgba-grey);
+        color: var(--color-white);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 5px;
+        border-radius: 5px;
+        font-size: small;
+        font-weight: 500;
+        transform: scale(0);
+        transition: var(--default-transition)
+    }
+}
+
+.suggestion::after {
+    content: "Set a start and end point and we’ll suggest routes for you.";
+}
+
+.custom::after {
+    content: "Drop pins along the way to draw your own route";
+}
+
+.route-controls {
+    @apply bg-bg-main border-2 border-grey text-text px-0.5 rounded-xl;
+
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .route-mode {
+
+        &:hover::after,
+        &:focus-visible::after {
+            transform: scale(1);
+        }
+    }
+}

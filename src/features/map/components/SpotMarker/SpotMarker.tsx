@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { Marker } from 'react-leaflet';
-import Roller from "../../../../assets/marker.png";
+import Roller from "../../../../assets/markers/marker.png";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 

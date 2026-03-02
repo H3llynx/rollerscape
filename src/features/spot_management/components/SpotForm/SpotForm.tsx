@@ -13,6 +13,7 @@ import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
 import type { Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { useSpots } from "../../../map/hooks/useSpots";
+import "./SpotForm.css";
 
 type SpotForm = {
     isAdding: boolean;
@@ -116,19 +117,20 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
                 }
                 {isAdding && <Button style="tertiary" className="text-grey" onClick={() => navigate("/")}>Cancel</Button>}
             </div>
-            <p className="flex flex-col gap-0.5 md:font-special border p-0.5 rounded-lg mb-1 md:mr-1 bg-bg-rgba slight-shadow">
-                <span className="text-text-secondary">
-                    <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
-                    {locationType === "route"
-                        ? "Click two points on the map to get route suggestions."
-                        : "Pin your skate spot on the map"
-                    }
-                </span>
-                <span>
-                    <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>
-                    Add all the details below <ChevronDown className="inline" />
-                </span>
-            </p>
+            {isAdding &&
+                <p className="form-info slight-shadow">
+                    <span className="text-text-secondary">
+                        <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
+                        {locationType === "route"
+                            ? "Click two points on the map to get route suggestions, or draw your custom itinerary."
+                            : "Pin your skate spot on the map"
+                        }
+                    </span>
+                    <span>
+                        <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>
+                        Add all the details below <ChevronDown className="inline" />
+                    </span>
+                </p>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     label={name.label}

@@ -1,6 +1,8 @@
 @reference "../../../../styles/index.css";
 
 .filter-container {
+    @apply w-full md:w-fit;
+
     &:has(#expand-filters:checked) {
 
         #spot-type-filters {

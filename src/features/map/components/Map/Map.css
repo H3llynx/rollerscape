@@ -71,7 +71,7 @@
 }
 
 .controls {
-    @apply flex flex-col md:flex-row gap-1 pb-[5px] items-start md:items-end;
+    @apply flex flex-row pb-[5px] items-end flex-wrap md:mr-4;
 }
 
 .track-me-btn {
@@ -93,11 +93,6 @@
         font-weight: 500;
         transform: scale(0);
         transition: var(--default-transition)
-    }
-
-    &:hover::after,
-    &:focus-visible::after {
-        transform: scale(1);
     }
 
     .track-icon {
@@ -125,9 +120,22 @@
         transform: scale(0);
         transition: var(--default-transition)
     }
+}
 
-    &:hover::after,
-    &:hover::after {
-        transform: scale(1);
+@media (hover: hover) and (pointer: fine) {
+    .add-spot-btn {
+
+        &:hover::after,
+        &:focus-visible::after {
+            transform: scale(1);
+        }
+    }
+
+    .track-me-btn {
+
+        &:hover::after,
+        &:focus-visible::after {
+            transform: scale(1);
+        }
     }
 }

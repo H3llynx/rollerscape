@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { Marker } from 'react-leaflet';
-import SpotMarker from "../../../../assets/spot-marker.png";
+import SpotMarker from "../../../../assets/markers/spot-marker.png";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 
 const spotIcon = L.icon({

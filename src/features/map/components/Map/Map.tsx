@@ -5,7 +5,7 @@ import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leafl
 import Control from "react-leaflet-custom-control";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useNavigate } from "react-router";
-import Add from "../../../../assets/add.png";
+import AddButton from "../../../../assets/add.png";
 import { Button } from "../../../../components/Button/Button";
 import { layers } from "../../../../config/leaflet";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
@@ -29,7 +29,7 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
     const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     return (
-        <div className="sticky w-full h-full inset-0">
+        <div className="relative w-full h-full inset-0">
             <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}
                 style={{ height: '100%', width: '100%' }}
                 zoomControl={false}>
@@ -57,14 +57,14 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
                         <Control position="bottomleft">
                             <div className="controls">
                                 {other}
-                                <div className="flex gap-0.5 md:gap-1 items-center flex-wrap md:flex-nowrap">
+                                <div className="flex gap-0.5 md:gap-1 items-center flex-wrap">
                                     {profile && pathname !== "/add-spot" &&
                                         <Button
                                             style="tertiary"
                                             className="add-spot-btn"
                                             aria-label="Add new spot"
                                             onClick={() => navigate("/add-spot")}>
-                                            <img src={Add} className="w-10 md:w-11 h-auto" />
+                                            <img src={AddButton} className="h-4.5 w-auto pointer-events-none" />
                                         </Button>
                                     }
                                     {trackUser &&

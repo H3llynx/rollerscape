@@ -84,14 +84,14 @@ export const reverseGeocode = async ({ lat, lon }: Coordinates) => {
     }
 };
 
-export const fetchRoute = async (routeCoords: RouteCoordinates): Promise<OsrmRoute[] | null> => {
+export const fetchRoute = async (routeCoords: RouteCoordinates, signal: AbortSignal): Promise<OsrmRoute[] | null> => {
     const { start, end, middle } = routeCoords;
     if (!start || !end) return null;
     try {
         const osrmUrl = routeCoords.middle && middle
             ? `${urls.osrm}/${start.lon},${start.lat};${middle.lon},${middle.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
             : `${urls.osrm}/${start.lon},${start.lat};${end.lon},${end.lat}?alternatives=true&geometries=geojson&overview=full`
-        const response = await fetch(osrmUrl);
+        const response = await fetch(osrmUrl, { signal });
         const data = await response.json();
         return data.routes;
     } catch (error) {

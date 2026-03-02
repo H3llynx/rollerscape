@@ -1,0 +1,7 @@
+@reference "../../../../styles/index.css";
+
+.form-info {
+    @apply text-base flex flex-col gap-1 font-special border border-border p-1 rounded-lg mb-1 md:mr-1;
+    background: url(../../../../assets/mask.png);
+    background-size: cover;
+}
