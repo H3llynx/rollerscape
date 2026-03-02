@@ -2,6 +2,7 @@
 import { Camera, ChevronDown, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { IconInput } from "../../../../components/IconInput/IconInput";
@@ -41,6 +42,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
     const [error, setError] = useState<boolean>(false);
     const [photoLoading, setPhotoLoading] = useState<boolean>(false);
     const selectedScore = watch(surface_quality.db_key) as number;
+    const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     useEffect(() => {
         if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
@@ -119,15 +121,20 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
             </div>
             {isAdding &&
                 <p className="form-info slight-shadow">
-                    <span className="text-text-secondary">
-                        <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
-                        {locationType === "route"
-                            ? "Click two points on the map to get route suggestions, or draw your custom itinerary."
-                            : "Pin your skate spot on the map"
-                        }
-                    </span>
+                    {locationType === "route" && isDesktop &&
+                        <span className="text-text-secondary">
+                            <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
+                            Click two points on the map to get route suggestions, or draw your custom itinerary.
+                        </span>
+                    }
+                    {locationType === "point" &&
+                        <span className="text-text-secondary">
+                            <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
+                            Pin your skate spot on the map
+                        </span>
+                    }
                     <span>
-                        <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>
+                        {(isDesktop || locationType === "point") && <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>}
                         Add all the details below <ChevronDown className="inline" />
                     </span>
                 </p>}

@@ -67,10 +67,6 @@
 }
 
 @layer base {
-  html {
-    background: var(--color-bg-main);
-  }
-
   body {
     width: 100vw;
     max-height: 100dvh;

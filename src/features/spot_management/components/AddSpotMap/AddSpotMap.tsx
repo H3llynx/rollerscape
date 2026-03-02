@@ -1,5 +1,6 @@
-import { MapPinX, Undo2 } from "lucide-react";
+import { CheckCircle, MapPinX, Undo2 } from "lucide-react";
 import { useEffect, useState, type Dispatch, type RefObject, type SetStateAction } from "react";
+import { useMediaQuery } from "react-responsive";
 import CreateCustomButton from "../../../../assets/build-route.png";
 import UseRouteButton from "../../../../assets/use-route.png";
 import { Button } from "../../../../components/Button/Button";
@@ -30,6 +31,8 @@ type AddSpotMap = {
     custom: boolean;
     setCustom: Dispatch<SetStateAction<boolean>>;
     customDistanceRef: RefObject<number>;
+    isAddingRoute: boolean;
+    setIsAddingRoute: Dispatch<SetStateAction<boolean>>
 }
 
 export function AddSpotMap({
@@ -44,11 +47,14 @@ export function AddSpotMap({
     gpxCoordinates,
     custom,
     setCustom,
-    customDistanceRef
+    customDistanceRef,
+    isAddingRoute,
+    setIsAddingRoute
 }: AddSpotMap) {
     const { center, trackUser } = useCenter();
     const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinates>({ start: null, end: null });
     const [loading, setLoading] = useState(false);
+    const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     useEffect(() => {
         const controller = new AbortController();
@@ -100,6 +106,7 @@ export function AddSpotMap({
                 customDistanceRef.current += distance;
             }
             setSpotCoordinates(prev => [...prev, { lat, lon }]);
+            if (!isAddingRoute) setIsAddingRoute(true);
         }
     };
 
@@ -112,6 +119,7 @@ export function AddSpotMap({
             customDistanceRef.current -= distance;
         }
         setSpotCoordinates(prev => prev.slice(0, -1));
+        setIsAddingRoute(true)
     };
 
     const otherControls = (
@@ -144,13 +152,25 @@ export function AddSpotMap({
                                 <MapPinX aria-hidden />
                             </Button>
                             {custom && spotCoordinates.length > 0 &&
-                                <Button
-                                    style="icon"
-                                    className="route-controls"
-                                    onClick={handleUndoPoint}
-                                    aria-label="Undo last point">
-                                    <Undo2 aria-hidden />
-                                </Button>
+                                <>
+                                    <Button
+                                        style="icon"
+                                        className="route-controls"
+                                        onClick={handleUndoPoint}
+                                        aria-label="Undo last point">
+                                        <Undo2 aria-hidden />
+                                    </Button>
+                                    {!isDesktop &&
+                                        <Button
+                                            style="tertiary"
+                                            className="route-controls"
+                                            onClick={() => setIsAddingRoute(false)}
+                                            aria-label="Confirm itinerary">
+                                            <CheckCircle aria-hidden strokeWidth={2} />
+                                            Done
+                                        </Button>
+                                    }
+                                </>
                             }
                         </div>
                     }

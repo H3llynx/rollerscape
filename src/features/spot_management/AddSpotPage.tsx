@@ -38,12 +38,19 @@ export function AddSpotPage() {
     const [custom, setCustom] = useState<boolean>(false);
     const dialogRef = useRef<HTMLDialogElement>(null);
     const customDistanceRef = useRef<number>(0);
+    const [isAddingRoute, setIsAddingRoute] = useState<boolean>(false);
 
     useEffect(() => {
         if (error) {
             dialogRef.current?.showModal();
         }
     }, [error]);
+
+    useEffect(() => {
+        if (locationType && locationType === "route")
+            setIsAddingRoute(true);
+        if (routes.length) setIsAddingRoute(false)
+    }, [locationType, routes]);
 
     const handleClose = () => {
         dialogRef.current?.close();
@@ -112,7 +119,7 @@ export function AddSpotPage() {
         <>
             <Header style="map" />
             {profile && center &&
-                <GridLeftPanel collapsed={!confirmedLocationType} isAdding>
+                <GridLeftPanel collapsed={!confirmedLocationType} isAddingRoute={isAddingRoute}>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <div className="left-panel-container px-2 pt-1.5 pb-2 md:pt-8">
@@ -138,6 +145,8 @@ export function AddSpotPage() {
                         custom={custom}
                         setCustom={setCustom}
                         customDistanceRef={customDistanceRef}
+                        isAddingRoute={isAddingRoute}
+                        setIsAddingRoute={setIsAddingRoute}
                     />
                 </GridLeftPanel>
             }

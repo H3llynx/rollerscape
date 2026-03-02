@@ -4,15 +4,15 @@ import "./GridLeftPanel.css";
 type GridLeftPanel = {
     collapsed?: boolean;
     children: ReactNode;
-    isAdding?: boolean;
+    isAddingRoute?: boolean;
 }
 
-export function GridLeftPanel({ children, isAdding = false, collapsed = true }: GridLeftPanel) {
+export function GridLeftPanel({ children, isAddingRoute = false, collapsed = true }: GridLeftPanel) {
     return (
         <div className={`full-width-container
             ${collapsed
                 ? "collapsed"
-                : `expanded ${isAdding ? "grid-rows-[1fr_80px]" : "grid-rows-[1fr_25%]"}`
+                : `expanded ${isAddingRoute ? "grid-rows-[1fr_60px]" : "grid-rows-[1fr_25%]"}`
             }`}
         >
             {children}

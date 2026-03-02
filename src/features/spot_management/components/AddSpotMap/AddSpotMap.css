@@ -29,7 +29,6 @@
 
 .route-controls {
     @apply bg-bg-main border-2 border-grey text-text px-0.5 rounded-xl;
-
 }
 
 @media (hover: hover) and (pointer: fine) {
