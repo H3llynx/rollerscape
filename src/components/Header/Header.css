@@ -10,7 +10,7 @@ header {
         left: 0;
         right: 0;
         pointer-events: none;
-        height: 120px;
+        height: 160px;
         background: linear-gradient(to bottom, var(--color-bg-rgba), transparent);
         z-index: -1;
     }

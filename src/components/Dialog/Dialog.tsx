@@ -21,7 +21,7 @@ const dialogVariants = tv({
 export const Dialog = forwardRef<HTMLDialogElement, Dialog>(({ close, children, style = "default" }, ref) => {
     return (
         <dialog ref={ref} className={dialogVariants({ style })}>
-            <button onClick={close} aria-label="Close dialog" className="absolute top-1 right-1">
+            <button onClick={close} tabIndex={0} aria-label="Close dialog" className="absolute top-1 right-1">
                 <X aria-hidden />
             </button>
             {children}

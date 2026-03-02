@@ -1,0 +1,27 @@
+@reference "../../../../styles/index.css";
+
+.gallery {
+    @apply pl-1 md:pl-2 pr-0.5 mt-1.5;
+
+    .slider {
+        @apply flex gap-0.5 overflow-x-scroll h-[200px] pb-[4px] shrink-0 mt-0.5;
+        -webkit-overflow-scrolling: touch;
+
+        img {
+            @apply h-full w-auto border border-bg-rgba rounded-lg cursor-pointer;
+        }
+
+        &::-webkit-scrollbar {
+            @apply h-[6px];
+        }
+    }
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    @apply text-text-secondary;
+}
+
+.swiper-pagination-bullet-active {
+    @apply bg-text-secondary;
+}
