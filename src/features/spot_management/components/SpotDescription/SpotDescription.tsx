@@ -182,7 +182,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     }
                     {reviews.length > 0 &&
                         <>
-                            <div className=" md:px-2 mt-3.5 flex flex-col gap-1">
+                            <div className="px-1 md:px-2 mt-3.5 flex flex-col gap-1">
                                 <h2 className="text-xl">Community Ratings</h2>
                                 {paginatedReviews.map(review => (
                                     <ReviewCard key={review.id} review={review} onClick={() => handleCommentEdit(review)} description />

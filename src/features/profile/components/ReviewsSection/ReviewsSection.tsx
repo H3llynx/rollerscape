@@ -42,7 +42,7 @@ export function ReviewsSection() {
 
     return (
         <SectionTemplate title="Your reviews">
-            <div className="flex gap-1 flex-col mt-1">
+            <div className="flex gap-1 flex-col mt-1 text-sm">
                 {paginatedReviews.map(review => {
                     if (!spots) return;
                     const spot = spots.find(spot => spot.id === review.spot_id)

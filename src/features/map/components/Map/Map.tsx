@@ -57,14 +57,14 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
                         <Control position="bottomleft">
                             <div className="controls">
                                 {other}
-                                <div className="flex gap-0.5 md:gap-1 items-center flex-wrap">
+                                <div className="flex md:gap-1 items-center">
                                     {profile && pathname !== "/add-spot" &&
                                         <Button
                                             style="tertiary"
-                                            className="add-spot-btn"
+                                            className="add-spot-btn mr-0.5"
                                             aria-label="Add new spot"
                                             onClick={() => navigate("/add-spot")}>
-                                            <img src={AddButton} className="h-4.5 w-auto pointer-events-none" />
+                                            <img src={AddButton} className="w-11 md:w-12 pointer-events-none" />
                                         </Button>
                                     }
                                     {trackUser &&

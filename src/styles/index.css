@@ -297,8 +297,4 @@
   }
 }
 
-@media (width <=48rem) {
-  .spot-types-grid {
-    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
-  }
-}
+;

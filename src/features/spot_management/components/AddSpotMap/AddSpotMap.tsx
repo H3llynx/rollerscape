@@ -124,14 +124,14 @@ export function AddSpotMap({
                             className="route-mode suggestion"
                             aria-label="Use route suggestion"
                             onClick={handleCustom}>
-                            <img src={UseRouteButton} className="h-4.5 w-auto pointer-events-none shrink-0" />
+                            <img src={UseRouteButton} className="w-11 md:w-12 h-auto pointer-events-none shrink-0" />
                         </Button>
                         : <Button
                             style="tertiary"
                             className="route-mode custom"
                             aria-label="Build custom route"
                             onClick={handleCustom}>
-                            <img src={CreateCustomButton} className="h-4.5 w-auto pointer-events-none shrink-0" />
+                            <img src={CreateCustomButton} className="w-11 md:w-12 h-auto pointer-events-none shrink-0" />
                         </Button>
                     }
                     {(routeCoordinates.start || spotCoordinates.length > 0) &&

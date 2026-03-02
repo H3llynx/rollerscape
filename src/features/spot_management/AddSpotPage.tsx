@@ -112,7 +112,7 @@ export function AddSpotPage() {
         <>
             <Header style="map" />
             {profile && center &&
-                <GridLeftPanel collapsed={!confirmedLocationType}>
+                <GridLeftPanel collapsed={!confirmedLocationType} isAdding>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <div className="left-panel-container px-2 pt-1.5 pb-2 md:pt-8">

@@ -8,9 +8,9 @@ type SectionTemplate = {
 
 export function SectionTemplate({ children, title, titleWithButton }: SectionTemplate) {
     return (
-        <div className="border p-1 md:p-2 border-text rounded-xl relative bg-bg-rgba bg-blur">
-            {title && <h2 className="absolute -top-1 bg-blur">{title}</h2>}
-            {titleWithButton && <div className="absolute -top-1 bg-blur max-w-[95%]">{titleWithButton}</div>}
+        <div className="md:border md:p-2 border-text rounded-xl relative md:bg-bg-rgba bg-blur">
+            {title && <h2 className="md:absolute -top-1 bg-blur">{title}</h2>}
+            {titleWithButton && <div className="md:absolute -top-1 bg-blur max-w-[95%]">{titleWithButton}</div>}
             {children}
         </div>
     )
