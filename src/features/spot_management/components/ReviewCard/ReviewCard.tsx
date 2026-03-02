@@ -7,6 +7,7 @@ import type { Review } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { getSkatingStyles, getSkillLevel } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
+import { useSpots } from "../../../map/hooks/useSpots";
 import { showAvatar } from "../../../profile/utils";
 
 type CommentCard = {
@@ -18,6 +19,8 @@ type CommentCard = {
 export function ReviewCard({ review, onClick, description }: CommentCard) {
     const [user, setUser] = useState<UserProfile | null>(null)
     const { profile } = useAuth();
+    const { spots } = useSpots();
+
     useEffect(() => {
         const getUser = async () => {
             const { data } = await getUserInfo(review.user_id);
@@ -25,6 +28,10 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
         }
         getUser();
     }, []);
+
+    if (!spots) return
+
+    const spot = spots.find(spot => spot.id === review.spot_id)
 
     return (
         <div className="card text-grey flex-col items-start relative bg-bg-rgba-2">
@@ -58,7 +65,7 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                         </div>
                     </div>
                 }
-                <div className="flex gap-0.5">
+                <div className={`flex gap-0.5 ${!description && "justify-between w-full"}`}>
                     <span aria-label={`${review.rating}`} className="shrink-0">
                         {Array.from({ length: review.rating! }, (_, i) => (
                             <Star
@@ -84,6 +91,7 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                     }
                 </div>
             </div>
+            {!description && <h3>{spot?.name}</h3>}
             {review.comment && <p className="font-light self-end ml-1">{review.comment}</p>}
             <i className="text-[0.7rem] self-end">{new Date(review.created_at).toLocaleDateString()}</i>
         </div>

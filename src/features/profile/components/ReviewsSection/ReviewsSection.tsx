@@ -13,7 +13,7 @@ import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
 export function ReviewsSection() {
     const { profile } = useAuth();
     const { spots } = useSpots();
-    const reviewsPerPage = 4;
+    const reviewsPerPage = 3;
     const [currentPage, setCurrentPage] = useState(1);
     const [reviews, setReviews] = useState<Review[]>([]);
     const navigate = useNavigate();
