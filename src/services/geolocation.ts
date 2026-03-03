@@ -1,6 +1,7 @@
 import { urls } from "../config/urls";
 import { formatLocation } from "../features/profile/utils";
 import type { Coordinates, Location, NominatimResult, OsrmRoute, RouteCoordinates } from "../types/geolocation_types";
+import supabase from "../utils/supabase";
 
 export const searchLocations = async (query: string, country: string): Promise<Location[]> => {
     if (query.length < 3) return [];
@@ -99,3 +100,13 @@ export const fetchRoute = async (routeCoords: RouteCoordinates, signal: AbortSig
         return null;
     }
 };
+
+export const getCoordsFromMaps = async (url: string) => {
+    const { data, error } = await supabase.functions.invoke("get-coords-from-google-url", { body: { url } });
+    if (error) return { data: null, error: "fetch error" };
+    const coords = data.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+    const lat = Number(coords[1]);
+    const lon = Number(coords[2]);
+    if (isNaN(lat) || isNaN(lon)) return { data: null, error: "wrong coordinates" };
+    return { data: { lat, lon }, error: null };
+}

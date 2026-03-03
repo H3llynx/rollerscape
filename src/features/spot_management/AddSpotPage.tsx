@@ -1,6 +1,9 @@
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router";
+import { Button } from "../../components/Button/Button";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../components/GridLeftPanel/GridLeftPanel";
 import { Header } from "../../components/Header/Header";
@@ -18,6 +21,7 @@ import { useCenter } from "../map/hooks/useCenter";
 import { useSpots } from "../map/hooks/useSpots";
 import { AddSpotMap } from "./components/AddSpotMap/AddSpotMap";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
+import { MapsToCoords } from "./components/MapsToCoords/MapsToCoords";
 import { SpotForm } from "./components/SpotForm/SpotForm";
 import { estimateDistanceFromCoords } from "./utils";
 
@@ -39,6 +43,8 @@ export function AddSpotPage() {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const customDistanceRef = useRef<number>(0);
     const [isAddingRoute, setIsAddingRoute] = useState<boolean>(false);
+    const isDesktop = useMediaQuery({ minWidth: 1024 });
+    const instructionsRef = useRef<HTMLParagraphElement>(null);
 
     useEffect(() => {
         if (error) {
@@ -51,6 +57,12 @@ export function AddSpotPage() {
             setIsAddingRoute(true);
         if (routes.length) setIsAddingRoute(false)
     }, [locationType, routes]);
+
+    useEffect(() => {
+        if (!isDesktop && locationType === "point" && spotCoordinates.length) {
+            instructionsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    }, [isDesktop, locationType, spotCoordinates.length]);
 
     const handleClose = () => {
         dialogRef.current?.close();
@@ -122,10 +134,36 @@ export function AddSpotPage() {
                 <GridLeftPanel collapsed={!confirmedLocationType} isAddingRoute={isAddingRoute}>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
-                            <div className="left-panel-container px-2 pt-1.5 pb-2 md:pt-8">
+                            <div className="left-panel-container px-2 md:px-1 lg:px-2 pt-1.5 pb-2 md:pt-8">
+                                <div className="flex gap-2 justify-between items-center md:pt-2 md:pb-1">
+                                    <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
+                                    <Button style="tertiary" className="text-grey" onClick={() => navigate("/")}>Cancel</Button>
+                                </div>
+                                <p className="form-info slight-shadow" ref={instructionsRef}>
+                                    <span className="text-text-secondary">
+                                        {isDesktop &&
+                                            <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>}
+                                        {locationType === "route"
+                                            ? "Click two points on the map to get route suggestions, or draw your custom itinerary."
+                                            : "Pin your skate spot on the map"
+                                        }
+                                    </span>
+                                    {locationType === "point" &&
+                                        <>
+                                            <p className="separator font-main">OR</p>
+                                            <MapsToCoords setSpotCoordinates={setSpotCoordinates} />
+                                        </>
+                                    }
+                                    {spotCoordinates.length > 0 &&
+                                        <span className="animate-[appear_1s_ease-in-out_forwards]">
+                                            {isDesktop &&
+                                                <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>}
+                                            Add all the details below <ChevronDown className="inline cursor-default" />
+                                        </span>
+                                    }
+                                </p>
                                 <SpotForm
                                     isAdding
-                                    locationType={locationType}
                                     spotCoordinates={spotCoordinates}
                                     onSubmit={addSpot}
                                 />

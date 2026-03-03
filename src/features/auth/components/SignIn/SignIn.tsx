@@ -61,8 +61,8 @@ export function SigIn({ onError, onEmailChange }: SignIn) {
                     <Button>Log in</Button>
                 }
             </form>
-            <p className="separator">OR</p>
-            <Button style="secondary" onClick={() => loginWithGoogle({ redirectURL })}>
+            <p className="separator md:pr-1">OR</p>
+            <Button style="secondary" className="md:mr-1" onClick={() => loginWithGoogle({ redirectURL })}>
                 <Google aria-hidden />Sign In With Google
             </Button>
         </section>

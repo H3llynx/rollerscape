@@ -1,9 +1,8 @@
 
-import { Camera, ChevronDown, Star, X } from "lucide-react";
+import { Camera, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
@@ -12,23 +11,21 @@ import { spotErrors } from "../../../../config/errors";
 import { SPOT_TYPES, spotFormFields, TRAFFIC_LEVELS } from "../../../../config/spots";
 import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
-import type { Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
+import type { SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { useSpots } from "../../../map/hooks/useSpots";
 import "./SpotForm.css";
 
 type SpotForm = {
     isAdding: boolean;
-    locationType?: Spot["location_type"];
     spotCoordinates: Coordinates[] | null;
     onSubmit: (newSpot: Record<string, unknown>) => void;
 }
 
-export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: SpotForm) {
+export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
     const { name, coordinates, photos, description, surface_quality, spot_types, traffic_levels } = spotFormFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting, errors } } = useForm();
     const hasPhoto = watch(photos.db_key);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const navigate = useNavigate();
     const { selectedSpot, setSelectedSpot } = useSpots();
     const [selectedTypes, setSelectedTypes] = useState<SpotType[]>(
         !isAdding && selectedSpot ? selectedSpot.spot_types.map(t => t.name) : []
@@ -112,32 +109,7 @@ export function SpotForm({ isAdding, locationType, spotCoordinates, onSubmit }: 
 
     return (
         <div className="flex flex-col gap-1 pb-2 md:py-2">
-            <div className="flex gap-2 justify-between items-center">
-                {isAdding
-                    ? <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
-                    : <h2>Edit spot</h2>
-                }
-                {isAdding && <Button style="tertiary" className="text-grey" onClick={() => navigate("/")}>Cancel</Button>}
-            </div>
-            {isAdding &&
-                <p className="form-info slight-shadow">
-                    {locationType === "route" && isDesktop &&
-                        <span className="text-text-secondary">
-                            <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
-                            Click two points on the map to get route suggestions, or draw your custom itinerary.
-                        </span>
-                    }
-                    {locationType === "point" &&
-                        <span className="text-text-secondary">
-                            <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>
-                            Pin your skate spot on the map
-                        </span>
-                    }
-                    <span>
-                        {(isDesktop || locationType === "point") && <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">2</span>}
-                        Add all the details below <ChevronDown className="inline" />
-                    </span>
-                </p>}
+            {!isAdding && <h2>Edit spot</h2>}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     label={name.label}

@@ -16,6 +16,7 @@ import { UserMarker } from "../../../map/components/UserMarker/UserMarker";
 import { useCenter } from "../../../map/hooks/useCenter";
 import { CoordinatePicker, estimateDistanceFromCoords } from "../../utils";
 import { AddMarker } from "../AddMarker/AddMarker";
+import { FlyToCoords } from "../FlyToCoords/FlyToCoords";
 import "./AddSpotMap.css";
 
 type AddSpotMap = {
@@ -189,6 +190,7 @@ export function AddSpotMap({
             other={otherControls}
         >
             <FlyToUser center={center} />
+            {locationType === "point" && <FlyToCoords coords={spotCoordinates} />}
             {confirmedLocationType && !gpxCoordinates &&
                 <>
                     {locationType === "point" &&

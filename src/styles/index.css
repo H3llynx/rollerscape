@@ -223,12 +223,12 @@
   }
 
   .separator {
-    @apply font-light text-xs text-center text-text flex items-center gap-1;
+    @apply font-light text-xs text-center text-grey flex items-center gap-1;
 
     &::before,
     &::after {
       content: "";
-      @apply w-full flex border-b border-white;
+      @apply w-full flex border-b border-grey;
     }
   }
 
@@ -281,6 +281,12 @@
     }
   }
 
+  .form-info {
+    @apply text-base flex flex-col gap-1 font-special border border-border p-1 rounded-lg mb-1 md:mr-1;
+    background: url(../../../../assets/mask.png);
+    background-size: cover;
+  }
+
 }
 
 @keyframes scale {
@@ -293,4 +299,12 @@
   }
 }
 
-;
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
