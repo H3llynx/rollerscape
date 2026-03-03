@@ -71,7 +71,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
     }
 
     return (
-        <>
+        <section id={`spot-edition-${selectedSpot.id}`}>
             <div className="hidden md:block relative  w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
                 <img src={src} alt="" className="w-full h-full object-cover" />
             </div>
@@ -98,6 +98,6 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
             <Dialog ref={dialogRef} style="error" close={handleClose}>
                 <p>{error}</p>
             </Dialog>
-        </>
+        </section>
     )
 }

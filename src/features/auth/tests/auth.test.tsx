@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { userEvent } from "@testing-library/user-event";
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
@@ -25,8 +25,6 @@ vi.mock('react-router', async () => {
 });
 
 describe("Authentication process", () => {
-    HTMLDialogElement.prototype.showModal = vi.fn();
-
     it("should display a popup if the user fails registration", async () => {
         vi.mocked(signIn).mockResolvedValueOnce(
             { data: null, error: { message: "Invalid credentials", status: 400 } } as any
@@ -41,10 +39,7 @@ describe("Authentication process", () => {
         await userEvent.type(screen.getByLabelText(/email address/i), "test@test.com");
         await userEvent.type(screen.getByLabelText(/password/i), "wrongpassword");
         await userEvent.click(screen.getByRole("button", { name: /log in/i }));
-
-        await waitFor(() => {
-            expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
-        });
+        expect(screen.getByRole("dialog", { hidden: true })).toHaveAttribute("open");
     });
 
     it("should redirect the user to the homepage if the user logs in correctly", async () => {
@@ -61,10 +56,7 @@ describe("Authentication process", () => {
         await userEvent.type(screen.getByLabelText(/email address/i), "test@test.com");
         await userEvent.type(screen.getByLabelText(/password/i), "correctpassword");
         await userEvent.click(screen.getByRole("button", { name: /log in/i }));
-
-        await waitFor(() => {
-            expect(mockNavigate).toHaveBeenCalled();
-        });
+        expect(mockNavigate).toHaveBeenCalled();
     });
 
     it("should display the user name in the homepage if the user is logged", () => {

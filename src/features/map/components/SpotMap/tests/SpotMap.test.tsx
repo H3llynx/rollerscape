@@ -1,20 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import { describe, expect, it, vi } from "vitest";
-import { makeSpot, valAuthNoUser } from '../../../../../tests/setup';
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
 import { SpotsContext } from '../../../context/SpotsContext';
+import { useCenter } from '../../../hooks/useCenter';
 import { SpotMap } from '../SpotMap';
 
-vi.mock("../../..//hooks/useCenter", () => ({
-    useCenter: () => ({
-        center: [40.4168, -3.7038],
-        setCenter: vi.fn(),
-        error: null,
-        setError: vi.fn(),
-        trackUser: vi.fn(),
-        profile: valAuthNoUser.profile,
-    })
+vi.mock("../../../hooks/useCenter", () => ({
+    useCenter: vi.fn(),
 }));
 
 vi.mock('react-leaflet', () => ({
@@ -62,7 +56,6 @@ vi.mock('../../MapFilters/MapFilters', () => ({
 }));
 
 const routeSpot = makeSpot({ id: "1", name: "Spot A", location_type: "point", spot_types: [{ id: 1, name: "street_plaza" }] });
-
 const pointSpot = makeSpot({ id: "2", name: "Spot B", location_type: "route", spot_types: [{ id: 2, name: "greenway" }] });
 
 
@@ -86,7 +79,56 @@ let spotsVal = {
     setSelectedSpot: () => { },
 }
 
-describe("Spot display on the map", () => {
+describe("Map display", () => {
+    it("should display the spots once user is logged", () => {
+        vi.mocked(useCenter).mockReturnValue({
+            center: [40.4168, -3.7038],
+            setCenter: vi.fn(),
+            error: null,
+            setError: vi.fn(),
+            trackUser: vi.fn(),
+            profile: valAuthUser.profile,
+        } as any);
+        render(MapArea(spotsVal))
+        expect(screen.getByTestId("map")).toBeInTheDocument();
+    });
+    it("should also display the spots if user is not logged but has allowed", () => {
+        vi.mocked(useCenter).mockReturnValue({
+            center: [40.4168, -3.7038],
+            setCenter: vi.fn(),
+            error: null,
+            setError: vi.fn(),
+            trackUser: vi.fn(),
+            profile: null,
+        } as any);
+        render(MapArea(spotsVal))
+        expect(screen.getByTestId("map")).toBeInTheDocument();
+    });
+    it("should open an error popup otherwise", async () => {
+        vi.mocked(useCenter).mockReturnValue({
+            center: [40.4168, -3.7038],
+            setCenter: vi.fn(),
+            error: "error",
+            setError: vi.fn(),
+            trackUser: vi.fn(),
+            profile: valAuthUser.profile,
+        } as any);
+        render(MapArea(spotsVal));
+        expect(screen.getByRole("dialog", { hidden: true })).toHaveAttribute("open");
+    });
+});
+
+describe("Spot display", () => {
+    beforeEach(() => {
+        vi.mocked(useCenter).mockReturnValue({
+            center: [40.4168, -3.7038],
+            setCenter: vi.fn(),
+            error: null,
+            setError: vi.fn(),
+            trackUser: vi.fn(),
+            profile: valAuthNoUser.profile,
+        } as any);
+    });
     it("shows the loading animation while spots are being fetched", () => {
         render(MapArea({ ...spotsVal, loading: true }));
         expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
@@ -112,9 +154,19 @@ describe("Spot display on the map", () => {
 });
 
 describe("Left panel behavior", () => {
+    beforeEach(() => {
+        vi.mocked(useCenter).mockReturnValue({
+            center: [40.4168, -3.7038],
+            setCenter: vi.fn(),
+            error: null,
+            setError: vi.fn(),
+            trackUser: vi.fn(),
+            profile: valAuthNoUser.profile,
+        } as any);
+    });
     it("should be collapsed if no spot is selected", () => {
         render(MapArea(spotsVal));
         const container = document.querySelector(".full-width-container");
         expect(container).toHaveClass("collapsed");
     });
-})
+});

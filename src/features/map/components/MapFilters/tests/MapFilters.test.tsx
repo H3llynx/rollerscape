@@ -1,4 +1,4 @@
-import { render, waitFor, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
@@ -56,13 +56,11 @@ describe("Filters on loading", () => {
         mockProfile = valAuthUser.profile;
         const { container } = render(MapArea(valAuthUser));
         const filterContainer = container.querySelector("#spot-type-filters");
-        await waitFor(() => {
-            const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox");
-            checkboxes.forEach(checkbox => {
-                if ((checkbox as HTMLInputElement).value === "greenway")
-                    expect(checkbox).toBeChecked();
-                else expect(checkbox).not.toBeChecked();
-            });
+        const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox");
+        checkboxes.forEach(checkbox => {
+            if ((checkbox as HTMLInputElement).value === "greenway")
+                expect(checkbox).toBeChecked();
+            else expect(checkbox).not.toBeChecked();
         });
     });
 });

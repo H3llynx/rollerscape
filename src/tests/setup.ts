@@ -57,3 +57,6 @@ export const makeSpot = (overrides?: Partial<SpotFullInfo>): SpotFullInfo => ({
     ...overrides,
 });
 
+HTMLDialogElement.prototype.showModal = vi.fn(function (this: HTMLDialogElement) {
+    this.setAttribute("open", "");
+});
