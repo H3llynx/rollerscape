@@ -39,7 +39,7 @@ export function ButtonContainer({ spot, onEdit, onDelete, onCancel, variant = "d
                     {profile && profile.favorites &&
                         <>
                             {profile.favorites.includes(spot.id) ?
-                                <Button style="icon" aria-label="Save as favorite" onClick={removeFromFav}>
+                                <Button style="icon" aria-label="Remove from favorites" onClick={removeFromFav}>
                                     <Star aria-hidden fill="var(--color-text)" />
                                 </Button>
                                 : <Button style="icon" aria-label="Save as favorite" onClick={addToFav}>

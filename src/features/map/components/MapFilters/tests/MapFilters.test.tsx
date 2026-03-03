@@ -20,8 +20,8 @@ vi.mock("../../../hooks/useCenter", () => ({
 }));
 
 const mockSpots = [
-    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: 1, name: "bowl" }] }),
-    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: 2, name: "street" }] }),
+    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: 1, name: "street_plaza" }] }),
+    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: 2, name: "greenway" }] }),
 ];
 
 const spotsVal = {
@@ -59,7 +59,7 @@ describe("Filters on loading", () => {
         await waitFor(() => {
             const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox");
             checkboxes.forEach(checkbox => {
-                if ((checkbox as HTMLInputElement).value === "street")
+                if ((checkbox as HTMLInputElement).value === "greenway")
                     expect(checkbox).toBeChecked();
                 else expect(checkbox).not.toBeChecked();
             });

@@ -150,9 +150,6 @@ export function AddSpotPage() {
                     />
                 </GridLeftPanel>
             }
-
-
-
             {!confirmedLocationType &&
                 <LocationTypeForm
                     locationType={locationType}

@@ -69,7 +69,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     if (!selectedSpot) return;
 
     return (
-        <>
+        <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
             <article className="pb-2 md:py-1 text-sm relative z-1">
                 <div className="px-1 md:px-2">
@@ -199,6 +199,6 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     }
                 </div>
             </article >
-        </>
+        </section>
     )
 }

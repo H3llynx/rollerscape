@@ -1,0 +1,120 @@
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
+import { describe, expect, it, vi } from "vitest";
+import { makeSpot, valAuthNoUser } from '../../../../../tests/setup';
+import { AuthContext } from '../../../../auth/context/AuthContext';
+import { SpotsContext } from '../../../context/SpotsContext';
+import { SpotMap } from '../SpotMap';
+
+vi.mock("../../..//hooks/useCenter", () => ({
+    useCenter: () => ({
+        center: [40.4168, -3.7038],
+        setCenter: vi.fn(),
+        error: null,
+        setError: vi.fn(),
+        trackUser: vi.fn(),
+        profile: valAuthNoUser.profile,
+    })
+}));
+
+vi.mock('react-leaflet', () => ({
+    LayerGroup: ({ children }: any) => <div data-testid="layer-group">{children}</div>,
+    MapContainer: ({ children }: any) => <div data-testid="map-container">{children}</div>,
+    TileLayer: () => null,
+    Marker: () => null,
+    Polyline: ({ positions }: any) => (
+        <div data-testid="polyline" data-positions={JSON.stringify(positions)} />
+    ),
+    useMap: vi.fn(() => ({ flyTo: vi.fn(), setView: vi.fn() })),
+    useMapEvents: vi.fn(() => null),
+}));
+
+vi.mock('../../Map/Map', () => ({
+    Map: ({ children }: any) => <div data-testid="map">{children}</div>,
+}));
+
+vi.mock('../../RouteDisplay/RouteDisplay', () => ({
+    RouteDisplay: ({ data, selected }: any) => (
+        selected
+            ? <div data-testid="route-display" data-coords={JSON.stringify(data)} />
+            : null
+    ),
+}));
+
+vi.mock('../../SpotMarker/SpotMarker', () => ({
+    SpotMarker: ({ spot }: any) => <div data-testid={`marker-${spot.id}`} />
+}));
+
+vi.mock('../../UserMarker/UserMarker', () => ({
+    UserMarker: () => null,
+}));
+
+vi.mock('../../FlyToUser/FlyToUser', () => ({
+    FlyToUser: () => null,
+}));
+
+vi.mock('../../FlyToSpot/FlyToSpot', () => ({
+    FlyToSpot: () => null,
+}));
+
+vi.mock('../../MapFilters/MapFilters', () => ({
+    MapFilters: () => null,
+}));
+
+const routeSpot = makeSpot({ id: "1", name: "Spot A", location_type: "point", spot_types: [{ id: 1, name: "street_plaza" }] });
+
+const pointSpot = makeSpot({ id: "2", name: "Spot B", location_type: "route", spot_types: [{ id: 2, name: "greenway" }] });
+
+
+const MapArea = (spotContext: any) => (
+    <MemoryRouter>
+        <AuthContext value={valAuthNoUser as any}>
+            <SpotsContext value={spotContext}>
+                <SpotMap zoom={12} />
+            </SpotsContext>
+        </AuthContext>
+    </MemoryRouter>
+);
+
+let spotsVal = {
+    spots: [routeSpot, pointSpot],
+    setSpots: () => { },
+    loading: false,
+    error: null,
+    loadSpots: () => Promise.resolve(),
+    selectedSpot: null,
+    setSelectedSpot: () => { },
+}
+
+describe("Spot display on the map", () => {
+    it("shows the loading animation while spots are being fetched", () => {
+        render(MapArea({ ...spotsVal, loading: true }));
+        expect(screen.getByLabelText(/loading/i)).toBeInTheDocument();
+    });
+    it("shows a marker for each spot of type 'point'", () => {
+        render(MapArea(spotsVal));
+        expect(screen.getByTestId("marker-1")).toBeInTheDocument();
+    });
+    it("shows two markers for each spot of type 'route'", () => {
+        render(MapArea(spotsVal));
+        expect(screen.getAllByTestId(/marker-2/)).toHaveLength(2);
+    });
+    it("Shows the itinerary (polyline) when a spote of type `route`is selected", () => {
+        spotsVal = { ...spotsVal, selectedSpot: routeSpot as any };
+        render(MapArea(spotsVal));
+        expect(screen.getByTestId("route-display")).toBeInTheDocument();
+    });
+    it("Hides the polyline when the route is unclicked / unselected", () => {
+        spotsVal = { ...spotsVal, selectedSpot: null };
+        render(MapArea(spotsVal));
+        expect(screen.queryByTestId("route-display")).not.toBeInTheDocument();
+    });
+});
+
+describe("Left panel behavior", () => {
+    it("should be collapsed if no spot is selected", () => {
+        render(MapArea(spotsVal));
+        const container = document.querySelector(".full-width-container");
+        expect(container).toHaveClass("collapsed");
+    });
+})

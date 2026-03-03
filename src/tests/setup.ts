@@ -9,6 +9,7 @@ vi.mock("../features/theme/component/ThemeToggle", () => ({
 
 export const valAuthNoUser = {
     user: null,
+    setUser: () => { },
     profile: null,
     setProfile: () => { },
     loading: false
@@ -16,6 +17,7 @@ export const valAuthNoUser = {
 
 export const valAuthUser = {
     user: { id: '123' },
+    setUser: () => { },
     profile: {
         id: "1",
         name: "Helene",
@@ -27,7 +29,7 @@ export const valAuthUser = {
         home_lon: null,
         skill_level: undefined,
         skating_style: ["cruising"],
-        preferred_spot_types: ["street"]
+        preferred_spot_types: ["greenway"]
     },
     setProfile: () => { },
     loading: false
@@ -54,3 +56,4 @@ export const makeSpot = (overrides?: Partial<SpotFullInfo>): SpotFullInfo => ({
     average_rating: null,
     ...overrides,
 });
+

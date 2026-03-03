@@ -17,15 +17,16 @@ type CommentCard = {
 }
 
 export function ReviewCard({ review, onClick, description }: CommentCard) {
-    const [user, setUser] = useState<UserProfile | null>(null)
+    const [reviewer, setReviewer] = useState<UserProfile | null>(null)
     const { profile } = useAuth();
     const { spots } = useSpots();
 
+    const getUser = async () => {
+        const { data } = await getUserInfo(review.user_id);
+        setReviewer(data);
+    }
+
     useEffect(() => {
-        const getUser = async () => {
-            const { data } = await getUserInfo(review.user_id);
-            setUser(data);
-        }
         getUser();
     }, []);
 
@@ -39,21 +40,21 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                 {description &&
                     <div className="flex items-center gap-0.5 text-border">
                         <div className="image-container">
-                            <img src={user ? showAvatar(user) : Skater}
+                            <img src={reviewer ? showAvatar(reviewer) : Skater}
                                 className="profile-avatar"
-                                alt={`${user?.name}'s profile picture`} />
+                                alt={`${reviewer?.name}'s profile picture`} />
                         </div>
                         <div>
                             <div className="flex flex-wrap items-center gap-[5px] mb-[5px]">
-                                <h3>{user?.name} </h3>
-                                {user?.skill_level &&
-                                    <span className="text-[0.65rem]">({getSkillLevel(user.skill_level)})</span>
+                                <h3>{reviewer?.name} </h3>
+                                {reviewer?.skill_level &&
+                                    <span className="text-[0.65rem]">({getSkillLevel(reviewer.skill_level)})</span>
                                 }
                             </div>
                             <ul className="mx-0 text-[0.65rem]">
-                                {user?.skating_style &&
+                                {reviewer?.skating_style &&
                                     <>
-                                        {user.skating_style.map((style, i) => (
+                                        {reviewer.skating_style.map((style, i) => (
                                             <li key={i}>
                                                 <Zap aria-hidden width={12} height={12} fill="var(--color-border)" className="inline mr-[5px]" />
                                                 {getSkatingStyles(style)}
