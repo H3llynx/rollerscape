@@ -14,7 +14,7 @@
 }
 
 .left-panel {
-    @apply h-max -mt-1 md:mt-0 md:h-full rounded-t-xl border-x border-rgba-grey bg-bg-main relative z-402 overflow-y-scroll order-1 md:order-0;
+    @apply h-max -mt-1 md:mt-0 md:h-full rounded-t-3xl bg-bg-main relative z-402 overflow-y-scroll order-1 md:order-0;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 
     .left-panel-container {

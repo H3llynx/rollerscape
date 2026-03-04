@@ -13,15 +13,15 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
     const skatingStyles = (
         <>
             {rider.skating_style.length > 1 ?
-                <ul className="mx-0 mt-[5px]">
+                <ul className="mx-0 mt-[5px] md:text-[0.7rem] inline md:block">
                     {rider.skating_style.map((style, i) => (
-                        <li className="text-[0.7rem]" key={i}>
+                        <li key={i} className="inline-block mr-[5px] md:block">
                             <Check className="inline mr-[3px]" width={15} height={15} />
                             {getSkatingStyles(style)}
                         </li>
                     ))}
                 </ul>
-                : <span className="text-[0.7rem]">{getSkatingStyles(rider.skating_style[0])}</span>
+                : <span className="md:text-[0.7rem]">{getSkatingStyles(rider.skating_style[0])}</span>
             }
         </>
     )
@@ -59,15 +59,15 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
             }
             {
                 !desktop &&
-                <div className="text-xs mt-1 border border-border rounded-lg p-0.5">
+                <div className="mt-1 border border-border rounded-lg p-0.5 text-border">
                     <p>Submitted by <span className="text-text-secondary font-bold">
                         {rider.name} </span>
                         {rider.skill_level &&
-                            <span className="text-[0.6rem]">({getSkillLevel(rider.skill_level)})</span>
+                            <span>({getSkillLevel(rider.skill_level)})</span>
                         }</p>
                     {rider.skating_style &&
                         <>
-                            <span className="font-medium">Skating style:</span>
+                            <span className="font-medium">Skating style: </span>
                             {skatingStyles}
                         </>
                     }

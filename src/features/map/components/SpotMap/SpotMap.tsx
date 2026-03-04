@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../../../components/GridLeftPanel/GridLeftPanel";
 import { Loading } from "../../../../components/Loading/Loading";
+import { MobileHideButton } from "../../../../components/MobileHideButton/MobileHideButton";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo, SpotType } from '../../../../types/spots_types';
 import { SpotLeftPanel } from "../../../spot_management/components/SpotLeftPanel/SpotLeftPanel";
@@ -110,13 +111,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                 <div className="left-panel scroll">
                     {selectedSpot &&
                         <div className="left-panel-container">
-                            <button
-                                className="md:hidden flex justify-center w-full p-[8px] h-2"
-                                aria-label="Hide spot details"
-                                onClick={() => setSelectedSpot(null)}
-                            >
-                                <div className="h-[6px] rounded-full w-[90px] bg-border opacity-60"></div>
-                            </button>
+                            <MobileHideButton onClick={() => setSelectedSpot(null)} />
                             <SpotLeftPanel />
                         </div>
                     }

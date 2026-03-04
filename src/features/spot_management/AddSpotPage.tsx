@@ -7,6 +7,7 @@ import { Button } from "../../components/Button/Button";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../components/GridLeftPanel/GridLeftPanel";
 import { Header } from "../../components/Header/Header";
+import { MobileHideButton } from "../../components/MobileHideButton/MobileHideButton";
 import { databases } from "../../config/databases";
 import { spotErrors } from "../../config/errors";
 import { spotFormFields } from "../../config/spots";
@@ -135,13 +136,7 @@ export function AddSpotPage() {
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <>
-                                <button
-                                    className="md:hidden flex justify-center w-full p-[8px] h-2"
-                                    aria-label="Hide spot details"
-                                    onClick={() => navigate("/")}
-                                >
-                                    <div className="h-[6px] rounded-full w-[90px] bg-border opacity-60"></div>
-                                </button>
+                                <MobileHideButton onClick={() => navigate("/")} />
                                 <div className="left-panel-container px-2 md:px-1 lg:px-2 pb-2 md:pt-8">
                                     <div className="flex gap-0.5 justify-between items-center pb-1 md:py-2">
                                         <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
