@@ -57,7 +57,7 @@ export function Map({ center, zoom, other, children, trackUser, controls = true 
                         <Control position="bottomleft">
                             <div className="controls">
                                 {other}
-                                <div className="flex md:gap-1 items-center pointer-events-auto">
+                                <div className="flex max-w-[80vw] flex-wrap md:gap-1 items-center pointer-events-auto">
                                     {profile && pathname !== "/add-spot" &&
                                         <Button
                                             style="tertiary"

@@ -8,7 +8,7 @@ vi.mock("../../features/auth/hooks/useAuth");
 
 describe("ProtectedRoute", () => {
     it("should redirect to /auth if user is not authenticated", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: null, loading: false, profile: null, setProfile: () => { } });
+        vi.mocked(useAuth).mockReturnValue({ user: null, setUser: () => { }, loading: false, profile: null, setProfile: () => { } });
 
         render(
             <MemoryRouter initialEntries={['/add-spot']}>
@@ -23,7 +23,7 @@ describe("ProtectedRoute", () => {
     });
 
     it("should render the protected route if user is authenticated", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: { id: '123' } as any, loading: false, profile: null, setProfile: () => { } });
+        vi.mocked(useAuth).mockReturnValue({ user: { id: '123' } as any, setUser: () => { }, loading: false, profile: null, setProfile: () => { } });
 
         render(
             <MemoryRouter>

@@ -92,7 +92,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             <RiderCard desktop={false} />
                         </div>
                     }
-                    <div className="flex items-center gap-[5px] text-grey mt-1">
+                    <div className="flex gap-[5px] text-grey mt-1">
                         <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
                     </div>
                     <div className="w-full flex gap-1 justify-between items-center flex-wrap my-1">

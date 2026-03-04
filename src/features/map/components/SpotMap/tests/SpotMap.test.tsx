@@ -55,8 +55,8 @@ vi.mock('../../MapFilters/MapFilters', () => ({
     MapFilters: () => null,
 }));
 
-const routeSpot = makeSpot({ id: "1", name: "Spot A", location_type: "point", spot_types: [{ id: 1, name: "street_plaza" }] });
-const pointSpot = makeSpot({ id: "2", name: "Spot B", location_type: "route", spot_types: [{ id: 2, name: "greenway" }] });
+const routeSpot = makeSpot({ id: "1", name: "Spot A", location_type: "point", spot_types: [{ id: "1", name: "street_plaza" }] });
+const pointSpot = makeSpot({ id: "2", name: "Spot B", location_type: "route", spot_types: [{ id: "2", name: "greenway" }] });
 
 
 const MapArea = (spotContext: any) => (

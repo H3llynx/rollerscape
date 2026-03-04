@@ -6,7 +6,7 @@
     &:has(#expand-filters:checked) {
 
         #spot-type-filters {
-            @apply block absolute md:relative bottom-[110%];
+            @apply block absolute md:relative bottom-[110%] w-max;
             animation: scale 0.5s forwards;
         }
     }

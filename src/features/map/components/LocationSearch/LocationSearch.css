@@ -2,7 +2,7 @@
 
 
 .search-container {
-    @apply flex items-center gap-0.5;
+    @apply flex items-center gap-0.5 my-1 md:my-0;
 
     #search-form {
         @apply relative overflow-hidden h-2.5 rounded-lg max-w-0 opacity-0 scale-x-0 invisible md:visible md:max-w-fit md:opacity-100 md:scale-100;
@@ -16,7 +16,7 @@
 
     &:has(#expand-search:checked) {
         #search-form {
-            @apply sticky visible max-w-fit opacity-100 scale-100;
+            @apply sticky visible max-w-2xs opacity-100 scale-100;
         }
     }
 
