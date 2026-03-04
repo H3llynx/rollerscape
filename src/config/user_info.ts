@@ -16,8 +16,8 @@ export const SKILLS = [
 ] as const;
 
 export const SKATING_STYLES = [
-    { value: "cruising", label: "Cruising & Fitness" },
-    { value: "artistic", label: "Artistic / Dance" },
-    { value: "freestyle", label: "Aggressive / Freestyle" },
-    { value: "dog_skating", label: "Dog Skating" }
+    { value: "cruising", label: "Cruising & Fitness", img: `${import.meta.env.BASE_URL}style_icons/fitness.png` },
+    { value: "artistic", label: "Artistic / Dance", img: `${import.meta.env.BASE_URL}style_icons/artistic.png` },
+    { value: "freestyle", label: "Aggressive / Freestyle", img: `${import.meta.env.BASE_URL}style_icons/aggresive.png` },
+    { value: "dog_skating", label: "Dog Skating", img: `${import.meta.env.BASE_URL}style_icons/dog_skating.png` }
 ] as const;

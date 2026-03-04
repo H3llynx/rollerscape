@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
 import { IconInput } from "../../../../components/IconInput/IconInput";
-import { Input } from "../../../../components/Input/Input";
 import { databases } from "../../../../config/databases";
 import { riderPreferencesErrors } from "../../../../config/errors";
 import { SPOT_TYPES } from "../../../../config/spots";
@@ -112,17 +111,20 @@ export function RollerbladerProfileSection() {
                             <span>Why are we asking this? </span>
                             So other skaters know where you're coming from. A cruiser and a street skater don't always agree on what makes a great spot — and that's totally fine! Your style gives context to your reviews and recommendations.                            </p>
                     </div>
-                    {SKATING_STYLES.map((style) => (
-                        <Input key={style.value}
-                            variant="checkbox"
-                            type="checkbox"
-                            value={style.value}
-                            icons={false}
-                            label={style.label}
-                            onChange={() => handleStyleChange(style.value)}
-                            checked={profile.skating_style?.includes(style.value)}
-                        />
-                    ))}
+                    <div className="cards-grid">
+                        {SKATING_STYLES.map((style) => (
+                            <IconInput
+                                key={style.value}
+                                id={style.value}
+                                value={style.value}
+                                label={style.label}
+                                onChange={() => handleStyleChange(style.value)}
+                                checked={profile.skating_style?.includes(style.value)}
+                            >
+                                <img src={style.img} alt={style.label} />
+                            </IconInput>
+                        ))}
+                    </div>
                 </fieldset>
                 <Dialog ref={dialogRef} style="error" close={handleClose}>
                     <p>{error}</p>

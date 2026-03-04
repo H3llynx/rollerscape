@@ -28,7 +28,7 @@ export function MapsToCoordsForm({ setSpotCoordinates }: { setSpotCoordinates: D
                     placeholder="Google Maps link here..."
                     id="maps-url"
                     type="url"
-                    className="slight-shadow"
+                    className="slight-shadow bg-blur"
                     value={url}
                     onChange={(e) => { setError(false), setUrl(e.target.value) }}
                     required
