@@ -8,7 +8,7 @@ import { redirecttoSpotUrl } from "../../../../config/urls";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
-import { Map } from "../../../map/components/Map/Map";
+import { MapBase } from "../../../map/components/MapBase/MapBase";
 import { ButtonContainer } from "../../../spot_management/components/ButtonContainer/ButtonContainer";
 import { FitBounds } from "../FitBounds/FitBounds";
 import "./SpotCard.css";
@@ -42,7 +42,7 @@ export function SpotCard({ spot, type }: { spot: SpotFullInfo, type: "favorite" 
     if (type === "favorite")
         return (
             <div className="card favorite-map-container -">
-                <Map
+                <MapBase
                     center={[spot.coordinates[0].lat, spot.coordinates[0].lon]}
                     zoom={12}
                     controls={false}
@@ -56,7 +56,7 @@ export function SpotCard({ spot, type }: { spot: SpotFullInfo, type: "favorite" 
                     />
                     <Marker position={coords[0]} icon={startIcon} />
                     {coords.length > 1 && <Marker position={coords[coords.length - 1]} icon={endIcon} />}
-                </Map>
+                </MapBase>
                 <div className="favorite-text-overlay overlay">
                     <button aria-label="See that spot on the map" onClick={() => navigate(redirecttoSpotUrl(spot.slug))} className="overlay">
                         <div className="px-1 text-left absolute top-0.5 w-full h-full">

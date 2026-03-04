@@ -10,7 +10,7 @@ import type { Coordinates, OsrmRoute, Route, RouteCoordinates } from "../../../.
 import type { Spot } from "../../../../types/spots_types";
 import { osrmToJsonCoords } from "../../../../utils/helpers";
 import { FlyToUser } from "../../../map/components/FlyToUser/FlyToUser";
-import { Map } from "../../../map/components/Map/Map";
+import { MapBase } from "../../../map/components/MapBase/MapBase";
 import { RouteDisplay } from "../../../map/components/RouteDisplay/RouteDisplay";
 import { UserMarker } from "../../../map/components/UserMarker/UserMarker";
 import { useCenter } from "../../../map/hooks/useCenter";
@@ -185,7 +185,7 @@ export function AddSpotMap({
     )
 
     return (
-        <Map
+        <MapBase
             center={center}
             zoom={14}
             trackUser={trackUser}
@@ -229,6 +229,6 @@ export function AddSpotMap({
                     selected
                 />
             }
-        </Map>
+        </MapBase>
     )
 }

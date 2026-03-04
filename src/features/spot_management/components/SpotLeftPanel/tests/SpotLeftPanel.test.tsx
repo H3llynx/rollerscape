@@ -19,8 +19,8 @@ vi.mock("../../../../map/hooks/useCenter", () => ({
 }));
 
 const mockSpots = [
-    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: 1, name: "street_plaza" }], created_by: "1" }),
-    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: 2, name: "greenway" }] }),
+    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: "1", name: "street_plaza" }], created_by: "1" }),
+    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: "2", name: "greenway" }] }),
 ];
 
 const MapArea = (spotContext: any, userContext: any) => (

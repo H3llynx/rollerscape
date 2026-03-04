@@ -11,9 +11,9 @@ import { layers } from "../../../../config/leaflet";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { LocationSearch } from "../LocationSearch/LocationSearch";
-import "./Map.css";
+import "./MapBase.css";
 
-type Map = {
+type MapBase = {
     center: MapCoordinates;
     zoom: number;
     other?: ReactNode;
@@ -22,7 +22,7 @@ type Map = {
     controls?: boolean;
 }
 
-export function Map({ center, zoom, other, children, trackUser, controls = true }: Map) {
+export function MapBase({ center, zoom, other, children, trackUser, controls = true }: MapBase) {
     const navigate = useNavigate();
     const { profile } = useAuth();
     const { pathname } = useLocation();

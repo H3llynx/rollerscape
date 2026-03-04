@@ -11,7 +11,7 @@ import { useCenter } from "../../hooks/useCenter";
 import { useSpots } from "../../hooks/useSpots";
 import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
 import { FlyToUser } from "../FlyToUser/FlyToUser";
-import { Map } from "../Map/Map";
+import { MapBase } from "../MapBase/MapBase";
 import { MapFilters } from "../MapFilters/MapFilters";
 import { RouteDisplay } from "../RouteDisplay/RouteDisplay";
 import { SpotMarker } from "../SpotMarker/SpotMarker";
@@ -123,7 +123,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                 </div>
                 {loading && <div className="absolute w-full top-1/2 -translate-y-1/2"><Loading /></div>}
                 {!loading && center &&
-                    <Map
+                    <MapBase
                         center={center}
                         zoom={zoom}
                         other={spots && spots.length > 0 && otherControls}
@@ -177,7 +177,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                         <FlyToUser center={center} />
                         <FlyToSpot spot={selectedSpot} />
                         {selectedSpot && <RouteDisplay data={selectedSpot.coordinates} selected={true} />}
-                    </Map>
+                    </MapBase>
                 }
             </GridLeftPanel >
             <Dialog ref={dialogRef} style="error" close={handleClose}>

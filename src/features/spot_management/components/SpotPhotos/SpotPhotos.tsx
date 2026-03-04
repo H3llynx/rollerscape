@@ -30,6 +30,7 @@ export function SpotPhotos() {
                         key={i}
                         src={photo}
                         alt=""
+                        tabIndex={0}
                         onClick={() => {
                             setInitialIndex(i);
                             gridDialogRef.current?.showModal();
