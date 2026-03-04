@@ -6,7 +6,6 @@ import supabase from "../utils/supabase";
 
 export const shareSpot = async (spot: SpotFullInfo) => {
     const url = `${window.location.origin}/rollerscape/#${redirecttoSpotUrl(spot.slug)}`;
-    console.log(url)
     try {
         await navigator.share({
             title: `${spot.name}`,

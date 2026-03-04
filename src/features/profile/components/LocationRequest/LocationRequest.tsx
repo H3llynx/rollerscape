@@ -96,7 +96,7 @@ export function LocationRequest({ onSuccess }: FormProps) {
     };
 
     const useBrowserLocation = async () => {
-        if (query.length > 0) setQuery("");
+        if (query.length) setQuery("");
         const { data, error } = await getBrowserPosition();
         if (error) {
             if ("code" in error) setError(geolocationErrors.profile[error.code as keyof typeof geolocationErrors.profile] || geolocationErrors.profile[2]);

@@ -292,6 +292,27 @@
     background-size: cover;
   }
 
+  .collapsed-btn {
+    @apply min-w-2.5 bg-bg-rgba-2;
+
+    svg {
+      @apply ml-[8px];
+    }
+
+    span {
+      @apply max-w-0 opacity-0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: var(--default-transition);
+    }
+
+    &:hover {
+      span {
+        @apply max-w-xs pr-0.5 opacity-100;
+      }
+    }
+  }
+
 }
 
 @keyframes scale {

@@ -23,7 +23,7 @@ export const parseGpx = (xml: string) => {
     const coordinates: Coordinates[] = [];
     for (const tag of ["trkpt", "rtept"]) {
         const nodes = gpx.querySelectorAll(tag);
-        if (nodes.length > 0) {
+        if (nodes.length) {
             nodes.forEach(node => {
                 coordinates.push({
                     lat: parseFloat(node.getAttribute("lat") ?? ""),

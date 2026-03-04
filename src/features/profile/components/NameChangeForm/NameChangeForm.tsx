@@ -21,7 +21,6 @@ export function NameChangeForm({ onSuccess }: FormProps) {
     const updateName = async ({ name }: { name: string }) => {
         const { error } = await updateData({ id: profile.id, name }, databases.profiles);
         if (error) {
-            console.log(error.code)
             setError(true);
             return;
         }

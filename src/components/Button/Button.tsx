@@ -15,6 +15,7 @@ const buttonVariants = tv({
             secondary: "border active:bg-bg-rgba font-medium px-1.5 button-shadow bg-bg-cta-secondary text-text-secondary border-text-secondary",
             tertiary: "px-[5px] text-text-secondary font-bold hover:text-grey",
             icon: "px-[5px] text-text hover:text-text-secondary",
+            collapsed: "px-[5px] text-grey text-xs collapsed-btn",
             search: "bg-bg-cta text-text-cta font-bold border-rgba-dark-2 rounded-none px-0.5 active:bg-bg-cta-active hover:-translate-y-0",
         }
     }

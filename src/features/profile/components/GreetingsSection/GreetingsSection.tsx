@@ -12,7 +12,6 @@ import { LocationRequest } from "../LocationRequest/LocationRequest";
 import { NameChangeForm } from "../NameChangeForm/NameChangeForm";
 import { ProfilePicture } from "../ProfilePicture/ProfilePicture";
 import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
-import "./GreetingSection.css";
 
 export function GreetingsSection({ profile }: { profile: UserProfile }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
@@ -75,8 +74,8 @@ export function GreetingsSection({ profile }: { profile: UserProfile }) {
                 </div>
                 <ProfilePicture />
             </div>
-            <Button style="icon" className="delete-btn" onClick={() => setAction("delete")}>
-                <Trash2 aria-hidden width={18} className="ml-[8px]" />
+            <Button style="collapsed" onClick={() => setAction("delete")}>
+                <Trash2 aria-hidden width={18} />
                 <span>Delete my profile</span>
             </Button>
 

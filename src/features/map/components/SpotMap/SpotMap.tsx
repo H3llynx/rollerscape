@@ -41,11 +41,11 @@ export function SpotMap({ zoom }: { zoom: number }) {
         if (!spotTypes.length) return;
         const params = searchParams.getAll("type");
         const filtersToCheck = spotTypes.filter(type => params.includes(type));
-        if (filtersToCheck.length > 0) {
+        if (filtersToCheck.length) {
             setCheckedTypes(filtersToCheck);
             return;
         }
-        const defaultFilters: SpotType[] = profile && profile.preferred_spot_types && profile.preferred_spot_types.length > 0
+        const defaultFilters: SpotType[] = profile?.preferred_spot_types?.length
             ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
             : spotTypes
         setCheckedTypes(defaultFilters);

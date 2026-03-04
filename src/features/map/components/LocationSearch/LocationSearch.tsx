@@ -18,7 +18,7 @@ export function LocationSearch() {
             `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`
         );
         const data = await result.json();
-        if (data.length > 0) {
+        if (data.length) {
             const { lat, lon } = data[0];
             map.flyTo([lat, lon], 12);
         }

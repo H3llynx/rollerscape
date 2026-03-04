@@ -104,7 +104,7 @@ export const updateDataWithJunctions = async (
             .delete()
             .eq("spot_id", data.id);
 
-        if (junction.values.length > 0) {
+        if (junction.values.length) {
             await supabase.from(junction.table).insert(
                 junction.values.map(id => ({
                     spot_id: data.id,

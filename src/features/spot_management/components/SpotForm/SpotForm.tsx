@@ -55,11 +55,11 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
     useEffect(() => {
         register(
             spot_types.db_key, {
-            validate: (value) => (value && value.length > 0) || spotErrors.add.missing_spot_type
+            validate: (value) => (value && value.length) || spotErrors.add.missing_spot_type
         });
         register(
             traffic_levels.db_key, {
-            validate: (value) => (value && value.length > 0) || spotErrors.add.missing_traffic_level
+            validate: (value) => (value && value.length) || spotErrors.add.missing_traffic_level
         }
         );
     }, [register, spot_types.db_key, traffic_levels.db_key]);

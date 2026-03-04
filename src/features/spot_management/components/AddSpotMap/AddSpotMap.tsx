@@ -102,7 +102,7 @@ export function AddSpotMap({
             if (!routeCoordinates.start) setRouteCoordinates({ ...routeCoordinates, start: { lat, lon } });
             else if (!routeCoordinates.end) setRouteCoordinates({ ...routeCoordinates, end: { lat, lon } });
         } else {
-            if (spotCoordinates.length > 0) {
+            if (spotCoordinates.length) {
                 const distance = estimateDistanceFromCoords([spotCoordinates[spotCoordinates.length - 1], { lat, lon }]);
                 customDistanceRef.current += distance;
             }

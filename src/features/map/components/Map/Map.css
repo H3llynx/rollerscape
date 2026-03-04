@@ -70,7 +70,7 @@
     @apply max-w-[85vw]
 }
 
-.leaflet-control {
+.leaflet-left .leaflet-control {
     pointer-events: none;
 }
 

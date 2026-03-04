@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMediaQuery } from "react-responsive";
@@ -135,9 +135,10 @@ export function AddSpotPage() {
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <div className="left-panel-container px-2 md:px-1 lg:px-2 pt-1.5 pb-2 md:pt-8">
-                                <div className="flex gap-2 justify-between items-center py-1 md:py-2">
+                                <div className="flex gap-0.5 justify-between items-center py-1 md:py-2">
                                     <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
-                                    <Button style="tertiary" className="text-grey" onClick={() => navigate("/")}>Cancel</Button>
+                                    <Button style="collapsed" className="ml-auto text-sm" onClick={() => setConfirmedLocationType(false)}><ArrowLeft aria-hidden /><span>Back</span></Button>
+                                    <Button style="icon" className="text-grey" aria-label="Cancel" onClick={() => navigate("/")}><X aria-hidden /></Button>
                                 </div>
                                 <div className="form-info slight-shadow" ref={instructionsRef}>
                                     <span className="text-text-secondary">

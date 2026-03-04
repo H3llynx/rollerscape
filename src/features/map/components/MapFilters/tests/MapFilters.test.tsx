@@ -20,8 +20,8 @@ vi.mock("../../../hooks/useCenter", () => ({
 }));
 
 const mockSpots = [
-    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: 1, name: "street_plaza" }] }),
-    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: 2, name: "greenway" }] }),
+    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: "1", name: "street_plaza" }] }),
+    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: "2", name: "greenway" }] }),
 ];
 
 const spotsVal = {
@@ -47,7 +47,6 @@ const MapArea = (userContext: any) => (
 describe("Filters on loading", () => {
     it("should show all the spot type filters checked by default", () => {
         const { container } = render(MapArea(valAuthNoUser));
-        console.log(container.innerHTML)
         const filterContainer = container.querySelector("#spot-type-filters");
         const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox")
         checkboxes.forEach(checkbox => expect(checkbox).toBeChecked());

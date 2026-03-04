@@ -6,7 +6,7 @@ export function DesktopSpotHeader() {
     const { selectedSpot } = useSpots();
     if (!selectedSpot) return;
 
-    const src = selectedSpot.photos && selectedSpot.photos.length > 0
+    const src = selectedSpot.photos?.length
         ? selectedSpot.photos[0]
         : Skater
 
