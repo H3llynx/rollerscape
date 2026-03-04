@@ -4,11 +4,15 @@
     @apply pl-1 md:pl-2 pr-0.5 mt-1.5;
 
     .slider {
-        @apply flex gap-0.5 overflow-x-scroll h-[200px] pb-[4px] shrink-0 mt-0.5;
+        @apply flex gap-0.5 overflow-x-scroll h-[200px] shrink-0 mt-0.5 p-0.5 pb-1;
         -webkit-overflow-scrolling: touch;
 
-        img {
-            @apply h-full w-auto border border-bg-rgba rounded-lg cursor-pointer;
+        button {
+            @apply shrink-0 border border-bg-rgba rounded-lg cursor-pointer h-full p-0 bg-transparent;
+
+            img {
+                @apply h-full w-auto block rounded-lg;
+            }
         }
 
         &::-webkit-scrollbar {

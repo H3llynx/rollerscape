@@ -26,16 +26,16 @@ export function SpotPhotos() {
             <h3 className="mt-1">Photos:</h3>
             <div className="slider">
                 {selectedSpot.photos.map((photo, i) => (
-                    <img
+                    <button
                         key={i}
-                        src={photo}
-                        alt=""
-                        tabIndex={0}
                         onClick={() => {
                             setInitialIndex(i);
                             gridDialogRef.current?.showModal();
                         }}
-                    />
+                        tabIndex={0}
+                    >
+                        <img src={photo} alt="" />
+                    </button>
                 ))}
             </div>
             <GalleryDialog ref={gridDialogRef} close={() => gridDialogRef.current?.close()} onClickOut={closeOnClickOut}>
