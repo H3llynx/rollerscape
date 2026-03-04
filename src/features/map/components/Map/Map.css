@@ -70,6 +70,10 @@
     @apply max-w-[85vw]
 }
 
+.leaflet-control {
+    pointer-events: none;
+}
+
 .controls {
     @apply flex gap-0.5 flex-row pb-[5px] items-end flex-wrap md:mr-4;
 }

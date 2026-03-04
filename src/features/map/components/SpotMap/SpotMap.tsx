@@ -24,6 +24,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [checkedTypes, setCheckedTypes] = useState<SpotType[]>([]);
+    const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
 
     useEffect(() => {
         if (error) {
@@ -98,6 +99,8 @@ export function SpotMap({ zoom }: { zoom: number }) {
             spotTypes={spotTypes}
             checkedTypes={checkedTypes}
             setCheckedTypes={setCheckedTypes}
+            showOnlyFavorites={showOnlyFavorites}
+            setShowOnlyFavorites={setShowOnlyFavorites}
         />
     )
 
@@ -132,6 +135,7 @@ export function SpotMap({ zoom }: { zoom: number }) {
                                     .filter(spot =>
                                         spot.spot_types.some(type => checkedTypes.includes(type.name))
                                     )
+                                    .filter(spot => !showOnlyFavorites || profile?.favorites.includes(spot.id))
                                     .map(spot => {
                                         if (spot.location_type === "point")
                                             return (

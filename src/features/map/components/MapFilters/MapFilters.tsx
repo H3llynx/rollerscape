@@ -1,17 +1,21 @@
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, Star } from "lucide-react";
 import { useRef, type Dispatch, type SetStateAction } from "react";
 import type { SpotType } from "../../../../types/spots_types";
 import { getSpotType, handleAria } from "../../../../utils/helpers";
+import { useAuth } from "../../../auth/hooks/useAuth";
 import "./MapFilters.css";
 
 type MapFilter = {
     spotTypes: SpotType[];
     checkedTypes: SpotType[];
-    setCheckedTypes: Dispatch<SetStateAction<SpotType[]>>
+    setCheckedTypes: Dispatch<SetStateAction<SpotType[]>>;
+    showOnlyFavorites: boolean;
+    setShowOnlyFavorites: Dispatch<SetStateAction<boolean>>;
 }
 
-export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilter) {
+export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyFavorites, setShowOnlyFavorites }: MapFilter) {
     const expandFiltersRef = useRef<HTMLInputElement>(null)
+    const { profile } = useAuth();
 
     const handleTypeChange = (filter: SpotType) => {
         setCheckedTypes((types) => types.includes(filter)
@@ -52,6 +56,18 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes }: MapFilt
                         {getSpotType(type)}
                     </label>
                 ))}
+                {profile &&
+                    <label className="map-label">
+                        <input
+                            type="checkbox"
+                            checked={showOnlyFavorites}
+                            onChange={() => setShowOnlyFavorites(!showOnlyFavorites)}
+                            value={"favorites"}
+                        />
+                        <span className="text-text-secondary">
+                            Favorite Spots <Star fill="var(--color-text-secondary)" width={18} className="inline pb-[3px] pl-[3px]" aria-hidden />
+                        </span>
+                    </label>}
             </div>
             <label className="expand-filters-cta" aria-label="Expand filters" htmlFor="expand-filters">
                 <SlidersHorizontal aria-hidden className="expand-filters-icon" />

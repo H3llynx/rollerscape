@@ -1,7 +1,7 @@
 @reference "../../../../styles/index.css";
 
 .filter-container {
-    @apply w-full md:w-fit;
+    @apply w-full md:w-fit pointer-events-auto;
 
     &:has(#expand-filters:checked) {
 

@@ -128,21 +128,21 @@ export function AddSpotMap({
     const otherControls = (
         <>
             {locationType === "route" &&
-                <div className="flex flex-col-reverse gap-0.5">
+                <div className="flex flex-col-reverse gap-0.5 pointer-events-auto">
                     {custom
                         ? <Button
                             style="tertiary"
                             className="route-mode suggestion"
                             aria-label="Use route suggestion"
                             onClick={handleCustom}>
-                            <img src={UseRouteButton} className="w-11 md:w-12 h-auto pointer-events-none shrink-0" />
+                            <img src={UseRouteButton} className="w-11 md:w-12 h-auto shrink-0" />
                         </Button>
                         : <Button
                             style="tertiary"
                             className="route-mode custom"
                             aria-label="Build custom route"
                             onClick={handleCustom}>
-                            <img src={CreateCustomButton} className="w-11 md:w-12 h-auto pointer-events-none shrink-0" />
+                            <img src={CreateCustomButton} className="w-11 md:w-12 h-auto shrink-0" />
                         </Button>
                     }
                     {(routeCoordinates.start || spotCoordinates.length > 0) &&
