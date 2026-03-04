@@ -111,11 +111,11 @@
   }
 
   h1 {
-    @apply font-title text-text-secondary text-2xl;
+    @apply font-title text-text-secondary text-xl lg:text-2xl;
   }
 
   h2 {
-    @apply font-title text-text text-2xl;
+    @apply font-title text-text text-xl lg:text-2xl;
   }
 
   h3 {

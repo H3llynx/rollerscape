@@ -72,7 +72,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
             <DesktopSpotHeader />
             <article className="pb-2 text-sm relative z-1">
                 <div className="p-1 md:px-2 flex justify-between w-full items-start">
-                    <div>
+                    <div className="md:w-2xs">
                         <h1>{selectedSpot.name}</h1>
                         <div className="flex gap-0.5 mt-1 items-start flex-wrap">
                             {selectedSpot.spot_types.map((type, i) => (
@@ -82,21 +82,21 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             )
                             )}
                         </div>
+                        <div className="flex gap-[5px] text-grey mt-1">
+                            <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
+                        </div>
+                        {selectedSpot.creator_profile && !isTabletorDesktop &&
+                            <div className="w-fit">
+                                <RiderCard desktop={false} />
+                            </div>
+                        }
                     </div>
                     <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
                     <Button style="icon" aria-label="Close description" className="hidden md:block absolute top-0 right-0" onClick={() => setSelectedSpot(null)}>
                         <X aria-hidden />
                     </Button>
                 </div>
-                <div className="p-1 md:px-2">
-                    {selectedSpot.creator_profile && !isTabletorDesktop &&
-                        <div className="w-fit">
-                            <RiderCard desktop={false} />
-                        </div>
-                    }
-                    <div className="flex gap-[5px] text-grey mt-1">
-                        <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
-                    </div>
+                <div className="px-1 md:px-2">
                     <div className="w-full flex gap-1 justify-between items-center flex-wrap my-1">
                         <div className="flex items-center gap-[5px] w-full">
                             <h3 className="shrink-0">Surface quality:</h3>
