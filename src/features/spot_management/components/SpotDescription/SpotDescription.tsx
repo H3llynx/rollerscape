@@ -71,22 +71,24 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
             <article className="pb-2 text-sm relative z-1">
-                <div className="flex justify-between items-start w-full pl-1">
+                <div className="p-1 md:px-2 flex justify-between w-full items-start">
+                    <div>
+                        <h1>{selectedSpot.name}</h1>
+                        <div className="flex gap-0.5 mt-1 items-start flex-wrap">
+                            {selectedSpot.spot_types.map((type, i) => (
+                                <span className="tag" key={i} >
+                                    {getSpotType(type.name)}
+                                </span>
+                            )
+                            )}
+                        </div>
+                    </div>
                     <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
-                    <Button style="icon" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
+                    <Button style="icon" aria-label="Close description" className="hidden md:block absolute top-0 right-0" onClick={() => setSelectedSpot(null)}>
                         <X aria-hidden />
                     </Button>
                 </div>
                 <div className="p-1 md:px-2">
-                    <h1>{selectedSpot.name}</h1>
-                    <div className="flex gap-0.5 mt-1 items-start flex-wrap">
-                        {selectedSpot.spot_types.map((type, i) => (
-                            <span className="tag" key={i} >
-                                {getSpotType(type.name)}
-                            </span>
-                        )
-                        )}
-                    </div>
                     {selectedSpot.creator_profile && !isTabletorDesktop &&
                         <div className="w-fit">
                             <RiderCard desktop={false} />
