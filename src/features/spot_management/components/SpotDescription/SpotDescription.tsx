@@ -71,7 +71,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
             <article className="pb-2 text-sm relative z-1">
-                <div className="p-1 md:px-2 flex justify-between w-full items-start">
+                <div className="px-1 md:px-2 flex justify-between w-full items-start">
                     <div className="md:w-2xs">
                         <h1>{selectedSpot.name}</h1>
                         <div className="flex gap-0.5 mt-1 items-start flex-wrap">
@@ -82,8 +82,8 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             )
                             )}
                         </div>
-                        <div className="flex gap-[5px] text-grey mt-1">
-                            <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
+                        <div className="text-grey mt-1">
+                            <MapPin aria-hidden width={15} className="inline" /><span className="align-middle">{selectedSpot.address}</span>
                         </div>
                         {selectedSpot.creator_profile && !isTabletorDesktop &&
                             <div className="w-fit">
