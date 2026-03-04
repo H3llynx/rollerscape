@@ -35,6 +35,7 @@ export const spotErrors = {
         missing_spot_type: "What's the spot type? Select an option before dropping your spot!",
         missing_traffic_level: "Traffic level needed! Check 'unknown' if you're not sure.",
         generic: "Wipeout! Something went wrong adding your spot. Try again in a bit.",
+        invalid_maps_link: "It looks like that link does not point to any valid coordinates."
     },
     delete: {
         spot: "Sorry, your spot could not be deleted. Try again later.",

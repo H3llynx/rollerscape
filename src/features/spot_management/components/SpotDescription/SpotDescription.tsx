@@ -86,10 +86,12 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                             </span>
                         )
                         )}
-                        {selectedSpot.creator_profile && !isTabletorDesktop &&
-                            <RiderCard desktop={false} />
-                        }
                     </div>
+                    {selectedSpot.creator_profile && !isTabletorDesktop &&
+                        <div className="w-fit">
+                            <RiderCard desktop={false} />
+                        </div>
+                    }
                     <div className="flex items-center gap-[5px] text-grey mt-1">
                         <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
                     </div>
@@ -179,7 +181,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     }
                     {reviews.length > 0 &&
                         <>
-                            <div className="px-1 md:px-2 mt-3.5 flex flex-col gap-1">
+                            <div className="px-1 md:px-2 mt-2 flex flex-col gap-1">
                                 <h2 className="text-xl">Community Ratings</h2>
                                 {paginatedReviews.map(review => (
                                     <ReviewCard key={review.id} review={review} onClick={() => handleCommentEdit(review)} description />

@@ -49,7 +49,7 @@ export function AuthPage() {
                 {!login && <>
                     <SignUp onError={handleError} />
                 </>}
-                <Button style="tertiary" onClick={() => setLogin(!login)}>
+                <Button style="tertiary" className="md:pr-1" onClick={() => setLogin(!login)}>
                     {login ? "Create account" : "I already have an account"}
                 </Button>
                 <Dialog ref={dialogRef} style="error" close={handleClose}>

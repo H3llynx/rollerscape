@@ -16,7 +16,7 @@ export function SpotPhotos() {
     const closeOnClickOut = (e: React.MouseEvent<HTMLDialogElement>) => {
         if (!gridDialogRef) return;
         if (e.target === gridDialogRef.current)
-            gridDialogRef.current?.close()
+            gridDialogRef.current?.close();
     };
 
 
@@ -39,6 +39,7 @@ export function SpotPhotos() {
             </div>
             <GalleryDialog ref={gridDialogRef} close={() => gridDialogRef.current?.close()} onClickOut={closeOnClickOut}>
                 <Swiper
+                    key={initialIndex}
                     modules={[Navigation, Pagination]}
                     navigation
                     pagination={{ clickable: true }}

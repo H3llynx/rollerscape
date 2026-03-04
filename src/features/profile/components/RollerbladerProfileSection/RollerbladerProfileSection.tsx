@@ -11,6 +11,7 @@ import { updateData } from "../../../../services/data";
 import type { SpotType } from "../../../../types/spots_types";
 import type { SkatingStyle, SkillLevel } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
+import { useSpots } from "../../../map/hooks/useSpots";
 import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
 import "./RollerbladerProfileSection.css";
 
@@ -18,6 +19,7 @@ export function RollerbladerProfileSection() {
     const [error, setError] = useState<string | null>(null);
     const { profile, setProfile } = useAuth();
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const { loadSpots } = useSpots();
     if (!profile) return;
 
     const handleClose = () => {
@@ -43,6 +45,7 @@ export function RollerbladerProfileSection() {
         if (error) setError(riderPreferencesErrors.spot_types);
         else {
             setProfile(data);
+            await loadSpots();
         }
     };
 
@@ -55,6 +58,7 @@ export function RollerbladerProfileSection() {
         if (error) setError(riderPreferencesErrors.skating_style);
         else {
             setProfile(data);
+            await loadSpots();
         }
     };
 

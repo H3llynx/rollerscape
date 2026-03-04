@@ -11,14 +11,19 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
     if (!rider) return;
 
     const skatingStyles = (
-        <ul className="mx-0 mt-[5px]">
-            {rider.skating_style.map((style, i) => (
-                <li className="text-[0.7rem]" key={i}>
-                    <Check className="inline mr-[3px]" width={15} height={15} />
-                    {getSkatingStyles(style)}
-                </li>
-            ))}
-        </ul>
+        <>
+            {rider.skating_style.length > 1 ?
+                <ul className="mx-0 mt-[5px]">
+                    {rider.skating_style.map((style, i) => (
+                        <li className="text-[0.7rem]" key={i}>
+                            <Check className="inline mr-[3px]" width={15} height={15} />
+                            {getSkatingStyles(style)}
+                        </li>
+                    ))}
+                </ul>
+                : <span className="text-[0.7rem]">{getSkatingStyles(rider.skating_style[0])}</span>
+            }
+        </>
     )
 
     return (

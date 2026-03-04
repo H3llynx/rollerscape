@@ -21,7 +21,7 @@ import { useCenter } from "../map/hooks/useCenter";
 import { useSpots } from "../map/hooks/useSpots";
 import { AddSpotMap } from "./components/AddSpotMap/AddSpotMap";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
-import { MapsToCoordsForm } from "./components/MapsToCoords/MapsToCoordsForm";
+import { MapsToCoordsForm } from "./components/MapsToCoordsForm/MapsToCoordsForm";
 import { SpotForm } from "./components/SpotForm/SpotForm";
 import { estimateDistanceFromCoords } from "./utils";
 

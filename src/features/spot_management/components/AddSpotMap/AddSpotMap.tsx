@@ -112,15 +112,17 @@ export function AddSpotMap({
     };
 
     const handleUndoPoint = () => {
-        if (spotCoordinates.length > 1) {
+        if (custom && spotCoordinates.length > 1) {
             const distance = estimateDistanceFromCoords([
                 spotCoordinates[spotCoordinates.length - 2],
                 spotCoordinates[spotCoordinates.length - 1]
             ]);
             customDistanceRef.current -= distance;
-        }
-        setSpotCoordinates(prev => prev.slice(0, -1));
-        setIsAddingRoute(true)
+            setSpotCoordinates(prev => prev.slice(0, -1));
+            setIsAddingRoute(true)
+        } else if (routeCoordinates.end)
+            setRouteCoordinates({ ...routeCoordinates, end: null })
+        setRoutes([]);
     };
 
     const otherControls = (
@@ -152,7 +154,7 @@ export function AddSpotMap({
                                 aria-label="Reset">
                                 <MapPinX aria-hidden />
                             </Button>
-                            {custom && spotCoordinates.length > 0 &&
+                            {spotCoordinates.length > 0 &&
                                 <>
                                     <Button
                                         style="icon"
