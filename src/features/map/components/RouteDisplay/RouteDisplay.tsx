@@ -37,8 +37,8 @@ export function RouteDisplay({ data, selected, custom = false, onSelect }: Route
         return "var(--color-grey)";
     };
     const getWeight = () => {
-        if (custom) return 8;
-        else return selected ? 8 : 6;
+        if (custom) return 6;
+        else return selected ? 6 : 4;
     };
 
     const coords: MapCoordinates[] = data.map(

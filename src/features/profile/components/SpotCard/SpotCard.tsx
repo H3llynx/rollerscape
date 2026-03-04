@@ -51,7 +51,7 @@ export function SpotCard({ spot, type }: { spot: SpotFullInfo, type: "favorite" 
                         positions={coords}
                         pathOptions={{
                             color: "var(--color-yellow-2)",
-                            weight: 5,
+                            weight: 4,
                         }}
                     />
                     <Marker position={coords[0]} icon={startIcon} />
