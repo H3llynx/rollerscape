@@ -18,6 +18,6 @@ header {
 }
 
 .logo-img {
-    @apply w-[45%] max-w-3xs landscape:w-10;
+    @apply w-9 md:w-12;
     filter: drop-shadow(1px 1px 10px black);
 }

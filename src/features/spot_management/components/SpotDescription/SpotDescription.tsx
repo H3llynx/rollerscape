@@ -73,7 +73,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
             <article className="pb-2 text-sm relative z-1">
                 <div className="flex justify-between items-start w-full pl-1">
                     <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
-                    <Button style="icon" className="hidden md:block" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
+                    <Button style="icon" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
                         <X aria-hidden />
                     </Button>
                 </div>

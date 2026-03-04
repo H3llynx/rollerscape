@@ -7,7 +7,7 @@ type Header = {
     style?: keyof typeof headerVariants.variants.style;
 }
 const headerVariants = tv({
-    base: "top-0 z-1 flex flex-row-reverse md:flex-row w-full justify-between p-1 md:px-4 items-start",
+    base: "top-0 z-1 flex flex-row-reverse md:flex-row w-full justify-between p-1 items-start",
     variants: {
         style: {
             default: "sticky",

@@ -10,12 +10,9 @@ import { loginWithGoogle, signIn } from '../../../../services/auth';
 import type { Credentials } from '../../../../types/user_types';
 import { useAuth } from '../../hooks/useAuth';
 
-type SignIn = {
-    onError: (error: AuthError) => void;
-    onEmailChange: (email: string) => void;
-}
-export function SigIn({ onError, onEmailChange }: SignIn) {
-    const { register, handleSubmit, watch, formState: { isSubmitting } } = useForm<Credentials>();
+
+export function SigIn({ onError }: { onError: (error: AuthError) => void; }) {
+    const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<Credentials>();
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
@@ -28,21 +25,15 @@ export function SigIn({ onError, onEmailChange }: SignIn) {
         }
     }, [user, navigate]);
 
-    const emailValue = watch("email");
-    useEffect(() => {
-        onEmailChange(emailValue);
-    }, [emailValue, onEmailChange]);
-
     const loginWithPassword = async ({ email, password }: Credentials) => {
         const { error } = await signIn({ email, password });
         if (error) onError(error);
+        reset();
     }
 
     return (
         <section className="flex flex-col gap-1 standard-width">
-            <form
-                onSubmit={handleSubmit((loginWithPassword))}
-                className="flex flex-col gap-1">
+            <form className="md:w-xs" onSubmit={handleSubmit((loginWithPassword))}>
                 <Input
                     label="Email address:"
                     type="text"
