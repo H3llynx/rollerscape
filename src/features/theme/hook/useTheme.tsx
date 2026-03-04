@@ -12,7 +12,7 @@ export function useTheme() {
     });
 
     useEffect(() => {
-        document.documentElement.setAttribute("data-theme", theme);
+        document.documentElement.dataset.theme = theme;
         window.localStorage.setItem("theme", theme);
     }, [theme]);
 

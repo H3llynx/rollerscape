@@ -59,7 +59,7 @@ export function ProfilePicture() {
             <div className="image-container avatar-button-container">
                 {preview
                     ? <img src={preview} alt="Preview" />
-                    : <img src={showAvatar(profile)} alt="profile picture" onError={(e) => {
+                    : <img src={showAvatar(profile)} onError={(e) => {
                         const img = e.currentTarget;
                         if (img.src !== Skater) {
                             img.src = Skater;

@@ -24,7 +24,11 @@
     transition: var(--default-transition);
 }
 
-.info-icon:hover+.surface-quality-info,
-.info-icon:focus-visible+.surface-quality-info {
-    @apply scale-100;
+.info-icon {
+    @apply relative w-full text-grey;
+
+    &:hover .surface-quality-info,
+    &:focus-visible .surface-quality-info {
+        @apply scale-100;
+    }
 }

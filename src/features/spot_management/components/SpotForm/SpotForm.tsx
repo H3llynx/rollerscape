@@ -55,11 +55,11 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
     useEffect(() => {
         register(
             spot_types.db_key, {
-            validate: (value) => (value && value.length) || spotErrors.add.missing_spot_type
+            validate: (value) => (value?.length) || spotErrors.add.missing_spot_type
         });
         register(
             traffic_levels.db_key, {
-            validate: (value) => (value && value.length) || spotErrors.add.missing_traffic_level
+            validate: (value) => (value?.length) || spotErrors.add.missing_traffic_level
         }
         );
     }, [register, spot_types.db_key, traffic_levels.db_key]);
@@ -123,7 +123,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     <input
                         id={surface_quality.id}
                         type={surface_quality.input_type}
-                        defaultValue={!isAdding && selectedSpot && selectedSpot.surface_quality ? selectedSpot.surface_quality : undefined}
+                        defaultValue={!isAdding ? selectedSpot?.surface_quality ?? undefined : undefined}
                         {...register(surface_quality.db_key, { valueAsNumber: true })}
                         min={surface_quality.min}
                         max={surface_quality.max}
@@ -173,7 +173,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     <p className="md:font-special">{description.label}:</p>
                     <textarea
                         id={description.id}
-                        defaultValue={!isAdding && selectedSpot && selectedSpot.description ? selectedSpot.description : undefined}
+                        defaultValue={!isAdding && selectedSpot?.description ? selectedSpot.description : undefined}
                         className="slight-shadow bg-blur"
                         {...register(description.db_key)}
                     />

@@ -110,8 +110,8 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                                     ))}
                                 </span>
                             }
-                            <div className="relative w-full">
-                                <Info width={14} aria-hidden className="info-icon" tabIndex={0} />
+                            <div className="info-icon" tabIndex={0}>
+                                <Info width={15} aria-hidden />
                                 <span className="surface-quality-info">Reported by the submitter</span>
                             </div>
                         </div>

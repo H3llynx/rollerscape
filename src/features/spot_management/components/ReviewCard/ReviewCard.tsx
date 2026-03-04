@@ -41,8 +41,7 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                     <div className="flex items-center gap-0.5 text-border">
                         <div className="image-container">
                             <img src={reviewer ? showAvatar(reviewer) : Skater}
-                                className="profile-avatar"
-                                alt={`${reviewer?.name}'s profile picture`} />
+                                className="profile-avatar" />
                         </div>
                         <div>
                             <div className="flex flex-wrap items-center gap-[5px] mb-[5px]">

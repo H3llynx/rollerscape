@@ -30,7 +30,7 @@ export function MapsToCoordsForm({ setSpotCoordinates }: { setSpotCoordinates: D
                     type="url"
                     className="slight-shadow bg-blur"
                     value={url}
-                    onChange={(e) => { setError(false), setUrl(e.target.value) }}
+                    onChange={(e) => { setError(false); setUrl(e.target.value) }}
                     required
                 />
                 <Button className="px-1 text-nowrap">Pin it</Button>

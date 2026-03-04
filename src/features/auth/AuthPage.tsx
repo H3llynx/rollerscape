@@ -34,8 +34,8 @@ export function AuthPage() {
     }
 
     const handlePasswordReset = async (email: string) => {
-        await resetPassword(email);
-        if (error) setError(error);
+        const { error: resetError } = await resetPassword(email);
+        if (resetError) setError(error);
         dialogRef.current?.close();
     }
 
