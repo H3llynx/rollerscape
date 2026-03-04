@@ -16,7 +16,6 @@ export function SpotLeftPanel() {
     const [error, setError] = useState<string | null>(null);
     const { selectedSpot, setSelectedSpot } = useSpots();
     const { setSpots } = useSpots();
-    if (!selectedSpot) return;
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -26,8 +25,10 @@ export function SpotLeftPanel() {
     }, [error, isDeleting]);
 
     useEffect(() => {
-        if (spotToEdit && (selectedSpot.id !== spotToEdit.id)) setSpotToEdit(null);
+        if (spotToEdit && (selectedSpot?.id !== spotToEdit.id)) setSpotToEdit(null);
     }, [selectedSpot, spotToEdit])
+
+    if (!selectedSpot) return;
 
     const handleClose = () => {
         dialogRef.current?.close();

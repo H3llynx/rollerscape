@@ -16,9 +16,10 @@ import "./ReviewForm.css";
 type ReviewForm = {
     reviewToEdit: Review | null;
     onSuccess: () => void;
+    onCancel: () => void;
 }
 
-export function ReviewForm({ reviewToEdit, onSuccess }: ReviewForm) {
+export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
     const { selectedSpot } = useSpots();
     const { profile } = useAuth();
     const { score, comment } = commentFormFields;
@@ -73,12 +74,11 @@ export function ReviewForm({ reviewToEdit, onSuccess }: ReviewForm) {
                         required
                     />
                     <div className="score-container" aria-hidden>
-                        {[1, 2, 3, 4, 5].map((star) => {
+                        {[5, 4, 3, 2, 1].map((star) => {
                             const isActive = star <= selectedScore;
                             return (
-                                <Button
+                                <button
                                     key={star}
-                                    style="icon"
                                     type="button"
                                     onClick={() => setValue(score.db_key, star, { shouldValidate: true })}
                                 >
@@ -86,7 +86,7 @@ export function ReviewForm({ reviewToEdit, onSuccess }: ReviewForm) {
                                         <Star fill="var(--color-text)" />
                                         : <Star />
                                     }
-                                </Button>
+                                </button>
                             )
                         })}
                     </div>
@@ -106,7 +106,7 @@ export function ReviewForm({ reviewToEdit, onSuccess }: ReviewForm) {
                     />
                 </fieldset>
                 <div className="flex gap-0.5 self-end">
-                    <Button style="tertiary" type="button" className="text-text" onClick={onSuccess}>Cancel</Button>
+                    <Button style="tertiary" type="button" className="text-text" onClick={onCancel}>Cancel</Button>
                     {isSubmitting ? <Loading /> :
                         <Button style="secondary" className="border-text text-text">
                             {reviewToEdit ? "Update score" : "Rate this spot"}</Button>

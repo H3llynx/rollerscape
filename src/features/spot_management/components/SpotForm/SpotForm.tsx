@@ -2,7 +2,6 @@
 import { Camera, Star, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMediaQuery } from "react-responsive";
 import { Button } from "../../../../components/Button/Button";
 import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
@@ -39,7 +38,6 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
     const [error, setError] = useState<boolean>(false);
     const [photoLoading, setPhotoLoading] = useState<boolean>(false);
     const selectedScore = watch(surface_quality.db_key) as number;
-    const isDesktop = useMediaQuery({ minWidth: 1024 });
 
     useEffect(() => {
         if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
@@ -47,7 +45,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
 
     useEffect(() => {
         if (isAdding) setSelectedSpot(null);
-    }, [isAdding])
+    }, [isAdding]);
 
     useEffect(() => {
         setValue(spot_types.db_key, selectedTypes);
@@ -106,7 +104,6 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
         if (fileInputRef.current) fileInputRef.current.value = "";
         setValue(photos.db_key, null);
     };
-
     return (
         <div className="flex flex-col gap-1 pb-2 md:py-2">
             {!isAdding && <h2>Edit spot</h2>}
@@ -134,12 +131,11 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                         required
                     />
                     <div className="score-container" aria-hidden>
-                        {[1, 2, 3, 4, 5].map((score) => {
+                        {[5, 4, 3, 2, 1].map((score) => {
                             const isActive = score <= selectedScore;
                             return (
-                                <Button
+                                <button
                                     key={score}
-                                    style="icon"
                                     type="button"
                                     onClick={() => setValue(surface_quality.db_key, score, { shouldValidate: true })}
                                 >
@@ -147,15 +143,15 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                                         <Star fill="var(--color-text)" />
                                         : <Star />
                                     }
-                                </Button>
+                                </button>
                             )
                         })}
                     </div>
                 </label>
                 <fieldset>
                     <p className="md:font-special mb-0.5">{spot_types.label}:</p>
-                    <div className="spot-types-grid">
-                        {SPOT_TYPES.map((type) => (
+                    <div className="cards-grid">
+                        {SPOT_TYPES.map(type => (
                             <IconInput
                                 key={type.value}
                                 id={type.value}
@@ -217,7 +213,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                         <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
                     }
                 </fieldset>
-                {selectedPhotos &&
+                {selectedPhotos.length > 0 &&
                     <>
                         <div className="grid grid-cols-3 gap-0.5">
                             {selectedPhotos.map((photo, i) => (
@@ -254,7 +250,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                         }
                     </>
                 }
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 lg:px-2">
                     {isSubmitting || photoLoading ? <Loading /> :
                         <Button>{isAdding ? "Add spot" : "Update spot"}</Button>
                     }

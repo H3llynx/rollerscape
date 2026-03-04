@@ -83,7 +83,7 @@ export function RollerbladerProfileSection() {
                             So we can pre-filter the map to show only the spots you actually care about — no noise, just your kind of skating.
                         </p>
                     </div>
-                    <div className="spot-types-grid">
+                    <div className="cards-grid">
                         {SPOT_TYPES.map((type) => (
                             <IconInput
                                 key={type.value}

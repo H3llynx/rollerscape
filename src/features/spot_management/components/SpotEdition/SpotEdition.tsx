@@ -23,10 +23,10 @@ type SpotEdition = {
 
 export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
     const { selectedSpot, setSelectedSpot } = useSpots();
-    if (!selectedSpot) return;
-
     const [error, setError] = useState<string | null>(null);
     const dialogRef = useRef<HTMLDialogElement>(null);
+
+    if (!selectedSpot) return;
 
     const src = selectedSpot.photos && selectedSpot.photos.length > 0
         ? selectedSpot.photos[0]
@@ -76,7 +76,6 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                 <img src={src} alt="" className="w-full h-full object-cover" />
             </div>
             <article className="pb-2 md:py-1 text-sm relative z-1">
-
                 <div className="px-1 md:px-2">
                     <div className="flex gap-2 justify-between items-start">
                         <h1>{selectedSpot.name}</h1>
@@ -85,8 +84,8 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                             <X aria-hidden />
                         </Button>
                     </div>
-                    <div className="flex items-center gap-[5px] text-grey mt-1">
-                        <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
+                    <div className="flex items-start gap-[5px] text-grey mt-1">
+                        <MapPin aria-hidden width={15} className="cursor-default shrink-0" /><span>{selectedSpot.address}</span>
                     </div>
                     <SpotForm
                         isAdding={false}

@@ -48,15 +48,16 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         }
     }, [isRating]);
 
+    if (!selectedSpot) return;
+
+    const hideReviewForm = () => {
+        setIsRating(false);
+        setReviewToEdit(null);
+    }
+
     const handleCommentEdit = (review: Review) => {
         setIsRating(true);
         setReviewToEdit(review);
-    }
-
-    const handleCommentSubmit = () => {
-        setIsRating(false);
-        setReviewToEdit(null);
-        loadSpots();
     }
 
     const reviewsPerPage = 6;
@@ -66,32 +67,28 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         currentPage * reviewsPerPage
     );
 
-    if (!selectedSpot) return;
-
     return (
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
-            <article className="pb-2 md:py-1 text-sm relative z-1">
-                <div className="px-1 md:px-2">
-                    <div className="flex justify-between items-start">
-                        <div>
-                            <h1>{selectedSpot.name}</h1>
-                            <div className="flex gap-0.5 mt-1 items-start flex-wrap">
-                                {selectedSpot.spot_types.map((type, i) => (
-                                    <span className="tag" key={i} >
-                                        {getSpotType(type.name)}
-                                    </span>
-                                )
-                                )}
-                            </div>
-                            {selectedSpot.creator_profile && !isTabletorDesktop &&
-                                <RiderCard desktop={false} />
-                            }
-                        </div>
-                        <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
-                        <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
-                            <X aria-hidden />
-                        </Button>
+            <article className="pb-2 text-sm relative z-1">
+                <div className="flex justify-between items-start w-full pl-1">
+                    <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
+                    <Button style="icon" className="hidden md:block" aria-label="Close description" onClick={() => setSelectedSpot(null)}>
+                        <X aria-hidden />
+                    </Button>
+                </div>
+                <div className="p-1 md:px-2">
+                    <h1>{selectedSpot.name}</h1>
+                    <div className="flex gap-0.5 mt-1 items-start flex-wrap">
+                        {selectedSpot.spot_types.map((type, i) => (
+                            <span className="tag" key={i} >
+                                {getSpotType(type.name)}
+                            </span>
+                        )
+                        )}
+                        {selectedSpot.creator_profile && !isTabletorDesktop &&
+                            <RiderCard desktop={false} />
+                        }
                     </div>
                     <div className="flex items-center gap-[5px] text-grey mt-1">
                         <MapPin aria-hidden width={15} /><span>{selectedSpot.address}</span>
@@ -178,7 +175,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                 <SpotPhotos />
                 <div ref={commentsRef}>
                     {profile && isRating &&
-                        <ReviewForm onSuccess={handleCommentSubmit} reviewToEdit={reviewToEdit} />
+                        <ReviewForm onSuccess={() => { hideReviewForm(); loadSpots(); }} onCancel={hideReviewForm} reviewToEdit={reviewToEdit} />
                     }
                     {reviews.length > 0 &&
                         <>
@@ -199,6 +196,6 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     }
                 </div>
             </article >
-        </section>
+        </section >
     )
 }

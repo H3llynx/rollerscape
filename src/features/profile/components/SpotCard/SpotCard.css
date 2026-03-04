@@ -12,3 +12,8 @@
 .overlay {
     background-image: linear-gradient(to right, var(--color-rgba-white), transparent);
 }
+
+.submitted-card-container {
+    @apply flex flex-col items-center gap-[3px] hover:text-text-secondary;
+    transition: var(--default-transition);
+}

@@ -264,9 +264,9 @@
     }
   }
 
-  .spot-types-grid {
+  .cards-grid {
     @apply grid gap-0.5 pb-0.5;
-    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
   }
 
   .tag {
@@ -274,15 +274,20 @@
   }
 
   .score-container {
-    @apply flex gap-1;
+    @apply flex gap-1 flex-row-reverse justify-end;
 
     button {
-      @apply text-text;
+      @apply text-text p-[5px];
+
+      &:hover,
+      &:hover~button {
+        @apply scale-115;
+      }
     }
   }
 
   .form-info {
-    @apply text-base flex flex-col gap-1 font-special border border-border p-1 rounded-lg mb-1 md:mr-1;
+    @apply text-base flex flex-col gap-1 font-special border border-border p-1 rounded-lg md:mr-1;
     background: url(../../../../assets/mask.png);
     background-size: cover;
   }

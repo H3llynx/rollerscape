@@ -3,7 +3,7 @@ import { Button } from "../../../../components/Button/Button";
 import { getCoordsFromMaps } from "../../../../services/geolocation";
 import type { Coordinates } from "../../../../types/geolocation_types";
 
-export function MapsToCoords({ setSpotCoordinates }: { setSpotCoordinates: Dispatch<SetStateAction<Coordinates[]>> }) {
+export function MapsToCoordsForm({ setSpotCoordinates }: { setSpotCoordinates: Dispatch<SetStateAction<Coordinates[]>> }) {
     const [url, setUrl] = useState<string>("")
 
     const getCoords = async (e: React.SubmitEvent) => {
@@ -19,9 +19,12 @@ export function MapsToCoords({ setSpotCoordinates }: { setSpotCoordinates: Dispa
 
     return (
         <form onSubmit={getCoords} className="flex-row gap-0.5">
+            <label htmlFor="maps-url" className="sr-only">Paste a google maps link below</label>
             <input
-                placeholder="Google Maps link here"
+                placeholder="Google Maps link here..."
+                id="maps-url"
                 type="url"
+                className="slight-shadow"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 required

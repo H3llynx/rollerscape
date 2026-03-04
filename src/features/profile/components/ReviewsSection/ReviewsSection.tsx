@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { views } from "../../../../config/databases";
 import { redirecttoSpotUrl } from "../../../../config/urls";
-import { fetchDataById } from "../../../../services/data";
+import { fetchManyById } from "../../../../services/data";
 import type { Review } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
@@ -21,7 +21,7 @@ export function ReviewsSection() {
     useEffect(() => {
         const getReviews = async () => {
             if (!profile) return
-            const { data } = await fetchDataById<Review[]>(views.public_reviews, "*", "user_id", profile.id);
+            const { data } = await fetchManyById<Review[]>(views.public_reviews, "*", "user_id", profile.id);
             if (data) setReviews(data);
         }
         getReviews();

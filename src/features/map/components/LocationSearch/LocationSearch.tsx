@@ -2,13 +2,16 @@ import { Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { Button } from '../../../../components/Button/Button';
+import { useSpots } from '../../hooks/useSpots';
 import "./LocationSearch.css";
 
 export function LocationSearch() {
     const map = useMap();
     const [expanded, setExpanded] = useState<boolean>(false);
+    const { selectedSpot, setSelectedSpot } = useSpots();
 
     const handleSearch = async (e: React.SubmitEvent) => {
+        if (selectedSpot) setSelectedSpot(null);
         e.preventDefault();
         const location = new FormData(e.target).get("location");
         const result = await fetch(

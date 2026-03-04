@@ -21,7 +21,7 @@ import { useCenter } from "../map/hooks/useCenter";
 import { useSpots } from "../map/hooks/useSpots";
 import { AddSpotMap } from "./components/AddSpotMap/AddSpotMap";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
-import { MapsToCoords } from "./components/MapsToCoords/MapsToCoords";
+import { MapsToCoordsForm } from "./components/MapsToCoords/MapsToCoordsForm";
 import { SpotForm } from "./components/SpotForm/SpotForm";
 import { estimateDistanceFromCoords } from "./utils";
 
@@ -135,11 +135,11 @@ export function AddSpotPage() {
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <div className="left-panel-container px-2 md:px-1 lg:px-2 pt-1.5 pb-2 md:pt-8">
-                                <div className="flex gap-2 justify-between items-center md:pt-2 md:pb-1">
+                                <div className="flex gap-2 justify-between items-center py-1 md:py-2">
                                     <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
                                     <Button style="tertiary" className="text-grey" onClick={() => navigate("/")}>Cancel</Button>
                                 </div>
-                                <p className="form-info slight-shadow" ref={instructionsRef}>
+                                <div className="form-info slight-shadow" ref={instructionsRef}>
                                     <span className="text-text-secondary">
                                         {isDesktop &&
                                             <span className="inline-flex items-end justify-center font-bold w-2 h-2 border-2 rounded-full mr-0.5">1</span>}
@@ -151,7 +151,7 @@ export function AddSpotPage() {
                                     {locationType === "point" &&
                                         <>
                                             <p className="separator font-main">OR</p>
-                                            <MapsToCoords setSpotCoordinates={setSpotCoordinates} />
+                                            <MapsToCoordsForm setSpotCoordinates={setSpotCoordinates} />
                                         </>
                                     }
                                     {spotCoordinates.length > 0 &&
@@ -161,7 +161,7 @@ export function AddSpotPage() {
                                             Add all the details below <ChevronDown className="inline cursor-default" />
                                         </span>
                                     }
-                                </p>
+                                </div>
                                 <SpotForm
                                     isAdding
                                     spotCoordinates={spotCoordinates}

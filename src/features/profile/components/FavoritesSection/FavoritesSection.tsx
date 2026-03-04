@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { Button } from "../../../../components/Button/Button";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { useSpots } from "../../../map/hooks/useSpots";
-import { FavoriteSpotCard } from "../FavoriteSpotCard/FavoriteSpotCard";
+import { SpotCard } from "../SpotCard/SpotCard";
 
 export function FavoritesSection() {
     const { profile } = useAuth();
@@ -39,7 +39,7 @@ export function FavoritesSection() {
                     const spot = spots.find(spot => spot.id === favorite)
                     if (!spot) return;
                     return (
-                        <FavoriteSpotCard key={favorite} spot={spot} />
+                        <SpotCard type="favorite" key={favorite} spot={spot} />
                     )
                 })}
             </div>

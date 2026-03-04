@@ -19,11 +19,6 @@ export type Spot = {
     slug: string;
 };
 
-export type SpotTypeArr = {
-    id: number;
-    name: SpotType;
-}[]
-
 export type CreatedBy = {
     id: string;
     name: string;
@@ -33,7 +28,7 @@ export type CreatedBy = {
 }
 
 export type SpotFullInfo = Spot & {
-    spot_types: SpotTypeArr;
+    spot_types: { id: string; name: SpotType }[];
     traffic_levels: { id: string; name: TrafficLevel }[];
     created_by_name: string;
     creator_profile: CreatedBy | null;

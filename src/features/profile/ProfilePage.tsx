@@ -7,6 +7,7 @@ import { FavoritesSection } from "./components/FavoritesSection/FavoritesSection
 import { GreetingsSection } from "./components/GreetingsSection/GreetingsSection";
 import { ReviewsSection } from "./components/ReviewsSection/ReviewsSection";
 import { RollerbladerProfileSection } from "./components/RollerbladerProfileSection/RollerbladerProfileSection";
+import { SubmittedSpotsSection } from "./components/SubmittedSpotsSection/SubmittedSpotsSection";
 
 export function ProfilePage() {
     const { profile, loading } = useAuth();
@@ -37,6 +38,7 @@ export function ProfilePage() {
                             <article className="flex gap-3 flex-col p-2 w-full">
                                 <FavoritesSection />
                                 <ReviewsSection />
+                                <SubmittedSpotsSection />
                             </article>
                         </section>
                     </main>
