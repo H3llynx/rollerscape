@@ -7,7 +7,7 @@ import { getReviews } from "../../../../services/spots";
 import type { Review } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { usePanelSize, useSpots } from "../../../map/hooks/useContexts";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
 import { DesktopSpotHeader } from "../DesktopSpotHeader/DesktopSpotHeader";
 import { ReviewCard } from "../ReviewCard/ReviewCard";
@@ -31,7 +31,6 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const [reviewToEdit, setReviewToEdit] = useState<Review | null>(null);
     const { loadSpots } = useSpots();
     const [currentPage, setCurrentPage] = useState(1);
-    const { scrollableRef } = usePanelSize();
 
     const fetchComments = async () => {
         if (!selectedSpot) return;
@@ -72,7 +71,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
             <article className="pb-2 text-sm relative z-1">
-                <div className="px-1 md:p-2 flex justify-between w-full items-start" ref={scrollableRef}>
+                <div className="px-1 md:p-2 flex justify-between w-full items-start">
                     <div className="md:w-2xs">
                         <h1>{selectedSpot.name}</h1>
                         <div className="flex gap-0.5 mt-1 items-start flex-wrap">
