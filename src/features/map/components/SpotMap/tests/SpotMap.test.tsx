@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
-import { SpotsContext } from '../../../context/SpotsContext';
+import { SpotsContext } from '../../../context/Spots/SpotsContext';
 import { useCenter } from '../../../hooks/useCenter';
 import { SpotMap } from '../SpotMap';
 

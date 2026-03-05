@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
 import { SpotMap } from '../../../../map/components/SpotMap/SpotMap';
-import { SpotsContext } from '../../../../map/context/SpotsContext';
+import { SpotsContext } from '../../../../map/context/Spots/SpotsContext';
 
 vi.mock("../../../../map/hooks/useCenter", () => ({
     useCenter: () => ({

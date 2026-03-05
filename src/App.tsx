@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
-import { PanelSizeProvider } from "./features/map/context/PanelSizeProvider";
-import { SpotsProvider } from "./features/map/context/SpotsProvider";
+import { PanelSizeProvider } from "./features/map/context/PanelSize/PanelSizeProvider";
+import { SpotsProvider } from "./features/map/context/Spots/SpotsProvider";
 import { Router } from "./router/router";
 
 function App() {

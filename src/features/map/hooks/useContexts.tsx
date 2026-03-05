@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { PanelSizeContext } from "../context/PanelSizeContext";
-import { SpotsContext } from "../context/SpotsContext";
+import { PanelSizeContext } from "../context/PanelSize/PanelSizeContext";
+import { SpotsContext } from "../context/Spots/SpotsContext";
 
 export const useSpots = () => {
     const context = useContext(SpotsContext)

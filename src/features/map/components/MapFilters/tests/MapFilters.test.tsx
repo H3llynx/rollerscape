@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
 import { MapPage } from '../../../MapPage';
-import { SpotsContext } from '../../../context/SpotsContext';
+import { SpotsContext } from '../../../context/Spots/SpotsContext';
 
 let mockProfile: any = null;
 

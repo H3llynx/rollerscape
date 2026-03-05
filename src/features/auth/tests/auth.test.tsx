@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
 import { signIn } from '../../../services/auth';
 import { valAuthNoUser, valAuthUser } from '../../../tests/setup';
-import { SpotsProvider } from '../../map/context/SpotsProvider';
+import { SpotsProvider } from '../../map/context/Spots/SpotsProvider';
 import { MapPage } from '../../map/MapPage';
 import { AuthPage } from "../AuthPage";
 import { AuthContext } from '../context/AuthContext';

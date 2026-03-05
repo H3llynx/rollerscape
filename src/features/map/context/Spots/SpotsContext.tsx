@@ -1,5 +1,5 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
-import type { SpotFullInfo } from "../../../types/spots_types";
+import type { SpotFullInfo } from "../../../../types/spots_types";
 
 type SpotsContext = {
     spots: SpotFullInfo[] | null;
