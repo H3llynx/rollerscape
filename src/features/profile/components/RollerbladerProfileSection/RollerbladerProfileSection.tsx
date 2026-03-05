@@ -10,7 +10,7 @@ import { updateData } from "../../../../services/data";
 import type { SpotType } from "../../../../types/spots_types";
 import type { SkatingStyle, SkillLevel } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
 import "./RollerbladerProfileSection.css";
 

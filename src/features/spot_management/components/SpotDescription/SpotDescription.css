@@ -14,7 +14,7 @@
 }
 
 .surface-quality-info {
-    @apply scale-0 absolute left-1.5 top-0 bg-rgba-grey text-grey w-fit md:w-max;
+    @apply scale-0 absolute left-1.5 top-0 bg-rgba-grey text-white opacity-80 w-fit md:w-max;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     padding: 5px;
@@ -26,9 +26,14 @@
 
 .info-icon {
     @apply relative w-full text-grey;
+}
 
-    &:hover .surface-quality-info,
-    &:focus-visible .surface-quality-info {
-        @apply scale-100;
+@media (hover: hover) and (pointer: fine) {
+    .info-icon {
+
+        &:hover .surface-quality-info,
+        &:focus-visible .surface-quality-info {
+            @apply scale-100;
+        }
     }
 }

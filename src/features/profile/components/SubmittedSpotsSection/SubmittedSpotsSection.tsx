@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { SpotCard } from "../SpotCard/SpotCard";
 
 export function SubmittedSpotsSection() {

@@ -10,7 +10,7 @@ import { commentFormFields } from "../../../../config/spots";
 import { deleteData, insertData, updateData } from "../../../../services/data";
 import type { Review } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import "./ReviewForm.css";
 
 type ReviewForm = {

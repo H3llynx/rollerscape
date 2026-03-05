@@ -9,7 +9,7 @@ import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo, SpotType } from '../../../../types/spots_types';
 import { SpotLeftPanel } from "../../../spot_management/components/SpotLeftPanel/SpotLeftPanel";
 import { useCenter } from "../../hooks/useCenter";
-import { useSpots } from "../../hooks/useSpots";
+import { usePanelSize, useSpots } from "../../hooks/useContexts";
 import { FlyToSpot } from "../FlyToSpot/FlyToSpot";
 import { FlyToUser } from "../FlyToUser/FlyToUser";
 import { MapBase } from "../MapBase/MapBase";
@@ -105,13 +105,15 @@ export function SpotMap({ zoom }: { zoom: number }) {
         />
     )
 
+    const { textSmaller } = usePanelSize();
+
     return (
         <>
-            <GridLeftPanel collapsed={!selectedSpot}>
+            <GridLeftPanel collapsed={!selectedSpot} textSmaller={textSmaller}>
                 <div className="left-panel scroll">
                     {selectedSpot &&
                         <div className="left-panel-container">
-                            <MobileHideButton onClick={() => setSelectedSpot(null)} />
+                            <MobileHideButton />
                             <SpotLeftPanel />
                         </div>
                     }

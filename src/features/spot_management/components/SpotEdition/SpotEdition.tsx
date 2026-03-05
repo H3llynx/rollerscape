@@ -11,7 +11,7 @@ import { reverseGeocode } from "../../../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../../../services/spots";
 import type { JunctionInsert, Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { createSlug } from "../../../../utils/helpers";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
 import { SpotForm } from "../SpotForm/SpotForm";
 

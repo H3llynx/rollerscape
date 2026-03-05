@@ -4,21 +4,41 @@
     @apply bg-transparent;
 }
 
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+    @apply border-0;
+    box-shadow: var(--map-controls-shadow);
+}
+
 .leaflet-control-layers,
 .leaflet-bar a {
-    @apply bg-bg-main text-text;
+    @apply bg-bg-rgba text-text;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 
     label {
         @apply font-main text-sm;
     }
 }
 
+.leaflet-control-zoom {
+    @apply hidden md:block;
+}
+
+.leaflet-control-zoom a:first-child {
+    @apply border-border;
+}
+
 .leaflet-bottom .leaflet-control-zoom a:hover {
-    @apply bg-text-secondary text-bg-main;
+    @apply bg-text-secondary;
+}
+
+.leaflet-control-layers {
+    @apply lg:py-0.5 lg:px-1;
 }
 
 .leaflet-control-layers-selector {
-    @apply w-1 h-1 rounded-md;
+    @apply w-1 h-1 rounded-md md:mr-0.5;
     appearance: none;
     -webkit-appearance: none;
 
@@ -51,7 +71,7 @@
 }
 
 .leaflet-touch .leaflet-control-layers {
-    @apply rounded-xl border-grey;
+    @apply rounded-xl;
 }
 
 .leaflet-overlay-pane svg {
@@ -105,7 +125,7 @@
 }
 
 .add-spot-btn {
-    @apply p-0 drop-shadow-lg drop-shadow-rgba-dark;
+    @apply border-0 rounded-full md:rounded-lg mr-0.5 p-0 md:drop-shadow-lg md:drop-shadow-rgba-dark;
 
     &::after {
         content: "Add a new spot";

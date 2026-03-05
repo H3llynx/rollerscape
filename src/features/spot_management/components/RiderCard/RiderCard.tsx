@@ -1,7 +1,6 @@
-import { Check } from "lucide-react";
 import Skater from "../../../../assets/skater.png";
 import { getSkatingStyles, getSkillLevel } from "../../../../utils/helpers";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { showAvatar } from "../../../profile/utils";
 
 export function RiderCard({ desktop = true }: { desktop?: boolean }) {
@@ -13,10 +12,9 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
     const skatingStyles = (
         <>
             {rider.skating_style.length > 1 ?
-                <ul className="mx-0 mt-[5px] md:text-[0.7rem] inline md:block">
+                <ul className="mx-0 mt-[5px] md:text-[0.7rem] flex flex-wrap gap-[5px]">
                     {rider.skating_style.map((style, i) => (
-                        <li key={i} className="inline-block mr-[5px] md:block">
-                            <Check className="inline mr-[3px]" width={15} height={15} />
+                        <li key={i} className="px-0.5 py-[3px] rounded-md bg-rgba-secondary font-medium text-bg-main">
                             {getSkatingStyles(style)}
                         </li>
                     ))}
@@ -29,7 +27,7 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
     return (
         <>
             {desktop &&
-                <div className="card bg-bg-secondary bg-blur max-w-3xs">
+                <div className="card bg-rgba-grey bg-blur max-w-3xs">
                     <div className="flex flex-col items-center justify-center">
                         <div className="image-container">
                             <img src={showAvatar(rider)} alt="Profile avatar" className="profile-avatar" onError={(e) => {
@@ -40,27 +38,19 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
                             }} />
                         </div>
                     </div>
-                    <div className="flex flex-col min-w-0 flex-1 text-sm text-left">
-                        <p className="font-title text-text-secondary">
-                            Submitter: <span className="text-text">{rider.name}</span></p>
-                        {rider.skill_level &&
-                            <p className="font-title text-text-secondary">
-                                Level:  <span className="text-text font-main text-[0.7rem]">{getSkillLevel(rider.skill_level)}</span></p>
+                    <div className="flex flex-col min-w-0 flex-1 text-left text-sm">
+                        <p className="text-text-secondary">{rider.name} {rider.skill_level &&
+                            <span className="text-[0.6rem] text-white">({getSkillLevel(rider.skill_level)})</span>
                         }
-
-                        {rider.skating_style &&
-                            <div className="font-main text-sm font-light">
-                                <p className="font-title text-text-secondary">Skating style:</p>
-                                {skatingStyles}
-                            </div>
-                        }
+                        </p>
+                        {rider.skating_style && skatingStyles}
                     </div>
                 </div >
             }
             {
                 !desktop &&
-                <div className="mt-1 border border-border rounded-lg p-0.5 text-border">
-                    <p>Submitted by <span className="text-text-secondary font-bold">
+                <div className="mt-1 border border-border opacity-80 rounded-lg p-0.5 text-border text-xs">
+                    <p className="pb-[5px]">Submitted by <span className="text-text-secondary font-bold">
                         {rider.name} </span>
                         {rider.skill_level &&
                             <span>({getSkillLevel(rider.skill_level)})</span>

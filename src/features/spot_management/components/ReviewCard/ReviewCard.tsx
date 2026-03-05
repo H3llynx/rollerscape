@@ -7,7 +7,7 @@ import type { Review } from "../../../../types/spots_types";
 import type { UserProfile } from "../../../../types/user_types";
 import { getSkatingStyles, getSkillLevel } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { showAvatar } from "../../../profile/utils";
 
 type CommentCard = {

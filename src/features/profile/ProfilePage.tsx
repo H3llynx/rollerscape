@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Header } from "../../components/Header/Header";
 import { useAuth } from "../auth/hooks/useAuth";
-import { useSpots } from "../map/hooks/useSpots";
+import { useSpots } from "../map/hooks/useContexts";
 import { FavoritesSection } from "./components/FavoritesSection/FavoritesSection";
 import { GreetingsSection } from "./components/GreetingsSection/GreetingsSection";
 import { ReviewsSection } from "./components/ReviewsSection/ReviewsSection";

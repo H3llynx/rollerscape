@@ -6,7 +6,7 @@ import { redirecttoSpotUrl } from "../../../../config/urls";
 import { fetchManyById } from "../../../../services/data";
 import type { Review } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { ReviewCard } from "../../../spot_management/components/ReviewCard/ReviewCard";
 import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
 

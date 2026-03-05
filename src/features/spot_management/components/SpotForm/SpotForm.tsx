@@ -11,7 +11,7 @@ import { SPOT_TYPES, spotFormFields, TRAFFIC_LEVELS } from "../../../../config/s
 import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
 import type { SpotType, TrafficLevel } from "../../../../types/spots_types";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import "./SpotForm.css";
 
 type SpotForm = {

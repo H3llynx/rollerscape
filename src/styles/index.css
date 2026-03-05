@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Racing+Sans+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -7,6 +8,7 @@
   --font-main: "Inter", sans-serif;
   --font-title: "Racing Sans One", sans-serif;
   --font-special: "Special Elite", ui-monospace;
+  --font-marker: "Permanent Marker", cursive;
   --default-transition: 0.4s ease;
   --color-dark: #1a1a1a;
   --color-dark-2: #1b242d;
@@ -42,6 +44,7 @@
       #1a1a1a 10px,
       #1e1e1e 10px,
       #1e1e1e 20px);
+  --map-controls-shadow: 0 0 15px var(--color-rgba-dark-2);
 }
 
 :root[data-theme="light"] {
@@ -49,7 +52,7 @@
   --color-bg-main: var(--color-white);
   --color-bg-secondary: var(--color-white);
   --color-bg-rgba: var(--color-rgba-white);
-  --color-bg-rgba-2: rgba(255, 255, 255, 0.6);
+  --color-bg-rgba-2: rgba(229, 229, 229, 0.7);
   --color-rgba-secondary: var(--color-rgba-turquoise);
   --color-grey: #5e5e63;
   --color-turquoise: rgb(1, 144, 130);
@@ -70,6 +73,7 @@
   body {
     width: 100vw;
     max-height: 100dvh;
+    min-height: -webkit-fill-available;
     font-family: var(--font-main);
     color: var(--color-text);
     background-image: url("../assets/hero.png");
@@ -111,7 +115,7 @@
   }
 
   h1 {
-    @apply font-title text-text-secondary text-xl lg:text-2xl;
+    @apply md:font-title text-text text-xl md:text-2xl;
   }
 
   h2 {
@@ -126,7 +130,7 @@
     @apply flex flex-col gap-2 md:pr-1 w-full;
   }
 
-  label:not(.theme-switcher, .map-label, .file-label) {
+  label:not(.theme-switcher, .map-label, .file-label, .expand-search-cta) {
     @apply md:font-special text-text flex flex-col gap-0.5;
 
     &:has(input[type="checkbox"]) {

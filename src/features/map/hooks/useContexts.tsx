@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { PanelSizeContext } from "../context/PanelSizeContext";
 import { SpotsContext } from "../context/SpotsContext";
 
 export const useSpots = () => {
@@ -8,3 +9,11 @@ export const useSpots = () => {
     }
     return context;
 };
+
+export const usePanelSize = () => {
+    const context = useContext(PanelSizeContext)
+    if (!context) {
+        throw new Error("Panel size context / provider error")
+    }
+    return context;
+}

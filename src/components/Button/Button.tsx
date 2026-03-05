@@ -16,7 +16,6 @@ const buttonVariants = tv({
             tertiary: "px-[5px] text-text-secondary font-bold hover:text-grey",
             icon: "px-[5px] text-text hover:text-text-secondary",
             collapsed: "px-[5px] text-grey collapsed-btn",
-            search: "bg-bg-cta text-text-cta font-bold border-rgba-dark-2 rounded-none px-0.5 active:bg-bg-cta-active hover:-translate-y-0",
         }
     }
 });

@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GalleryDialog } from "../../../../components/GalleryDialog/GalleryDialog";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import "./SpotPhotos.css";
 
 export function SpotPhotos() {

@@ -1,5 +1,5 @@
 import Skater from "../../../../assets/hero.png";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { RiderCard } from "../RiderCard/RiderCard";
 
 export function DesktopSpotHeader() {

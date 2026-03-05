@@ -12,7 +12,7 @@
     }
 
     .expand-filters-cta {
-        @apply flex p-0 justify-center items-center bg-bg-main w-3 h-3 rounded-full border border-rgba-dark-2 drop-shadow-lg drop-shadow-rgba-dark md:hidden;
+        @apply flex p-0 justify-center items-center bg-bg-secondary w-3 h-3 rounded-full border border-rgba-dark-2 drop-shadow-lg drop-shadow-rgba-dark md:hidden;
 
         .expand-filters-icon {
             @apply w-2 h-2 text-text
@@ -21,7 +21,7 @@
 }
 
 #spot-type-filters {
-    @apply hidden md:block relative bg-bg-main rounded-2xl py-0.5 pl-0.5 pr-1.5 border-2 border-grey;
+    @apply hidden md:block relative bg-bg-main rounded-2xl py-0.5 pl-0.5 pr-1.5 border border-border;
 
     &::before {
         content: "";

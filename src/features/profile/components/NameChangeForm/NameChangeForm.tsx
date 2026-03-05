@@ -8,7 +8,7 @@ import { udpdateError } from "../../../../config/errors";
 import { updateData } from "../../../../services/data";
 import type { FormProps } from "../../../../types/other_reusable_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 
 export function NameChangeForm({ onSuccess }: FormProps) {
     const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<{ name: string }>();

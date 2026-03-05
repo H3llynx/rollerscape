@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo } from "../../../../types/spots_types";
-import { useSpots } from "../../hooks/useSpots";
+import { useSpots } from "../../hooks/useContexts";
 
 export function FlyToSpot({ spot }: { spot: SpotFullInfo | null }) {
     const map = useMap();

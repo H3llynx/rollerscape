@@ -14,6 +14,7 @@ import { MapBase } from "../../../map/components/MapBase/MapBase";
 import { RouteDisplay } from "../../../map/components/RouteDisplay/RouteDisplay";
 import { UserMarker } from "../../../map/components/UserMarker/UserMarker";
 import { useCenter } from "../../../map/hooks/useCenter";
+import { usePanelSize } from "../../../map/hooks/useContexts";
 import { CoordinatePicker, estimateDistanceFromCoords } from "../../utils";
 import { AddMarker } from "../AddMarker/AddMarker";
 import { FlyToCoords } from "../FlyToCoords/FlyToCoords";
@@ -32,8 +33,6 @@ type AddSpotMap = {
     custom: boolean;
     setCustom: Dispatch<SetStateAction<boolean>>;
     customDistanceRef: RefObject<number>;
-    isAddingRoute: boolean;
-    setIsAddingRoute: Dispatch<SetStateAction<boolean>>
 }
 
 export function AddSpotMap({
@@ -49,13 +48,12 @@ export function AddSpotMap({
     custom,
     setCustom,
     customDistanceRef,
-    isAddingRoute,
-    setIsAddingRoute
 }: AddSpotMap) {
     const { center, trackUser } = useCenter();
     const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinates>({ start: null, end: null });
     const [loading, setLoading] = useState(false);
     const isDesktop = useMediaQuery({ minWidth: 1024 });
+    const { textSmaller, setTextSmaller } = usePanelSize();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -107,7 +105,7 @@ export function AddSpotMap({
                 customDistanceRef.current += distance;
             }
             setSpotCoordinates(prev => [...prev, { lat, lon }]);
-            if (!isAddingRoute) setIsAddingRoute(true);
+            if (!textSmaller) setTextSmaller(true);
         }
     };
 
@@ -119,7 +117,7 @@ export function AddSpotMap({
             ]);
             customDistanceRef.current -= distance;
             setSpotCoordinates(prev => prev.slice(0, -1));
-            setIsAddingRoute(true)
+            setTextSmaller(true)
         } else if (routeCoordinates.end)
             setRouteCoordinates({ ...routeCoordinates, end: null })
         setRoutes([]);
@@ -167,7 +165,7 @@ export function AddSpotMap({
                                         <Button
                                             style="tertiary"
                                             className="route-controls"
-                                            onClick={() => setIsAddingRoute(false)}
+                                            onClick={() => setTextSmaller(false)}
                                             aria-label="Confirm itinerary">
                                             <CheckCircle aria-hidden strokeWidth={2} />
                                             Done

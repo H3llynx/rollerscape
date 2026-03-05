@@ -5,7 +5,7 @@ import { databases, dbSelect, views } from "../../../../config/databases";
 import { spotErrors } from "../../../../config/errors";
 import { deleteData, fetchDataById } from "../../../../services/data";
 import type { SpotFullInfo } from "../../../../types/spots_types";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { useSpots } from "../../../map/hooks/useContexts";
 import { SpotDescription } from "../SpotDescription/SpotDescription";
 import { SpotEdition } from "../SpotEdition/SpotEdition";
 

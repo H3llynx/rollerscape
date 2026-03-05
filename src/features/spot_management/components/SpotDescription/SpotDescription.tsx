@@ -7,7 +7,7 @@ import { getReviews } from "../../../../services/spots";
 import type { Review } from "../../../../types/spots_types";
 import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useSpots";
+import { usePanelSize, useSpots } from "../../../map/hooks/useContexts";
 import { ButtonContainer } from "../ButtonContainer/ButtonContainer";
 import { DesktopSpotHeader } from "../DesktopSpotHeader/DesktopSpotHeader";
 import { ReviewCard } from "../ReviewCard/ReviewCard";
@@ -31,6 +31,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const [reviewToEdit, setReviewToEdit] = useState<Review | null>(null);
     const { loadSpots } = useSpots();
     const [currentPage, setCurrentPage] = useState(1);
+    const { scrollableRef } = usePanelSize();
 
     const fetchComments = async () => {
         if (!selectedSpot) return;
@@ -71,7 +72,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
             <article className="pb-2 text-sm relative z-1">
-                <div className="px-1 md:p-2 flex justify-between w-full items-start">
+                <div className="px-1 md:p-2 flex justify-between w-full items-start" ref={scrollableRef}>
                     <div className="md:w-2xs">
                         <h1>{selectedSpot.name}</h1>
                         <div className="flex gap-0.5 mt-1 items-start flex-wrap">
@@ -85,19 +86,21 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                         <div className="text-grey mt-1">
                             <MapPin aria-hidden width={15} className="inline" /><span className="align-middle">{selectedSpot.address}</span>
                         </div>
-                        {selectedSpot.creator_profile && !isTabletorDesktop &&
-                            <div className="w-fit">
-                                <RiderCard desktop={false} />
-                            </div>
-                        }
                     </div>
-                    <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
-                    <Button style="icon" aria-label="Close description" className="hidden md:block absolute top-0 right-0" onClick={() => setSelectedSpot(null)}>
-                        <X aria-hidden />
-                    </Button>
+                    <div className="flex flex-col gap-0.5 items-end">
+                        <Button style="icon" aria-label="Close description" className="text-grey py-0 md:absolute top-0 right-0" onClick={() => setSelectedSpot(null)}>
+                            <X aria-hidden />
+                        </Button>
+                        <ButtonContainer spot={selectedSpot} onEdit={onEdit} onDelete={onDelete} />
+                    </div>
                 </div>
                 <div className="px-1 md:px-2">
-                    <div className="w-full flex gap-1 justify-between items-center flex-wrap my-1">
+                    {selectedSpot.creator_profile && !isTabletorDesktop &&
+                        <div className="w-fit">
+                            <RiderCard desktop={false} />
+                        </div>
+                    }
+                    <div className="w-full flex gap-1 justify-between items-center flex-wrap mb-1 mt-2 md:mt-1">
                         <div className="flex items-center gap-[5px] w-full">
                             <h3 className="shrink-0">Surface quality:</h3>
                             {selectedSpot.surface_quality &&

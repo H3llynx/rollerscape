@@ -1,5 +1,5 @@
-import { SlidersHorizontal, Star } from "lucide-react";
-import { useRef, type Dispatch, type SetStateAction } from "react";
+import { Minimize2, SlidersHorizontal, Star } from "lucide-react";
+import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import type { SpotType } from "../../../../types/spots_types";
 import { getSpotType, handleAria } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
@@ -14,6 +14,7 @@ type MapFilter = {
 }
 
 export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyFavorites, setShowOnlyFavorites }: MapFilter) {
+    const [expanded, setExpanded] = useState<boolean>(false)
     const expandFiltersRef = useRef<HTMLInputElement>(null)
     const { profile } = useAuth();
 
@@ -70,14 +71,16 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
                     </label>}
             </div>
             <label className="expand-filters-cta" aria-label="Expand filters" htmlFor="expand-filters">
-                <SlidersHorizontal aria-hidden className="expand-filters-icon" />
+                {!expanded && <SlidersHorizontal aria-hidden className="expand-filters-icon" />}
+                {expanded && <Minimize2 aria-hidden className="expand-filters-icon" />}
                 <input className="sr-only"
                     type="checkbox"
                     id="expand-filters"
                     aria-expanded="false"
                     aria-controls="spot-type-filters"
                     ref={expandFiltersRef}
-                    onChange={() => handleAria(expandFiltersRef)}
+                    checked={expanded}
+                    onChange={() => { handleAria(expandFiltersRef); setExpanded(!expanded) }}
                 />
             </label>
         </div>

@@ -19,7 +19,7 @@ import type { Coordinates, Route } from "../../types/geolocation_types";
 import type { JunctionInsert, RouteGenMode, Spot, SpotType, TrafficLevel } from "../../types/spots_types";
 import { createSlug } from "../../utils/helpers";
 import { useCenter } from "../map/hooks/useCenter";
-import { useSpots } from "../map/hooks/useSpots";
+import { usePanelSize, useSpots } from "../map/hooks/useContexts";
 import { AddSpotMap } from "./components/AddSpotMap/AddSpotMap";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
 import { MapsToCoordsForm } from "./components/MapsToCoordsForm/MapsToCoordsForm";
@@ -43,9 +43,9 @@ export function AddSpotPage() {
     const [custom, setCustom] = useState<boolean>(false);
     const dialogRef = useRef<HTMLDialogElement>(null);
     const customDistanceRef = useRef<number>(0);
-    const [isAddingRoute, setIsAddingRoute] = useState<boolean>(false);
     const isDesktop = useMediaQuery({ minWidth: 1024 });
     const instructionsRef = useRef<HTMLParagraphElement>(null);
+    const { textSmaller, setTextSmaller } = usePanelSize();
 
     useEffect(() => {
         if (error) {
@@ -55,8 +55,8 @@ export function AddSpotPage() {
 
     useEffect(() => {
         if (locationType && locationType === "route")
-            setIsAddingRoute(true);
-        if (routes.length) setIsAddingRoute(false)
+            setTextSmaller(true);
+        if (routes.length) setTextSmaller(false)
     }, [locationType, routes]);
 
     useEffect(() => {
@@ -132,11 +132,11 @@ export function AddSpotPage() {
         <>
             <Header style="map" />
             {profile && center &&
-                <GridLeftPanel collapsed={!confirmedLocationType} isAddingRoute={isAddingRoute}>
+                <GridLeftPanel collapsed={!confirmedLocationType} textSmaller={textSmaller}>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <>
-                                <MobileHideButton onClick={() => navigate("/")} />
+                                <MobileHideButton />
                                 <div className="left-panel-container px-2 md:px-1 lg:px-2 pb-2 md:pt-8">
                                     <div className="flex gap-0.5 justify-between items-center pb-1 md:py-2">
                                         <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
@@ -188,8 +188,6 @@ export function AddSpotPage() {
                         custom={custom}
                         setCustom={setCustom}
                         customDistanceRef={customDistanceRef}
-                        isAddingRoute={isAddingRoute}
-                        setIsAddingRoute={setIsAddingRoute}
                     />
                 </GridLeftPanel>
             }

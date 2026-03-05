@@ -1,5 +1,5 @@
 
-import { LocateFixed } from "lucide-react";
+import { LocateFixed, Plus } from "lucide-react";
 import { type ReactNode } from "react";
 import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
@@ -27,6 +27,7 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
     const { profile } = useAuth();
     const { pathname } = useLocation();
     const isDesktop = useMediaQuery({ minWidth: 1024 });
+    const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
 
     return (
         <div className="sticky w-full h-full inset-0">
@@ -61,10 +62,11 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
                                     {profile && pathname !== "/add-spot" &&
                                         <Button
                                             style="tertiary"
-                                            className="add-spot-btn mr-0.5"
+                                            className="add-spot-btn button-shadow md:shadow-none"
                                             aria-label="Add new spot"
                                             onClick={() => navigate("/add-spot")}>
-                                            <img src={AddButton} className="w-11 md:w-12 pointer-events-none" />
+                                            {isTabletorDesktop && <img src={AddButton} className="w-12 pointer-events-none" />}
+                                            {!isTabletorDesktop && <Plus aria-hidden color="var(--color-text-cta)" className="bg-bg-cta rounded-full w-2.5 h-2.5 p-0.5" />}
                                         </Button>
                                     }
                                     {trackUser &&

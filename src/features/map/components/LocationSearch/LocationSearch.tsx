@@ -2,7 +2,7 @@ import { Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { Button } from '../../../../components/Button/Button';
-import { useSpots } from '../../hooks/useSpots';
+import { useSpots } from '../../hooks/useContexts';
 import "./LocationSearch.css";
 
 export function LocationSearch() {
@@ -29,25 +29,26 @@ export function LocationSearch() {
             <form
                 id="search-form"
                 onSubmit={handleSearch}
+                className="slight-shadow"
             >
                 <input
                     name="location"
-                    className="slight-shadow bg-rgba-white bg-blur text-dark-3 w-full h-full border-grey"
+                    className="border-0"
                     placeholder="Search a location..."
                 />
                 <Button
-                    style="search"
+                    style="icon"
                     aria-label="Search location"
                     className="search-button">
                     <Search aria-hidden />
                 </Button>
             </form>
             <label
-                className={`${expanded ? "bg-bg-rgba bg-blur" : "bg-bg-cta"} expand-search-cta`}
+                className={`${expanded ? "bg-transparent" : "bg-bg-cta button-shadow"} expand-search-cta`}
                 aria-hidden
                 htmlFor="expand-search">
                 {expanded
-                    ? <X aria-hidden color="var(--color-text)" strokeWidth={2} />
+                    ? <X aria-hidden strokeWidth={2} color="var(--color-dark-3)" />
                     : <Search aria-hidden />
                 }
                 <input className="sr-only"
