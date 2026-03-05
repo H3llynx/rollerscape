@@ -33,7 +33,7 @@ export function LocationSearch() {
             >
                 <input
                     name="location"
-                    className="border-0"
+                    className="border-0 h-full"
                     placeholder="Search a location..."
                 />
                 <Button

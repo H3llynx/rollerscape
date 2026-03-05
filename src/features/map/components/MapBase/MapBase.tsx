@@ -66,7 +66,7 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
                                             aria-label="Add new spot"
                                             onClick={() => navigate("/add-spot")}>
                                             {isTabletorDesktop && <img src={AddButton} className="w-12 pointer-events-none" />}
-                                            {!isTabletorDesktop && <Plus aria-hidden color="var(--color-text-cta)" className="bg-bg-cta rounded-full w-2.5 h-2.5 p-0.5" />}
+                                            {!isTabletorDesktop && <Plus aria-hidden color="var(--color-text-cta)" className="bg-bg-cta rounded-full w-3 h-3 p-0.5" />}
                                         </Button>
                                     }
                                     {trackUser &&

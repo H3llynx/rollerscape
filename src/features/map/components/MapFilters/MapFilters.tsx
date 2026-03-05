@@ -70,7 +70,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
                         </span>
                     </label>}
             </div>
-            <label className="expand-filters-cta" aria-label="Expand filters" htmlFor="expand-filters">
+            <label className="expand-filters-cta slight-shadow" aria-label="Expand filters" htmlFor="expand-filters">
                 {!expanded && <SlidersHorizontal aria-hidden className="expand-filters-icon" />}
                 {expanded && <Minimize2 aria-hidden className="expand-filters-icon" />}
                 <input className="sr-only"

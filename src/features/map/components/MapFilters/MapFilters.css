@@ -12,7 +12,7 @@
     }
 
     .expand-filters-cta {
-        @apply flex p-0 justify-center items-center bg-bg-secondary w-3 h-3 rounded-full border border-rgba-dark-2 drop-shadow-lg drop-shadow-rgba-dark md:hidden;
+        @apply flex p-0 justify-center items-center bg-bg-rgba w-3 h-3 rounded-xl border border-rgba-dark-2 md:hidden;
 
         .expand-filters-icon {
             @apply w-2 h-2 text-text
