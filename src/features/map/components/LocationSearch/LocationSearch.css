@@ -4,14 +4,22 @@
 .search-container {
     @apply flex items-center gap-0.5 my-1;
 
+    &:has(input:focus-visible) {
+        @apply rounded-full;
+        outline-width: 2px;
+        outline-style: solid;
+        outline-offset: 4px;
+        outline-color: var(--color-text-secondary);
+    }
+
     #search-form {
-        @apply bg-bg-secondary relative rounded-full h-3 max-w-0 opacity-0 scale-x-0 invisible md:visible md:max-w-fit md:opacity-100 md:scale-100;
+        @apply bg-bg-rgba relative rounded-full h-3 max-w-0 opacity-0 scale-x-0 invisible md:visible md:max-w-fit md:opacity-100 md:scale-100;
         transition: var(--default-transition);
         transform-origin: right center;
     }
 
     .search-button {
-        @apply absolute right-0 bottom-0 top-0 text-text;
+        @apply absolute right-0.5 bottom-0 top-0 text-text;
     }
 
     &:has(#expand-search:checked) {

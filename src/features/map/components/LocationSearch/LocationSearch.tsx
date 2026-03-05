@@ -29,11 +29,11 @@ export function LocationSearch() {
             <form
                 id="search-form"
                 onSubmit={handleSearch}
-                className="slight-shadow"
+                className="slight-shadow bg-blur"
             >
                 <input
                     name="location"
-                    className="border-0 h-full"
+                    className="border-0 h-full focus-visible:outline-none"
                     placeholder="Search a location..."
                 />
                 <Button
@@ -44,12 +44,12 @@ export function LocationSearch() {
                 </Button>
             </form>
             <label
-                className={`${expanded ? "bg-transparent" : "bg-bg-cta button-shadow"} expand-search-cta`}
+                className={`${expanded ? "bg-transparent" : "bg-bg-cta slight-shadow"} expand-search-cta`}
                 aria-hidden
                 htmlFor="expand-search">
                 {expanded
-                    ? <X aria-hidden strokeWidth={2} color="var(--color-dark-3)" />
-                    : <Search aria-hidden />
+                    ? <X aria-hidden color="var(--color-dark-3)" />
+                    : <Search strokeWidth={3} aria-hidden />
                 }
                 <input className="sr-only"
                     type="checkbox"

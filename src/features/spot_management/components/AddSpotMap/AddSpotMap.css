@@ -28,7 +28,7 @@
 }
 
 .route-controls {
-    @apply bg-bg-main md:border-2 border-border text-text px-0.5 rounded-full md:rounded-xl;
+    @apply bg-bg-rgba text-text px-0.5 rounded-full md:rounded-xl;
 }
 
 @media (hover: hover) and (pointer: fine) {

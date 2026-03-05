@@ -144,10 +144,10 @@ export function AddSpotMap({
                         </Button>
                     }
                     {(routeCoordinates.start || spotCoordinates.length > 0) &&
-                        <div className="sticky flex gap-[5px] ml-[5px]">
+                        <div className="sticky flex gap-[10px] ml-[5px]">
                             <Button
                                 style="icon"
-                                className="route-controls"
+                                className="route-controls bg-blur slight-shadow"
                                 onClick={resetRoute}
                                 aria-label="Reset">
                                 <MapPinX aria-hidden />
@@ -156,7 +156,7 @@ export function AddSpotMap({
                                 <>
                                     <Button
                                         style="icon"
-                                        className="route-controls"
+                                        className="route-controls bg-blur slight-shadow"
                                         onClick={handleUndoPoint}
                                         aria-label="Undo last point">
                                         <Undo2 aria-hidden />
@@ -164,7 +164,7 @@ export function AddSpotMap({
                                     {!isDesktop &&
                                         <Button
                                             style="tertiary"
-                                            className="route-controls"
+                                            className="route-controls bg-blur slight-shadow"
                                             onClick={() => setTextSmaller(false)}
                                             aria-label="Confirm itinerary">
                                             <CheckCircle aria-hidden strokeWidth={2} />

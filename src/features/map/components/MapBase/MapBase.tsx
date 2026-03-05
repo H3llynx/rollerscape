@@ -1,5 +1,5 @@
 
-import { LocateFixed, Plus } from "lucide-react";
+import { LocateFixed, MapPinPlus } from "lucide-react";
 import { type ReactNode } from "react";
 import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
@@ -62,11 +62,11 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
                                     {profile && pathname !== "/add-spot" &&
                                         <Button
                                             style="tertiary"
-                                            className="add-spot-btn button-shadow md:shadow-none"
+                                            className="add-spot-btn slight-shadow md:shadow-none"
                                             aria-label="Add new spot"
                                             onClick={() => navigate("/add-spot")}>
                                             {isTabletorDesktop && <img src={AddButton} className="w-12 pointer-events-none" />}
-                                            {!isTabletorDesktop && <Plus aria-hidden color="var(--color-text-cta)" className="bg-bg-cta rounded-full w-3 h-3 p-0.5" />}
+                                            {!isTabletorDesktop && <MapPinPlus aria-hidden color="var(--color-text-cta)" className="bg-bg-cta rounded-full w-3 h-3 p-0.5" />}
                                         </Button>
                                     }
                                     {trackUser &&
