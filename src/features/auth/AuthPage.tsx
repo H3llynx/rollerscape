@@ -64,7 +64,7 @@ export function AuthPage() {
                         <Input
                             label="Email address:"
                             type="text"
-                            id="email"
+                            id="reset-email"
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />

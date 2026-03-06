@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
 import { MapPage } from '../../../MapPage';
+import { PanelSizeProvider } from '../../../context/PanelSize/PanelSizeProvider';
 import { SpotsContext } from '../../../context/Spots/SpotsContext';
 
 let mockProfile: any = null;
@@ -38,7 +39,9 @@ const MapArea = (userContext: any) => (
     <MemoryRouter>
         <AuthContext value={userContext}>
             <SpotsContext value={spotsVal}>
-                <MapPage />
+                <PanelSizeProvider>
+                    <MapPage />
+                </PanelSizeProvider>
             </SpotsContext>
         </AuthContext>
     </MemoryRouter>

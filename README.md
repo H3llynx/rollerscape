@@ -150,6 +150,7 @@ Once your location or route is set, fill in name, spot type, skating style, diff
 | Name | Usage |
 |---|---|
 | **react-leaflet** | Interactive map |
+| **React Hook Form** | Form handling |
 | **Swiper** | Fullscreen photo lightbox — click any image in the panel to open it in a swipeable dialog |
 | **Lucide** | Icons |
 | **Tailwind Variants** + **tailwind-merge** | Variant-based component styling & class conflict resolution |

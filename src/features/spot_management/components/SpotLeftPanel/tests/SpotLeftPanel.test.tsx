@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
 import { SpotMap } from '../../../../map/components/SpotMap/SpotMap';
+import { PanelSizeProvider } from '../../../../map/context/PanelSize/PanelSizeProvider';
 import { SpotsContext } from '../../../../map/context/Spots/SpotsContext';
 
 vi.mock("../../../../map/hooks/useCenter", () => ({
@@ -27,7 +28,9 @@ const MapArea = (spotContext: any, userContext: any) => (
     <MemoryRouter>
         <AuthContext value={userContext}>
             <SpotsContext value={spotContext}>
-                <SpotMap zoom={12} />
+                <PanelSizeProvider>
+                    <SpotMap zoom={12} />
+                </PanelSizeProvider>
             </SpotsContext>
         </AuthContext>
     </MemoryRouter>

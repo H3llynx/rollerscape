@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
 import { AuthContext } from '../../../../auth/context/AuthContext';
+import { PanelSizeProvider } from '../../../context/PanelSize/PanelSizeProvider';
 import { SpotsContext } from '../../../context/Spots/SpotsContext';
 import { useCenter } from '../../../hooks/useCenter';
 import { SpotMap } from '../SpotMap';
@@ -14,6 +15,8 @@ vi.mock("../../../hooks/useCenter", () => ({
 vi.mock('react-leaflet', () => ({
     LayerGroup: ({ children }: any) => <div data-testid="layer-group">{children}</div>,
     MapContainer: ({ children }: any) => <div data-testid="map-container">{children}</div>,
+    LayersControl: () => null,
+    ZoomControl: () => null,
     TileLayer: () => null,
     Marker: () => null,
     Polyline: ({ positions }: any) => (
@@ -23,8 +26,8 @@ vi.mock('react-leaflet', () => ({
     useMapEvents: vi.fn(() => null),
 }));
 
-vi.mock('../../Map/Map', () => ({
-    Map: ({ children }: any) => <div data-testid="map">{children}</div>,
+vi.mock('../../MapBase/MapBase', () => ({
+    MapBase: ({ children }: any) => <div data-testid="map">{children}</div>,
 }));
 
 vi.mock('../../RouteDisplay/RouteDisplay', () => ({
@@ -63,7 +66,9 @@ const MapArea = (spotContext: any) => (
     <MemoryRouter>
         <AuthContext value={valAuthNoUser as any}>
             <SpotsContext value={spotContext}>
-                <SpotMap zoom={12} />
+                <PanelSizeProvider>
+                    <SpotMap zoom={12} />
+                </PanelSizeProvider>
             </SpotsContext>
         </AuthContext>
     </MemoryRouter>
