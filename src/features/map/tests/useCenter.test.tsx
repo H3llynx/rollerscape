@@ -1,11 +1,11 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { getBrowserPosition } from '../../../../services/geolocation';
-import { valAuthNoUser, valAuthUser } from '../../../../tests/setup';
-import { AuthContext } from '../../../auth/context/AuthContext';
-import { useCenter } from '../useCenter';
+import { getBrowserPosition } from '../../../services/geolocation';
+import { valAuthNoUser, valAuthUser } from '../../../tests/setup';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { useCenter } from "../hooks/useCenter";
 
-vi.mock("../../../../services/geolocation", () => ({
+vi.mock("../../../services/geolocation", () => ({
     getBrowserPosition: vi.fn(),
 }));
 

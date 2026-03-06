@@ -2,13 +2,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
-import { makeSpot, valAuthNoUser, valAuthUser } from '../../../../../tests/setup';
-import { AuthContext } from '../../../../auth/context/AuthContext';
-import { SpotMap } from '../../../../map/components/SpotMap/SpotMap';
-import { PanelSizeProvider } from '../../../../map/context/PanelSize/PanelSizeProvider';
-import { SpotsContext } from '../../../../map/context/Spots/SpotsContext';
+import { makeSpot, valAuthNoUser, valAuthUser } from '../../../tests/setup';
+import { AuthContext } from '../../auth/context/AuthContext';
+import { SpotMap } from '../../map/components/SpotMap/SpotMap';
+import { PanelSizeProvider } from '../../map/context/PanelSize/PanelSizeProvider';
+import { SpotsContext } from '../../map/context/Spots/SpotsContext';
 
-vi.mock("../../../../map/hooks/useCenter", () => ({
+vi.mock("../../map/hooks/useCenter", () => ({
     useCenter: () => ({
         center: [40.4168, -3.7038],
         setCenter: vi.fn(),

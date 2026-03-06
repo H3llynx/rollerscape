@@ -33,7 +33,10 @@ export function SigIn({ onError }: { onError: (error: AuthError) => void; }) {
 
     return (
         <section className="flex flex-col gap-1 standard-width">
-            <form className="md:w-xs" onSubmit={handleSubmit((loginWithPassword))}>
+            <form
+                aria-label="Sign in"
+                className="md:w-xs"
+                onSubmit={handleSubmit((loginWithPassword))}>
                 <Input
                     label="Email address:"
                     type="text"

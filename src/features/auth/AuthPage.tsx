@@ -1,5 +1,7 @@
 import type { AuthError } from "@supabase/supabase-js";
+import { Check } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "../../components/Button/Button";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { Header } from "../../components/Header/Header";
@@ -12,8 +14,8 @@ import { SignUp } from "./components/SignUp/SignUp";
 export function AuthPage() {
     const [login, setLogin] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [email, setEmail] = useState<string>("");
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const { register, handleSubmit, reset, getValues, formState: { isSubmitted } } = useForm<{ email: string }>();
 
     useEffect(() => {
         if (error) {
@@ -31,15 +33,16 @@ export function AuthPage() {
 
     const handleClose = () => {
         dialogRef.current?.close();
-        setEmail("");
         setError(null);
+        reset();
     }
 
-    const handlePasswordReset = async (email: string) => {
+    const handlePasswordReset = async ({ email }: { email: string }) => {
         const { error: resetError } = await resetPassword(email);
-        if (resetError) setError(error);
-        dialogRef.current?.close();
-        setEmail("");
+        if (resetError) {
+            setError(resetError.message);
+            return;
+        }
         setError(null);
     }
 
@@ -59,27 +62,42 @@ export function AuthPage() {
                         {login ? "Create account" : "I already have an account"}
                     </Button>
                 </div>
-                <Dialog ref={dialogRef} style={error ? "error" : "default"} close={handleClose}>
-                    {!error && <div className="text-base flex flex-col gap-1">
-                        <Input
-                            label="Email address:"
-                            type="text"
-                            id="reset-email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <Button style="primary" onClick={() => handlePasswordReset(email)}>Reset password</Button>
-                    </div>}
-                    {error &&
-                        <>
-                            <p className="mt-1">{error}</p>
-                            <div className="flex gap-[5px] ml-auto">
-                                <Button style="secondary" className="border-white text-text" onClick={handleClose}>Try again</Button>
-                            </div>
-                        </>
-                    }
-                </Dialog>
             </main>
+            <Dialog ref={dialogRef} style={error ? "error" : "default"} close={handleClose}>
+                {!error &&
+                    <>
+                        {!isSubmitted &&
+                            <form
+                                aria-label="Reset password"
+                                onSubmit={handleSubmit(handlePasswordReset)}>
+                                <Input
+                                    label="Email address:"
+                                    type="email"
+                                    id="reset-email"
+                                    {...register("email")}
+                                    required
+                                />
+                                <Button style="primary">Reset password</Button>
+                            </form>
+                        }
+                        {isSubmitted &&
+                            <>
+                                <p>Check your inbox!
+                                    We've sent a password reset link to <i className="text-text-secondary">{getValues("email")}</i>. If you don't see it, check your spam folder.</p>
+                                <Button style="secondary" className="border-white text-text ml-auto" onClick={handleClose}><Check aria-hidden />Cool</Button>
+                            </>
+                        }
+                    </>
+                }
+                {error &&
+                    <>
+                        <p className="mt-1">{error}</p>
+                        <div className="flex gap-[5px] ml-auto">
+                            <Button style="secondary" className="border-white text-text" onClick={handleClose}>Try again</Button>
+                        </div>
+                    </>
+                }
+            </Dialog>
         </>
     )
 }

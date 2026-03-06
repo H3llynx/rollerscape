@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { userEvent } from "@testing-library/user-event";
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
@@ -17,7 +17,7 @@ vi.mock("../../../services/auth", () => ({
 
 const mockNavigate = vi.fn();
 
-vi.mock('react-router', async () => {
+vi.mock("react-router", async () => {
     const actual = await vi.importActual('react-router');
     return {
         ...actual,
@@ -26,9 +26,8 @@ vi.mock('react-router', async () => {
 });
 
 describe("Authentication process", () => {
-    const user = userEvent.setup()
-
     it("should display a popup if the user fails registration", async () => {
+        const user = userEvent.setup()
         vi.mocked(signIn).mockResolvedValueOnce(
             { data: null, error: { message: "Invalid credentials", status: 400 } } as any
         )
@@ -39,15 +38,11 @@ describe("Authentication process", () => {
                 </AuthContext>
             </MemoryRouter>
         )
-
-        const form = document.querySelector("form")!
-        await user.type(within(form).getByLabelText(/email address/i), "test@test.com")
-        await user.type(within(form).getByLabelText(/password/i), "wrongpassword")
-        await user.click(within(form).getByRole("button", { name: /log in/i }))
-
-        await waitFor(() => {
-            expect(screen.getByRole("dialog", { hidden: true })).toHaveAttribute("open")
-        })
+        const form = within(screen.getByRole("main")).getByRole("form");
+        await user.type(within(form).getByLabelText(/email address/i), "test@test.com");
+        await user.type(within(form).getByLabelText(/password/i), "wrongpassword");
+        await user.click(within(form).getByRole("button", { name: /log in/i }));
+        expect(screen.getByRole("dialog", { hidden: true })).toHaveAttribute("open");
     })
 
     it("should redirect the user to the homepage if the user logs in correctly", async () => {
@@ -61,11 +56,6 @@ describe("Authentication process", () => {
                 </AuthContext>
             </MemoryRouter>
         );
-        const form = document.querySelector("form")!
-        await user.type(within(form).getByLabelText(/email address/i), "test@test.com")
-        await user.type(within(form).getByLabelText(/password/i), "wrongpassword")
-        await user.click(within(form).getByRole("button", { name: /log in/i }))
-
         expect(mockNavigate).toHaveBeenCalled();
     });
 

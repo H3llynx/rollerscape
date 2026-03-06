@@ -1,9 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
-import { expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { spotFormFields } from '../../../config/spots';
-import { makeSpot, valAuthUser } from '../../../tests/setup';
+import { valAuthUser } from '../../../tests/setup';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { PanelSizeProvider } from '../../map/context/PanelSize/PanelSizeProvider';
 import { SpotsContext } from '../../map/context/Spots/SpotsContext';
@@ -20,13 +20,8 @@ vi.mock("../../map/hooks/useCenter", () => ({
     })
 }));
 
-const mockSpots = [
-    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: "1", name: "street_plaza" }], created_by: "1" }),
-    makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: "2", name: "greenway" }] }),
-];
-
 const spotsVal = {
-    spots: mockSpots,
+    spots: [],
     setSpots: () => { },
     loading: false,
     error: null,
@@ -47,7 +42,52 @@ const MapArea = () => (
     </MemoryRouter>
 );
 
-const mockCoords = [{ lat: 48.00001, lon: -2.00001 }];
+vi.mock('react-leaflet', () => ({
+    LayerGroup: ({ children }: any) => <div data-testid="layer-group">{children}</div>,
+    MapContainer: ({ children }: any) => <div data-testid="map-container">{children}</div>,
+    LayersControl: () => null,
+    ZoomControl: () => null,
+    TileLayer: () => null,
+    Marker: () => null,
+    Polyline: ({ positions }: any) => (
+        <div data-testid="polyline" data-positions={JSON.stringify(positions)} />
+    ),
+    useMap: vi.fn(() => ({ flyTo: vi.fn(), setView: vi.fn(), getZoom: vi.fn(), invalidateSize: vi.fn() })),
+    useMapEvents: vi.fn(() => null),
+}));
+
+vi.mock('../../map/components/MapBase/MapBase', () => ({
+    MapBase: ({ children, other }: any) => (
+        <div data-testid="map">
+            {other}
+            {children}
+        </div>
+    ),
+}));
+
+vi.mock('react-leaflet-custom-control', () => ({
+    default: ({ children }: any) => <div>{children}</div>,
+}));
+
+vi.mock('../../map/components/RouteDisplay/RouteDisplay', () => ({
+    RouteDisplay: ({ data, selected }: any) => (
+        selected
+            ? <div data-testid="route-display" data-coords={JSON.stringify(data)} />
+            : null
+    ),
+}));
+
+vi.mock('../../map/components/AddtMarker/AddMarker', () => ({
+    SpotMarker: ({ spot }: any) => <div data-testid={`marker-${spot.id}`} />
+}));
+
+vi.mock('../../map/components/UserMarker/UserMarker', () => ({
+    UserMarker: () => null,
+}));
+
+vi.mock('../../map/components/FlyToUser/FlyToUser', () => ({
+    FlyToUser: () => null,
+}));
 
 vi.mock('../../../../services/db', () => ({
     insertDataWithJunctions: vi.fn().mockResolvedValue({ error: null }),
@@ -55,14 +95,20 @@ vi.mock('../../../../services/db', () => ({
     getTrafficLevels: vi.fn().mockResolvedValue({ data: [{ id: '2' }] }),
 }))
 
-it("first asks user to pick a location type, then display the form", async () => {
-    const user = userEvent.setup()
-    render(<MapArea />)
+const mockCoords = [{ lat: 48.00001, lon: -2.00001 }];
 
-    await user.selectOptions(screen.getByLabelText(/pick a location type/i), "point")
-    await user.click(screen.getByRole("button", { name: /confirm/i }))
-
-    await waitFor(() => {
-        expect(screen.getByLabelText(spotFormFields.name.label)).toBeInTheDocument()
+describe("Spot addition process", () => {
+    it("should first asks the user to confirm the location type before they can go any further", async () => {
+        render(<MapArea />);
+        expect(screen.getByLabelText(spotFormFields.location_type.label)).toBeInTheDocument();
+        expect(screen.queryByLabelText(/add spot/i)).not.toBeInTheDocument();
     });
+    it("should show the spot detail form and map once the location type is selected", async () => {
+        const user = userEvent.setup();
+        render(<MapArea />);
+        await user.selectOptions(screen.getByLabelText(/pick a location type/i), "point");
+        await user.click(screen.getByRole("button", { name: /confirm/i }));
+        expect(screen.getByLabelText(/add spot/i)).toBeInTheDocument();
+        expect(screen.getByTestId("map")).toBeInTheDocument();
+    })
 });

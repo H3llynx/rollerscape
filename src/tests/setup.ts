@@ -22,14 +22,14 @@ export const valAuthUser = {
         id: "1",
         name: "Helene",
         avatar_url: "",
-        favorites: [],
+        favorites: ["2"],
         home_country_code: "es",
         home_lat: null,
         home_location_name: null,
         home_lon: null,
         skill_level: undefined,
         skating_style: ["cruising"],
-        preferred_spot_types: ["greenway"]
+        preferred_spot_types: ["greenway", "bike_path"]
     },
     setProfile: () => { },
     loading: false

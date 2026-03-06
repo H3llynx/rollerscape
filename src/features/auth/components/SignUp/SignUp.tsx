@@ -29,8 +29,10 @@ export function SignUp({ onError }: { onError: (error: AuthError) => void }) {
 
     return (
         <section className="standard-width">
-            <form onSubmit={handleSubmit(createAccount)}
-                className="w-xs">
+            <form
+                aria-label="Sign up"
+                className="w-xs"
+                onSubmit={handleSubmit(createAccount)}>
                 <Input
                     label="What cool name should we call you?"
                     type="text"
