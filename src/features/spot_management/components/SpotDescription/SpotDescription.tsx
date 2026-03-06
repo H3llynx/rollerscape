@@ -26,7 +26,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const { selectedSpot, setSelectedSpot } = useSpots();
     const { profile } = useAuth();
     const [isRating, setIsRating] = useState<boolean>(false);
-    const commentsRef = useRef<HTMLDivElement>(null);
+    const reviewsRef = useRef<HTMLDivElement>(null);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [reviewToEdit, setReviewToEdit] = useState<Review | null>(null);
     const { loadSpots } = useSpots();
@@ -43,9 +43,8 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     }, [selectedSpot])
 
     useEffect(() => {
-        if (isRating && commentsRef.current) {
-            commentsRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }
+        if (isRating)
+            reviewsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, [isRating]);
 
     if (!selectedSpot) return;
@@ -55,17 +54,27 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         setReviewToEdit(null);
     }
 
-    const handleCommentEdit = (review: Review) => {
+    const handleReview = async () => {
+        hideReviewForm();
+        await loadSpots();
+        setTimeout(() => {
+            reviewsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 1000);
+    }
+
+    const handleEditReview = (review: Review) => {
         setIsRating(true);
         setReviewToEdit(review);
     }
 
     const reviewsPerPage = 6;
     const totalPages = Math.ceil(reviews.length / reviewsPerPage);
-    const paginatedReviews = reviews.slice(
-        (currentPage - 1) * reviewsPerPage,
-        currentPage * reviewsPerPage
-    );
+    const paginatedReviews = reviews
+        .sort((a, b) => b.created_at.localeCompare(a.created_at))
+        .slice(
+            (currentPage - 1) * reviewsPerPage,
+            currentPage * reviewsPerPage
+        );
 
     return (
         <section id={`spot-description-${selectedSpot.id}`}>
@@ -179,28 +188,28 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                     }
                 </div>
                 <SpotPhotos />
-                <div ref={commentsRef}>
-                    {profile && isRating &&
-                        <ReviewForm onSuccess={() => { hideReviewForm(); loadSpots(); }} onCancel={hideReviewForm} reviewToEdit={reviewToEdit} />
-                    }
-                    {reviews.length > 0 &&
-                        <>
-                            <div className="px-1 md:px-2 mt-2 flex flex-col gap-1">
-                                <h2 className="text-xl">Community Ratings</h2>
-                                {paginatedReviews.map(review => (
-                                    <ReviewCard key={review.id} review={review} onClick={() => handleCommentEdit(review)} description />
-                                ))}
+                {profile && isRating &&
+                    <div ref={reviewsRef}>
+                        <ReviewForm onSuccess={handleReview} onCancel={hideReviewForm} reviewToEdit={reviewToEdit} />
+                    </div>
+                }
+                {reviews.length > 0 &&
+                    <>
+                        <div className="px-1 md:px-2 mt-2 flex flex-col gap-1">
+                            <h2 className="text-xl">Community Ratings</h2>
+                            {paginatedReviews.map(review => (
+                                <ReviewCard key={review.id} review={review} onClick={() => handleEditReview(review)} spotDescription />
+                            ))}
+                        </div>
+                        {totalPages > 1 &&
+                            <div className="px-1 md:px-2 flex gap-0.5 items-center text-sm">
+                                <Button style="tertiary" className="text-text" onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1}>Prev</Button>
+                                <span className="text-grey">{currentPage} / {totalPages}</span>
+                                <Button style="tertiary" className="text-text" onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages}>Next</Button>
                             </div>
-                            {totalPages > 1 &&
-                                <div className="px-1 md:px-2 flex gap-0.5 items-center text-sm">
-                                    <Button style="tertiary" className="text-text" onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1}>Prev</Button>
-                                    <span className="text-grey">{currentPage} / {totalPages}</span>
-                                    <Button style="tertiary" className="text-text" onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages}>Next</Button>
-                                </div>
-                            }
-                        </>
-                    }
-                </div>
+                        }
+                    </>
+                }
             </article >
         </section >
     )

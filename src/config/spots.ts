@@ -1,6 +1,6 @@
 export const SPOT_TYPES = [
-    { value: "skatepark", label: "Skateparks", img: `${import.meta.env.BASE_URL}spot_type_icons/skatepark.png` },
-    { value: "street_plaza", label: "Street & Plazas", img: `${import.meta.env.BASE_URL}spot_type_icons/street.png` },
+    { value: "skatepark", label: "Skatepark", img: `${import.meta.env.BASE_URL}spot_type_icons/skatepark.png` },
+    { value: "street_plaza", label: "Street & Plaza", img: `${import.meta.env.BASE_URL}spot_type_icons/street.png` },
     { value: "smooth_flat", label: "Smooth Flat", img: `${import.meta.env.BASE_URL}spot_type_icons/smooth-flat.png` },
     { value: "bike_path", label: "Bike Paths", img: `${import.meta.env.BASE_URL}spot_type_icons/bike-path.png` },
     { value: "greenway", label: "Greenways", img: `${import.meta.env.BASE_URL}spot_type_icons/greenway.png` },
@@ -83,7 +83,7 @@ export const spotFormFields = {
     },
 }
 
-export const commentFormFields = {
+export const reviewFormFields = {
     score: {
         db_key: "rating",
         label: "Your vibe on this spot",

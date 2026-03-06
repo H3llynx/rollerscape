@@ -13,10 +13,10 @@ import { showAvatar } from "../../../profile/utils";
 type CommentCard = {
     review: Review;
     onClick: () => void;
-    description: boolean;
+    spotDescription: boolean;
 }
 
-export function ReviewCard({ review, onClick, description }: CommentCard) {
+export function ReviewCard({ review, onClick, spotDescription }: CommentCard) {
     const [reviewer, setReviewer] = useState<UserProfile | null>(null)
     const { profile } = useAuth();
     const { spots } = useSpots();
@@ -37,15 +37,15 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
     return (
         <div className="card text-grey flex-col items-start relative bg-bg-rgba-2">
             <div className="flex justify-between w-full">
-                {description &&
-                    <div className="flex items-center gap-0.5 text-border">
+                {spotDescription &&
+                    <div className="flex items-center gap-0.5 text-border max-w-[60%]">
                         <div className="image-container">
                             <img src={reviewer ? showAvatar(reviewer) : Skater}
                                 className="profile-avatar" />
                         </div>
                         <div>
                             <div className="flex flex-wrap items-center gap-[5px] mb-[5px]">
-                                <h3>{reviewer?.name} </h3>
+                                <h3 className="text-xs">{reviewer?.name} </h3>
                                 {reviewer?.skill_level &&
                                     <span className="text-[0.65rem]">({getSkillLevel(reviewer.skill_level)})</span>
                                 }
@@ -65,8 +65,8 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                         </div>
                     </div>
                 }
-                <div className={`flex gap-0.5 ${!description && "justify-between w-full"}`}>
-                    <span aria-label={`${review.rating}`} className="shrink-0">
+                <div className={`flex gap-0.5 ${!spotDescription && "justify-between w-full"}`}>
+                    <span aria-label={`${review.rating}`}>
                         {Array.from({ length: review.rating! }, (_, i) => (
                             <Star
                                 key={i}
@@ -76,7 +76,7 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                                 aria-hidden />
                         ))}
                     </span>
-                    {description ?
+                    {spotDescription ?
                         <>
                             {profile?.id === review.user_id &&
                                 <Button style="icon" aria-label="Edit score and review" className="text-grey self-start p-0" onClick={onClick}>
@@ -91,7 +91,7 @@ export function ReviewCard({ review, onClick, description }: CommentCard) {
                     }
                 </div>
             </div>
-            {!description && <h3>{spot?.name}</h3>}
+            {!spotDescription && <h3>{spot?.name}</h3>}
             {review.comment && <p className="font-light self-end ml-1">{review.comment}</p>}
             <i className="text-[0.7rem] self-end">{new Date(review.created_at).toLocaleDateString()}</i>
         </div>

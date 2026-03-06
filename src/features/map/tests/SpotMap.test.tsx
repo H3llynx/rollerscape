@@ -178,7 +178,6 @@ describe("Filters behaviour", () => {
             profile: valAuthNoUser.profile,
         } as any);
         const { container } = render(MapArea(valAuthNoUser, spotsVal));
-        console.log(container)
         const filterContainer = container.querySelector("#spot-type-filters");
         const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox")
         checkboxes.forEach(checkbox => expect(checkbox).toBeChecked());

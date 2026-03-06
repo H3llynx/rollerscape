@@ -120,7 +120,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     icons
                     required
                 />
-                <label htmlFor="surface_quality.id">
+                <label htmlFor={surface_quality.id}>
                     <span>{surface_quality.label}</span>
                     <input
                         id={surface_quality.id}

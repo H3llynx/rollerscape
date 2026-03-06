@@ -6,7 +6,7 @@ import { Button } from "../../../../components/Button/Button";
 import { Loading } from "../../../../components/Loading/Loading";
 import { databases } from "../../../../config/databases";
 import { spotErrors } from "../../../../config/errors";
-import { commentFormFields } from "../../../../config/spots";
+import { reviewFormFields } from "../../../../config/spots";
 import { deleteData, insertData, updateData } from "../../../../services/data";
 import type { Review } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
@@ -22,7 +22,7 @@ type ReviewForm = {
 export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
     const { selectedSpot } = useSpots();
     const { profile } = useAuth();
-    const { score, comment } = commentFormFields;
+    const { score, comment } = reviewFormFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting } } = useForm();
     const selectedScore = watch(score.db_key) as number;
     const [reviewError, setReviewError] = useState<PostgrestError | null>(null);
@@ -60,7 +60,7 @@ export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
 
     return (
         <div className="comment-form-container">
-            <form onSubmit={handleSubmit(reviewSpot)}>
+            <form onSubmit={handleSubmit(reviewSpot)} aria-label="spot review">
                 <label htmlFor={score.id}>
                     <span>{score.label}</span>
                     <input
@@ -112,7 +112,7 @@ export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
                             {reviewToEdit ? "Update score" : "Rate this spot"}</Button>
                     }
                     {reviewToEdit &&
-                        <Button style="icon" aria-label="Delete review" onClick={deleteReview}><Trash2 aria-hidden /></Button>
+                        <Button type="button" style="icon" aria-label="Delete review" onClick={deleteReview}><Trash2 aria-hidden /></Button>
                     }
                 </div>
             </form>
