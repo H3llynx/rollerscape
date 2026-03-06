@@ -48,7 +48,7 @@ export function ReviewsSection() {
                     const spot = spots.find(spot => spot.id === review.spot_id)
                     if (!spot) return;
                     return (
-                        <ReviewCard key={review.id} review={review} onClick={() => navigate(redirecttoSpotUrl(spot.slug))} description={false} />
+                        <ReviewCard key={review.id} review={review} onClick={() => navigate(redirecttoSpotUrl(spot.slug))} spotDescription={false} />
                     )
                 })}
             </div>
