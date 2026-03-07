@@ -170,7 +170,6 @@ describe("Step 2: coordinates picking on map", () => {
                     gpxCoordinates={null}
                     custom={custom}
                     setCustom={vi.fn()}
-                    customDistanceRef={{ current: 0 }}
                     resetRoute={() => { }}
                 />
             </PanelSizeProvider>
