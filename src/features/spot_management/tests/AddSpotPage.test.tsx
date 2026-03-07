@@ -10,7 +10,7 @@ import { redirecttoSpotUrl } from '../../../config/urls';
 import { insertDataWithJunctions } from '../../../services/data';
 import { fetchRoute } from '../../../services/geolocation';
 import { valAuthUser } from '../../../tests/setup';
-import type { Coordinates, Route } from '../../../types/geolocation_types';
+import type { Coordinates, Route, RouteCoordinates } from '../../../types/geolocation_types';
 import type { Spot } from '../../../types/spots_types';
 import { AuthContext } from '../../auth/context/AuthContext';
 import { PanelSizeProvider } from '../../map/context/PanelSize/PanelSizeProvider';
@@ -120,9 +120,9 @@ const MapArea = () => (
 
 let capturedHandler: any = null;
 
-const simulateClick = async (lat: number, lng: number) => {
+const simulateClick = async (lat: number, lon: number) => {
     await act(async () => {
-        capturedHandler.click({ latlng: { lat, lng } });
+        capturedHandler.click({ latlng: { lat, lon } });
     });
 };
 const user = userEvent.setup();
@@ -152,6 +152,7 @@ describe("Step 1: init with location type confirmation", () => {
 describe("Step 2: coordinates picking on map", () => {
     const MockAddSpotMap = ({ locationType = "point", custom = false }: { locationType?: Spot["location_type"], custom?: boolean }) => {
         const [spotCoordinates, setSpotCoordinates] = useState<Coordinates[]>([]);
+        const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinates>({ start: null, end: null });
         const [routes, setRoutes] = useState<Route[]>([]);
         return (
             <PanelSizeProvider>
@@ -160,6 +161,8 @@ describe("Step 2: coordinates picking on map", () => {
                     confirmedLocationType={true}
                     spotCoordinates={spotCoordinates}
                     setSpotCoordinates={setSpotCoordinates}
+                    routeCoordinates={routeCoordinates}
+                    setRouteCoordinates={setRouteCoordinates}
                     routes={routes}
                     setRoutes={setRoutes}
                     selectedRoute={0}
@@ -168,6 +171,7 @@ describe("Step 2: coordinates picking on map", () => {
                     custom={custom}
                     setCustom={vi.fn()}
                     customDistanceRef={{ current: 0 }}
+                    resetRoute={() => { }}
                 />
             </PanelSizeProvider>
         )

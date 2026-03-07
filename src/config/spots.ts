@@ -22,6 +22,8 @@ export const ROUTE_GEN_MODE = [
     { value: "gpx", label: "Upload GPX" },
 ] as const;
 
+export const POSSIBLE_DUPE_THRESHOLD_METERS = 100;
+
 export const spotFormFields = {
     location_type: {
         db_key: "location_type",

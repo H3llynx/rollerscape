@@ -25,6 +25,8 @@ type AddSpotMap = {
     confirmedLocationType: boolean;
     spotCoordinates: Coordinates[];
     setSpotCoordinates: Dispatch<SetStateAction<Coordinates[]>>
+    routeCoordinates: RouteCoordinates;
+    setRouteCoordinates: Dispatch<SetStateAction<RouteCoordinates>>;
     routes: Route[];
     setRoutes: Dispatch<SetStateAction<Route[]>>
     selectedRoute: number;
@@ -33,13 +35,16 @@ type AddSpotMap = {
     custom: boolean;
     setCustom: Dispatch<SetStateAction<boolean>>;
     customDistanceRef: RefObject<number>;
-}
+    resetRoute: () => void;
+};
 
 export function AddSpotMap({
     locationType,
     confirmedLocationType,
     spotCoordinates,
     setSpotCoordinates,
+    routeCoordinates,
+    setRouteCoordinates,
     routes,
     setRoutes,
     selectedRoute,
@@ -48,9 +53,9 @@ export function AddSpotMap({
     custom,
     setCustom,
     customDistanceRef,
+    resetRoute
 }: AddSpotMap) {
     const { center, trackUser } = useCenter();
-    const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinates>({ start: null, end: null });
     const [loading, setLoading] = useState(false);
     const isDesktop = useMediaQuery({ minWidth: 1024 });
     const { textSmaller, setTextSmaller } = usePanelSize();
@@ -82,13 +87,6 @@ export function AddSpotMap({
     }, [selectedRoute, routes, locationType, custom]);
 
     if (!center) return;
-
-    const resetRoute = () => {
-        setRouteCoordinates({ start: null, end: null });
-        setRoutes([]);
-        setSpotCoordinates([]);
-        customDistanceRef.current = 0;
-    }
 
     const handleCustom = () => {
         setCustom(!custom);

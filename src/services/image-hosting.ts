@@ -10,6 +10,6 @@ export const hostImg = async (file: File) => {
         body: formData,
     });
     const data = await response.json();
-    if (!data.success) return;
+    if (!data.success) throw new Error("Image upload failed");
     return data.data.url;
 }

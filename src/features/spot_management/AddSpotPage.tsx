@@ -14,8 +14,8 @@ import { redirecttoSpotUrl } from "../../config/urls";
 import { insertDataWithJunctions } from "../../services/data";
 import { reverseGeocode } from "../../services/geolocation";
 import { getSpotTypes, getTrafficLevels } from "../../services/spots";
-import type { Coordinates, Route } from "../../types/geolocation_types";
-import type { JunctionInsert, RouteGenMode, Spot, SpotType, TrafficLevel } from "../../types/spots_types";
+import type { Coordinates } from "../../types/geolocation_types";
+import type { JunctionInsert, Spot, SpotType, TrafficLevel } from "../../types/spots_types";
 import { createSlug } from "../../utils/helpers";
 import { useCenter } from "../map/hooks/useCenter";
 import { usePanelSize, useSpots } from "../map/hooks/useContexts";
@@ -23,34 +23,46 @@ import { AddSpotMap } from "./components/AddSpotMap/AddSpotMap";
 import { LocationTypeForm } from "./components/LocationTypeForm/LocationTypeForm";
 import { MapsToCoordsForm } from "./components/MapsToCoordsForm/MapsToCoordsForm";
 import { SpotForm } from "./components/SpotForm/SpotForm";
+import { useAddSpotMap } from "./hooks/useAddSpotMap";
+import { useSpotDuplicateCheck } from "./hooks/useSpotDuplicateCheck";
 import { estimateDistanceFromCoords } from "./utils";
 
 export function AddSpotPage() {
     const { center, profile } = useCenter();
     const { loadSpots } = useSpots();
     const { name, location_type, coordinates, description, surface_quality, spot_types, traffic_levels, photos } = spotFormFields;
+    const addSpotMap = useAddSpotMap();
+    const {
+        confirmedLocationType,
+        setConfirmedLocationType,
+        locationType,
+        setLocationType,
+        spotCoordinates,
+        setSpotCoordinates,
+        routeGenMode,
+        setRouteGenMode,
+        routes,
+        selectedRoute,
+        gpxCoordinates,
+        setGpxCoordinates,
+        custom,
+        customDistanceRef,
+        resetRoute
+    } = addSpotMap;
     const { setValue } = useForm();
     const navigate = useNavigate();
-    const [confirmedLocationType, setConfirmedLocationType] = useState<boolean>(false);
-    const [locationType, setLocationType] = useState<Spot["location_type"]>(location_type.options[0] as Spot["location_type"]);
-    const [routeGenMode, setRouteGenMode] = useState<RouteGenMode | null>(null);
-    const [spotCoordinates, setSpotCoordinates] = useState<Coordinates[]>([]);
-    const [routes, setRoutes] = useState<Route[]>([]);
-    const [selectedRoute, setSelectedRoute] = useState<number>(0);
-    const [gpxCoordinates, setGpxCoordinates] = useState<Coordinates[] | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [custom, setCustom] = useState<boolean>(false);
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const customDistanceRef = useRef<number>(0);
     const isDesktop = useMediaQuery({ minWidth: 1024 });
     const instructionsRef = useRef<HTMLParagraphElement>(null);
+    const { possibleDupe, setPossibleDupe } = useSpotDuplicateCheck(spotCoordinates, locationType);
     const { textSmaller, setTextSmaller } = usePanelSize();
 
     useEffect(() => {
-        if (error) {
+        if (error || possibleDupe) {
             dialogRef.current?.showModal();
         }
-    }, [error]);
+    }, [error, possibleDupe]);
 
     useEffect(() => {
         if (locationType && locationType === "route")
@@ -67,7 +79,13 @@ export function AddSpotPage() {
     const handleClose = () => {
         dialogRef.current?.close();
         setError(null);
+        setPossibleDupe(null);
     };
+
+    const handleGoBack = () => {
+        resetRoute();
+        setConfirmedLocationType(false)
+    }
 
     const handleSetLocationType = () => {
         setLocationType(locationType);
@@ -138,7 +156,7 @@ export function AddSpotPage() {
                                 <div className="pb-2 md:mt-2 px-1 lg:px-2">
                                     <div className="flex gap-0.5 justify-between items-center pb-1 md:pb-2">
                                         <h1>Add a new {locationType === "route" ? "route" : "spot"}</h1>
-                                        <Button style="collapsed" className="ml-auto" onClick={() => setConfirmedLocationType(false)}><ArrowLeft aria-hidden /><span>Back</span></Button>
+                                        <Button style="collapsed" className="ml-auto" onClick={handleGoBack}><ArrowLeft aria-hidden /><span>Back</span></Button>
                                         <Button style="icon" className="text-grey" aria-label="Cancel" onClick={() => navigate("/")}><X aria-hidden /></Button>
                                     </div>
                                     <div className="form-info slight-shadow" ref={instructionsRef}>
@@ -173,20 +191,7 @@ export function AddSpotPage() {
                             </>
                         }
                     </div>
-                    <AddSpotMap
-                        locationType={locationType}
-                        confirmedLocationType={confirmedLocationType}
-                        spotCoordinates={spotCoordinates}
-                        setSpotCoordinates={setSpotCoordinates}
-                        routes={routes}
-                        setRoutes={setRoutes}
-                        selectedRoute={selectedRoute}
-                        setSelectedRoute={setSelectedRoute}
-                        gpxCoordinates={gpxCoordinates}
-                        custom={custom}
-                        setCustom={setCustom}
-                        customDistanceRef={customDistanceRef}
-                    />
+                    <AddSpotMap {...addSpotMap} />
                 </GridLeftPanel>
             }
             {!confirmedLocationType &&
@@ -199,8 +204,27 @@ export function AddSpotPage() {
                     onSubmit={handleSetLocationType}
                 />
             }
-            <Dialog ref={dialogRef} style="error" close={handleClose}>
-                <p>{error}</p>
+            <Dialog ref={dialogRef} style={error ? "error" : "default"} close={handleClose}>
+                {error && <p>{error}</p>}
+                {possibleDupe &&
+                    <>
+                        <p>{possibleDupe.length > 1 ? "Several spots already exist" : "A spot already exists"} within 100m of this location:
+                            <ul>
+                                {possibleDupe.map((spot: Spot) => (
+                                    <li key={spot.id}>
+                                        <a href={`/#/?spot=${spot.slug}`} target="_blank">
+                                            {spot.name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                            It might be the same place. You can still submit if you think it's different.</p>
+                        <div className="flex-btn-group-container">
+                            <Button onClick={() => navigate("/")}>Go Back to the map</Button>
+                            <Button onClick={handleClose} style="secondary">Submit anyway</Button>
+                        </div>
+                    </>
+                }
             </Dialog>
         </>
     )

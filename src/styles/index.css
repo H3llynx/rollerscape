@@ -114,6 +114,10 @@
     transition: var(--default-transition);
   }
 
+  a {
+    @apply font-medium text-text-secondary hover:underline;
+  }
+
   h1,
   h2 {
     @apply font-title text-text text-xl md:text-2xl;
@@ -322,6 +326,9 @@
     }
   }
 
+  .flex-btn-group-container {
+    @apply flex gap-0.5 self-end;
+  }
 }
 
 @keyframes scale {

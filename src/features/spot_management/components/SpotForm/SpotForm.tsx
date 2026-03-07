@@ -1,17 +1,14 @@
 
 import { Camera, Star, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Button } from "../../../../components/Button/Button";
 import { IconInput } from "../../../../components/IconInput/IconInput";
 import { Input } from "../../../../components/Input/Input";
 import { Loading } from "../../../../components/Loading/Loading";
 import { spotErrors } from "../../../../config/errors";
 import { SPOT_TYPES, spotFormFields, TRAFFIC_LEVELS } from "../../../../config/spots";
-import { hostImg } from "../../../../services/image-hosting";
 import type { Coordinates } from "../../../../types/geolocation_types";
-import type { SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { useSpots } from "../../../map/hooks/useContexts";
+import { useSpotForm } from "../../hooks/useSpotForm";
 import "./SpotForm.css";
 
 type SpotForm = {
@@ -21,89 +18,28 @@ type SpotForm = {
 }
 
 export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
-    const { name, coordinates, photos, description, surface_quality, spot_types, traffic_levels } = spotFormFields;
-    const { register, handleSubmit, setValue, watch, formState: { isSubmitting, errors } } = useForm();
-    const hasPhoto = watch(photos.db_key);
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const { selectedSpot, setSelectedSpot } = useSpots();
-    const [selectedTypes, setSelectedTypes] = useState<SpotType[]>(
-        !isAdding && selectedSpot ? selectedSpot.spot_types.map(t => t.name) : []
-    );
-    const [selectedTrafficLevel, setSelectedTrafficLevel] = useState<TrafficLevel[]>(
-        !isAdding && selectedSpot ? selectedSpot.traffic_levels.map(t => t.name) : []
-    );
-    const [selectedPhotos, setSelectedPhotos] = useState<string[]>(
-        !isAdding && selectedSpot?.photos ? selectedSpot.photos : []
-    );
-    const [error, setError] = useState<boolean>(false);
-    const [photoLoading, setPhotoLoading] = useState<boolean>(false);
-    const selectedScore = watch(surface_quality.db_key) as number;
+    const { handleSubmit,
+        register,
+        errors,
+        setValue,
+        isSubmitting,
+        selectedScore,
+        selectedTypes,
+        selectedTrafficLevel,
+        handleTypeChange,
+        handleLevelChange,
+        selectedPhotos,
+        photoLoading,
+        error,
+        setError,
+        fileInputRef,
+        hasPhoto,
+        handlePhotoChange,
+        handlePhotoClear,
+        deletePhoto } = useSpotForm(isAdding, spotCoordinates);
+    const { name, photos, description, surface_quality, spot_types, traffic_levels } = spotFormFields;
 
-    useEffect(() => {
-        if (spotCoordinates) setValue(coordinates.db_key, spotCoordinates);
-    }, [spotCoordinates]);
-
-    useEffect(() => {
-        if (isAdding) setSelectedSpot(null);
-    }, [isAdding]);
-
-    useEffect(() => {
-        setValue(spot_types.db_key, selectedTypes);
-        setValue(traffic_levels.db_key, selectedTrafficLevel);
-    }, [selectedTrafficLevel, selectedTypes]);
-
-    useEffect(() => {
-        register(
-            spot_types.db_key, {
-            validate: (value) => (value?.length) || spotErrors.add.missing_spot_type
-        });
-        register(
-            traffic_levels.db_key, {
-            validate: (value) => (value?.length) || spotErrors.add.missing_traffic_level
-        }
-        );
-    }, [register, spot_types.db_key, traffic_levels.db_key]);
-
-    useEffect(() => {
-        setValue(photos.db_key, selectedPhotos);
-    }, [selectedPhotos]);
-
-    const handleTypeChange = (value: SpotType) => {
-        const current = selectedTypes;
-        const updated = current.includes(value)
-            ? current.filter(type => type !== value)
-            : [...current, value];
-        setSelectedTypes(updated);
-    };
-
-    const handleLevelChange = (value: TrafficLevel) => {
-        const current = selectedTrafficLevel;
-        const updated = current.includes(value)
-            ? current.filter(level => level !== value)
-            : [...current, value];
-        setSelectedTrafficLevel(updated);
-    };
-
-    const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
-        if (files.length) {
-            setPhotoLoading(true)
-            const addedPhotos = await Promise.all(files.map(file => hostImg(file)));
-            setSelectedPhotos(prev => [...prev, ...addedPhotos]);
-            setPhotoLoading(false);
-            handlePhotoClear();
-        };
-    };
-
-    const deletePhoto = async (picture: string) => {
-        if (!selectedSpot) return;
-        setSelectedPhotos(prev => prev.filter(p => p !== picture));
-    };
-
-    const handlePhotoClear = () => {
-        if (fileInputRef.current) fileInputRef.current.value = "";
-        setValue(photos.db_key, null);
-    };
     return (
         <div className="flex flex-col gap-1 pb-2 md:py-2">
             <form

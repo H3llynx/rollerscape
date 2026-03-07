@@ -101,7 +101,7 @@ export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
                         {...register(comment.db_key)}
                     />
                 </label>
-                <div className="flex gap-0.5 self-end">
+                <div className="flex-btn-group-container">
                     <Button style="tertiary" type="button" className="text-text" onClick={onCancel}>Cancel</Button>
                     {isSubmitting ? <Loading /> :
                         <Button style="secondary" className="border-text text-text">
