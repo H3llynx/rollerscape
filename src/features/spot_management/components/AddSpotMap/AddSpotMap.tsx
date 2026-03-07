@@ -15,6 +15,7 @@ import { RouteDisplay } from "../../../map/components/RouteDisplay/RouteDisplay"
 import { UserMarker } from "../../../map/components/UserMarker/UserMarker";
 import { useCenter } from "../../../map/hooks/useCenter";
 import { usePanelSize } from "../../../map/hooks/useContexts";
+import { FitBounds } from "../../../profile/components/FitBounds/FitBounds";
 import { CoordinatePicker, estimateDistanceFromCoords } from "../../utils";
 import { AddMarker } from "../AddMarker/AddMarker";
 import { FlyToCoords } from "../FlyToCoords/FlyToCoords";
@@ -220,10 +221,13 @@ export function AddSpotMap({
                 />
             }
             {gpxCoordinates &&
-                <RouteDisplay
-                    data={gpxCoordinates}
-                    selected
-                />
+                <>
+                    <RouteDisplay
+                        data={gpxCoordinates}
+                        selected
+                    />
+                    <FitBounds coordinates={gpxCoordinates} />
+                </>
             }
         </MapBase>
     )

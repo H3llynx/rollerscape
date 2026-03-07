@@ -114,10 +114,6 @@
     transition: var(--default-transition);
   }
 
-  a {
-    @apply font-medium text-text-secondary hover:underline;
-  }
-
   h1,
   h2 {
     @apply font-title text-text text-xl md:text-2xl;

@@ -212,7 +212,7 @@ export function AddSpotPage() {
                             <ul>
                                 {possibleDupe.map((spot: Spot) => (
                                     <li key={spot.id}>
-                                        <a href={`/#/?spot=${spot.slug}`} target="_blank">
+                                        <a href={`/#/?spot=${spot.slug}`} target="_blank" className="font-medium text-text-secondary hover:underline">
                                             {spot.name}
                                         </a>
                                     </li>
