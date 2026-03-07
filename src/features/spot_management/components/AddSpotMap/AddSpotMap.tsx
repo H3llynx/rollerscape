@@ -1,5 +1,5 @@
 import { CheckCircle, MapPinX, Undo2 } from "lucide-react";
-import { useEffect, useState, type Dispatch, type RefObject, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useMediaQuery } from "react-responsive";
 import CreateCustomButton from "../../../../assets/build-route.png";
 import UseRouteButton from "../../../../assets/use-route.png";
@@ -16,7 +16,7 @@ import { UserMarker } from "../../../map/components/UserMarker/UserMarker";
 import { useCenter } from "../../../map/hooks/useCenter";
 import { usePanelSize } from "../../../map/hooks/useContexts";
 import { FitBounds } from "../../../profile/components/FitBounds/FitBounds";
-import { CoordinatePicker, estimateDistanceFromCoords } from "../../utils";
+import { CoordinatePicker } from "../../utils";
 import { AddMarker } from "../AddMarker/AddMarker";
 import { FlyToCoords } from "../FlyToCoords/FlyToCoords";
 import "./AddSpotMap.css";
@@ -35,7 +35,6 @@ type AddSpotMap = {
     gpxCoordinates: Coordinates[] | null;
     custom: boolean;
     setCustom: Dispatch<SetStateAction<boolean>>;
-    customDistanceRef: RefObject<number>;
     resetRoute: () => void;
 };
 
@@ -53,7 +52,6 @@ export function AddSpotMap({
     gpxCoordinates,
     custom,
     setCustom,
-    customDistanceRef,
     resetRoute
 }: AddSpotMap) {
     const { center, trackUser } = useCenter();
@@ -99,10 +97,6 @@ export function AddSpotMap({
             if (!routeCoordinates.start) setRouteCoordinates({ ...routeCoordinates, start: { lat, lon } });
             else if (!routeCoordinates.end) setRouteCoordinates({ ...routeCoordinates, end: { lat, lon } });
         } else {
-            if (spotCoordinates.length) {
-                const distance = estimateDistanceFromCoords([spotCoordinates[spotCoordinates.length - 1], { lat, lon }]);
-                customDistanceRef.current += distance;
-            }
             setSpotCoordinates(prev => [...prev, { lat, lon }]);
             if (!textSmaller) setTextSmaller(true);
         }
@@ -110,11 +104,6 @@ export function AddSpotMap({
 
     const handleUndoPoint = () => {
         if (custom && spotCoordinates.length > 1) {
-            const distance = estimateDistanceFromCoords([
-                spotCoordinates[spotCoordinates.length - 2],
-                spotCoordinates[spotCoordinates.length - 1]
-            ]);
-            customDistanceRef.current -= distance;
             setSpotCoordinates(prev => prev.slice(0, -1));
             setTextSmaller(true)
         } else if (routeCoordinates.end)

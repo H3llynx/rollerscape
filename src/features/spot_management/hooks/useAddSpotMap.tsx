@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { spotFormFields } from "../../../config/spots";
 import type { Coordinates, Route, RouteCoordinates } from "../../../types/geolocation_types";
 import type { RouteGenMode, Spot } from "../../../types/spots_types";
+import { estimateDistanceFromCoords } from "../utils";
 
 export function useAddSpotMap() {
     const { location_type } = spotFormFields;
@@ -14,15 +15,18 @@ export function useAddSpotMap() {
     const [selectedRoute, setSelectedRoute] = useState<number>(0);
     const [gpxCoordinates, setGpxCoordinates] = useState<Coordinates[] | null>(null);
     const [custom, setCustom] = useState<boolean>(false);
-    const customDistanceRef = useRef<number>(0);
 
     const resetRoute = () => {
         setSpotCoordinates([]);
         setRouteCoordinates({ start: null, end: null });
         setRoutes([]);
         setGpxCoordinates(null);
-        customDistanceRef.current = 0;
     }
+
+    const getRouteLength = () => {
+        if (locationType !== "route") return;
+        return estimateDistanceFromCoords(spotCoordinates);
+    };
 
     return {
         confirmedLocationType,
@@ -43,7 +47,7 @@ export function useAddSpotMap() {
         setGpxCoordinates,
         custom,
         setCustom,
-        customDistanceRef,
-        resetRoute
+        resetRoute,
+        getRouteLength
     };
 }

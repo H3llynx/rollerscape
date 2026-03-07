@@ -25,7 +25,6 @@ import { MapsToCoordsForm } from "./components/MapsToCoordsForm/MapsToCoordsForm
 import { SpotForm } from "./components/SpotForm/SpotForm";
 import { useAddSpotMap } from "./hooks/useAddSpotMap";
 import { useSpotDuplicateCheck } from "./hooks/useSpotDuplicateCheck";
-import { estimateDistanceFromCoords } from "./utils";
 
 export function AddSpotPage() {
     const { center, profile } = useCenter();
@@ -42,12 +41,10 @@ export function AddSpotPage() {
         routeGenMode,
         setRouteGenMode,
         routes,
-        selectedRoute,
         gpxCoordinates,
         setGpxCoordinates,
-        custom,
-        customDistanceRef,
-        resetRoute
+        resetRoute,
+        getRouteLength,
     } = addSpotMap;
     const { setValue } = useForm();
     const navigate = useNavigate();
@@ -92,14 +89,6 @@ export function AddSpotPage() {
         setConfirmedLocationType(true);
         setValue(location_type.db_key, locationType);
         if (gpxCoordinates) setSpotCoordinates(gpxCoordinates);
-    };
-
-    const getRouteLength = () => {
-        if (locationType !== "route") return;
-        if (gpxCoordinates) return estimateDistanceFromCoords(gpxCoordinates);
-        return custom
-            ? customDistanceRef.current
-            : Number((routes[selectedRoute].distance / 1000).toFixed(2));
     };
 
     const addSpot = async (newSpot: Record<string, unknown>) => {

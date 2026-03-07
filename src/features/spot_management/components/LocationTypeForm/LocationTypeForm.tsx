@@ -1,5 +1,5 @@
 import { File, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "../../../../components/Button/Button";
 import { Dropdown } from "../../../../components/Dropdown/Dropdown";
@@ -12,8 +12,8 @@ import { parseGpx } from "../../utils";
 type LocationTypeForm = {
     locationType: Spot["location_type"];
     routeGenMode: RouteGenMode | null;
-    setLocationType: (value: Spot["location_type"]) => void;
-    setGpxCoordinates: (value: Coordinates[] | null) => void
+    setLocationType: Dispatch<SetStateAction<"point" | "route">>
+    setGpxCoordinates: Dispatch<SetStateAction<Coordinates[] | null>>
     setRouteGenMode: (value: RouteGenMode | null) => void;
     onSubmit: () => void;
 }
