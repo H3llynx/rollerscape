@@ -114,12 +114,9 @@
     transition: var(--default-transition);
   }
 
-  h1 {
-    @apply md:font-title text-text text-xl md:text-2xl;
-  }
-
+  h1,
   h2 {
-    @apply font-title text-text text-xl lg:text-2xl;
+    @apply font-title text-text text-xl md:text-2xl;
   }
 
   h3 {

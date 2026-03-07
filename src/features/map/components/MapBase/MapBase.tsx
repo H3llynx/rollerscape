@@ -30,7 +30,7 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
     const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
 
     return (
-        <div className="sticky w-full h-full inset-0">
+        <div className="sticky w-full h-full inset-0 z-0">
             <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}
                 style={{ height: '100%', width: '100%' }}
                 zoomControl={false}>

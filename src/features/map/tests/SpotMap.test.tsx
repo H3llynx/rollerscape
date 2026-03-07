@@ -4,10 +4,10 @@ import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../tests/setup';
 import { AuthContext } from '../../auth/context/AuthContext';
-import { SpotMap } from '../components/SpotMap/SpotMap';
 import { PanelSizeProvider } from '../context/PanelSize/PanelSizeProvider';
 import { SpotsContext } from '../context/Spots/SpotsContext';
 import { useCenter } from '../hooks/useCenter';
+import { MapPage } from '../MapPage';
 
 vi.mock("../hooks/useCenter", () => ({
     useCenter: vi.fn(),
@@ -75,7 +75,7 @@ const MapArea = (authContext: any, spotContext: any) => (
         <AuthContext value={authContext}>
             <SpotsContext value={spotContext}>
                 <PanelSizeProvider>
-                    <SpotMap zoom={12} />
+                    <MapPage />
                 </PanelSizeProvider>
             </SpotsContext>
         </AuthContext>

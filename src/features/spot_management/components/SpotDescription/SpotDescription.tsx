@@ -79,10 +79,10 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     return (
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
-            <article className="pb-2 text-sm relative z-1">
+            <article>
                 <div className="px-1 md:p-2 flex justify-between w-full items-start">
                     <div className="md:w-2xs">
-                        <h1>{selectedSpot.name}</h1>
+                        <h1 className="font-main md:font-title">{selectedSpot.name}</h1>
                         <div className="flex gap-0.5 mt-1 items-start flex-wrap">
                             {selectedSpot.spot_types.map((type, i) => (
                                 <span className="tag" key={i} >

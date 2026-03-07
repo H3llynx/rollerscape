@@ -6,7 +6,6 @@ import { useNavigate } from "react-router";
 import { Button } from "../../components/Button/Button";
 import { Dialog } from "../../components/Dialog/Dialog";
 import { GridLeftPanel } from "../../components/GridLeftPanel/GridLeftPanel";
-import { Header } from "../../components/Header/Header";
 import { MobileHideButton } from "../../components/MobileHideButton/MobileHideButton";
 import { databases } from "../../config/databases";
 import { spotErrors } from "../../config/errors";
@@ -130,16 +129,15 @@ export function AddSpotPage() {
 
     return (
         <>
-            <Header style="map" />
             {profile && center &&
                 <GridLeftPanel collapsed={!confirmedLocationType} textSmaller={textSmaller}>
                     <div className="left-panel scroll">
                         {confirmedLocationType &&
                             <>
                                 <MobileHideButton />
-                                <div className="left-panel-container px-2 md:px-1 lg:px-2 pb-2 md:pt-8">
-                                    <div className="flex gap-0.5 justify-between items-center pb-1 md:py-2">
-                                        <h2>Add a new {locationType === "route" ? "route" : "spot"}</h2>
+                                <div className="p-2 md:px-1 lg:px-2">
+                                    <div className="flex gap-0.5 justify-between items-center pb-1 md:pb-2">
+                                        <h1>Add a new {locationType === "route" ? "route" : "spot"}</h1>
                                         <Button style="collapsed" className="ml-auto" onClick={() => setConfirmedLocationType(false)}><ArrowLeft aria-hidden /><span>Back</span></Button>
                                         <Button style="icon" className="text-grey" aria-label="Cancel" onClick={() => navigate("/")}><X aria-hidden /></Button>
                                     </div>

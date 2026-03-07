@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
-.navbar {
-    @apply flex items-center font-title relative pointer-events-auto;
+nav {
+    @apply flex items-center font-title pointer-events-auto;
 
     .active {
         @apply cursor-default;
@@ -35,7 +35,7 @@
     }
 }
 
-.navbar ul {
+nav ul {
     @apply hidden md:flex md:items-center;
 
     li {
@@ -65,7 +65,7 @@
 }
 
 @media (width <=48rem) {
-    .navbar:has(.input-menu:checked) {
+    nav:has(.input-menu:checked) {
         ul {
             @apply fixed z-1 w-screen inset-0 flex flex-col bg-bg-secondary px-2 py-6 overflow-x-auto;
         }
@@ -97,7 +97,7 @@
 }
 
 @media (orientation: portrait) {
-    .navbar:has(.input-menu:checked) .theme-switcher {
+    nav:has(.input-menu:checked) .theme-switcher {
         @apply absolute bottom-4 left-1/2 -translate-x-1/2;
     }
 }

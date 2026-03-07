@@ -75,18 +75,22 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
             <div className="hidden md:block relative  w-full h-[240px] z-0 shadow-sm shadow-rgba-grey">
                 <img src={src} alt="" className="w-full h-full object-cover" />
             </div>
-            <article className="pb-2 md:py-1 text-sm relative z-1">
-                <div className="px-1 md:px-2">
-                    <div className="flex gap-2 justify-between items-start">
-                        <h1>{selectedSpot.name}</h1>
+            <article>
+                <div className="px-1 md:p-2 flex justify-between w-full items-start">
+                    <div className="md:w-2xs">
+                        <h1 className="font-main md:font-title">{selectedSpot.name}</h1>
+                        <div className="text-grey mt-1">
+                            <MapPin aria-hidden width={15} className="inline" /><span className="align-middle">{selectedSpot.address}</span>
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-0.5 items-end">
                         <ButtonContainer spot={selectedSpot} variant="update" onDelete={onDelete} onCancel={onCancel} />
-                        <Button style="icon" className="hidden md:block absolute right-0 top-0" aria-label="Cancel" onClick={() => setSelectedSpot(null)}>
+                        <Button style="icon" aria-label="Close description" className="text-grey py-0 md:absolute top-0 right-0" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>
                     </div>
-                    <div className="flex items-start gap-[5px] text-grey mt-1">
-                        <MapPin aria-hidden width={15} className="cursor-default shrink-0" /><span>{selectedSpot.address}</span>
-                    </div>
+                </div>
+                <div className="px-1 md:px-2">
                     <SpotForm
                         isAdding={false}
                         spotCoordinates={selectedSpot.coordinates}

@@ -111,9 +111,9 @@ export function LocationRequest({ onSuccess }: FormProps) {
 
     return (
         <>
-            <h2>
+            <h1>
                 Where do you roll?
-            </h2>
+            </h1>
             <p className="font-special">Set your location to discover spots nearby</p>
             <form
                 onSubmit={handleSubmit}

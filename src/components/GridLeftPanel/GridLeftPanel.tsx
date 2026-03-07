@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Header } from "../Header/Header";
 import "./GridLeftPanel.css";
 
 type GridLeftPanel = {
@@ -15,6 +16,7 @@ export function GridLeftPanel({ children, textSmaller = false, collapsed = true 
                 : `expanded ${textSmaller ? "grid-rows-[1fr_65px]" : "grid-rows-[1fr_25%]"}`
             }`}
         >
+            <Header style="map" className={`${!collapsed && "md:pl-[350px] lg:pl-[450px]"}`} />
             {children}
         </div>
     )

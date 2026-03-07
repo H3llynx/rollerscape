@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .full-width-container {
-    @apply w-full h-dvh max-h-dvh grid z-0 overflow-y-scroll;
+    @apply w-full h-dvh max-h-dvh grid z-0 overflow-y-scroll relative;
     transition: var(--default-transition);
 }
 
@@ -14,11 +14,11 @@
 }
 
 .left-panel {
-    @apply h-max -mt-1 md:mt-0 md:h-full rounded-t-3xl bg-bg-main relative z-402 overflow-y-scroll order-1 md:order-0;
+    @apply h-max -mt-1 md:mt-0 md:h-full rounded-t-3xl bg-bg-main relative z-1 overflow-y-scroll order-1 md:order-0;
     box-shadow: 0 0 5px var(--color-rgba-grey);
 
-    .left-panel-container {
-        @apply h-full;
+    article {
+        @apply pb-2 text-sm relative;
     }
 
     &::-webkit-scrollbar {

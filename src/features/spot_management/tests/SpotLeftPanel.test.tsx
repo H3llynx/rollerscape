@@ -6,9 +6,9 @@ import { reviewFormFields, spotFormFields } from '../../../config/spots';
 import { insertData } from '../../../services/data';
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../tests/setup';
 import { AuthContext } from '../../auth/context/AuthContext';
-import { SpotMap } from '../../map/components/SpotMap/SpotMap';
 import { PanelSizeProvider } from '../../map/context/PanelSize/PanelSizeProvider';
 import { SpotsContext } from '../../map/context/Spots/SpotsContext';
+import { MapPage } from '../../map/MapPage';
 
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
@@ -33,7 +33,7 @@ const MapArea = (spotContext: any, userContext: any) => (
         <AuthContext value={userContext}>
             <SpotsContext value={spotContext}>
                 <PanelSizeProvider>
-                    <SpotMap zoom={12} />
+                    <MapPage />
                 </PanelSizeProvider>
             </SpotsContext>
         </AuthContext>

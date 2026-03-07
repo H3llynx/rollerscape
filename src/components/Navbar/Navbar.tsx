@@ -28,7 +28,7 @@ export function Navbar() {
     }
 
     return (
-        <nav className="navbar">
+        <nav>
             <label
                 htmlFor="menu-toggle" className="menu-toggle">
                 <input
