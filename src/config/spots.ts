@@ -54,7 +54,7 @@ export const spotFormFields = {
     },
     spot_types: {
         db_key: "spot_type",
-        label: "Spot type (select all that apply)",
+        label: "Spot type",
         input_type: "checkbox",
     },
     description: {

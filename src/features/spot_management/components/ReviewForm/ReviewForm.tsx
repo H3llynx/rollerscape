@@ -91,20 +91,16 @@ export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
                         })}
                     </div>
                 </label>
-                <fieldset>
-                    <div className="legend-container">
-                        <legend className="md:font-special">
-                            {comment.label}
-                        </legend>
-                        <span className="font-main">(optional)</span>
-                    </div>
+                <label htmlFor={comment.id} className="md:font-special inline">
+                    {comment.label}
+                    <span className="font-main text-xs"> (optional)</span>
                     <textarea
                         id={comment.id}
                         className="slight-shadow bg-blur"
                         defaultValue={reviewToEdit && reviewToEdit.comment ? reviewToEdit.comment : ""}
                         {...register(comment.db_key)}
                     />
-                </fieldset>
+                </label>
                 <div className="flex gap-0.5 self-end">
                     <Button style="tertiary" type="button" className="text-text" onClick={onCancel}>Cancel</Button>
                     {isSubmitting ? <Loading /> :

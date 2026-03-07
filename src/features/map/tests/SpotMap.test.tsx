@@ -70,7 +70,6 @@ const pointSpots = [
     makeSpot({ id: "3", name: "Spot C", location_type: "route", spot_types: [{ id: "3", name: "bike_path" }] })
 ];
 
-
 const MapArea = (authContext: any, spotContext: any) => (
     <MemoryRouter>
         <AuthContext value={authContext}>
@@ -195,7 +194,7 @@ describe("Filters behaviour", () => {
         const filterContainer = container.querySelector("#spot-type-filters");
         const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox");
         checkboxes.forEach(checkbox => {
-            if ((checkbox as HTMLInputElement).value === "greenway" || (checkbox as HTMLInputElement).value === "bike_path")
+            if ((checkbox as HTMLInputElement).value === valAuthUser.profile.preferred_spot_types[0] || (checkbox as HTMLInputElement).value === valAuthUser.profile.preferred_spot_types[1])
                 expect(checkbox).toBeChecked();
             else expect(checkbox).not.toBeChecked();
         });

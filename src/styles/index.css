@@ -194,6 +194,14 @@
       @apply w-[4px];
     }
   }
+
+  legend {
+    @apply font-main md:font-special;
+
+    span {
+      @apply text-text-secondary text-xs font-main;
+    }
+  }
 }
 
 @layer components {

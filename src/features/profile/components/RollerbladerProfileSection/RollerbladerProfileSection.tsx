@@ -76,16 +76,13 @@ export function RollerbladerProfileSection() {
                     })}
                 </Dropdown>
                 <fieldset>
-                    <div className="legend-container">
-                        <legend className="font-special">
-                            Preferred spot types:
-                        </legend>
-                        <span className="text-text-secondary">(Select all that apply)</span>
-                        <p className="text-grey text-xs">
-                            <span>Why are we asking this? </span>
-                            So we can pre-filter the map to show only the spots you actually care about — no noise, just your kind of skating.
-                        </p>
-                    </div>
+                    <legend>
+                        Preferred spot types: <span>(Select all that apply)</span>
+                    </legend>
+                    <p className="text-grey text-xs my-0.5">
+                        <span className="font-bold">Why are we asking this? </span>
+                        So we can pre-filter the map to show only the spots you actually care about — no noise, just your kind of skating.
+                    </p>
                     <div className="cards-grid">
                         {SPOT_TYPES.map((type) => (
                             <IconInput
@@ -102,15 +99,13 @@ export function RollerbladerProfileSection() {
                     </div>
                 </fieldset>
                 <fieldset>
-                    <div className="legend-container">
-                        <legend className="font-special">
-                            Skating style:
-                        </legend>
-                        <span className="text-text-secondary">(Select all that apply)</span>
-                        <p className="text-grey text-xs">
-                            <span>Why are we asking this? </span>
-                            So other skaters know where you're coming from. A cruiser and a street skater don't always agree on what makes a great spot — and that's totally fine! Your style gives context to your reviews and recommendations.                            </p>
-                    </div>
+                    <legend>
+                        Skating style: <span>(Select all that apply)</span>
+                    </legend>
+                    <p className="text-grey text-xs my-0.5">
+                        <span className="font-bold">Why are we asking this? </span>
+                        So other skaters know where you're coming from. A cruiser and a street skater don't always agree on what makes a great spot — and that's totally fine! Your style gives context to your reviews and recommendations.
+                    </p>
                     <div className="cards-grid">
                         {SKATING_STYLES.map((style) => (
                             <IconInput

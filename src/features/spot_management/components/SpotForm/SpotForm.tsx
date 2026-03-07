@@ -151,7 +151,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     </div>
                 </label>
                 <fieldset>
-                    <p className="md:font-special mb-0.5">{spot_types.label}:</p>
+                    <legend className="md:pt-1 mb-0.5">{spot_types.label}: <span className="text-text">(Select all that apply)</span></legend>
                     <div className="cards-grid">
                         {SPOT_TYPES.map(type => (
                             <IconInput
@@ -172,7 +172,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     )}
                 </fieldset>
                 <fieldset>
-                    <p className="md:font-special">{description.label}:</p>
+                    <legend>{description.label}:</legend>
                     <textarea
                         id={description.id}
                         defaultValue={!isAdding && selectedSpot?.description ? selectedSpot.description : undefined}
@@ -181,6 +181,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     />
                 </fieldset>
                 <fieldset>
+                    <legend className="mb-0.5">{traffic_levels.label} <span className="text-text">(Select all that apply)</span></legend>
                     {TRAFFIC_LEVELS.map(level => (
                         <Input
                             key={level.value}
@@ -198,7 +199,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                         <p className="error">{errors[traffic_levels.db_key]?.message as string}</p>
                     )}
                 </fieldset>
-                <fieldset className="flex">
+                <div className="flex">
                     <label htmlFor={photos.id} className="file-label">
                         <Camera className="w-1.5" aria-hidden />
                         <input
@@ -214,7 +215,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                     {hasPhoto &&
                         <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
                     }
-                </fieldset>
+                </div>
                 {selectedPhotos.length > 0 &&
                     <>
                         <div className="grid grid-cols-3 gap-0.5">

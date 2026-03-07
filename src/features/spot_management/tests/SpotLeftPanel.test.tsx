@@ -1,8 +1,8 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
-import { reviewFormFields } from '../../../config/spots';
+import { reviewFormFields, spotFormFields } from '../../../config/spots';
 import { insertData } from '../../../services/data';
 import { makeSpot, valAuthNoUser, valAuthUser } from '../../../tests/setup';
 import { AuthContext } from '../../auth/context/AuthContext';
@@ -24,7 +24,7 @@ vi.mock("../../map/hooks/useCenter", () => ({
 }));
 
 const mockSpots = [
-    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: "1", name: "street_plaza" }], created_by: "1" }),
+    makeSpot({ id: "1", name: "Spot A", spot_types: [{ id: "1", name: "street_plaza" }], created_by: "1", traffic_levels: [{ id: "2", name: "always_quiet" }], surface_quality: 4, description: "Cool place!" }),
     makeSpot({ id: "2", name: "Spot B", spot_types: [{ id: "2", name: "greenway" }] }),
 ];
 
@@ -98,9 +98,9 @@ describe("Left panel content display", () => {
     });
 });
 
-describe("adding reviews to a spot", async () => {
+describe("review form", async () => {
     const user = userEvent.setup();
-    it("should show the review form once an authenticated user clicks on the review button", async () => {
+    it("should be visible once an authenticated user clicks on the review button", async () => {
         render(MapArea(spotsVal, valAuthUser));
         await user.click(screen.getByRole("button", { name: /rate this spot!|be the first!/i }));
         expect(screen.getByLabelText(/spot review/i)).toBeInTheDocument();
@@ -126,4 +126,32 @@ describe("adding reviews to a spot", async () => {
             expect(spotsVal.loadSpots).toHaveBeenCalled();
         });
     });
-})
+});
+
+describe("edition form", async () => {
+    const user = userEvent.setup();
+    it("should be visible once the submitted clicks on the edit button", async () => {
+        render(MapArea(spotsVal, valAuthUser));
+        await user.click(screen.getByLabelText(/edit spot/i));
+        expect(screen.getByLabelText(/edit spot/i)).toBeInTheDocument();
+    });
+    it("should have its fields prefilled with the current spot information", async () => {
+        render(MapArea(spotsVal, valAuthUser));
+        await user.click(screen.getByLabelText(/edit spot/i));
+        expect(screen.getByRole("textbox", { name: spotFormFields.name.label })).toHaveValue(mockSpots[0].name);
+        expect(expect(document.getElementById(spotFormFields.surface_quality.id)).toHaveValue(mockSpots[0].surface_quality));
+        const spotTypeContainer = screen.getByRole("group", { name: new RegExp(spotFormFields.spot_types.label, "i") })
+        const stCheckboxes = within(spotTypeContainer as HTMLElement).getAllByRole("checkbox");
+        stCheckboxes.forEach(checkbox => {
+            if ((checkbox as HTMLInputElement).value === mockSpots[0].spot_types[0].name) expect(checkbox).toBeChecked();
+            else expect(checkbox).not.toBeChecked();
+        });
+        const trafficLevelContainer = screen.getByRole("group", { name: new RegExp(spotFormFields.traffic_levels.label, "i") })
+        const tlCheckboxes = within(trafficLevelContainer as HTMLElement).getAllByRole("checkbox");
+        tlCheckboxes.forEach(checkbox => {
+            if ((checkbox as HTMLInputElement).value === mockSpots[0].traffic_levels[0].name) expect(checkbox).toBeChecked();
+            else expect(checkbox).not.toBeChecked();
+        });
+        expect(document.querySelector("textarea")).toHaveValue(mockSpots[0].description);
+    });
+});
