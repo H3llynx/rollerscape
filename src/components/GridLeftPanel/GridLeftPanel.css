@@ -18,7 +18,7 @@
     box-shadow: 0 0 5px var(--color-rgba-grey);
 
     article {
-        @apply pb-2 text-sm relative;
+        @apply pb-2 relative;
     }
 
     &::-webkit-scrollbar {

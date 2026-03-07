@@ -1,4 +1,4 @@
-import { MapPin, X } from "lucide-react";
+import { Edit2, MapPin, X } from "lucide-react";
 import { useRef, useState } from "react";
 import Skater from "../../../../assets/hero.png";
 import { Button } from "../../../../components/Button/Button";
@@ -76,9 +76,11 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                 <img src={src} alt="" className="w-full h-full object-cover" />
             </div>
             <article>
-                <div className="p-1 md:p-2 flex justify-between w-full items-start">
+                <div className="px-1 md:px-2 md:pt-2 flex justify-between w-full items-start text-sm">
                     <div className="md:w-2xs">
-                        <h1 className="font-main md:font-title">{selectedSpot.name}</h1>
+                        <h1 className="font-main md:font-title text-text-secondary">
+                            <Edit2 aria-hidden className="inline mb-[5px] mr-[5px]" color="var(--color-text-secondary)" />
+                            {selectedSpot.name}</h1>
                         <div className="text-grey mt-1">
                             <MapPin aria-hidden width={15} className="inline" /><span className="align-middle">{selectedSpot.address}</span>
                         </div>
@@ -90,7 +92,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                         </Button>
                     </div>
                 </div>
-                <div className="px-1 md:px-2">
+                <div className="pt-1 px-1 md:px-2">
                     <SpotForm
                         isAdding={false}
                         spotCoordinates={selectedSpot.coordinates}

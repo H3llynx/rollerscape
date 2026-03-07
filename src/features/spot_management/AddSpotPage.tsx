@@ -135,7 +135,7 @@ export function AddSpotPage() {
                         {confirmedLocationType &&
                             <>
                                 <MobileHideButton />
-                                <div className="md:mt-2 px-2 md:px-1 lg:px-2">
+                                <div className="pb-2 md:mt-2 px-1 lg:px-2">
                                     <div className="flex gap-0.5 justify-between items-center pb-1 md:pb-2">
                                         <h1>Add a new {locationType === "route" ? "route" : "spot"}</h1>
                                         <Button style="collapsed" className="ml-auto" onClick={() => setConfirmedLocationType(false)}><ArrowLeft aria-hidden /><span>Back</span></Button>

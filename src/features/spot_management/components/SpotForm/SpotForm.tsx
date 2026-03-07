@@ -106,7 +106,6 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
     };
     return (
         <div className="flex flex-col gap-1 pb-2 md:py-2">
-            {!isAdding && <h2>Edit spot</h2>}
             <form
                 aria-label={isAdding ? "add spot" : "edit spot"}
                 onSubmit={handleSubmit(onSubmit)}>
