@@ -5,8 +5,8 @@
     transition: var(--default-transition);
 }
 
-.favorite-text-overlay {
-    @apply flex justify-between absolute w-full h-full z-1 pointer-events-auto;
+.map-overlay {
+    @apply flex justify-between absolute w-full h-full z-1000 pointer-events-auto;
 }
 
 .overlay {
@@ -16,4 +16,8 @@
 .submitted-card-container {
     @apply flex flex-col items-center gap-[3px] hover:text-text-secondary;
     transition: var(--default-transition);
+}
+
+.map-btn {
+    @apply p-0 w-8 h-8 relative z-0 hover:-translate-px;
 }

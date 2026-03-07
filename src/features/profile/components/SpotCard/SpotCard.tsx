@@ -57,8 +57,8 @@ export function SpotCard({ spot, type }: { spot: SpotFullInfo, type: "favorite" 
                     <Marker position={coords[0]} icon={startIcon} />
                     {coords.length > 1 && <Marker position={coords[coords.length - 1]} icon={endIcon} />}
                 </MapBase>
-                <div className="favorite-text-overlay overlay">
-                    <button aria-label="See that spot on the map" onClick={() => navigate(redirecttoSpotUrl(spot.slug))} className="overlay">
+                <div className="map-overlay overlay">
+                    <button aria-label="See that spot on the map" onClick={() => navigate(redirecttoSpotUrl(spot.slug))} className="overlay-btn">
                         <div className="px-1 text-left absolute top-0.5 w-full h-full">
                             <h2 className="text-xl text-dark-3 line-clamp-2 text-shadow-md text-shadow-white bg-blur w-fit">{spot.name}</h2>
                             <div className="flex gap-0.5 mt-1 items-start">
@@ -82,7 +82,7 @@ export function SpotCard({ spot, type }: { spot: SpotFullInfo, type: "favorite" 
         return (
             <div className="submitted-card-container">
                 <button
-                    className="card p-0 w-8 h-8 button-shadow relative hover:-translate-px"
+                    className="card map-btn button-shadow"
                     onClick={() => navigate(redirecttoSpotUrl(spot.slug))}
                     aria-label="Go to spot page"
                 >
@@ -110,6 +110,7 @@ export function SpotCard({ spot, type }: { spot: SpotFullInfo, type: "favorite" 
                         <Marker position={coords[0]} icon={startIcon} />
                         {coords.length > 1 && <Marker position={coords[coords.length - 1]} icon={endIcon} />}
                     </MapContainer>
+                    <div className="map-overlay" />
                 </button>
                 <p className="text-[0.7rem] text-center px-0.5 italic line-clamp-2">{spot.name}</p>
             </div>
