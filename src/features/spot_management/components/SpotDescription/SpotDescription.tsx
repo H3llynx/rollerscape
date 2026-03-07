@@ -80,7 +80,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         <section id={`spot-description-${selectedSpot.id}`}>
             <DesktopSpotHeader />
             <article>
-                <div className="px-1 md:p-2 flex justify-between w-full items-start">
+                <div className="p-1 md:p-2 flex justify-between w-full items-start">
                     <div className="md:w-2xs">
                         <h1 className="font-main md:font-title">{selectedSpot.name}</h1>
                         <div className="flex gap-0.5 mt-1 items-start flex-wrap">

@@ -76,7 +76,7 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                 <img src={src} alt="" className="w-full h-full object-cover" />
             </div>
             <article>
-                <div className="px-1 md:p-2 flex justify-between w-full items-start">
+                <div className="p-1 md:p-2 flex justify-between w-full items-start">
                     <div className="md:w-2xs">
                         <h1 className="font-main md:font-title">{selectedSpot.name}</h1>
                         <div className="text-grey mt-1">
