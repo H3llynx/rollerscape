@@ -86,10 +86,10 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
                         </div>
                     </div>
                     <div className="flex flex-col gap-0.5 items-end">
-                        <ButtonContainer spot={selectedSpot} variant="update" onDelete={onDelete} onCancel={onCancel} />
-                        <Button style="icon" aria-label="Close description" className="text-grey py-0 md:absolute top-0 right-0" onClick={() => setSelectedSpot(null)}>
+                        <Button style="icon" aria-label="Close description" className="text-grey py-0 md:absolute top-0.5 right-0" onClick={() => setSelectedSpot(null)}>
                             <X aria-hidden />
                         </Button>
+                        <ButtonContainer spot={selectedSpot} variant="update" onDelete={onDelete} onCancel={onCancel} />
                     </div>
                 </div>
                 <div className="pt-1 px-1 md:px-2">
