@@ -20,7 +20,7 @@ export function RouteDisplay({ data, selected, custom = false, onSelect }: Route
     const startIcon = L.icon({
         iconUrl: custom ? StartMarker : StartMarker2,
         iconSize: [50, 50],
-        iconAnchor: [26, 36],
+        iconAnchor: [25, 38],
         className: "spot-marker"
     });
 
