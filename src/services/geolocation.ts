@@ -27,6 +27,20 @@ export const searchLocations = async (query: string, country: string): Promise<L
     }
 };
 
+export const searchOnMap = async (location: string) => {
+    try {
+        const result = await fetch(
+            `${urls.nominatim}/search?` +
+            `q=${encodeURIComponent(String(location))}` +
+            `&format=json&limit=1`
+        );
+        const data = await result.json();
+        return data;
+    } catch (error) {
+        console.error(`Error with location search: ${error}`);
+    }
+}
+
 export const getBrowserPosition = async (): Promise<{
     data: Coordinates | null;
     error: GeolocationPositionError | Error | null

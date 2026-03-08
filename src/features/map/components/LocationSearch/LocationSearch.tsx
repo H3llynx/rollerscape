@@ -2,6 +2,7 @@ import { Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { Button } from '../../../../components/Button/Button';
+import { searchOnMap } from '../../../../services/geolocation';
 import { useSpots } from '../../hooks/useContexts';
 import "./LocationSearch.css";
 
@@ -9,19 +10,19 @@ export function LocationSearch() {
     const map = useMap();
     const [expanded, setExpanded] = useState<boolean>(false);
     const { selectedSpot, setSelectedSpot } = useSpots();
+    const [error, setError] = useState(false)
 
     const handleSearch = async (e: React.SubmitEvent) => {
         if (selectedSpot) setSelectedSpot(null);
         e.preventDefault();
         const location = new FormData(e.target).get("location");
-        const result = await fetch(
-            `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`
-        );
-        const data = await result.json();
-        if (data.length) {
-            const { lat, lon } = data[0];
-            map.flyTo([lat, lon], 12);
+        const data = await searchOnMap(String(location));
+        if (!data.length) {
+            setError(true);
+            return;
         }
+        const { lat, lon } = data[0];
+        map.flyTo([lat, lon], 14);
     };
 
     return (
@@ -29,12 +30,13 @@ export function LocationSearch() {
             <form
                 id="search-form"
                 onSubmit={handleSearch}
-                className="slight-shadow bg-blur"
+                className={`slight-shadow bg-blur ${error && "outline-2 outline-offset-2 outline-red"}`}
             >
                 <input
                     name="location"
                     className="border-0 h-full focus-visible:outline-none"
                     placeholder="Search a location..."
+                    onChange={() => { setError(false) }}
                 />
                 <Button
                     style="icon"
