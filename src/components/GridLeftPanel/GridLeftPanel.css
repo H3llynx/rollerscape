@@ -1,7 +1,7 @@
 @reference "../../styles/index.css";
 
 .full-width-container {
-    @apply w-full h-dvh max-h-dvh grid z-0 overflow-y-scroll relative;
+    @apply w-full h-full grid z-0 overflow-y-scroll relative;
     transition: var(--default-transition);
 }
 

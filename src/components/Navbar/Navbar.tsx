@@ -1,5 +1,5 @@
 import { Home, LogIn, LogOut, Menu, X } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 import { ThemeToggle } from "../../features/theme/component/ThemeToggle";
@@ -15,6 +15,7 @@ export function Navbar() {
     const getTabIndex = (path: string) => location.pathname === path ? -1 : 0;
     const menuToggleRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const [expanded, setExpanded] = useState<boolean>(false)
 
     useEffect(() => {
         if (menuToggleRef.current) {
@@ -38,10 +39,13 @@ export function Navbar() {
                     ref={menuToggleRef}
                     aria-expanded="false"
                     aria-controls="main-menu"
-                    onChange={() => handleAria(menuToggleRef)}
+                    checked={expanded}
+                    onChange={() => { setExpanded(!expanded); handleAria(menuToggleRef) }}
                 />
-                <Menu aria-hidden className="menu" />
-                <X aria-hidden className="close" />
+                {expanded
+                    ? <X aria-hidden />
+                    : <Menu aria-hidden />
+                }
             </label>
             <ul id="main-menu">
                 <li><ThemeToggle /></li>

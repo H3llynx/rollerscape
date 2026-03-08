@@ -13,7 +13,7 @@ const headerVariants = tv({
     variants: {
         style: {
             default: "sticky",
-            map: "absolute"
+            map: "fixed"
         }
     }
 });
