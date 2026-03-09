@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
+import { Keyboard, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { GalleryDialog } from "../../../../components/GalleryDialog/GalleryDialog";
 import { useSpots } from "../../../map/hooks/useContexts";
@@ -41,9 +41,10 @@ export function SpotPhotos() {
             <GalleryDialog ref={gridDialogRef} close={() => gridDialogRef.current?.close()} onClickOut={closeOnClickOut}>
                 <Swiper
                     key={initialIndex}
-                    modules={[Navigation, Pagination]}
+                    modules={[Navigation, Pagination, Keyboard]}
                     navigation
                     pagination={{ clickable: true }}
+                    keyboard={{ enabled: true }}
                     initialSlide={initialIndex}
                     slidesPerView={1}
                 >
