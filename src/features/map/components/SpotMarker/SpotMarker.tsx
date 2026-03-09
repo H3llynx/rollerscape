@@ -19,7 +19,7 @@ export function SpotMarker({ spot, position, dimmed, onMarkerClick }: SpotMarker
         iconUrl: spot.location_type === "point" ? Wheel : Flag,
         iconSize: [35, 35],
         iconAnchor: [21, 18],
-        className: "spot-marker"
+        className: `spot-marker ${spot.spot_types[0].name === "greenway" && "hue-rotate-20"}`
     });
 
     return (

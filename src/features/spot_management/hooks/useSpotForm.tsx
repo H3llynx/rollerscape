@@ -17,6 +17,7 @@ export function useSpotForm(isAdding: boolean, spotCoordinates: Coordinates[] | 
     const [error, setError] = useState<boolean>(false);
     const [photoLoading, setPhotoLoading] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const spotTypesRef = useRef<HTMLDivElement>(null);
 
     const [selectedTypes, setSelectedTypes] = useState<SpotType[]>(
         !isAdding && selectedSpot ? selectedSpot.spot_types.map(t => t.name) : []
@@ -52,6 +53,10 @@ export function useSpotForm(isAdding: boolean, spotCoordinates: Coordinates[] | 
         }
         );
     }, [register, spot_types.db_key, traffic_levels.db_key]);
+
+    useEffect(() => {
+        if (errors[spot_types.db_key]) spotTypesRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, [errors[spot_types.db_key]]);
 
     useEffect(() => {
         setValue(photos.db_key, selectedPhotos);
@@ -111,6 +116,7 @@ export function useSpotForm(isAdding: boolean, spotCoordinates: Coordinates[] | 
         error,
         setError,
         fileInputRef,
+        spotTypesRef,
         hasPhoto,
         handlePhotoChange,
         handlePhotoClear,

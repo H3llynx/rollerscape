@@ -6,10 +6,11 @@ import "./ProfileLinkCard.css";
 
 export function ProfileLinkCard({ profile }: { profile: UserProfile }) {
     const location = useLocation();
+    const getTabIndex = (path: string) => location.pathname === path ? -1 : 0;
     if (!profile) return;
 
     return (
-        <NavLink to="/profile" aria-label="Go to profile page" className="card profile-link-card bg-blur slight-shadow">
+        <NavLink to="/profile" tabIndex={getTabIndex("/profile")} aria-label="Go to profile page" className="card profile-link-card bg-blur slight-shadow">
             <div className="image-container">
                 <img src={showAvatar(profile)} alt="Profile avatar" className="profile-avatar" onError={(e) => {
                     const img = e.currentTarget;

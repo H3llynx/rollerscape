@@ -30,6 +30,17 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
             : setCheckedTypes([]);
     }
 
+    const getTextColor = (type: SpotType) => {
+        if (type === "greenway") return "text-[#bcd004]";
+        else return "text-white";
+    }
+
+    const handleFavorites = () => {
+        const filter = (!showOnlyFavorites)
+        setShowOnlyFavorites(filter);
+        if (filter === true) setCheckedTypes(spotTypes);
+    }
+
     const allChecked = checkedTypes.length === spotTypes.length;
 
     return (
@@ -47,7 +58,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
                     </span>
                 </label>
                 {spotTypes.map(type => (
-                    <label className="map-label" key={type}>
+                    <label className={`map-label ${getTextColor(type)}`} key={type}>
                         <input
                             type="checkbox"
                             checked={checkedTypes.includes(type)}
@@ -62,7 +73,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
                         <input
                             type="checkbox"
                             checked={showOnlyFavorites}
-                            onChange={() => setShowOnlyFavorites(!showOnlyFavorites)}
+                            onChange={handleFavorites}
                             value={"favorites"}
                         />
                         <span className="text-text-secondary">

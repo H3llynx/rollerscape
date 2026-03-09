@@ -15,6 +15,7 @@ export function ThemeToggle() {
         className="theme-checkbox"
         onChange={toggleTheme}
         defaultChecked={theme === "dark"}
+        tabIndex={0}
       />
       <div className="switcher-track">
         <div className="switcher-thumb">

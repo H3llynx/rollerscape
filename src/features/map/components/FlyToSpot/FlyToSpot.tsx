@@ -19,7 +19,7 @@ export function FlyToSpot({ spot }: { spot: SpotFullInfo | null }) {
             map.flyTo([spot.coordinates[0].lat, spot.coordinates[0].lon], map.getZoom());
         } else {
             const bounds = spot.coordinates.map(coords => [coords.lat, coords.lon] as MapCoordinates);
-            map.fitBounds(bounds, { padding: [30, 30] });
+            map.fitBounds(bounds, { padding: [80, 80] });
         }
     }, [spot]);
 

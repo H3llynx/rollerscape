@@ -12,7 +12,6 @@ import "./Navbar.css";
 export function Navbar() {
     const { user, profile, loading } = useAuth();
     const location = useLocation();
-    const getTabIndex = (path: string) => location.pathname === path ? -1 : 0;
     const menuToggleRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const [expanded, setExpanded] = useState<boolean>(false)
@@ -22,6 +21,8 @@ export function Navbar() {
             menuToggleRef.current.checked = false;
         }
     }, [location.pathname]);
+
+    const getTabIndex = (path: string) => location.pathname === path ? -1 : 0;
 
     const handleSignOut = async () => {
         await signOut();
@@ -49,7 +50,11 @@ export function Navbar() {
             </label>
             <ul id="main-menu">
                 <li><ThemeToggle /></li>
-                <li><NavLink to="/" tabIndex={getTabIndex("/")}><Home aria-label="Home page" /></NavLink></li>
+                <li>
+                    <NavLink to="/" tabIndex={getTabIndex("/")}>
+                        <Home aria-label="Home page" />
+                    </NavLink>
+                </li>
                 <li className="auth">
                     {user && !loading &&
                         <>

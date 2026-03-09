@@ -34,6 +34,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
         error,
         setError,
         fileInputRef,
+        spotTypesRef,
         hasPhoto,
         handlePhotoChange,
         handlePhotoClear,
@@ -87,7 +88,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                 </label>
                 <fieldset>
                     <legend className="md:pt-1 mb-0.5">{spot_types.label}: <span className="text-text">(Select all that apply)</span></legend>
-                    <div className="cards-grid">
+                    <div className="cards-grid" ref={spotTypesRef}>
                         {SPOT_TYPES.map(type => (
                             <IconInput
                                 key={type.value}

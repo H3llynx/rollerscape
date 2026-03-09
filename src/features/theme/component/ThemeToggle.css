@@ -3,6 +3,14 @@
  .theme-switcher {
      @apply relative flex items-center gap-0.5 cursor-pointer;
 
+     &:focus-within {
+         outline-width: 2px;
+         outline-style: solid;
+         outline-offset: 4px;
+         outline-color: var(--color-text-secondary);
+         border-radius: 5px;
+     }
+
      &:hover {
          transform: scale(1.05);
      }

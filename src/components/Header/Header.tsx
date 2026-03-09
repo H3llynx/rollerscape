@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 import Logo from "../../assets/logo.png";
+import { useSpots } from "../../features/map/hooks/useContexts";
 import { Navbar } from "../Navbar/Navbar";
 import "./Header.css";
 
@@ -20,10 +21,16 @@ const headerVariants = tv({
 });
 
 export function Header({ style = "default", className }: Header) {
+    const { selectedSpot, setSelectedSpot } = useSpots();
+
+    const unSelectSpot = () => {
+        if (!selectedSpot) return;
+        setSelectedSpot(null);
+    }
 
     return (
         <header className={twMerge(headerVariants({ style }), className)}>
-            <NavLink to="/" className="pointer-events-auto">
+            <NavLink to="/" className="pointer-events-auto" tabIndex={0} onClick={unSelectSpot}>
                 <img className="logo-img" src={Logo} alt="RollerScape logo" /></NavLink>
             <Navbar />
         </header>
