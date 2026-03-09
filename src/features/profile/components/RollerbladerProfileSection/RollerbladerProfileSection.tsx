@@ -10,7 +10,6 @@ import { updateData } from "../../../../services/data";
 import type { SpotType } from "../../../../types/spots_types";
 import type { SkatingStyle, SkillLevel } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSpots } from "../../../map/hooks/useContexts";
 import { SectionTemplate } from "../SectionTemplate/SectionTemplate";
 import "./RollerbladerProfileSection.css";
 
@@ -18,7 +17,6 @@ export function RollerbladerProfileSection() {
     const [error, setError] = useState<string | null>(null);
     const { profile, setProfile } = useAuth();
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const { loadSpots } = useSpots();
     if (!profile) return;
 
     const handleClose = () => {
@@ -40,12 +38,9 @@ export function RollerbladerProfileSection() {
         const updated = current.includes(value)
             ? current.filter(type => type !== value)
             : [...current, value];
-        const { data, error } = await updateData({ id: profile.id, preferred_spot_types: updated }, databases.profiles);
+        const { error } = await updateData({ id: profile.id, preferred_spot_types: updated }, databases.profiles);
         if (error) setError(riderPreferencesErrors.spot_types);
-        else {
-            setProfile(data);
-            await loadSpots();
-        }
+        else setProfile({ ...profile, preferred_spot_types: updated });
     };
 
     const handleStyleChange = async (value: SkatingStyle) => {
@@ -53,12 +48,9 @@ export function RollerbladerProfileSection() {
         const updated = current.includes(value)
             ? current.filter(style => style !== value)
             : [...current, value];
-        const { data, error } = await updateData({ id: profile.id, skating_style: updated }, databases.profiles);
+        const { error } = await updateData({ id: profile.id, skating_style: updated }, databases.profiles);
         if (error) setError(riderPreferencesErrors.skating_style);
-        else {
-            setProfile(data);
-            await loadSpots();
-        }
+        else setProfile({ ...profile, skating_style: updated });
     };
 
     return (

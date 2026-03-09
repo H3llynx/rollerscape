@@ -26,7 +26,8 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
     const { selectedSpot, setSelectedSpot } = useSpots();
     const { profile } = useAuth();
     const [isRating, setIsRating] = useState<boolean>(false);
-    const reviewsRef = useRef<HTMLDivElement>(null);
+    const reviewFormRef = useRef<HTMLDivElement>(null);
+    const reviewListRef = useRef<HTMLDivElement>(null);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [reviewToEdit, setReviewToEdit] = useState<Review | null>(null);
     const { loadSpots } = useSpots();
@@ -44,7 +45,7 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
 
     useEffect(() => {
         if (isRating)
-            reviewsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            reviewFormRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, [isRating]);
 
     if (!selectedSpot) return;
@@ -58,8 +59,8 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
         hideReviewForm();
         await loadSpots();
         setTimeout(() => {
-            reviewsRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }, 1000);
+            reviewListRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 800);
     }
 
     const handleEditReview = (review: Review) => {
@@ -189,13 +190,13 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
                 </div>
                 <SpotPhotos />
                 {profile && isRating &&
-                    <div ref={reviewsRef}>
+                    <div ref={reviewFormRef}>
                         <ReviewForm onSuccess={handleReview} onCancel={hideReviewForm} reviewToEdit={reviewToEdit} />
                     </div>
                 }
                 {reviews.length > 0 &&
                     <>
-                        <div className="px-1 md:px-2 mt-2 flex flex-col gap-1">
+                        <div ref={reviewListRef} className="px-1 md:px-2 mt-2 flex flex-col gap-1">
                             <h2 className="text-xl">Community Ratings</h2>
                             {paginatedReviews.map(review => (
                                 <ReviewCard key={review.id} review={review} onClick={() => handleEditReview(review)} spotDescription />
