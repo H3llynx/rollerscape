@@ -35,7 +35,7 @@ export function LocationSearch() {
                 <input
                     name="location"
                     className="border-0 h-full focus-visible:outline-none"
-                    placeholder="City, town, village, neighborhood..."
+                    placeholder="City/ Area / Neighborhood"
                     onChange={() => { setError(false) }}
                 />
                 <Button
