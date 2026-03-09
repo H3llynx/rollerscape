@@ -81,10 +81,10 @@ export function GreetingsSection({ profile }: { profile: UserProfile }) {
 
             <Dialog ref={dialogRef} close={handleClose}>
                 {action === "name" &&
-                    <NameChangeForm onSuccess={() => dialogRef.current?.close()} />
+                    <NameChangeForm onSuccess={handleClose} />
                 }
                 {action === "location" &&
-                    <LocationRequest onSuccess={() => dialogRef.current?.close()} />
+                    <LocationRequest onSuccess={handleClose} />
                 }
                 {action === "delete" &&
                     <>
