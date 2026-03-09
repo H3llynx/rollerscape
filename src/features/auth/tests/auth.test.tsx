@@ -3,27 +3,22 @@ import { userEvent } from "@testing-library/user-event";
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
 import { signIn } from '../../../services/auth';
-import { valAuthNoUser, valAuthUser } from '../../../tests/setup';
+import { mockNavigate, valAuthNoUser, valAuthUser } from '../../../tests/setup';
 import { PanelSizeProvider } from '../../map/context/PanelSize/PanelSizeProvider';
 import { SpotsProvider } from '../../map/context/Spots/SpotsProvider';
 import { MapPage } from '../../map/MapPage';
 import { AuthPage } from "../AuthPage";
 import { AuthContext } from '../context/AuthContext';
 
-vi.mock("../../../services/auth", () => ({
-    signIn: vi.fn(),
-    loginWithGoogle: vi.fn(),
-}));
-
-const mockNavigate = vi.fn();
-
-vi.mock("react-router", async () => {
-    const actual = await vi.importActual('react-router');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
-});
+const AuthArea = (userContext: any) => (
+    <MemoryRouter>
+        <AuthContext value={userContext}>
+            <SpotsProvider>
+                <AuthPage />
+            </SpotsProvider>
+        </AuthContext>
+    </MemoryRouter>
+)
 
 describe("Authentication process", () => {
     it("should display a popup if the user fails registration", async () => {
@@ -31,13 +26,7 @@ describe("Authentication process", () => {
         vi.mocked(signIn).mockResolvedValueOnce(
             { data: null, error: { message: "Invalid credentials", status: 400 } } as any
         )
-        render(
-            <MemoryRouter>
-                <AuthContext value={valAuthNoUser}>
-                    <AuthPage />
-                </AuthContext>
-            </MemoryRouter>
-        )
+        render(AuthArea(valAuthNoUser));
         const form = within(screen.getByRole("main")).getByRole("form");
         await user.type(within(form).getByLabelText(/email address/i), "test@test.com");
         await user.type(within(form).getByLabelText(/password/i), "wrongpassword");
@@ -49,25 +38,14 @@ describe("Authentication process", () => {
         vi.mocked(signIn).mockResolvedValueOnce(
             { data: { user: { id: "123" }, session: null }, error: null } as any
         );
-        render(
-            <MemoryRouter>
-                <AuthContext value={valAuthUser as any}>
-                    <AuthPage />
-                </AuthContext>
-            </MemoryRouter>
-        );
+        render(AuthArea(valAuthUser));
         expect(mockNavigate).toHaveBeenCalled();
     });
 
     it("should display the user name in the homepage if the user is logged", () => {
-        const profile = {
-            id: "123",
-            name: "Sasha",
-            home_country_code: "es",
-        };
         render(
             <MemoryRouter>
-                <AuthContext value={{ ...valAuthUser, profile } as any}>
+                <AuthContext value={valAuthUser as any}>
                     <SpotsProvider>
                         <PanelSizeProvider>
                             <MapPage />
@@ -76,6 +54,6 @@ describe("Authentication process", () => {
                 </AuthContext>
             </MemoryRouter>
         );
-        expect(screen.getByText(/Sasha/i)).toBeInTheDocument();
+        expect(screen.getByText(/Helene/i)).toBeInTheDocument();
     });
 });

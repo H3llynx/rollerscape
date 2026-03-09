@@ -9,7 +9,7 @@ import { spotFormFields } from '../../../config/spots';
 import { redirecttoSpotUrl } from '../../../config/urls';
 import { insertDataWithJunctions } from '../../../services/data';
 import { fetchRoute } from '../../../services/geolocation';
-import { valAuthUser } from '../../../tests/setup';
+import { mockNavigate, spotsVal, valAuthUser } from '../../../tests/setup';
 import type { Coordinates, Route, RouteCoordinates } from '../../../types/geolocation_types';
 import type { Spot } from '../../../types/spots_types';
 import { AuthContext } from '../../auth/context/AuthContext';
@@ -18,8 +18,6 @@ import { SpotsContext } from '../../map/context/Spots/SpotsContext';
 import { AddSpotPage } from '../AddSpotPage';
 import { AddSpotMap } from '../components/AddSpotMap/AddSpotMap';
 import { SpotForm } from '../components/SpotForm/SpotForm';
-
-window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 vi.mock("../../map/hooks/useCenter", () => ({
     useCenter: () => ({
@@ -31,80 +29,6 @@ vi.mock("../../map/hooks/useCenter", () => ({
         profile: valAuthUser.profile,
     })
 }));
-
-const spotsVal = {
-    spots: [],
-    setSpots: () => { },
-    loading: false,
-    error: null,
-    loadSpots: () => Promise.resolve(),
-    selectedSpot: null,
-    setSelectedSpot: () => { },
-}
-
-vi.mock('react-leaflet', () => ({
-    LayerGroup: ({ children }: any) => <div data-testid="layer-group">{children}</div>,
-    MapContainer: ({ children }: any) => <div data-testid="map-container">{children}</div>,
-    LayersControl: () => null,
-    ZoomControl: () => null,
-    TileLayer: () => null,
-    Marker: () => null,
-    Polyline: ({ positions }: any) => (
-        <div data-testid="polyline" data-positions={JSON.stringify(positions)} />
-    ),
-    useMap: vi.fn(() => ({ flyTo: vi.fn(), setView: vi.fn(), getZoom: vi.fn(), invalidateSize: vi.fn() })),
-    useMapEvents: vi.fn(() => null),
-}));
-
-vi.mock('../../map/components/MapBase/MapBase', () => ({
-    MapBase: ({ children, other }: any) => (
-        <div data-testid="map">
-            {other}
-            {children}
-        </div>
-    ),
-}));
-
-vi.mock('react-leaflet-custom-control', () => ({
-    default: ({ children }: any) => <div>{children}</div>,
-}));
-
-vi.mock('../../map/components/RouteDisplay/RouteDisplay', () => ({
-    RouteDisplay: ({ data }: any) => (
-        <div data-testid="route-display" data-coords={JSON.stringify(data)} />
-    ),
-}));
-
-vi.mock('../components/AddMarker/AddMarker', () => ({
-    AddMarker: () => <div data-testid={"add-marker"} />
-}));
-
-vi.mock('../../map/components/UserMarker/UserMarker', () => ({
-    UserMarker: () => null,
-}));
-
-vi.mock('../../map/components/FlyToUser/FlyToUser', () => ({
-    FlyToUser: () => null,
-}));
-
-vi.mock('../../../services/geolocation', () => ({
-    fetchRoute: vi.fn(),
-    reverseGeocode: vi.fn().mockResolvedValue({ city: "Barcelona", country: "es", name: "B-10, Sant Martí, 08019 Barcelona" }),
-}));
-
-vi.mock('../../../services/data', () => ({
-    insertDataWithJunctions: vi.fn().mockResolvedValue({ error: null }),
-}))
-
-const mockNavigate = vi.fn();
-
-vi.mock("react-router", async () => {
-    const actual = await vi.importActual('react-router');
-    return {
-        ...actual,
-        useNavigate: () => mockNavigate,
-    };
-});
 
 const MapArea = () => (
     <MemoryRouter>

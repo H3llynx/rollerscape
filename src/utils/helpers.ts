@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 import { SPOT_TYPES } from "../config/spots";
 import { SKATING_STYLES, SKILLS, } from "../config/user_info";
-import type { Coordinates, MapCoordinates } from "../types/geolocation_types";
+import type { NominatimResult } from "../types/geolocation_types";
 import type { SpotType } from "../types/spots_types";
 import type { SkatingStyle, SkillLevel } from "../types/user_types";
 
@@ -27,8 +27,15 @@ export const createSlug = (name: string) => {
         .toLowerCase();
 };
 
-export const osrmToJsonCoords = (osrmCoords: MapCoordinates[]): Coordinates[] =>
-    osrmCoords.map(([lon, lat]) => ({ lat, lon }));
+export const formatLocation = (location: NominatimResult) => {
+    const city = `${location.address.city || location.address.town || location.address.village || location.address.municipality}`;
+    const quartier = `${location.address.neighbourhood || location.address.suburb || " "}`
+    return `
+    ${(location.name && location.name !== city) ? location.name + "," : ""}
+    ${quartier ?? quartier}
+    ${location.address.postcode} ${city}
+    `;
+}
 
 export const getSpotType = (type: SpotType) => SPOT_TYPES
     .filter(spot => spot.value === type)

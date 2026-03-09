@@ -1,6 +1,6 @@
 import { urls } from "../config/urls";
-import { formatLocation } from "../features/profile/utils";
 import type { Coordinates, Location, NominatimResult, OsrmRoute, RouteCoordinates } from "../types/geolocation_types";
+import { formatLocation } from "../utils/helpers";
 import supabase from "../utils/supabase";
 
 export const searchLocations = async (query: string, country: string): Promise<Location[]> => {

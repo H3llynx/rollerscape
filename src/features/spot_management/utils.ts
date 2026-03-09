@@ -1,5 +1,5 @@
 import { useMapEvents } from "react-leaflet";
-import type { Coordinates, RouteCoordinates } from "../../types/geolocation_types";
+import type { Coordinates, MapCoordinates, RouteCoordinates } from "../../types/geolocation_types";
 
 export const CoordinatePicker = ({ onPick, onMouseMove }: {
     onPick: (lat: number, lon: number) => void;
@@ -62,3 +62,6 @@ export const calculateHaversineDistance = (a: Coordinates, b: Coordinates): numb
     const x = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
     return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
 };
+
+export const osrmToJsonCoords = (osrmCoords: MapCoordinates[]): Coordinates[] =>
+    osrmCoords.map(([lon, lat]) => ({ lat, lon }));
