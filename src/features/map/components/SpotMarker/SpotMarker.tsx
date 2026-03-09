@@ -1,5 +1,6 @@
 import L from "leaflet";
 import { Marker } from 'react-leaflet';
+import Flag from "../../../../assets/markers/flag.png";
 import Wheel from "../../../../assets/wheel.png";
 import type { MapCoordinates } from "../../../../types/geolocation_types";
 import type { SpotFullInfo } from "../../../../types/spots_types";
@@ -12,14 +13,15 @@ type SpotMarker = {
     reduced?: boolean;
 }
 
-const spotIcon = L.icon({
-    iconUrl: Wheel,
-    iconSize: [35, 35],
-    iconAnchor: [21, 18],
-    className: "spot-marker"
-});
-
 export function SpotMarker({ spot, position, dimmed, onMarkerClick }: SpotMarker) {
+
+    const spotIcon = L.icon({
+        iconUrl: spot.location_type === "point" ? Wheel : Flag,
+        iconSize: [35, 35],
+        iconAnchor: [21, 18],
+        className: "spot-marker"
+    });
+
     return (
         <Marker
             position={position}

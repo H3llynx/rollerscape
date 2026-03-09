@@ -93,7 +93,7 @@ let spotsVal = {
 }
 
 describe("Map display", () => {
-    it("should display the spots once user is logged", () => {
+    it("should display the map once user is logged", () => {
         vi.mocked(useCenter).mockReturnValue({
             center: [40.4168, -3.7038],
             setCenter: vi.fn(),
@@ -105,7 +105,7 @@ describe("Map display", () => {
         render(MapArea(valAuthUser, spotsVal))
         expect(screen.getByTestId("map")).toBeInTheDocument();
     });
-    it("should also display the spots if user is not logged but has allowed", () => {
+    it("should also display the map if user is not logged but has allowed geolocation", () => {
         vi.mocked(useCenter).mockReturnValue({
             center: [40.4168, -3.7038],
             setCenter: vi.fn(),
@@ -117,7 +117,7 @@ describe("Map display", () => {
         render(MapArea(valAuthNoUser, spotsVal))
         expect(screen.getByTestId("map")).toBeInTheDocument();
     });
-    it("should open an error popup otherwise", async () => {
+    it("should open an error popup if the user did not allow geolocation", async () => {
         vi.mocked(useCenter).mockReturnValue({
             center: [40.4168, -3.7038],
             setCenter: vi.fn(),

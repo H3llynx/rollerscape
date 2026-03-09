@@ -131,7 +131,7 @@ export function MapPage() {
                                     .filter(spot =>
                                         spot.spot_types.some(type => checkedTypes.includes(type.name))
                                     )
-                                    .filter(spot => !showOnlyFavorites || profile?.favorites.includes(spot.id))
+                                    .filter(spot => !showOnlyFavorites || profile?.favorites?.includes(spot.id))
                                     .map(spot => {
                                         if (spot.location_type === "point")
                                             return (

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 import Logo from "../../assets/logo.png";
@@ -22,7 +23,8 @@ export function Header({ style = "default", className }: Header) {
 
     return (
         <header className={twMerge(headerVariants({ style }), className)}>
-            <img className="logo-img" src={Logo} alt="RollerScape logo" />
+            <NavLink to="/" className="pointer-events-auto">
+                <img className="logo-img" src={Logo} alt="RollerScape logo" /></NavLink>
             <Navbar />
         </header>
     )
