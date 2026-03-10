@@ -32,7 +32,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
 
     const getTextColor = (type: SpotType) => {
         if (type === "greenway") return "text-[#bcd004]";
-        else return "text-white";
+        else return "text-text";
     }
 
     const handleFavorites = () => {
