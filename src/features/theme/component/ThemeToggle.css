@@ -3,7 +3,7 @@
  .theme-switcher {
      @apply relative flex items-center gap-0.5 cursor-pointer;
 
-     &:focus-within {
+     &:has(input:focus-visible) {
          outline-width: 2px;
          outline-style: solid;
          outline-offset: 4px;

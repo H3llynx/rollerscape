@@ -64,6 +64,7 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
                             checked={checkedTypes.includes(type)}
                             onChange={() => handleTypeChange(type)}
                             value={type}
+                            tabIndex={0}
                         />
                         {getSpotType(type)}
                     </label>
