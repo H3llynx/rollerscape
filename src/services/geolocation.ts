@@ -106,8 +106,7 @@ export const fetchRoute = async (routeCoords: RouteCoordinates, signal: AbortSig
         const osrmUrl = `${urls.osrm}/${start.lon},${start.lat};${end.lon},${end.lat}` +
             `?alternatives=true` +
             `&geometries=geojson` +
-            `&overview=full` +
-            `&radiuses=50;50`;
+            `&overview=full`;
         const response = await fetch(osrmUrl, { signal });
         const data = await response.json();
         return data.routes;

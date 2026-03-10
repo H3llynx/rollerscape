@@ -34,19 +34,7 @@ const MapArea = (authContext: any, spotContext: any) => (
 let spotsValue = { ...spotsVal, spots: [routeSpot, ...pointSpots] }
 
 describe("Map display", () => {
-    it("should display the map once the user is logged", () => {
-        vi.mocked(useCenter).mockReturnValue({
-            center: [40.4168, -3.7038],
-            setCenter: vi.fn(),
-            error: null,
-            setError: vi.fn(),
-            trackUser: vi.fn(),
-            profile: valAuthUser.profile,
-        } as any);
-        render(MapArea(valAuthUser, spotsValue))
-        expect(screen.getByTestId("map")).toBeInTheDocument();
-    });
-    it("should also display the map if user is not logged but has allowed geolocation", () => {
+    it("should display the map once a has allowed geolocation", () => {
         vi.mocked(useCenter).mockReturnValue({
             center: [40.4168, -3.7038],
             setCenter: vi.fn(),
@@ -95,7 +83,7 @@ describe("Spot display", () => {
         render(MapArea(valAuthNoUser, spotsValue));
         expect(screen.getAllByTestId(/marker-2/)).toHaveLength(2);
     });
-    it("Shows the itinerary (polyline) when a spote of type `route`is selected", () => {
+    it("Shows the itinerary (polyline) when a spot of type `route`is selected", () => {
         spotsValue = { ...spotsValue, selectedSpot: routeSpot as any };
         render(MapArea(valAuthNoUser, spotsValue));
         expect(screen.getByTestId("route-display")).toBeInTheDocument();
@@ -108,7 +96,7 @@ describe("Spot display", () => {
 });
 
 describe("Filters behaviour", () => {
-    it("on loading, should show all the spot type filters checked by default", () => {
+    it("Should show all the spot type filters checked by default when the user has no profile", () => {
         vi.mocked(useCenter).mockReturnValue({
             center: [40.4168, -3.7038],
             setCenter: vi.fn(),
@@ -122,7 +110,7 @@ describe("Filters behaviour", () => {
         const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox")
         checkboxes.forEach(checkbox => expect(checkbox).toBeChecked());
     });
-    it("on loading, should prefilter the spots by type preference if the user is logged and has preferences set", async () => {
+    it("otherwise, should prefilter the spots accorder to the user's preferences", async () => {
         vi.mocked(useCenter).mockReturnValue({
             center: [40.4168, -3.7038],
             setCenter: vi.fn(),

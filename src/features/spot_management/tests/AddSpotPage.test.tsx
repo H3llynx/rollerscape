@@ -51,7 +51,7 @@ const simulateClick = async (lat: number, lon: number) => {
 };
 const user = userEvent.setup();
 
-describe("Step 1: init with location type confirmation", () => {
+describe("Step 1: location type confirmation", () => {
     it("should first asks the user to confirm the location type before they can go any further", async () => {
         render(<MapArea />);
         expect(screen.getByLabelText(spotFormFields.location_type.label)).toBeInTheDocument();
@@ -63,14 +63,7 @@ describe("Step 1: init with location type confirmation", () => {
         await user.click(screen.getByRole("button", { name: /confirm/i }));
         expect(screen.getByLabelText(/add spot/i)).toBeInTheDocument();
         expect(screen.getByTestId("map")).toBeInTheDocument();
-    })
-    it("should show the spot detail form and map once the location type is selected", async () => {
-        render(<MapArea />);
-        await user.selectOptions(screen.getByLabelText(/pick a location type/i), "point");
-        await user.click(screen.getByRole("button", { name: /confirm/i }));
-        expect(screen.getByLabelText(/add spot/i)).toBeInTheDocument();
-        expect(screen.getByTestId("map")).toBeInTheDocument();
-    })
+    });
 });
 
 describe("Step 2: coordinates picking on map", () => {
@@ -172,7 +165,7 @@ describe("Spot submission overall", () => {
             expect(screen.getByText(spotErrors.add.missing_coordinates)).toBeInTheDocument();
         });
     });
-    it("should add the spot to the database on submit and redirect the user to the map with the new spot description open if all the requested fields are provided", async () => {
+    it("should redirect the user to the map with the new spot description open after successful submission", async () => {
         render(<MapArea />);
         await user.selectOptions(screen.getByLabelText(/pick a location type/i), "point");
         await user.click(screen.getByRole("button", { name: /confirm/i }));
