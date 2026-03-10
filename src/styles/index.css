@@ -212,7 +212,7 @@
   }
 
   .file-label {
-    @apply flex gap-0.5 items-center;
+    @apply flex gap-0.5 items-center has-disabled:opacity-40 has-disabled:cursor-not-allowed;
   }
 
   .dialog-shadow {

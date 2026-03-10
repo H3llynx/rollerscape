@@ -15,7 +15,7 @@ export function SpotLeftPanel() {
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const { selectedSpot, setSelectedSpot } = useSpots();
-    const { setSpots } = useSpots();
+    const { loadSpots } = useSpots();
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -44,8 +44,8 @@ export function SpotLeftPanel() {
         const { error } = await deleteData(spotId, databases.spots);
         if (error) setError(spotErrors.delete.spot);
         setIsDeleting(false);
-        setSpots(prev => prev!.filter(spot => spot !== selectedSpot));
         setSelectedSpot(null);
+        loadSpots();
     };
 
     const handleEditted = async () => {

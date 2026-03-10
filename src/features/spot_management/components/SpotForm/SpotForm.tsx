@@ -35,9 +35,7 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
         setError,
         fileInputRef,
         spotTypesRef,
-        hasPhoto,
         handlePhotoChange,
-        handlePhotoClear,
         deletePhoto } = useSpotForm(isAdding, spotCoordinates);
     const { name, photos, description, surface_quality, spot_types, traffic_levels } = spotFormFields;
 
@@ -140,17 +138,15 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                         <Camera className="w-1.5" aria-hidden />
                         <input
                             id={photos.id}
-                            className="text-xs font-medium cursor-pointer"
+                            className="text-xs font-medium cursor-pointer disabled:cursor-not-allowed"
                             type={photos.input_type}
                             ref={fileInputRef}
                             onChange={handlePhotoChange}
                             accept="image/*"
+                            disabled={selectedPhotos.length >= 10}
                             multiple
                         />
                     </label>
-                    {hasPhoto &&
-                        <Button type="button" style="icon" aria-label="Remove images" onClick={handlePhotoClear}><X aria-hidden /></Button>
-                    }
                 </div>
                 {selectedPhotos.length > 0 &&
                     <>
