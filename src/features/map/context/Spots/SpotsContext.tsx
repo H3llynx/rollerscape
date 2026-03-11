@@ -9,6 +9,8 @@ type SpotsContext = {
     loadSpots: () => Promise<void>;
     selectedSpot: SpotFullInfo | null;
     setSelectedSpot: Dispatch<SetStateAction<SpotFullInfo | null>>;
+    reversed: boolean;
+    setReversed: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SpotsContext = createContext<SpotsContext | null>(null);

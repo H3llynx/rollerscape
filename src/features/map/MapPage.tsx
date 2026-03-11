@@ -19,7 +19,7 @@ import { useCenter } from "./hooks/useCenter";
 import { usePanelSize, useSpots } from "./hooks/useContexts";
 
 export function MapPage() {
-    const { spots, loading, selectedSpot, setSelectedSpot } = useSpots();
+    const { spots, loading, selectedSpot, setSelectedSpot, setReversed } = useSpots();
     const { center, error, setError, trackUser, profile } = useCenter();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -89,9 +89,10 @@ export function MapPage() {
         setError(null);
     };
 
-    const handleMarkerClick = (spot: SpotFullInfo) => {
+    const handleMarkerClick = (spot: SpotFullInfo, clicked?: "start" | "end") => {
         if (selectedSpot === spot) setSelectedSpot(null);
         else setSelectedSpot(spot);
+        if (spot.location_type === "route") setReversed(clicked === "end");
     }
 
     const otherControls = (
@@ -152,14 +153,14 @@ export function MapPage() {
                                                         key={`${spot.id}-start`}
                                                         spot={spot}
                                                         position={start as MapCoordinates}
-                                                        onMarkerClick={() => handleMarkerClick(spot)}
+                                                        onMarkerClick={() => handleMarkerClick(spot, "start")}
                                                         dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
                                                     />
                                                     <SpotMarker
                                                         key={`${spot.id}-end`}
                                                         spot={spot}
                                                         position={end as MapCoordinates}
-                                                        onMarkerClick={() => handleMarkerClick(spot)}
+                                                        onMarkerClick={() => handleMarkerClick(spot, "end")}
                                                         dimmed={selectedSpot !== null && selectedSpot.id !== spot.id}
                                                     />
                                                 </Fragment>

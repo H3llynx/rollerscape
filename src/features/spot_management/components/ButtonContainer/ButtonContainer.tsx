@@ -4,6 +4,7 @@ import { Button } from "../../../../components/Button/Button";
 import { deleteFav, saveAsFav, sendToGps, shareSpot } from "../../../../services/spots";
 import type { SpotFullInfo } from "../../../../types/spots_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
+import { useSpots } from "../../../map/hooks/useContexts";
 import "./ButtonContainer.css";
 
 type ButtonContainer = {
@@ -16,6 +17,7 @@ type ButtonContainer = {
 
 export function ButtonContainer({ spot, onEdit, onDelete, onCancel, variant = "description" }: ButtonContainer) {
     const { profile, setProfile } = useAuth();
+    const { reversed } = useSpots();
     const [itineraryStart, setItineraryStart] = useState<boolean>(false);
 
     if (!spot) return;
@@ -31,6 +33,8 @@ export function ButtonContainer({ spot, onEdit, onDelete, onCancel, variant = "d
         await deleteFav(spot.id, profile.id);
         setProfile({ ...profile, favorites: profile.favorites.filter(fav => fav !== spot.id) })
     }
+
+    const displayCoords = reversed ? [...spot.coordinates].reverse() : spot.coordinates;
 
     return (
         <div className="button-container">
@@ -84,13 +88,13 @@ export function ButtonContainer({ spot, onEdit, onDelete, onCancel, variant = "d
                             {itineraryStart &&
                                 <div className="pick-itinerary-container bg-blur">
                                     <Button style="icon" aria-label="Start point" className="pick-itinerary-btn" onClick={() => {
-                                        sendToGps(spot.name, spot.coordinates[0]);
+                                        sendToGps(spot.name, displayCoords[0]);
                                         setItineraryStart(false);
                                     }}>
                                         <Locate aria-hidden width={18} />Start
                                     </Button>
                                     <Button style="icon" aria-label="End point" className="pick-itinerary-btn" onClick={() => {
-                                        sendToGps(spot.name, spot.coordinates[spot.coordinates.length - 1]);
+                                        sendToGps(spot.name, displayCoords[spot.coordinates.length - 1]);
                                         setItineraryStart(false);
                                     }}>
                                         <Flag aria-hidden width={18} />End

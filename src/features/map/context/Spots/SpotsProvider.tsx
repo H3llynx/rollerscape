@@ -9,6 +9,7 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
     const [spots, setSpots] = useState<SpotFullInfo[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [selectedSpot, setSelectedSpot] = useState<SpotFullInfo | null>(null);
+    const [reversed, setReversed] = useState(false);
 
     const loadSpots = async () => {
         setLoading(true);
@@ -24,9 +25,10 @@ export function SpotsProvider({ children }: { children: ReactNode }) {
         loadSpots();
     }, []);
 
+
     const value = {
         spots, setSpots, loading, error, loadSpots,
-        selectedSpot, setSelectedSpot
+        selectedSpot, setSelectedSpot, reversed, setReversed
     };
 
     return (

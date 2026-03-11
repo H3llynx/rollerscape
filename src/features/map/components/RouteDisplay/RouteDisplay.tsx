@@ -5,6 +5,7 @@ import FlagMarker2 from "../../../../assets/markers/flag2.png";
 import StartMarker from "../../../../assets/markers/spot-marker.png";
 import StartMarker2 from "../../../../assets/markers/spot-marker2.png";
 import type { Coordinates, MapCoordinates } from "../../../../types/geolocation_types";
+import { useSpots } from "../../hooks/useContexts";
 
 
 type RouteDisplay = {
@@ -15,6 +16,8 @@ type RouteDisplay = {
 }
 
 export function RouteDisplay({ data, selected, custom = false, onSelect }: RouteDisplay) {
+    const { reversed } = useSpots();
+
     if (!data || data.length < 2) return null;
 
     const startIcon = L.icon({
@@ -45,10 +48,12 @@ export function RouteDisplay({ data, selected, custom = false, onSelect }: Route
         coord => [coord.lat, coord.lon] as MapCoordinates
     );
 
+    const displayCoords = reversed ? [...coords].reverse() : coords;
+
     return (
         <>
             <Polyline
-                positions={coords}
+                positions={displayCoords}
                 pathOptions={{
                     color: getColor(),
                     weight: getWeight(),
@@ -56,8 +61,8 @@ export function RouteDisplay({ data, selected, custom = false, onSelect }: Route
                 }}
                 eventHandlers={onSelect ? { click: onSelect } : {}}
             />
-            <Marker position={coords[0]} icon={startIcon} />
-            <Marker position={coords[coords.length - 1]} icon={endIcon} />
+            <Marker position={displayCoords[0]} icon={startIcon} />
+            <Marker position={displayCoords[displayCoords.length - 1]} icon={endIcon} />
         </>
     )
 }
