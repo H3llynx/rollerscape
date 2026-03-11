@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import { userEvent } from "@testing-library/user-event";
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from "vitest";
@@ -38,22 +38,24 @@ describe("Authentication process", () => {
         vi.mocked(signIn).mockResolvedValueOnce(
             { data: { user: { id: "123" }, session: null }, error: null } as any
         );
-        render(AuthArea(valAuthUser));
+        await act(async () => { render(AuthArea(valAuthUser)) });
         expect(mockNavigate).toHaveBeenCalled();
     });
 
-    it("should display the user name in the homepage if the user is logged", () => {
-        render(
-            <MemoryRouter>
-                <AuthContext value={valAuthUser as any}>
-                    <SpotsProvider>
-                        <PanelSizeProvider>
-                            <MapPage />
-                        </PanelSizeProvider>
-                    </SpotsProvider>
-                </AuthContext>
-            </MemoryRouter>
-        );
+    it("should display the user name in the homepage if the user is logged", async () => {
+        await act(async () => {
+            render(
+                <MemoryRouter>
+                    <AuthContext value={valAuthUser as any}>
+                        <SpotsProvider>
+                            <PanelSizeProvider>
+                                <MapPage />
+                            </PanelSizeProvider>
+                        </SpotsProvider>
+                    </AuthContext>
+                </MemoryRouter>
+            )
+        });
         expect(screen.getByText(/Helene/i)).toBeInTheDocument();
     });
 });

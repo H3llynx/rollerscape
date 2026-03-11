@@ -10,18 +10,13 @@ export function RiderCard({ desktop = true }: { desktop?: boolean }) {
     if (!rider) return;
 
     const skatingStyles = (
-        <>
-            {rider.skating_style.length > 1 ?
-                <ul className="mx-0 mt-[5px] md:text-[0.7rem] flex flex-wrap gap-[5px]">
-                    {rider.skating_style.map((style, i) => (
-                        <li key={i} className="px-0.5 py-[3px] rounded-md bg-bg-rgba-2 font-medium text-grey">
-                            {getSkatingStyles(style)}
-                        </li>
-                    ))}
-                </ul>
-                : <span className="md:text-[0.7rem]">{getSkatingStyles(rider.skating_style[0])}</span>
-            }
-        </>
+        <ul className="mx-0 mt-[5px] md:text-[0.7rem] flex flex-wrap gap-[5px]">
+            {rider.skating_style.map((style, i) => (
+                <li key={i} className="px-0.5 py-[3px] rounded-md bg-bg-rgba-2 font-medium text-grey">
+                    {getSkatingStyles(style)}
+                </li>
+            ))}
+        </ul>
     )
 
     return (

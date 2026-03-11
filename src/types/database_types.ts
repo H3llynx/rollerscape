@@ -1,47 +1,5 @@
 export type Database = {
     Tables: {
-        reviews: {
-            Row: {
-                comment: string | null
-                created_at: string | null
-                id: string
-                rating: number | null
-                spot_id: string | null
-                user_id: string | null
-            }
-            Insert: {
-                comment?: string | null
-                created_at?: string | null
-                id?: string
-                rating?: number | null
-                spot_id?: string | null
-                user_id?: string | null
-            }
-            Update: {
-                comment?: string | null
-                created_at?: string | null
-                id?: string
-                rating?: number | null
-                spot_id?: string | null
-                user_id?: string | null
-            }
-            Relationships: [
-                {
-                    foreignKeyName: "comments_spot_id_fkey"
-                    columns: ["spot_id"]
-                    isOneToOne: false
-                    referencedRelation: "public_spots"
-                    referencedColumns: ["id"]
-                },
-                {
-                    foreignKeyName: "comments_spot_id_fkey"
-                    columns: ["spot_id"]
-                    isOneToOne: false
-                    referencedRelation: "spots"
-                    referencedColumns: ["id"]
-                },
-            ]
-        },
         favorites: {
             Row: {
                 profile_id: string
@@ -86,6 +44,43 @@ export type Database = {
                 },
             ]
         }
+        profile_spot_types: {
+            Row: {
+                profile_id: string
+                spot_type_id: number
+            }
+            Insert: {
+                profile_id: string
+                spot_type_id: number
+            }
+            Update: {
+                profile_id?: string
+                spot_type_id?: number
+            }
+            Relationships: [
+                {
+                    foreignKeyName: "pref_profile_id_fkey"
+                    columns: ["profile_id"]
+                    isOneToOne: false
+                    referencedRelation: "profiles"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "pref_profile_id_fkey"
+                    columns: ["profile_id"]
+                    isOneToOne: false
+                    referencedRelation: "public_rider"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "pref_spot_type_id_fkey"
+                    columns: ["spot_type_id"]
+                    isOneToOne: false
+                    referencedRelation: "spot_types"
+                    referencedColumns: ["id"]
+                },
+            ]
+        }
         profiles: {
             Row: {
                 avatar_url: string | null
@@ -95,7 +90,6 @@ export type Database = {
                 home_lon: number | null
                 id: string
                 name: string | null
-                preferred_spot_types: string[] | null
                 skating_style: string[] | null
                 skill_level: string | null
             }
@@ -107,7 +101,6 @@ export type Database = {
                 home_lon?: number | null
                 id: string
                 name?: string | null
-                preferred_spot_types?: string[] | null
                 skating_style?: string[] | null
                 skill_level?: string | null
             }
@@ -119,11 +112,52 @@ export type Database = {
                 home_lon?: number | null
                 id?: string
                 name?: string | null
-                preferred_spot_types?: string[] | null
                 skating_style?: string[] | null
                 skill_level?: string | null
             }
             Relationships: []
+        }
+        reviews: {
+            Row: {
+                comment: string | null
+                created_at: string | null
+                id: string
+                rating: number | null
+                spot_id: string | null
+                user_id: string | null
+            }
+            Insert: {
+                comment?: string | null
+                created_at?: string | null
+                id?: string
+                rating?: number | null
+                spot_id?: string | null
+                user_id?: string | null
+            }
+            Update: {
+                comment?: string | null
+                created_at?: string | null
+                id?: string
+                rating?: number | null
+                spot_id?: string | null
+                user_id?: string | null
+            }
+            Relationships: [
+                {
+                    foreignKeyName: "comments_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "public_spots"
+                    referencedColumns: ["id"]
+                },
+                {
+                    foreignKeyName: "comments_spot_id_fkey"
+                    columns: ["spot_id"]
+                    isOneToOne: false
+                    referencedRelation: "spots"
+                    referencedColumns: ["id"]
+                },
+            ]
         }
         spot_spot_types: {
             Row: {
@@ -217,7 +251,6 @@ export type Database = {
         spots: {
             Row: {
                 address: string | null
-                average_rating: number | null
                 city: string
                 coordinates: JSON
                 country: string
@@ -233,7 +266,6 @@ export type Database = {
             }
             Insert: {
                 address?: string | null
-                average_rating?: number | null
                 city: string
                 coordinates: JSON
                 country: string
@@ -249,7 +281,6 @@ export type Database = {
             }
             Update: {
                 address?: string | null
-                average_rating?: number | null
                 city?: string
                 coordinates?: JSON
                 country?: string
@@ -295,7 +326,7 @@ export type Database = {
             }
             Relationships: []
         }
-    },
+    }
     Views: {
         public_reviews: {
             Row: {
@@ -330,18 +361,21 @@ export type Database = {
                 id: string | null
                 name: string | null
                 skating_style: string[] | null
+                skill_level: string | null
             }
             Insert: {
                 avatar_url?: string | null
                 id?: string | null
                 name?: string | null
                 skating_style?: string[] | null
+                skill_level?: string | null
             }
             Update: {
                 avatar_url?: string | null
                 id?: string | null
                 name?: string | null
                 skating_style?: string[] | null
+                skill_level?: string | null
             }
             Relationships: []
         }

@@ -1,20 +1,20 @@
 export const SPOT_TYPES = [
-    { value: "skatepark", label: "Skatepark", img: `${import.meta.env.BASE_URL}spot_type_icons/skatepark.png` },
-    { value: "street_plaza", label: "Street & Plaza", img: `${import.meta.env.BASE_URL}spot_type_icons/street.png` },
-    { value: "smooth_flat", label: "Smooth Flat", img: `${import.meta.env.BASE_URL}spot_type_icons/smooth-flat.png` },
-    { value: "bike_path", label: "Bike Paths", img: `${import.meta.env.BASE_URL}spot_type_icons/bike-path.png` },
-    { value: "greenway", label: "Greenways", img: `${import.meta.env.BASE_URL}spot_type_icons/greenway.png` },
-    { value: "urban_cruising", label: "Urban Cruising", img: `${import.meta.env.BASE_URL}spot_type_icons/urban-cruising.png` },
+    { id: 1, value: "skatepark", label: "Skatepark", img: `${import.meta.env.BASE_URL}spot_type_icons/skatepark.png` },
+    { id: 2, value: "street_plaza", label: "Street & Plaza", img: `${import.meta.env.BASE_URL}spot_type_icons/street.png` },
+    { id: 6, value: "smooth_flat", label: "Smooth Flat", img: `${import.meta.env.BASE_URL}spot_type_icons/smooth-flat.png` },
+    { id: 5, value: "bike_path", label: "Bike Paths", img: `${import.meta.env.BASE_URL}spot_type_icons/bike-path.png` },
+    { id: 3, value: "greenway", label: "Greenways", img: `${import.meta.env.BASE_URL}spot_type_icons/greenway.png` },
+    { id: 4, value: "urban_cruising", label: "Urban Cruising", img: `${import.meta.env.BASE_URL}spot_type_icons/urban-cruising.png` },
 ] as const;
 
 export const LOCATION_TYPE = ["point", "route"] as const;
 
 export const TRAFFIC_LEVELS = [
-    { value: "always_quiet", label: "Always quiet" },
-    { value: "busy_peak_hours", label: "Busy at peak hours" },
-    { value: "busy_weekends", label: "Busy on weekends" },
-    { value: "busy_in_season", label: "Busy on season" },
-    { value: "unknown", label: "Unknown" }
+    { id: 1, value: "always_quiet", label: "Always quiet" },
+    { id: 3, value: "busy_peak_hours", label: "Busy at peak hours" },
+    { id: 4, value: "busy_weekends", label: "Busy on weekends" },
+    { id: 5, value: "busy_in_season", label: "Busy on season" },
+    { id: 6, value: "unknown", label: "Unknown" },
 ] as const;
 
 export const ROUTE_GEN_MODE = [

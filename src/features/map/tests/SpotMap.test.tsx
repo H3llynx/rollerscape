@@ -123,7 +123,7 @@ describe("Filters behaviour", () => {
         const filterContainer = container.querySelector("#spot-type-filters");
         const checkboxes = within(filterContainer as HTMLElement).getAllByRole("checkbox");
         checkboxes.forEach(checkbox => {
-            if ((checkbox as HTMLInputElement).value === valAuthUser.profile.preferred_spot_types[0] || (checkbox as HTMLInputElement).value === valAuthUser.profile.preferred_spot_types[1])
+            if ((checkbox as HTMLInputElement).value === valAuthUser.profile.preferred_spot_types[0].name || (checkbox as HTMLInputElement).value === valAuthUser.profile.preferred_spot_types[1].name)
                 expect(checkbox).toBeChecked();
             else expect(checkbox).not.toBeChecked();
         });

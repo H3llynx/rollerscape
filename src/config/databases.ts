@@ -13,15 +13,3 @@ export const views = {
     public_rider: "public_rider",
 } as const
 
-export const dbSelect = {
-    spots: {
-        allWithJunctions: `*,
-spot_spot_types(
-    ...spot_types(id, name)
-),
-spot_traffic_levels(
-    ...traffic_levels(id, name)
-)`
-    }
-}
-

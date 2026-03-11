@@ -9,11 +9,10 @@ import { GridLeftPanel } from "../../components/GridLeftPanel/GridLeftPanel";
 import { MobileHideButton } from "../../components/MobileHideButton/MobileHideButton";
 import { databases } from "../../config/databases";
 import { spotErrors } from "../../config/errors";
-import { spotFormFields } from "../../config/spots";
+import { SPOT_TYPES, spotFormFields, TRAFFIC_LEVELS } from "../../config/spots";
 import { redirecttoSpotUrl } from "../../config/urls";
 import { insertDataWithJunctions } from "../../services/data";
 import { reverseGeocode } from "../../services/geolocation";
-import { getSpotTypes, getTrafficLevels } from "../../services/spots";
 import type { Coordinates } from "../../types/geolocation_types";
 import type { JunctionInsert, Spot, SpotType, TrafficLevel } from "../../types/spots_types";
 import { createSlug } from "../../utils/helpers";
@@ -102,8 +101,8 @@ export function AddSpotPage() {
         const coords = newSpot[coordinates.db_key] as Coordinates[];
         const geo = await reverseGeocode(coords[0]);
         const slug = createSlug(`${newSpot[name.db_key]}-${geo.city}`);
-        const { data: typeRows } = await getSpotTypes(selectedTypes);
-        const { data: levelRows } = await getTrafficLevels(selectedLevels);
+        const typeIds = selectedTypes.map(type => SPOT_TYPES.find(st => st.value === type)!.id);
+        const levelIds = selectedLevels.map(level => TRAFFIC_LEVELS.find(tl => tl.value === level)!.id);
 
         const values = {
             name: newSpot[name.db_key],
@@ -121,8 +120,8 @@ export function AddSpotPage() {
         }
 
         const junctions: JunctionInsert[] = [
-            { table: "spot_spot_types", fKey: "spot_type_id", values: typeRows?.map(row => row.id) ?? [] },
-            { table: "spot_traffic_levels", fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
+            { table: "spot_spot_types", fKey: "spot_type_id", values: typeIds },
+            { table: "spot_traffic_levels", fKey: "traffic_level_id", values: levelIds }
         ]
 
         const { error } = await insertDataWithJunctions(databases.spots, values, junctions);

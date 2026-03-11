@@ -39,6 +39,11 @@ export type TrafficLevel = typeof TRAFFIC_LEVELS[number]["value"];
 
 export type SpotType = typeof SPOT_TYPES[number]["value"];
 
+export type SpotTypeObject = {
+    id: number;
+    name: SpotType;
+}
+
 export type JunctionInsert = {
     table: Data;
     fKey: string;

@@ -15,13 +15,18 @@ export const loginWithGoogle = async ({ redirectURL }: { redirectURL: string }) 
 export const getUserProfile = async (userId: string) => {
     const { data, error } = await supabase
         .from("profiles")
-        .select("*, favorites(spot_id)")
+        .select(`*,
+    favorites(spot_id),
+    profile_spot_types(
+      ...spot_types(id, name)
+    )`)
         .eq("id", userId)
         .maybeSingle();
     if (error) console.error("Unable to retrieve user:", error);
     const userProfile = data ? {
         ...data,
-        favorites: data.favorites?.map((fav: { spot_id: string }) => fav.spot_id) || []
+        favorites: data.favorites?.map((fav: { spot_id: string }) => fav.spot_id) || [],
+        preferred_spot_types: data.profile_spot_types || []
     } : null;
     return { data: userProfile, error };
 };

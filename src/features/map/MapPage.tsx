@@ -46,10 +46,10 @@ export function MapPage() {
             return;
         }
         const defaultFilters: SpotType[] = profile?.preferred_spot_types?.length
-            ? spotTypes.filter(type => profile.preferred_spot_types?.includes(type))
+            ? spotTypes.filter(type => profile.preferred_spot_types?.some(pst => pst.name === type))
             : spotTypes
         setCheckedTypes(defaultFilters);
-    }, [spotTypes]);
+    }, [spotTypes, profile]);
 
     useEffect(() => {
         if (!spotTypes.length) return;

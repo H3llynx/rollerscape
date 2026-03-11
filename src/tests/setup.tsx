@@ -24,7 +24,7 @@ export const valAuthUser = {
         home_lon: null,
         skill_level: undefined,
         skating_style: ["cruising"],
-        preferred_spot_types: ["greenway", "bike_path"]
+        preferred_spot_types: [{ id: 1, name: "greenway" }, { id: 2, name: "bike_path" }]
     },
     setProfile: () => { },
     loading: false

@@ -1,7 +1,7 @@
 import { databases, views } from "../config/databases";
 import { redirecttoSpotUrl } from "../config/urls";
 import type { Coordinates } from "../types/geolocation_types";
-import type { SpotFullInfo, SpotType, TrafficLevel } from "../types/spots_types";
+import type { SpotFullInfo } from "../types/spots_types";
 import supabase from "../utils/supabase";
 
 export const shareSpot = async (spot: SpotFullInfo) => {
@@ -27,22 +27,6 @@ export const sendToGps = (name: string, startCoordinates: Coordinates) => {
         : `https://www.google.com/maps?q=${startCoordinates.lat},${startCoordinates.lon}`;
 
     window.open(url, '_blank');
-};
-
-export const getSpotTypes = async (types: SpotType[]) => {
-    const { data, error } = await supabase
-        .from(databases.spot_types)
-        .select("id")
-        .in("name", types);
-    return { data, error };
-}
-
-export const getTrafficLevels = async (level: TrafficLevel[]) => {
-    const { data, error } = await supabase
-        .from(databases.traffic_levels)
-        .select("id")
-        .in("name", level);
-    return { data, error };
 };
 
 export const saveAsFav = async (spotId: string, userId: string) => {
@@ -79,3 +63,19 @@ export const getUserInfo = async (userId: string) => {
         .maybeSingle();
     return { data, error }
 }
+
+export const addSpotTypePreference = async (profileId: string, spotTypeId: number) => {
+    const { error } = await supabase
+        .from("profile_spot_types")
+        .insert({ profile_id: profileId, spot_type_id: spotTypeId });
+    return { error };
+};
+
+export const removeSpotTypePreference = async (profileId: string, spotTypeId: number) => {
+    const { error } = await supabase
+        .from("profile_spot_types")
+        .delete()
+        .eq("profile_id", profileId)
+        .eq("spot_type_id", spotTypeId);
+    return { error };
+};

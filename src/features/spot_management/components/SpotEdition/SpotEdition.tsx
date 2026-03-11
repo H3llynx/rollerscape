@@ -5,10 +5,9 @@ import { Button } from "../../../../components/Button/Button";
 import { Dialog } from "../../../../components/Dialog/Dialog";
 import { databases } from "../../../../config/databases";
 import { udpdateError } from "../../../../config/errors";
-import { spotFormFields } from "../../../../config/spots";
+import { SPOT_TYPES, spotFormFields, TRAFFIC_LEVELS } from "../../../../config/spots";
 import { updateDataWithJunctions } from "../../../../services/data";
 import { reverseGeocode } from "../../../../services/geolocation";
-import { getSpotTypes, getTrafficLevels } from "../../../../services/spots";
 import type { JunctionInsert, Spot, SpotType, TrafficLevel } from "../../../../types/spots_types";
 import { createSlug } from "../../../../utils/helpers";
 import { useSpots } from "../../../map/hooks/useContexts";
@@ -39,15 +38,14 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
         setError(null);
     };
 
-
     const updateSpot = async (spot: Record<string, unknown>) => {
         const selectedLevels = spot[traffic_levels.db_key] as TrafficLevel[];
         const selectedTypes = spot[spot_types.db_key] as SpotType[];
         const coords = selectedSpot.coordinates;
         const geo = await reverseGeocode(coords[0]);
         const slug = createSlug(`${spot[name.db_key]}-${geo.city}`);
-        const { data: typeRows } = await getSpotTypes(selectedTypes);
-        const { data: levelRows } = await getTrafficLevels(selectedLevels);
+        const typeIds = selectedTypes.map(type => SPOT_TYPES.find(st => st.value === type)!.id);
+        const levelIds = selectedLevels.map(level => TRAFFIC_LEVELS.find(tl => tl.value === level)!.id);
 
         const values = {
             name: spot[name.db_key],
@@ -58,8 +56,8 @@ export function SpotEdition({ onCancel, onDelete, onEditted }: SpotEdition) {
         }
 
         const junctions: JunctionInsert[] = [
-            { table: "spot_spot_types", fKey: "spot_type_id", values: typeRows?.map(row => row.id) ?? [] },
-            { table: "spot_traffic_levels", fKey: "traffic_level_id", values: levelRows?.map(row => row.id) ?? [] }
+            { table: "spot_spot_types", fKey: "spot_type_id", values: typeIds },
+            { table: "spot_traffic_levels", fKey: "traffic_level_id", values: levelIds }
         ]
 
         const { error } = await updateDataWithJunctions(databases.spots, selectedSpot.id, values, junctions);

@@ -7,6 +7,7 @@ import { riderPreferencesErrors } from "../../../../config/errors";
 import { SPOT_TYPES } from "../../../../config/spots";
 import { SKATING_STYLES, SKILLS } from "../../../../config/user_info";
 import { updateData } from "../../../../services/data";
+import { addSpotTypePreference, removeSpotTypePreference } from "../../../../services/spots";
 import type { SpotType } from "../../../../types/spots_types";
 import type { SkatingStyle, SkillLevel } from "../../../../types/user_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
@@ -37,12 +38,18 @@ export function RollerbladerProfileSection() {
 
     const handleSpotsChange = async (value: SpotType) => {
         const current = profile.preferred_spot_types || [];
-        const updated = current.includes(value)
-            ? current.filter(type => type !== value)
-            : [...current, value];
-        const { error } = await updateData({ id: profile.id, preferred_spot_types: updated }, databases.profiles);
+        const exists = current.some(st => st.name === value);
+        const spotTypeId = SPOT_TYPES.find(st => st.value === value)!.id;
+
+        const { error } = exists
+            ? await removeSpotTypePreference(profile.id, spotTypeId)
+            : await addSpotTypePreference(profile.id, spotTypeId);
+
         if (error) setError(riderPreferencesErrors.spot_types);
         else {
+            const updated = exists
+                ? current.filter(st => st.name !== value)
+                : [...current, { id: spotTypeId, name: value }];
             setProfile({ ...profile, preferred_spot_types: updated });
             await loadSpots();
         }
@@ -91,7 +98,7 @@ export function RollerbladerProfileSection() {
                                 label={type.label}
                                 value={type.value}
                                 onChange={() => handleSpotsChange(type.value)}
-                                checked={profile.preferred_spot_types?.includes(type.value)}
+                                checked={profile.preferred_spot_types?.some(pst => pst.name === type.value)}
                             >
                                 <img src={type.img} alt={type.label} />
                             </IconInput>
