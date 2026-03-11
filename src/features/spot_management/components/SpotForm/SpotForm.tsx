@@ -138,7 +138,6 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                         <Camera className="w-1.5" aria-hidden />
                         <input
                             id={photos.id}
-                            className="text-xs font-medium cursor-pointer disabled:cursor-not-allowed"
                             type={photos.input_type}
                             ref={fileInputRef}
                             onChange={handlePhotoChange}
@@ -171,7 +170,8 @@ export function SpotForm({ isAdding, spotCoordinates, onSubmit }: SpotForm) {
                                 </div>
                             ))}
                         </div>
-                        {error && <p className="error absolute text-xs text-center -mx-1">{spotErrors.delete.picture}
+                        {error && <p className="error text-xs text-center -mx-1">
+                            {spotErrors.add.too_many_pictures}
                             <Button
                                 style="icon"
                                 type="button"

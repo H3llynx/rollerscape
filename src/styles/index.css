@@ -212,7 +212,11 @@
   }
 
   .file-label {
-    @apply flex gap-0.5 items-center has-disabled:opacity-40 has-disabled:cursor-not-allowed;
+    @apply flex gap-0.5 items-center has-disabled:opacity-40 has-disabled:cursor-not-allowed hover:text-text-secondary;
+
+    input {
+      @apply text-xs font-medium cursor-pointer disabled:cursor-not-allowed
+    }
   }
 
   .dialog-shadow {

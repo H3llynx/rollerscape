@@ -87,12 +87,12 @@ export function useSpotForm(isAdding: boolean, spotCoordinates: Coordinates[] | 
         const files = Array.from(e.target.files || []);
         if (files.length) {
             setPhotoLoading(true)
-            const compressed = await Promise.all(files.map(file => compressImage(file)));
+            const amount = 10 - selectedPhotos.length;
+            const filesToHost = files.slice(0, amount);
+            if (files.length > amount) setError(true);
+            const compressed = await Promise.all(filesToHost.map(file => compressImage(file)));
             const addedPhotos = await Promise.all(compressed.map(file => hostImg(file)));
-            setSelectedPhotos(prev => {
-                const photos = [...prev, ...addedPhotos];
-                return photos.slice(0, 10);
-            });
+            setSelectedPhotos(prev => [...prev, ...addedPhotos]);
             setPhotoLoading(false);
             handlePhotoClear();
         };
