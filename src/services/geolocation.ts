@@ -32,7 +32,8 @@ export const searchOnMap = async (location: string) => {
         const result = await fetch(
             `${urls.nominatim}/search?` +
             `q=${encodeURIComponent(String(location))}` +
-            `&format=json&limit=1`
+            `&format=json&limit=1` +
+            `&polygon_geojson=1`
         );
         const data = await result.json();
         return data;

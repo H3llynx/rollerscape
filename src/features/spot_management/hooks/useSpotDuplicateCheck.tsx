@@ -6,7 +6,7 @@ import { useSpots } from "../../map/hooks/useContexts";
 import { calculateHaversineDistance } from "../utils";
 
 
-export function useSpotDuplicateCheck(spotCoordinates: Coordinates[], locationType: Spot["location_type"]) {
+export const useSpotDuplicateCheck = (spotCoordinates: Coordinates[], locationType: Spot["location_type"]) => {
     const { spots } = useSpots();
     const [possibleDupe, setPossibleDupe] = useState<Spot[] | null>(null);
 

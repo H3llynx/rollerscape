@@ -49,3 +49,8 @@ export type OsrmRoute = {
     geometry: { coordinates: [number, number][], type: string };
     distance: number;
 };
+
+export type SearchedLocation = {
+    osm_id: number;
+    geojson: GeoJSON.Geometry;
+}

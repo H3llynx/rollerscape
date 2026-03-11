@@ -8,7 +8,7 @@ import type { SpotType, TrafficLevel } from "../../../types/spots_types";
 import { compressImage } from "../../../utils/helpers";
 import { useSpots } from "../../map/hooks/useContexts";
 
-export function useSpotForm(isAdding: boolean, spotCoordinates: Coordinates[] | null) {
+export const useSpotForm = (isAdding: boolean, spotCoordinates: Coordinates[] | null) => {
     const { selectedSpot, setSelectedSpot } = useSpots();
     const { coordinates, photos, surface_quality, spot_types, traffic_levels } = spotFormFields;
     const { register, handleSubmit, setValue, watch, formState: { isSubmitting, errors } } = useForm();

@@ -4,7 +4,7 @@ import { getBrowserPosition } from "../../../services/geolocation";
 import type { MapCoordinates } from "../../../types/geolocation_types";
 import { useAuth } from "../../auth/hooks/useAuth";
 
-export function useCenter() {
+export const useCenter = () => {
     const [center, setCenter] = useState<MapCoordinates | null>(null);
     const [error, setError] = useState<string | null>(null);
     const { profile, loading } = useAuth();

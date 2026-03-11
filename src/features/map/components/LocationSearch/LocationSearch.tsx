@@ -1,12 +1,17 @@
 import { Search, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { useMap } from 'react-leaflet';
 import { Button } from '../../../../components/Button/Button';
 import { searchOnMap } from '../../../../services/geolocation';
+import type { SearchedLocation } from '../../../../types/geolocation_types';
 import { useSpots } from '../../hooks/useContexts';
 import "./LocationSearch.css";
 
-export function LocationSearch() {
+type LocationSearch = {
+    setSearchedLocation: Dispatch<SetStateAction<SearchedLocation | null>>
+};
+
+export function LocationSearch({ setSearchedLocation }: LocationSearch) {
     const map = useMap();
     const [expanded, setExpanded] = useState<boolean>(false);
     const { selectedSpot, setSelectedSpot } = useSpots();
@@ -21,8 +26,10 @@ export function LocationSearch() {
             setError(true);
             return;
         }
-        const { lat, lon } = data[0];
+        const { lat, lon, geojson, osm_id } = data[0];
         map.flyTo([lat, lon], 14);
+        const foundLocation = { osm_id, geojson }
+        setSearchedLocation(foundLocation);
     };
 
     return (

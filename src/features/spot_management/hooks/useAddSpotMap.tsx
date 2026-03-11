@@ -4,7 +4,7 @@ import type { Coordinates, Route, RouteCoordinates } from "../../../types/geoloc
 import type { RouteGenMode, Spot } from "../../../types/spots_types";
 import { estimateDistanceFromCoords } from "../utils";
 
-export function useAddSpotMap() {
+export const useAddSpotMap = () => {
     const { location_type } = spotFormFields;
     const [confirmedLocationType, setConfirmedLocationType] = useState<boolean>(false);
     const [locationType, setLocationType] = useState<Spot["location_type"]>(location_type.options[0] as Spot["location_type"]);

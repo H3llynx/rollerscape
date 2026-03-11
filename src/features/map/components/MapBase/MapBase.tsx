@@ -1,14 +1,14 @@
 
 import { LocateFixed, MapPinPlus } from "lucide-react";
-import { type ReactNode } from "react";
-import { LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
+import { useState, type ReactNode } from "react";
+import { GeoJSON, LayersControl, MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useNavigate } from "react-router";
 import AddButton from "../../../../assets/add.png";
 import { Button } from "../../../../components/Button/Button";
 import { layers } from "../../../../config/leaflet";
-import type { MapCoordinates } from "../../../../types/geolocation_types";
+import type { MapCoordinates, SearchedLocation } from "../../../../types/geolocation_types";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import { LocationSearch } from "../LocationSearch/LocationSearch";
 import "./MapBase.css";
@@ -28,6 +28,7 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
     const { pathname } = useLocation();
     const isDesktop = useMediaQuery({ minWidth: 1024 });
     const isTabletorDesktop = useMediaQuery({ minWidth: 768 });
+    const [searchedLocation, setSearchedLocation] = useState<SearchedLocation | null>(null);
 
     return (
         <div className="sticky w-full h-full inset-0 z-0">
@@ -82,10 +83,17 @@ export function MapBase({ center, zoom, other, children, trackUser, controls = t
                                             />
                                         </Button>
                                     }
-                                    <LocationSearch />
+                                    <LocationSearch setSearchedLocation={setSearchedLocation} />
                                 </div>
                             </div>
                         </Control>
+                        {searchedLocation && searchedLocation.geojson.type !== "Point" &&
+                            <GeoJSON
+                                key={searchedLocation.osm_id}
+                                data={searchedLocation.geojson}
+                                style={{ color: "var(--color-rgba-dark-2)", weight: 1, fillOpacity: 0.1 }}
+                            />
+                        }
                     </>
                 }
                 {children}
