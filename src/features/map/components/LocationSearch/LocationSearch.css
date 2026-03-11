@@ -2,7 +2,7 @@
 
 
 .search-container {
-    @apply flex items-center gap-0.5 my-1;
+    @apply flex items-center gap-0.5 my-auto;
 
     &:has(input:focus-visible) {
         @apply rounded-full;
@@ -16,6 +16,7 @@
         @apply bg-bg-rgba relative rounded-full h-3 max-w-0 opacity-0 scale-x-0 invisible md:visible md:max-w-fit md:opacity-100 md:scale-100;
         transition: var(--default-transition);
         transform-origin: right center;
+        box-shadow: var(--map-controls-shadow);
     }
 
     .search-button {

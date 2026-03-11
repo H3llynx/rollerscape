@@ -30,7 +30,7 @@ export function LocationSearch() {
             <form
                 id="search-form"
                 onSubmit={handleSearch}
-                className={`slight-shadow bg-blur ${error && "outline-2 outline-offset-2 outline-red"}`}
+                className={`bg-blur ${error && "outline-2 outline-offset-2 outline-red"}`}
             >
                 <input
                     name="location"
