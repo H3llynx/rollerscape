@@ -38,6 +38,8 @@ export const spotsVal = {
     loadSpots: vi.fn(),
     selectedSpot: null,
     setSelectedSpot: () => { },
+    reversed: false,
+    setReversed: () => { }
 }
 
 export const makeSpot = (overrides?: Partial<SpotFullInfo>): SpotFullInfo => ({
