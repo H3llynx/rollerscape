@@ -80,7 +80,8 @@ export function AddSpotMap({
 
     useEffect(() => {
         if (locationType === "route" && !custom && routes.length > 0) {
-            setSpotCoordinates(routes[selectedRoute].coordinates)
+            const route = routes[selectedRoute] ?? routes[0];
+            setSpotCoordinates(route.coordinates);
         }
     }, [selectedRoute, routes, locationType, custom]);
 
@@ -195,12 +196,14 @@ export function AddSpotMap({
             {routeCoordinates.end && routes.length === 0 &&
                 <AddMarker position={[routeCoordinates.end.lat, routeCoordinates.end.lon]} />}
             {routes.map((route, i) => (
-                <RouteDisplay
-                    key={i}
-                    data={route.coordinates}
-                    selected={selectedRoute === i}
-                    onSelect={() => setSelectedRoute(i)}
-                />
+                route?.coordinates && (
+                    <RouteDisplay
+                        key={i}
+                        data={route.coordinates}
+                        selected={selectedRoute === i}
+                        onSelect={() => setSelectedRoute(i)}
+                    />
+                )
             ))}
             {custom && spotCoordinates.length > 1 &&
                 <RouteDisplay
