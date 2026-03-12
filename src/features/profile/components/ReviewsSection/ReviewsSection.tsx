@@ -27,7 +27,7 @@ export function ReviewsSection() {
         getReviews();
     }, [profile, spots])
 
-    if (!reviews || !reviews.length) return (
+    if (!reviews?.length) return (
         <div>
             <h2>Your reviews</h2>
             <p className="text-grey text-sm">You have not scored any spot yet.</p>

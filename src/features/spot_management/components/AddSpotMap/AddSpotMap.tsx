@@ -93,12 +93,12 @@ export function AddSpotMap({
     }
 
     const handleRoutePick = (lat: number, lon: number) => {
-        if (!custom) {
-            if (!routeCoordinates.start) setRouteCoordinates({ ...routeCoordinates, start: { lat, lon } });
-            else if (!routeCoordinates.end) setRouteCoordinates({ ...routeCoordinates, end: { lat, lon } });
-        } else {
+        if (custom) {
             setSpotCoordinates(prev => [...prev, { lat, lon }]);
             if (!textSmaller) setTextSmaller(true);
+        } else {
+            if (!routeCoordinates.start) setRouteCoordinates({ ...routeCoordinates, start: { lat, lon } });
+            else if (!routeCoordinates.end) setRouteCoordinates({ ...routeCoordinates, end: { lat, lon } });
         }
     };
 
@@ -184,7 +184,7 @@ export function AddSpotMap({
                     {locationType === "point" &&
                         <CoordinatePicker onPick={(lat, lon) => setSpotCoordinates([{ lat, lon }])} />}
                     {locationType === "route" &&
-                        <CoordinatePicker onPick={handleRoutePick} routeCoords={routeCoordinates} />}
+                        <CoordinatePicker onPick={handleRoutePick} />}
                 </>
             }
             <UserMarker />

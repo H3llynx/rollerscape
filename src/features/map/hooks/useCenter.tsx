@@ -12,7 +12,7 @@ export const useCenter = () => {
     useEffect(() => {
         if (loading) return;
         const loadCenter = async () => {
-            if (profile && (profile.home_lat && profile.home_lon))
+            if (profile?.home_lat && profile?.home_lon)
                 setCenter([profile.home_lat, profile.home_lon])
             else await trackUser();
         }

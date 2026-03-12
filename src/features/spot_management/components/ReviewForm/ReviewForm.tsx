@@ -66,7 +66,7 @@ export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
                     <input
                         id={score.id}
                         type={score.input_type}
-                        defaultValue={reviewToEdit && reviewToEdit.rating ? reviewToEdit.rating : undefined}
+                        defaultValue={reviewToEdit?.rating ? reviewToEdit.rating : undefined}
                         {...register(score.db_key, { valueAsNumber: true })}
                         min={score.min}
                         max={score.max}
@@ -97,7 +97,7 @@ export function ReviewForm({ reviewToEdit, onSuccess, onCancel }: ReviewForm) {
                     <textarea
                         id={comment.id}
                         className="slight-shadow bg-blur"
-                        defaultValue={reviewToEdit && reviewToEdit.comment ? reviewToEdit.comment : ""}
+                        defaultValue={reviewToEdit?.comment ? reviewToEdit.comment : ""}
                         {...register(comment.db_key)}
                     />
                 </label>

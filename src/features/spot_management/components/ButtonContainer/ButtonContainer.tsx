@@ -40,7 +40,7 @@ export function ButtonContainer({ spot, onEdit, onDelete, onCancel, variant = "d
         <div className="button-container">
             {(variant === "description" || variant === "favorite") &&
                 <>
-                    {profile && profile.favorites &&
+                    {profile?.favorites &&
                         <>
                             {profile.favorites.includes(spot.id) ?
                                 <Button style="icon" aria-label="Remove from favorites" onClick={removeFromFav}>

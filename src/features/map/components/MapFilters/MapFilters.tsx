@@ -25,9 +25,9 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
     };
 
     const handleSelectAll = () => {
-        checkedTypes !== (spotTypes)
-            ? setCheckedTypes(spotTypes)
-            : setCheckedTypes([]);
+        checkedTypes === (spotTypes)
+            ? setCheckedTypes([])
+            : setCheckedTypes(spotTypes);
     }
 
     const getTextColor = (type: SpotType) => {

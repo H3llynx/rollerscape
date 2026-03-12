@@ -19,7 +19,7 @@ export function FavoritesSection() {
 
     if (!profile || !spots) return
 
-    if (!profile.favorites || !profile.favorites.length) return (
+    if (!profile?.favorites?.length) return (
         <div>
             <h2>Your favorites spots</h2>
             <p className="text-grey text-sm">You have not saved any spot yet.</p>

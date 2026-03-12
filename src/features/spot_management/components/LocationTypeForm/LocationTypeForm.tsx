@@ -36,7 +36,7 @@ export function LocationTypeForm({ locationType, routeGenMode, setRouteGenMode, 
         setHasGpx(true);
         const reader = new FileReader();
         reader.onload = (event) => {
-            if (event.target && event.target.result) {
+            if (event.target?.result) {
                 const parsed = parseGpx(event.target.result as string);
                 setGpxCoordinates(parsed);
             }

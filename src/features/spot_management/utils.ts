@@ -1,10 +1,9 @@
 import { useMapEvents } from "react-leaflet";
-import type { Coordinates, MapCoordinates, RouteCoordinates } from "../../types/geolocation_types";
+import type { Coordinates, MapCoordinates } from "../../types/geolocation_types";
 
 export const CoordinatePicker = ({ onPick, onMouseMove }: {
     onPick: (lat: number, lon: number) => void;
     onMouseMove?: (lat: number, lon: number) => void;
-    routeCoords?: RouteCoordinates;
 }) => {
     useMapEvents({
         click: (e) => {

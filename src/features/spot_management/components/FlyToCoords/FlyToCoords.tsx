@@ -10,7 +10,7 @@ export function FlyToCoords({ coords }: { coords: Coordinates[] }) {
     }, [coords]);
 
     useEffect(() => {
-        if (!coords || !coords.length) return;
+        if (!coords?.length) return;
         map.flyTo([coords[0].lat, coords[0].lon], map.getZoom());
     }, [coords]);
 

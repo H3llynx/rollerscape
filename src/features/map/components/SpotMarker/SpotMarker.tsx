@@ -10,7 +10,6 @@ type SpotMarker = {
     position: MapCoordinates;
     onMarkerClick?: () => void;
     dimmed?: boolean;
-    reduced?: boolean;
 }
 
 export function SpotMarker({ spot, position, dimmed, onMarkerClick }: SpotMarker) {

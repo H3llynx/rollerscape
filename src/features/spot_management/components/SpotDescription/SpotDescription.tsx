@@ -147,15 +147,15 @@ export function SpotDescription({ onEdit, onDelete }: SpotDescription) {
 
                             {profile &&
                                 <Button style="tertiary" className="text-xs py-0 inline" onClick={() => setIsRating(!isRating)}>
-                                    {!isRating ?
-                                        <>
-                                            <PencilLine aria-hidden className="inline mr-[5px]" width={13} />
-                                            {selectedSpot.average_rating ? "Rate this spot!" : "Be the first!"}
-                                        </>
-                                        :
+                                    {isRating ?
                                         <>
                                             <PencilOffIcon aria-hidden className="inline mr-[5px]" width={13} />
                                             "Never mind"
+                                        </>
+                                        :
+                                        <>
+                                            <PencilLine aria-hidden className="inline mr-[5px]" width={13} />
+                                            {selectedSpot.average_rating ? "Rate this spot!" : "Be the first!"}
                                         </>
                                     }
                                 </Button>
