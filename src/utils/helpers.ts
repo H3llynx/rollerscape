@@ -1,15 +1,8 @@
-import type { RefObject } from "react";
 import { SPOT_TYPES } from "../config/spots";
 import { SKATING_STYLES, SKILLS, } from "../config/user_info";
 import type { NominatimResult } from "../types/geolocation_types";
 import type { SpotType } from "../types/spots_types";
 import type { SkatingStyle, SkillLevel } from "../types/user_types";
-
-export const handleAria = (checkboxRef: RefObject<HTMLInputElement | null>) => {
-    if (checkboxRef.current) {
-        checkboxRef.current.setAttribute("aria-expanded", checkboxRef.current.checked ? "true" : "false");
-    }
-}
 
 export const capitalize = (label: string) => {
     return (label).charAt(0).toUpperCase() + (label).slice(1);
