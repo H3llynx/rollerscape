@@ -4,7 +4,6 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../features/auth/hooks/useAuth";
 import { ThemeToggle } from "../../features/theme/component/ThemeToggle";
 import { signOut } from "../../services/auth";
-import { handleAria } from "../../utils/helpers";
 import { Button } from "../Button/Button";
 import { ProfileLinkCard } from "../ProfileLinkCard/ProfileLinkCard";
 import "./Navbar.css";
@@ -38,10 +37,10 @@ export function Navbar() {
                     className="input-menu"
                     id="menu-toggle"
                     ref={menuToggleRef}
-                    aria-expanded="false"
+                    aria-expanded={expanded}
                     aria-controls="main-menu"
                     checked={expanded}
-                    onChange={() => { setExpanded(!expanded); handleAria(menuToggleRef) }}
+                    onChange={() => { setExpanded(!expanded) }}
                 />
                 {expanded
                     ? <X aria-hidden />

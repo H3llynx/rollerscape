@@ -1,7 +1,7 @@
 import { Minimize2, SlidersHorizontal, Star } from "lucide-react";
 import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import type { SpotType } from "../../../../types/spots_types";
-import { getSpotType, handleAria } from "../../../../utils/helpers";
+import { getSpotType } from "../../../../utils/helpers";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import "./MapFilters.css";
 
@@ -88,11 +88,11 @@ export function MapFilters({ spotTypes, checkedTypes, setCheckedTypes, showOnlyF
                 <input className="sr-only"
                     type="checkbox"
                     id="expand-filters"
-                    aria-expanded="false"
+                    aria-expanded={expanded}
                     aria-controls="spot-type-filters"
                     ref={expandFiltersRef}
                     checked={expanded}
-                    onChange={() => { handleAria(expandFiltersRef); setExpanded(!expanded) }}
+                    onChange={() => { setExpanded(!expanded) }}
                 />
             </label>
         </div>
