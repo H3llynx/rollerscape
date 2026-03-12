@@ -77,13 +77,13 @@ export function LocationRequest({ onSuccess }: FormProps) {
             home_location_name: location.name,
             home_lon: location.lon
         };
-        const { data, error } = await updateData({ id: profile.id, ...updatedLocation }, databases.profiles);
+        const { error } = await updateData({ id: profile.id, ...updatedLocation }, databases.profiles);
         if (error) {
             setError(geolocationErrors.locationUpdate);
             setLoading(false);
             return;
         }
-        setProfile(data);
+        setProfile({ ...profile, ...updatedLocation });
         setQuery("");
         setLoading(false);
         if (onSuccess) onSuccess();
