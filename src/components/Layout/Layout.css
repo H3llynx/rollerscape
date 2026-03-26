@@ -7,4 +7,5 @@
     align-items: center;
     overflow-x: hidden;
     overflow-y: scroll;
+    padding-bottom: env(safe-area-inset-bottom);
 }
