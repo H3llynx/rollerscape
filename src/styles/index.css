@@ -70,7 +70,7 @@
 @layer base {
   body {
     width: 100vw;
-    max-height: 100svh;
+    max-height: 100dvh;
     font-family: var(--font-main);
     color: var(--color-text);
     background-image: url("../assets/hero.png");
