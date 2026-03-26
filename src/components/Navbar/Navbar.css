@@ -40,7 +40,8 @@ nav ul {
 
 
     .auth {
-        @apply absolute top-0 right-1 md:static flex max-w-[70%] gap-1 items-center;
+        @apply absolute right-1 md:static flex max-w-[70%] gap-1 items-center;
+        top: calc(env(safe-area-inset-top) + 1rem);
 
         button {
             @apply text-text hover:text-yellow-2;
@@ -59,6 +60,7 @@ nav ul {
 @media (width <=48rem) {
     nav:has(.input-menu:checked) {
         @apply z-1 bg-bg-secondary fixed h-full inset-0 flex-col items-start p-1;
+        padding-top: calc(env(safe-area-inset-top) + 1rem);
 
         ul {
             @apply block w-full py-6 overflow-x-auto;

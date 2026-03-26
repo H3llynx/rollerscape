@@ -3,6 +3,7 @@
 header {
     pointer-events: none;
     transition: var(--default-transition);
+    padding-top: calc(env(safe-area-inset-top) + 1rem);
 
     &::after {
         content: " ";
