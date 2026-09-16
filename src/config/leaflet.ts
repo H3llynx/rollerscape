@@ -3,13 +3,7 @@ export const layers = [
         name: "Default",
         checked: true,
         attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-        url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-    },
-    {
-        name: "Detailed",
-        checked: false,
-        attribution: "&copy; OpenStreetMap",
-        url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png"
     },
     {
         name: "Satellite",
