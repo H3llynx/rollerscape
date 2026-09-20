@@ -2,8 +2,8 @@ export const layers = [
     {
         name: "Default",
         checked: true,
-        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-        url: "https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png"
+        attribution: "Tiles &copy; OpenStreetMap",
+        url: "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
     },
     {
         name: "Satellite",
